@@ -14,12 +14,12 @@ public record Text(String value, String key) {
     return Text.create(value, key);
   }
 
-  public boolean equalsTo(String value) {
-    return this.value.equals(value);
+  public Logical equalsTo(String value) {
+    return Logical.create(this.value.equals(value));
   }
 
-  public boolean notEqualsTo(String value) {
-    return !this.value.equals(value);
+  public Logical notEqualsTo(String value) {
+    return Logical.create(!this.value.equals(value));
   }
 
 }

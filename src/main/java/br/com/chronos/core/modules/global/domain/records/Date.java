@@ -12,11 +12,11 @@ public record Date(LocalDate value, ZoneId zoneArea) {
     return new Date(value, ZoneId.of("America/Sao_Paulo"));
   }
 
-  public boolean isEqualOrAfter(Date date) {
-    return value.isEqual(date.value()) || value.isAfter(value);
+  public Logical isEqualOrAfter(Date date) {
+    return Logical.create(value.isEqual(date.value()) || value.isAfter(value));
   }
 
-  public boolean isEqualOrBefore(Date date) {
-    return value.isEqual(date.value()) || value.isBefore(value);
+  public Logical isEqualOrBefore(Date date) {
+    return Logical.create(value.isEqual(date.value()) || value.isBefore(value));
   }
 }

@@ -23,9 +23,9 @@ public record Time(LocalTime value) {
     return new Time(timeResult);
   }
 
-  public boolean hasMoreMinutesThan(int minutes) {
+  public Logical hasMoreMinutesThan(int minutes) {
     var duration = Duration.between(LocalTime.MIDNIGHT, value);
     var minutesDuration = Duration.ofMinutes(10);
-    return duration.compareTo(minutesDuration) > 0;
+    return Logical.create(duration.compareTo(minutesDuration) > 0);
   }
 }

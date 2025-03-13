@@ -6,10 +6,10 @@ public record Logical(boolean value) {
   }
 
   public boolean isTrue() {
-    return value;
+    return value == true;
   }
 
   public boolean isFalse() {
-    return !value;
+    return value == false;
   }
 }
