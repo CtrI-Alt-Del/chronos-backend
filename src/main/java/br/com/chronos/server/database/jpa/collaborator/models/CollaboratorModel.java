@@ -1,4 +1,4 @@
-package br.com.chronos.server.database.jpa.Collaborators.models;
+package br.com.chronos.server.database.jpa.collaborator.models;
 
 import java.util.UUID;
 
@@ -27,15 +27,14 @@ import jakarta.persistence.Id;
 
 public class CollaboratorModel{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID Id;
+    private UUID id;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
     @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
-    @Column(name = "CPF", nullable = false, unique = true, length = 11)
-    private String CPF;
-    @Column(name = "password", nullable = false, length = 70)
+    @Column(name = "cpf", nullable = false, unique = true, length = 11)
+    private String cpf;
+    @Column(name = "password", nullable = false, length = 20)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -47,6 +46,6 @@ public class CollaboratorModel{
     private Role role;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean is_active;
+    private Boolean isActive;
 
 }
