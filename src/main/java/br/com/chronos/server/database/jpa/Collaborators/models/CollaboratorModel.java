@@ -1,6 +1,7 @@
 package br.com.chronos.server.database.jpa.Collaborators.models;
 
-import java.io.Serializable;
+import java.util.UUID;
+
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole.Role;
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector.Sector;
 
@@ -18,23 +19,23 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "Collaborators")
+@Table(name = "collaborators")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 
-public class CollaboratorsModel implements Serializable {
+public class CollaboratorModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private UUID Id;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
     @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
-    @Column(name = "CPF", nullable = false, unique = true, length = 14)
+    @Column(name = "CPF", nullable = false, unique = true, length = 11)
     private String CPF;
-    @Column(name = "password", nullable = false, unique = true, length = 100)
+    @Column(name = "password", nullable = false, length = 70)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -45,7 +46,7 @@ public class CollaboratorsModel implements Serializable {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "isActive", nullable = false)
-    private boolean isActive;
+    @Column(name = "is_active", nullable = false)
+    private Boolean is_active;
 
 }
