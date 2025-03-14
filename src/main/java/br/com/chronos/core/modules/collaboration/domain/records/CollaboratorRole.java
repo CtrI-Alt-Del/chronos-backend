@@ -15,9 +15,9 @@ public record CollaboratorRole(Role value) {
       return new CollaboratorRole(Role.EMPLOYEE);
     }
     var text = Text.create(role.toUpperCase(), "collaborator role");
-    if (text.notEqualsTo(Role.EMPLOYEE.toString())
-        && text.notEqualsTo(Role.ADMIN.toString())
-        && text.notEqualsTo(Role.MANAGER.toString())) {
+    if (text.notEqualsTo(Role.EMPLOYEE.toString()).value()
+        && text.notEqualsTo(Role.ADMIN.toString()).value()
+        && text.notEqualsTo(Role.MANAGER.toString()).value()) {
       throw new ValidationException("collaborator role", "must be admin,manager or employee");
     }
     return new CollaboratorRole(Role.valueOf(text.value()));
