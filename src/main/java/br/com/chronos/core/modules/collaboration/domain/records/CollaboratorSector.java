@@ -20,7 +20,7 @@ public record CollaboratorSector(Sector value) {
     } catch (Exception e) {
       throw new ValidationException(text.key(), "must be from production,comercial or administrative");
   }
-
+  }
   public String toString() {
     return value.toString().toLowerCase();
   }
