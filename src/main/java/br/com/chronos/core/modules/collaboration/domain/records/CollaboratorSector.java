@@ -15,15 +15,12 @@ public record CollaboratorSector(Sector value) {
       return new CollaboratorSector(Sector.PRODUCTION);
     }
     var text = Text.create(sector.toUpperCase(), "collaborator sector");
-
     try {
       return new CollaboratorSector(Sector.valueOf(text.value()));
     } catch (Exception e) {
       throw new ValidationException(text.key(), "must be from production,comercial or administrative");
-    }
   }
 
-  @Override
   public String toString() {
     return value.toString().toLowerCase();
   }

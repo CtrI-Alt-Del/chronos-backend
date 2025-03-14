@@ -19,7 +19,6 @@ public record CollaboratorRole(Role value) {
       return new CollaboratorRole(Role.valueOf(text.value()));
     } catch (Exception e) {
       throw new ValidationException(text.key(), "must be admin,manager or employee");
-
     }
   }
 
