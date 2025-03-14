@@ -2,19 +2,20 @@ package br.com.chronos.core.modules.work_schedule.domain.entities;
 
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Date;
+import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.HolidayDto;
 
 public final class Holiday extends Entity {
-  private String name;
+  private Text name;
   private Date date;
 
   private Holiday(HolidayDto dto) {
     super(dto.id);
-    name = dto.name;
+    name = Text.create(dto.name, "Holiday name");
     date = Date.create(dto.date);
   }
 
-  public String getName() {
+  public Text getName() {
     return name;
   }
 
