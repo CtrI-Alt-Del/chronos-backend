@@ -15,7 +15,7 @@ public final class WorkLeave extends Entity {
   }
 
   public boolean covers(Date date) {
-    return startedAt.isEqualOrAfter(date) || endedAt.isEqualOrBefore(date);
+    return startedAt.isEqualOrAfter(date).or(endedAt.isEqualOrBefore(date));
   }
 
   public Date getStartedAt() {

@@ -12,4 +12,12 @@ public record Logical(boolean value) {
   public boolean isFalse() {
     return value == false;
   }
+
+  public boolean and(Logical logical) {
+    return isTrue() && logical.isTrue();
+  }
+
+  public boolean or(Logical logical) {
+    return isTrue() || logical.isTrue();
+  }
 }
