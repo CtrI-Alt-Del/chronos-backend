@@ -11,12 +11,19 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 
 @Entity
 @Table(name = "Collaborators")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+
 public class CollaboratorsModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,16 +47,5 @@ public class CollaboratorsModel implements Serializable {
 
     @Column(name = "isActive", nullable = false)
     private boolean isActive;
-
-    public CollaboratorsModel(String name, String email, String CPF, 
-    String password, Sector sector, Role role, boolean isActive) {
-        this.name = name;
-        this.email = email;
-        this.CPF = CPF;
-        this.password = password;
-        this.sector = sector;
-        this.role = role;
-        this.isActive = isActive;
-    }
 
 }
