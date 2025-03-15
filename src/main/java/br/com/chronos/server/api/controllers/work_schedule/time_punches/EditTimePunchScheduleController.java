@@ -18,9 +18,9 @@ public class EditTimePunchScheduleController {
   @Autowired
   private TimePunchesRepository timePunchesRepository;
 
-  @PatchMapping
-  public ResponseEntity<TimePunchDto> handle(@RequestParam String id, @RequestBody TimePunchDto body) {
-    body.setId(id);
+  @PatchMapping("/{timePunchId}")
+  public ResponseEntity<TimePunchDto> handle(@RequestParam String timePunchId, @RequestBody TimePunchDto body) {
+    body.setId(timePunchId);
     var useCase = new EditTimePunchScheduleUseCase(timePunchesRepository);
     var timePunchDto = useCase.execute(body);
     return ResponseEntity.status(HttpStatus.OK).body(timePunchDto);

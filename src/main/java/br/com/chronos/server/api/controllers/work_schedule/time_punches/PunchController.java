@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 
 @TimePunchesController
 public class PunchController {
-
   @Autowired
   private TimePunchesRepository timePunchesRepository;
 
