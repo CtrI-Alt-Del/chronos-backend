@@ -10,7 +10,7 @@ import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePunchesRepository;
 import br.com.chronos.core.modules.work_schedule.use_cases.EditTimePunchScheduleUseCase;
 
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @TimePunchesController
 public class EditTimePunchScheduleController {
@@ -18,9 +18,9 @@ public class EditTimePunchScheduleController {
   @Autowired
   private TimePunchesRepository timePunchesRepository;
 
-  @PatchMapping
-  public ResponseEntity<TimePunchDto> handle(@RequestParam String id, @RequestBody TimePunchDto body) {
-    body.setId(id);
+  @PutMapping("/{timePunchId}")
+  public ResponseEntity<TimePunchDto> handle(@RequestParam String timePunchId, @RequestBody TimePunchDto body) {
+    body.setId(timePunchId);
     var useCase = new EditTimePunchScheduleUseCase(timePunchesRepository);
     var timePunchDto = useCase.execute(body);
     return ResponseEntity.status(HttpStatus.OK).body(timePunchDto);
