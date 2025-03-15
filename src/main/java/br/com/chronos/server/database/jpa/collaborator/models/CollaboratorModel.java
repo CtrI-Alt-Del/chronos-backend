@@ -4,19 +4,16 @@ import java.util.UUID;
 
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole.Role;
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector.Sector;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
 
 @Entity
 @Table(name = "collaborators")
