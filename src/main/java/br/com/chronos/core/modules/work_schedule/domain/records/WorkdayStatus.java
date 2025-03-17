@@ -24,6 +24,10 @@ public record WorkdayStatus(WorkdayStatusName name) {
     }
   }
 
+  public WorkdayStatus dayOff() {
+    return new WorkdayStatus(WorkdayStatusName.DAY_OFF);
+  }
+
   public String toString() {
     return name.toString();
   }

@@ -19,6 +19,14 @@ public final class TimePunch extends Entity {
     secondClockOut = Time.create(dto.secondClockOut);
   }
 
+  public TimePunch() {
+    super();
+    firstClockIn = null;
+    firstClockOut = null;
+    secondClockIn = null;
+    secondClockOut = null;
+  }
+
   public void punch(Time time) {
     if (firstClockIn == null) {
       firstClockIn = time;
