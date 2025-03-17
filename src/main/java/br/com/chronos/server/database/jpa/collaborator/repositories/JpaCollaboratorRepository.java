@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.global.domain.records.Collection;
+import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -32,7 +32,7 @@ public class JpaCollaboratorRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Optional<Collaborator> findById(Id id) {
+  public Optional<Collaborator> findCollaboratorById(Id id) {
     var collaboratorModel = repository.findById(id.value());
     if (collaboratorModel.isEmpty()) {
       return Optional.empty();
@@ -54,11 +54,18 @@ public class JpaCollaboratorRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Pair<Collection<Collaborator>, Long> findMany(int page, int itemsPerPage) {
+  public Pair<Array<Collaborator>, Long> findMany(int page, int itemsPerPage) {
     var pageable = PageRequest.of(page - 1, itemsPerPage);
     var collaboratorModels = repository.findAll(pageable);
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();
-    return new Pair<>(Collection.createFrom(items, mapper::toEntity), itemsCount);
+    return new Pair<>(Array.createFrom(items, mapper::toEntity), itemsCount);
   }
+
+@Override
+public void disable(Collaborator collaborator) {
+    var collaboratorModel = mapper.toModel(collaborator);
+    collaboratorModel.setIsActive(false);
+    repository.save(collaboratorModel);
+}
 }
