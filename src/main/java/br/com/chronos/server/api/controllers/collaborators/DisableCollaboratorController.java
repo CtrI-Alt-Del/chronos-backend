@@ -20,6 +20,6 @@ public class DisableCollaboratorController {
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new DisableCollaboratorUseCase(repository);
     useCase.execute(collaboratorId);
-    return ResponseEntity.status(HttpStatus.FOUND).body(null);
+    return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 }
