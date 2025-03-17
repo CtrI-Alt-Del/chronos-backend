@@ -11,6 +11,8 @@ import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePun
 import br.com.chronos.core.modules.work_schedule.use_cases.PunchUseCase;
 import lombok.Data;
 
+import org.springframework.web.bind.annotation.PatchMapping;
+
 @TimePunchesController
 public class PunchController {
 
@@ -23,6 +25,7 @@ public class PunchController {
     private LocalTime punch;
   }
 
+  @PatchMapping
   public ResponseEntity<Void> handle(@RequestBody Body body) {
     var useCase = new PunchUseCase(timePunchesRepository);
     useCase.execute(body.getTimePunchId(), body.getPunch());
