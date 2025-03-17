@@ -16,7 +16,7 @@ public class DisableCollaboratorController {
   @Autowired
   private CollaboratorsRepository repository;
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/disable/{id}")
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new DisableCollaboratorUseCase(repository);
     useCase.execute(collaboratorId);
