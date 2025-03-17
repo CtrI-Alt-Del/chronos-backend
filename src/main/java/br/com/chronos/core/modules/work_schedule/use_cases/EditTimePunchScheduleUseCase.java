@@ -21,12 +21,11 @@ public class EditTimePunchScheduleUseCase {
     return oldTimePunch.getDto();
   }
 
-  public TimePunch findOldTimePunch(Id id) {
+  private TimePunch findOldTimePunch(Id id) {
     var timePunch = repository.findById(id);
     if (timePunch.isEmpty()) {
       throw new TimePunchNotFoundException();
     }
     return timePunch.get();
   }
-
 }
