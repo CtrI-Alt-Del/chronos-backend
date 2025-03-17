@@ -13,8 +13,9 @@ public class DisableCollaboratorUseCase {
   }
 
   public void execute(String collaboratorId) {
-    var Collaborator = findCollaborator(Id.create(collaboratorId));
-    repository.disable(Collaborator);
+    var collaborator = findCollaborator(Id.create(collaboratorId));
+    collaborator.disable();
+    repository.disable(collaborator);
   }
 
   private Collaborator findCollaborator(Id collaboratorId) {
