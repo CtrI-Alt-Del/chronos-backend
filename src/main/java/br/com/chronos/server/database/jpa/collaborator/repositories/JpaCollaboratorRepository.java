@@ -61,4 +61,11 @@ public class JpaCollaboratorRepository implements CollaboratorsRepository {
     var itemsCount = collaboratorModels.getTotalElements();
     return new Pair<>(Array.createFrom(items, mapper::toEntity), itemsCount);
   }
+
+@Override
+public void disable(Collaborator collaborator) {
+    var collaboratorModel = mapper.toModel(collaborator);
+    collaboratorModel.setIsActive(false);
+    repository.save(collaboratorModel);
+}
 }
