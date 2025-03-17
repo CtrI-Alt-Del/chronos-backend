@@ -13,4 +13,5 @@ public interface CollaboratorsRepository {
   void delete(Collaborator collaborator);
   Pair<Array<Collaborator>, Long> findMany(int page,int itemsPerPage);
   Optional<Collaborator> findCollaboratorById(Id id);
+  void disable(Collaborator collaborator);
 }
