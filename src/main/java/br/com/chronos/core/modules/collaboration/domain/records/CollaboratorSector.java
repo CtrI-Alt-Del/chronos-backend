@@ -7,7 +7,8 @@ public record CollaboratorSector(Sector value) {
   public enum Sector {
     PRODUCTION,
     COMERCIAL,
-    ADMINISTRATIVE
+    ADMINISTRATIVE,
+    HUMAN_RESOURCES
   }
 
   public static CollaboratorSector create(String sector) {
@@ -35,5 +36,8 @@ public record CollaboratorSector(Sector value) {
 
   public Boolean isFromAdministrative() {
     return value == Sector.ADMINISTRATIVE;
+  }
+  public Boolean isFromHumanResources(){
+    return value == Sector.HUMAN_RESOURCES;
   }
 }

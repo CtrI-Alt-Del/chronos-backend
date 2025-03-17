@@ -9,8 +9,10 @@ import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 @Service
 public class CollaboratorMapper {
   public CollaboratorModel toModel(Collaborator entity) {
+    System.out.println(entity.getPassword().value());
     var model = CollaboratorModel.builder()
         .id(entity.getId().value())
+        .password(entity.getPassword().value())
         .name(entity.getName().value())
         .email(entity.getEmail().value())
         .cpf(entity.getCpf().value())
@@ -23,6 +25,7 @@ public class CollaboratorMapper {
   public Collaborator toEntity(CollaboratorModel model) {
     var dto = new CollaboratorDto()
         .setId(model.getId().toString())
+        .setPassword(model.getPassword().toString())
         .setName(model.getName().toString())
         .setEmail(model.getEmail().toString())
         .setCpf(model.getCpf().toString())
