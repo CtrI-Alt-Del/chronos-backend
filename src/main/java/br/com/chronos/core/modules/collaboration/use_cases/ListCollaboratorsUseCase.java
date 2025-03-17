@@ -13,7 +13,7 @@ public class ListCollaboratorsUseCase {
 
   public PaginationResponse<CollaboratorDto> execute(int page, int itemsPerPage) {
     var collaboratorsCollection = repository.findMany(page, itemsPerPage);
-    var dtos = collaboratorsCollection.getFirst().map(collaborator -> collaborator.getDto()).items();
+    var dtos = collaboratorsCollection.getFirst().map(collaborator -> collaborator.getDto()).list();
     var itemsCount = collaboratorsCollection.getSecond();
     return new PaginationResponse<CollaboratorDto>(dtos, itemsCount.intValue());
 
