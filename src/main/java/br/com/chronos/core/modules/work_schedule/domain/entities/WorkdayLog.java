@@ -16,7 +16,7 @@ public final class WorkdayLog extends Entity {
     super(dto.id);
     date = Date.create(dto.date);
     timePunchSchedule = new TimePunch(dto.timePunchSchedule);
-    timePunchLog = new TimePunch(dto.timePunchLog);
+    timePunchLog = (dto.timePunchLog != null) ? new TimePunch(dto.timePunchLog) : new TimePunch();
     status = WorkdayStatus.create(dto.status);
   }
 

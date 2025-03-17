@@ -15,6 +15,10 @@ public record Date(LocalDate value) {
     return new Date(LocalDate.now());
   }
 
+  public Logical isEqual(Date date) {
+    return Logical.create(value.isEqual(date.value()));
+  }
+
   public Logical isEqualOrAfter(Date date) {
     return Logical.create(value.isEqual(date.value()) || value.isAfter(value));
   }
