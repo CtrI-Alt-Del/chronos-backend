@@ -6,7 +6,7 @@ public class CollaboratorDto {
   public String email;
   public String password;
   public String cpf;
-  public boolean isActive;
+  public Boolean isActive;
   public String role;
   public String sector;
 
