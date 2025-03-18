@@ -9,7 +9,6 @@ import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 @Service
 public class CollaboratorMapper {
   public CollaboratorModel toModel(Collaborator entity) {
-    System.out.println(entity.getPassword().value());
     var model = CollaboratorModel.builder()
         .id(entity.getId().value())
         .password(entity.getPassword().value())

@@ -27,7 +27,7 @@ public class Collaborator extends Entity {
     cpf = Cpf.create(dto.cpf, "Collaborator cpf");
     role = CollaboratorRole.create(dto.role);
     sector = CollaboratorSector.create(dto.sector);
-    isActive = Logical.create(dto.isActive);
+    isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
   }
 
   public Text getName() {
@@ -56,6 +56,38 @@ public class Collaborator extends Entity {
 
   public Logical getIsActive() {
     return isActive;
+  }
+
+  public void update(CollaboratorDto dto) {
+    if (dto.name != null) {
+      this.name = Text.create(dto.name, "Collaborator name");
+    }
+    if (dto.email != null) {
+      this.email = Email.create(dto.email, "Collaborator email");
+    }
+    if (dto.password != null) {
+      this.password = Password.create(dto.password, "Collaborator password");
+    }
+    if (dto.cpf != null) {
+      this.cpf = Cpf.create(dto.cpf, "Collaborator cpf");
+    }
+    if (dto.role != null) {
+      this.role = CollaboratorRole.create(dto.role);
+    }
+    if (dto.sector != null) {
+      this.sector = CollaboratorSector.create(dto.sector);
+    }
+    if (dto.isActive != null) {
+      this.isActive = Logical.create(dto.isActive);
+    }
+  }
+
+  public void disable() {
+    this.isActive = Logical.create(false);
+  }
+
+  public void enable() {
+    this.isActive = Logical.create(true);
   }
 
   public CollaboratorDto getDto() {
