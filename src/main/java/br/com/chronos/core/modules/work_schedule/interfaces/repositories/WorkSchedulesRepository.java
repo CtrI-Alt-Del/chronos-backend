@@ -8,6 +8,8 @@ import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
 import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorWorkSchedule;
 
 public interface WorkSchedulesRepository {
+  Optional<WorkSchedule> findById(Id workScheduleId);
+
   Optional<WorkSchedule> findByIdAndWithoutCollaborator(Id workScheduleId);
 
   Array<CollaboratorWorkSchedule> findAllCollaboratorWorkSchedules();

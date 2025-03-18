@@ -9,6 +9,10 @@ import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorWork
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 
 public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
+  @Override
+  public Optional<WorkSchedule> findById(Id workScheduleId) {
+    throw new UnsupportedOperationException("Unimplemented method 'findById'");
+  }
 
   @Override
   public Array<WorkSchedule> findAll() {
