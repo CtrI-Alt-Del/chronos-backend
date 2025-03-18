@@ -22,7 +22,10 @@ public final class WorkSchedule extends Entity {
   public WorkdayStatus getWorkdayStatus() {
     var currentDate = Date.createFromNow();
     var isDayOff = daysOff.some((dayOff) -> dayOff.isEqual(currentDate).isTrue());
-    return WorkdayStatus.create("");
+    if (isDayOff.isTrue()) {
+      return WorkdayStatus.createAsDayOff();
+    }
+    return WorkdayStatus.createAsNormalDay();
   }
 
   public Text getDescription() {
