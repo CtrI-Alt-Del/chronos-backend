@@ -4,6 +4,6 @@ import br.com.chronos.core.modules.global.domain.exceptions.NotFoundException;
 
 public class WorkScheduleNotFoundException extends NotFoundException {
   public WorkScheduleNotFoundException() {
-    super("Work schecule not found");
+    super("Escala de trabalho não encontrada");
   }
 }

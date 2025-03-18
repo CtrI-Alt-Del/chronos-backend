@@ -4,6 +4,6 @@ import br.com.chronos.core.modules.global.domain.exceptions.NotFoundException;
 
 public class WorkdayLogNotFoundException extends NotFoundException {
   public WorkdayLogNotFoundException() {
-    super("Workday log not found");
+    super("Histórico de pontos não encontrado");
   }
 }
