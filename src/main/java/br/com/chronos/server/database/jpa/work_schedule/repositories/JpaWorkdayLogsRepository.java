@@ -6,6 +6,7 @@ import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.modules.work_schedule.domain.records.Page;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
@@ -18,6 +19,15 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Override
   public void addMany(Array<WorkdayLog> workdayLogs) {
     throw new UnsupportedOperationException("Unimplemented method 'addMany'");
+  }
+
+  @Override
+  public Array<WorkdayLog> findManyByCollaboratorAndDateRange(
+      Id collaboratorId,
+      Date startDate,
+      Date endDate,
+      Page page) {
+    throw new UnsupportedOperationException("Unimplemented method 'findManyByCollaboratorAndDateRange'");
   }
 
 }
