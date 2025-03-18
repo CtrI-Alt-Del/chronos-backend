@@ -5,6 +5,8 @@ import java.util.Optional;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.work_schedule.domain.records.Page;
+import br.com.chronos.core.modules.work_schedule.domain.records.PlusInteger;
 import kotlin.Pair;
 
 public interface CollaboratorsRepository {
@@ -14,7 +16,7 @@ public interface CollaboratorsRepository {
 
   void delete(Collaborator collaborator);
 
-  Pair<Array<Collaborator>, Long> findMany(int page, int itemsPerPage);
+  Pair<Array<Collaborator>, PlusInteger> findMany(Page page);
 
   Optional<Collaborator> findCollaboratorById(Id id);
 
