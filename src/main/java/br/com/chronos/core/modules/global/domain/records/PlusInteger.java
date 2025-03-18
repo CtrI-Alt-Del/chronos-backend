@@ -1,4 +1,4 @@
-package br.com.chronos.core.modules.work_schedule.domain.records;
+package br.com.chronos.core.modules.global.domain.records;
 
 import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
 

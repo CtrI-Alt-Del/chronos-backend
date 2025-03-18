@@ -1,10 +1,9 @@
-package br.com.chronos.core.modules.collaboration.domain.records;
+package br.com.chronos.core.modules.global.domain.records;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
-import br.com.chronos.core.modules.global.domain.records.Text;
 
 public record Cpf(Text text) {
   private static final Pattern CPF_PATTERN = Pattern.compile("^\\d{11}$");
@@ -18,7 +17,8 @@ public record Cpf(Text text) {
     }
     return new Cpf(text);
   }
-  public String value(){
+
+  public String value() {
     return this.text.value();
   }
 }
