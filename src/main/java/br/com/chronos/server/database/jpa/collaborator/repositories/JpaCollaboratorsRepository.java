@@ -11,16 +11,20 @@ import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.responses.PaginationResponse;
+import br.com.chronos.core.modules.work_schedule.domain.records.Page;
+import br.com.chronos.core.modules.work_schedule.domain.records.PlusInteger;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import kotlin.Pair;
 
-interface JpaCollaboratorModelRepository extends JpaRepository<CollaboratorModel, UUID> {
+interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorModel, UUID> {
+
 }
 
-public class JpaCollaboratorRepository implements CollaboratorsRepository {
+public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Autowired
-  JpaCollaboratorModelRepository repository;
+  JpaCollaboratorModelsRepository repository;
 
   @Autowired
   CollaboratorMapper mapper;
@@ -54,12 +58,15 @@ public class JpaCollaboratorRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Pair<Array<Collaborator>, Long> findMany(int page, int itemsPerPage) {
-    var pageable = PageRequest.of(page - 1, itemsPerPage);
-    var collaboratorModels = repository.findAll(pageable);
+  public Pair<Array<Collaborator>, PlusInteger> findMany(Page page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var collaboratorModels = repository.findAll(pageRequest);
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();
-    return new Pair<>(Array.createFrom(items, mapper::toEntity), itemsCount);
+
+    return new Pair<>(
+        Array.createFrom(items, mapper::toEntity),
+        PlusInteger.create((int) itemsCount, "contagem de colaboradores"));
   }
 
   @Override
@@ -73,4 +80,5 @@ public class JpaCollaboratorRepository implements CollaboratorsRepository {
     var collaboratorModel = mapper.toModel(collaborator);
     repository.save(collaboratorModel);
   }
+
 }

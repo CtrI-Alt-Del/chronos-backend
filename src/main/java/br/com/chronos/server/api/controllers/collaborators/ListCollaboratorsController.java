@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.collaboration.use_cases.ListCollaboratorsUseCase;
-import br.com.chronos.core.responses.PaginationResponse;
+import br.com.chronos.core.modules.global.responses.PaginationResponse;
 
 @CollaboratorsController
 public class ListCollaboratorsController {
@@ -20,7 +20,7 @@ public class ListCollaboratorsController {
   @GetMapping
   public ResponseEntity<PaginationResponse<CollaboratorDto>> handle(@RequestParam(defaultValue = "1") int page) {
     var useCase = new ListCollaboratorsUseCase(repository);
-    var response = useCase.execute(page, 10);
+    var response = useCase.execute(page);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 

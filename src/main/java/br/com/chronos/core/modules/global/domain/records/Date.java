@@ -15,6 +15,10 @@ public record Date(LocalDate value) {
     return new Date(LocalDate.now());
   }
 
+  public Date minusDays(int daysCount) {
+    return new Date(value.minusDays(daysCount));
+  }
+
   public Logical isEqual(Date date) {
     return Logical.create(value.isEqual(date.value()));
   }

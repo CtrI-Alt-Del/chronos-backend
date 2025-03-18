@@ -12,6 +12,8 @@ public interface WorkSchedulesRepository {
 
   Array<CollaboratorWorkSchedule> findAllCollaboratorWorkSchedules();
 
+  Array<WorkSchedule> findAll();
+
   void add(WorkSchedule workSchedule);
 
   void update(WorkSchedule workSchedule);

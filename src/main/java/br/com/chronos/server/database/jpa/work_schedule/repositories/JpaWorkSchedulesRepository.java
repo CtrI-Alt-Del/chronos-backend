@@ -11,6 +11,11 @@ import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSch
 public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
 
   @Override
+  public Array<WorkSchedule> findAll() {
+    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+  }
+
+  @Override
   public Array<CollaboratorWorkSchedule> findAllCollaboratorWorkSchedules() {
     throw new UnsupportedOperationException("Unimplemented method 'findAllCollaboratorWorkSchedules'");
   }
@@ -34,4 +39,5 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   public void remove(WorkSchedule workScheduleId) {
     throw new UnsupportedOperationException("Unimplemented method 'remove'");
   }
+
 }

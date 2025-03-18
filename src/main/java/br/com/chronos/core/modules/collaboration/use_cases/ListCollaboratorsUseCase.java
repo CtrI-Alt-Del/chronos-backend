@@ -2,7 +2,8 @@ package br.com.chronos.core.modules.collaboration.use_cases;
 
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.responses.PaginationResponse;
+import br.com.chronos.core.modules.global.responses.PaginationResponse;
+import br.com.chronos.core.modules.work_schedule.domain.records.Page;
 
 public class ListCollaboratorsUseCase {
   private final CollaboratorsRepository repository;
@@ -11,11 +12,11 @@ public class ListCollaboratorsUseCase {
     this.repository = repository;
   }
 
-  public PaginationResponse<CollaboratorDto> execute(int page, int itemsPerPage) {
-    var collaboratorsCollection = repository.findMany(page, itemsPerPage);
+  public PaginationResponse<CollaboratorDto> execute(int page) {
+    var collaboratorsCollection = repository.findMany(Page.create(page));
     var dtos = collaboratorsCollection.getFirst().map(collaborator -> collaborator.getDto()).list();
     var itemsCount = collaboratorsCollection.getSecond();
-    return new PaginationResponse<CollaboratorDto>(dtos, itemsCount.intValue());
+    return new PaginationResponse<CollaboratorDto>(dtos, itemsCount.value());
 
   }
 
