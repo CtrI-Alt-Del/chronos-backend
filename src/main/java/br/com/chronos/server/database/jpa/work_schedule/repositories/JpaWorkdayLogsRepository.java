@@ -3,11 +3,11 @@ package br.com.chronos.server.database.jpa.work_schedule.repositories;
 import java.util.Optional;
 
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Page;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.DateRange;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
-import br.com.chronos.core.modules.work_schedule.domain.records.Page;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
