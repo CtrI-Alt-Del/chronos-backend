@@ -15,7 +15,7 @@ public class GetTodayWorkdayLogController {
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
-  @GetMapping("/{collaboratorId}")
+  @GetMapping("/{collaboratorId}/today")
   public ResponseEntity<WorkdayLogDto> handle(@RequestParam String collaboratorId) {
     var useCase = new GetTodayWorkdayLogUseCase(workdayLogsRepository);
     var workdayLogDto = useCase.execute(collaboratorId);
