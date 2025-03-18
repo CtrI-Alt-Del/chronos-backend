@@ -2,11 +2,18 @@ package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
 import java.util.Optional;
 
+import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
+import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorWorkSchedule;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 
 public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
+
+  @Override
+  public Array<CollaboratorWorkSchedule> findAllCollaboratorWorkSchedules() {
+    throw new UnsupportedOperationException("Unimplemented method 'findAllCollaboratorWorkSchedules'");
+  }
 
   @Override
   public void add(WorkSchedule workSchedule) {
@@ -27,5 +34,4 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   public void remove(WorkSchedule workScheduleId) {
     throw new UnsupportedOperationException("Unimplemented method 'remove'");
   }
-
 }
