@@ -1,5 +1,6 @@
 package br.com.chronos.core.modules.global.domain.records;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -17,6 +18,10 @@ public record Array<Item>(List<Item> list) {
     var list = items.stream().map(mapper).collect(Collectors.toList());
 
     return new Array<>(list);
+  }
+
+  public static <Item> Array<Item> createAsEmpty() {
+    return new Array<Item>(new ArrayList<>());
   }
 
   public Array<Item> add(Item item) {
