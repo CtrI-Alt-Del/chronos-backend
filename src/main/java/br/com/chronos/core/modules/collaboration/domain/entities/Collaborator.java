@@ -10,7 +10,7 @@ import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Text;
 
-public class Collaborator extends Entity {
+public final class Collaborator extends Entity {
   private Text name;
   private Email email;
   private Password password;
