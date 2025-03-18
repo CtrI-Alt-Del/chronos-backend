@@ -1,10 +1,9 @@
 package br.com.chronos.server.api.controllers.work_schedule.workday_logs;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.ResponseEntity;
 
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
@@ -19,6 +18,6 @@ public class GetTodayWorkdayLogController {
   public ResponseEntity<WorkdayLogDto> handle(@RequestParam String collaboratorId) {
     var useCase = new GetTodayWorkdayLogUseCase(workdayLogsRepository);
     var workdayLogDto = useCase.execute(collaboratorId);
-    return ResponseEntity.status(HttpStatus.OK).body(workdayLogDto);
+    return ResponseEntity.ok(workdayLogDto);
   }
 }
