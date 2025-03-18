@@ -21,7 +21,7 @@ public class ListCollaboratorsController {
   public ResponseEntity<PaginationResponse<CollaboratorDto>> handle(@RequestParam(defaultValue = "1") int page) {
     var useCase = new ListCollaboratorsUseCase(repository);
     var response = useCase.execute(page);
-    return ResponseEntity.status(HttpStatus.OK).body(response);
+    return ResponseEntity.ok(response);
   }
 
 }
