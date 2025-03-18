@@ -20,6 +20,6 @@ public class ListWorkSchedulesController {
   public ResponseEntity<List<WorkScheduleDto>> handle() {
     var useCase = new ListWorkSchedulesUseCase(workSchedulesRepository);
     var workdaySchedules = useCase.execute();
-    return ResponseEntity.status(HttpStatus.OK).body(workdaySchedules);
+    return ResponseEntity.ok(workdaySchedules);
   }
 }
