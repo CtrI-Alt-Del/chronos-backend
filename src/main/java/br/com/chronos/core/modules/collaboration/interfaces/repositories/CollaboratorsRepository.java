@@ -3,6 +3,8 @@ package br.com.chronos.core.modules.collaboration.interfaces.repositories;
 import java.util.Optional;
 
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.modules.collaboration.domain.records.Cpf;
+import br.com.chronos.core.modules.collaboration.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.records.Page;
@@ -20,7 +22,13 @@ public interface CollaboratorsRepository {
 
   Optional<Collaborator> findCollaboratorById(Id id);
 
+  Optional<Collaborator> findByEmail(Email email);
+
+  Optional<Collaborator> findByCpf(Cpf cpf);
+
   void disable(Collaborator collaborator);
 
   void enable(Collaborator collaborator);
+
+  Optional<Collaborator> findByEmailOrCpf(String email, String cpf);
 }

@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.modules.collaboration.domain.records.Cpf;
+import br.com.chronos.core.modules.collaboration.domain.records.Email;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
@@ -19,7 +21,11 @@ import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import kotlin.Pair;
 
 interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorModel, UUID> {
+  public Optional<CollaboratorModel> findByEmail(String email);
 
+  public Optional<CollaboratorModel> findByEmailOrCpf(String email, String cpf);
+
+  public Optional<CollaboratorModel> findByCpf(String cpf);
 }
 
 public class JpaCollaboratorsRepository implements CollaboratorsRepository {
@@ -79,6 +85,36 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   public void enable(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
     repository.save(collaboratorModel);
+  }
+
+  @Override
+  public Optional<Collaborator> findByEmail(Email email) {
+    var collaboratorModel = repository.findByEmail(email.value());
+    if (collaboratorModel.isEmpty()) {
+      return Optional.empty();
+    }
+    var collaborator = mapper.toEntity(collaboratorModel.get());
+    return Optional.of(collaborator);
+  }
+
+  @Override
+  public Optional<Collaborator> findByCpf(Cpf cpf) {
+    var collaboratorModel = repository.findByCpf(cpf.value());
+    if (collaboratorModel.isEmpty()) {
+      return Optional.empty();
+    }
+    var collaborator = mapper.toEntity(collaboratorModel.get());
+    return Optional.of(collaborator);
+  }
+
+  @Override
+  public Optional<Collaborator> findByEmailOrCpf(String email, String cpf) {
+    var collaboratorModel = repository.findByEmailOrCpf(email, cpf);
+    if (collaboratorModel.isEmpty()) {
+      return Optional.empty();
+    }
+    var collaborator = mapper.toEntity(collaboratorModel.get());
+    return Optional.of(collaborator);
   }
 
 }
