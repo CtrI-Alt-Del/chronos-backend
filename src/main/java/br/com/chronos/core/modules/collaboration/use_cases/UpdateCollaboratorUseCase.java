@@ -3,11 +3,11 @@ package br.com.chronos.core.modules.collaboration.use_cases;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.CollaboratorNotFoundException;
-import br.com.chronos.core.modules.collaboration.domain.records.Cpf;
-import br.com.chronos.core.modules.collaboration.domain.records.Email;
 import br.com.chronos.core.modules.collaboration.exceptions.ExistingCpfException;
 import br.com.chronos.core.modules.collaboration.exceptions.ExistingEmailException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.modules.global.domain.records.Cpf;
+import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
 
 public class UpdateCollaboratorUseCase {
