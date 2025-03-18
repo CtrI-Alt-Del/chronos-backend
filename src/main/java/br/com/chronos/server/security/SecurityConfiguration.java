@@ -21,6 +21,9 @@ public class SecurityConfiguration {
         .csrf(crsf -> crsf.disable())
         .cors(cors -> cors.configurationSource(configurationSource()))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().permitAll() // Permits all requests
+        )
         .build();
   }
 
