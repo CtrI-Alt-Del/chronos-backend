@@ -4,11 +4,13 @@ import java.util.Optional;
 
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Page;
+import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.DateRange;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
+import kotlin.Pair;
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
 
@@ -23,7 +25,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
-  public Array<WorkdayLog> findManyByCollaboratorAndDateRange(
+  public Pair<Array<WorkdayLog>, PlusInteger> findManyByCollaboratorAndDateRange(
       Id collaboratorId,
       DateRange dateRange,
       Page page) {
@@ -31,7 +33,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
-  public Array<WorkdayLog> findManyByDate(Date date, Page page) {
+  public Pair<Array<WorkdayLog>, PlusInteger> findManyByDate(Date date, Page page) {
     throw new UnsupportedOperationException("Unimplemented method 'findManyByDate'");
   }
 

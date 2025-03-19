@@ -26,5 +26,5 @@ public interface WorkSchedulesRepository {
 
   void remove(WorkSchedule workScheduleId);
 
-  Logical hasAnyActiveCollaborator(Id workScheduleId);
+  Logical hasAnyCollaborator(Id workScheduleId);
 }
