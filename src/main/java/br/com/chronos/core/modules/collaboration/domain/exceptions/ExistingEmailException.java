@@ -1,4 +1,4 @@
-package br.com.chronos.core.modules.collaboration.exceptions;
+package br.com.chronos.core.modules.collaboration.domain.exceptions;
 
 public class ExistingEmailException extends RuntimeException {
   public ExistingEmailException(){
