@@ -1,5 +1,6 @@
 package br.com.chronos.server.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,15 +19,16 @@ public class SecurityUser implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    if (this.collaborator.getRole().isAdmin()) {
-      return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
-          new SimpleGrantedAuthority("ROLE_USER"),
-          new SimpleGrantedAuthority("ROLE_MANAGER"));
-
-    } else if (this.collaborator.getRole().isManager()) {
-      return List.of(new SimpleGrantedAuthority("ROLE_MANAGER"), new SimpleGrantedAuthority("ROLE_USER"));
+    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    if (collaborator.getRole().isAdmin().value()) {
+      authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+      authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
     }
-    return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    if(collaborator.getRole().isManager().value()){
+      authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
+    }
+    authorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
+    return authorities;
   }
 
   @Override
@@ -56,7 +58,7 @@ public class SecurityUser implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return collaborator.getIsActive().value();
   }
 
   public Collaborator getCollaborator() {
