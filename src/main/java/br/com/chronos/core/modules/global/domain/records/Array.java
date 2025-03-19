@@ -54,7 +54,16 @@ public record Array<Item>(List<Item> list) {
     return Logical.create(list.stream().anyMatch(predicate));
   }
 
-  public int size() {
-    return list.size();
+  public PlusInteger size() {
+    return PlusInteger.create(list.size(), "tamanho do array");
   }
+
+  public Item firstItem() {
+    return list.get(0);
+  }
+
+  public Item lastItem() {
+    return list.get(size().value() - 1);
+  }
+
 }
