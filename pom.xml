@@ -43,9 +43,14 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
     <dependency>
+        <groupId>com.auth0</groupId>
+        <artifactId>java-jwt</artifactId>
+        <version>4.5.0</version>
+    </dependency>
+    <dependency>
 		  <groupId>io.github.cdimascio</groupId>
-    <artifactId>java-dotenv</artifactId>
-    <version>5.2.2</version>
+      <artifactId>java-dotenv</artifactId>
+      <version>5.2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
