@@ -91,7 +91,8 @@ public final class Collaborator extends Entity {
   }
 
   public CollaboratorDto getDto() {
-    var dto = new CollaboratorDto().setId(getId().value().toString())
+    var dto = new CollaboratorDto()
+        .setId(getId().value().toString())
         .setName(getName().value().toString())
         .setEmail(getEmail().value().toString())
         .setPassword(getPassword().value().toString())
