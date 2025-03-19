@@ -3,7 +3,7 @@ package br.com.chronos.core.modules.work_schedule.use_cases;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.WorkScheduleNotFoundException;
-import br.com.chronos.core.modules.work_schedule.domain.exceptions.WorkShecuduleWithCollaboratorDeletionException;
+import br.com.chronos.core.modules.work_schedule.domain.exceptions.WorkScheduleWithActiveCollaboratorDeletionException;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 
 public class DeleteWorkScheduleUseCase {
@@ -15,10 +15,10 @@ public class DeleteWorkScheduleUseCase {
 
   public void execute(String workScheduleId) {
     var workSchedule = findWorkSchedule(Id.create(workScheduleId));
-    var hasAnyCollaborator = repository.hasAnyCollaborator(workSchedule.getId());
+    var hasAnyCollaborator = repository.hasAnyActiveCollaborator(workSchedule.getId());
 
     if (hasAnyCollaborator.isTrue()) {
-      throw new WorkShecuduleWithCollaboratorDeletionException();
+      throw new WorkScheduleWithActiveCollaboratorDeletionException();
     }
 
     repository.remove(workSchedule);
