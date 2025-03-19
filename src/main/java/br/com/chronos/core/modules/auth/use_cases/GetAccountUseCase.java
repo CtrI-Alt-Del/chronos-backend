@@ -1,22 +1,30 @@
 package br.com.chronos.core.modules.auth.use_cases;
 
-import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
-import br.com.chronos.core.modules.collaboration.domain.exceptions.CollaboratorNotFoundException;
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
+import br.com.chronos.core.modules.auth.domain.entities.Account;
+import br.com.chronos.core.modules.auth.domain.exceptions.AccountNotFoundException;
+import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.modules.global.domain.records.Email;
 
 public class GetAccountUseCase {
-  private CollaboratorsRepository repository;
 
-  public GetAccountUseCase(CollaboratorsRepository repository) {
+
+  private AccountsRepository repository;
+
+  public GetAccountUseCase(AccountsRepository repository) {
     this.repository = repository;
   }
-  public CollaboratorDto execute(String email){
-    var collaborator = repository.findByEmail(Email.create(email,"collaborator email"));
-    if (collaborator.isEmpty()) {
-      throw new CollaboratorNotFoundException();
+
+  public AccountDto execute(String email) {
+    var Account = findAccount(Email.create(email,"Account email"));
+    return Account.getDto();
+  }
+  public Account findAccount(Email email){
+    var account = repository.findByEmail(email);
+    if (account.isEmpty()) {
+      throw new AccountNotFoundException();
     }
-    return collaborator.get().getDto();
+    return account.get();
   }
 
 }
