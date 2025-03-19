@@ -34,7 +34,7 @@ public final class WorkSchedule extends Entity {
     daysOffSchedule = DaysOffSchedule.create(dto.daysOff);
   }
 
-  public void resetDaysOff() {
+  public void resetDaysOffSchedule() {
     daysOffSchedule = DaysOffSchedule.create(
         workdaysCount.integer().value(),
         daysOffCount.integer().value());
