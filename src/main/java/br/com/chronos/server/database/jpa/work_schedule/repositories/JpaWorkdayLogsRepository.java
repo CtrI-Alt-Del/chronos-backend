@@ -36,5 +36,4 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   public Pair<Array<WorkdayLog>, PlusInteger> findManyByDate(Date date, Page page) {
     throw new UnsupportedOperationException("Unimplemented method 'findManyByDate'");
   }
-
 }

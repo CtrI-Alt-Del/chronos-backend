@@ -1,6 +1,7 @@
 package br.com.chronos.server.api.controllers.work_schedule.workday_logs;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

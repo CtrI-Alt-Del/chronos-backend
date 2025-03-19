@@ -12,7 +12,7 @@ public record Cpf(Text text) {
     var text = Text.create(value, key);
     Matcher matcher = CPF_PATTERN.matcher(text.value());
     if (!matcher.matches()) {
-      throw new ValidationException(key, value + "is not");
+      throw new ValidationException(key, value + " is not valid");
 
     }
     return new Cpf(text);
