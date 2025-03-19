@@ -43,7 +43,7 @@ public class Auth0JwtProvider implements JwtProvider {
       var subject = JWT.require(algorithm).withIssuer(issuer).build().verify(token).getSubject();
       return subject;
     }catch(JWTVerificationException exception){
-      throw new NotAuthenticatedException(exception.getMessage());
+      throw new NotAuthenticatedException();
     }
   }
 

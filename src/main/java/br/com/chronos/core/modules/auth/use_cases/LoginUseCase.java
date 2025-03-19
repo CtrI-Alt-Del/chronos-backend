@@ -15,7 +15,7 @@ public class LoginUseCase {
       var jwt = authenticationProvider.login(email, password);
       return jwt;
     } catch (Exception e) {
-      throw new NotAuthenticatedException("Credenciais invalidas");
+      throw new NotAuthenticatedException();
     }
   }
 }
