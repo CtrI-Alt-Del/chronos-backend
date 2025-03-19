@@ -20,7 +20,7 @@ public class ReportWorkdayHistoryController {
   @GetMapping("/history")
   public ResponseEntity<PaginationResponse<WorkdayLogDto>> execute(
       @RequestParam LocalDate date,
-      @RequestParam int page) {
+      @RequestParam(defaultValue = "1") int page) {
     var useCase = new ReportWorkdayHistoryUseCase(workdayLogsRepository);
     var workdayHistory = useCase.execute(date, page);
     return ResponseEntity.ok(workdayHistory);

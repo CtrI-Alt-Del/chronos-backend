@@ -16,7 +16,7 @@ public class ListWorkSchedulesController {
   private WorkSchedulesRepository workSchedulesRepository;
 
   @GetMapping
-  public ResponseEntity<PaginationResponse<WorkScheduleDto>> handle(@RequestParam int page) {
+  public ResponseEntity<PaginationResponse<WorkScheduleDto>> handle(@RequestParam(defaultValue = "1") int page) {
     var useCase = new ListWorkSchedulesUseCase(workSchedulesRepository);
     var workdaySchedules = useCase.execute(page);
     return ResponseEntity.ok(workdaySchedules);

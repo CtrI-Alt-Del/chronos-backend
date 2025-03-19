@@ -1,8 +1,6 @@
 package br.com.chronos.server.api.controllers.work_schedule.workday_logs;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,7 @@ public class ListCollaboratorWorkdayLogsController {
       @PathVariable String collaboratorId,
       @RequestParam LocalDate startDate,
       @RequestParam LocalDate endDate,
-      @RequestParam int page) {
+      @RequestParam(defaultValue = "1") int page) {
     var useCase = new ListCollaboratorWorkdayLogsUseCase(workdayLogsRepository);
     var workdayLogs = useCase.execute(collaboratorId, startDate, endDate, page);
     return ResponseEntity.status(HttpStatus.OK).body(workdayLogs);
