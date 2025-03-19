@@ -8,23 +8,23 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.modules.auth.domain.entities.Account;
 
 public class SecurityUser implements UserDetails {
-  private final Collaborator collaborator;
+  private final Account account;
 
-  public SecurityUser(Collaborator collaborator) {
-    this.collaborator = collaborator;
+  public SecurityUser(Account account) {
+    this.account = account;
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    if (collaborator.getRole().isAdmin().value()) {
+    if (account.getRole().isAdmin().value()) {
       authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
       authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
     }
-    if(collaborator.getRole().isManager().value()){
+    if (account.getRole().isManager().value()) {
       authorities.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
     }
     authorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
@@ -33,12 +33,12 @@ public class SecurityUser implements UserDetails {
 
   @Override
   public String getPassword() {
-    return collaborator.getPassword().value();
+    return account.getPassword().value();
   }
 
   @Override
   public String getUsername() {
-    return collaborator.getEmail().value();
+    return account.getEmail().value();
   }
 
   @Override
@@ -58,10 +58,10 @@ public class SecurityUser implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return collaborator.getIsActive().value();
+    return account.getIsActive().value();
   }
 
-  public Collaborator getCollaborator() {
-    return collaborator;
+  public Account getCollaborator() {
+    return account;
   }
 }
