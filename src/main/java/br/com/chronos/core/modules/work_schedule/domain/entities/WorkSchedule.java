@@ -5,6 +5,7 @@ import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
+import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus;
 
 public final class WorkSchedule extends Entity {
   private Text description;
@@ -16,6 +17,15 @@ public final class WorkSchedule extends Entity {
     description = Text.create(dto.description, "work schedule description");
     weekSchedule = Array.createFrom(dto.weekSchedule, WeekdaySchedule::new);
     daysOff = Array.createFrom(dto.daysOff, Date::create);
+  }
+
+  public WorkdayStatus getWorkdayStatus() {
+    var currentDate = Date.createFromNow();
+    var isDayOff = daysOff.some((dayOff) -> dayOff.isEqual(currentDate).isTrue());
+    if (isDayOff.isTrue()) {
+      return WorkdayStatus.createAsDayOff();
+    }
+    return WorkdayStatus.createAsNormalDay();
   }
 
   public Text getDescription() {
@@ -34,8 +44,9 @@ public final class WorkSchedule extends Entity {
     return new WorkScheduleDto()
         .setId(getId().toString())
         .setDescription(getDescription().value())
-        .setWeekSchedule(getWeekSchedule().map((weekdaySchedule) -> weekdaySchedule.getDto()).items())
-        .setDaysOff(getDaysOff().map((dayOff) -> dayOff.value()).items());
+        .setWeekSchedule(getWeekSchedule()
+            .map((weekdaySchedule) -> weekdaySchedule.getDto()).list())
+        .setDaysOff(getDaysOff().map((dayOff) -> dayOff.value()).list());
   }
 
 }

@@ -8,6 +8,10 @@ import br.com.chronos.core.modules.global.domain.records.Id;
 public abstract class Entity {
   private final Id id;
 
+  protected Entity() {
+    this.id = Id.random();
+  }
+
   protected Entity(String id) {
     this.id = (id != null) ? Id.create(id, this.getClass().getName() + " Id") : Id.random();
   }

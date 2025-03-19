@@ -5,7 +5,6 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.chronos.core.modules.work_schedule.domain.records.Weekday.WeekdayName;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

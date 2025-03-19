@@ -1,15 +1,26 @@
 package br.com.chronos.core.modules.global.domain.records;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 
-public record Date(LocalDate value, ZoneId zoneArea) {
+public record Date(LocalDate value) {
   public static Date create(LocalDate value, String zoneArea) {
-    return new Date(value, ZoneId.of(zoneArea));
+    return new Date(value);
   }
 
   public static Date create(LocalDate value) {
-    return new Date(value, ZoneId.of("America/Sao_Paulo"));
+    return new Date(value);
+  }
+
+  public static Date createFromNow() {
+    return new Date(LocalDate.now());
+  }
+
+  public Date minusDays(int daysCount) {
+    return new Date(value.minusDays(daysCount));
+  }
+
+  public Logical isEqual(Date date) {
+    return Logical.create(value.isEqual(date.value()));
   }
 
   public Logical isEqualOrAfter(Date date) {

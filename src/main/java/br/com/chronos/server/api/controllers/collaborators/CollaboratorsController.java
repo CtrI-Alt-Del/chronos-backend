@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@RequestMapping("/collaborators")
+@RequestMapping("/collaborator")
 public @interface CollaboratorsController {
 }

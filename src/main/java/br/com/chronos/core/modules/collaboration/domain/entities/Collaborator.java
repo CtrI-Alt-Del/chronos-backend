@@ -3,14 +3,14 @@ package br.com.chronos.core.modules.collaboration.domain.entities;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole;
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector;
-import br.com.chronos.core.modules.collaboration.domain.records.Cpf;
-import br.com.chronos.core.modules.collaboration.domain.records.Email;
 import br.com.chronos.core.modules.collaboration.domain.records.Password;
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
+import br.com.chronos.core.modules.global.domain.records.Cpf;
+import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Text;
 
-public class Collaborator extends Entity {
+public final class Collaborator extends Entity {
   private Text name;
   private Email email;
   private Password password;
@@ -27,7 +27,7 @@ public class Collaborator extends Entity {
     cpf = Cpf.create(dto.cpf, "Collaborator cpf");
     role = CollaboratorRole.create(dto.role);
     sector = CollaboratorSector.create(dto.sector);
-    isActive = Logical.create(dto.isActive);
+    isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
   }
 
   public Text getName() {
@@ -56,6 +56,38 @@ public class Collaborator extends Entity {
 
   public Logical getIsActive() {
     return isActive;
+  }
+
+  public void update(CollaboratorDto dto) {
+    if (dto.name != null) {
+      this.name = Text.create(dto.name, "Collaborator name");
+    }
+    if (dto.email != null) {
+      this.email = Email.create(dto.email, "Collaborator email");
+    }
+    if (dto.password != null) {
+      this.password = Password.create(dto.password, "Collaborator password");
+    }
+    if (dto.cpf != null) {
+      this.cpf = Cpf.create(dto.cpf, "Collaborator cpf");
+    }
+    if (dto.role != null) {
+      this.role = CollaboratorRole.create(dto.role);
+    }
+    if (dto.sector != null) {
+      this.sector = CollaboratorSector.create(dto.sector);
+    }
+    if (dto.isActive != null) {
+      this.isActive = Logical.create(dto.isActive);
+    }
+  }
+
+  public void disable() {
+    this.isActive = Logical.create(false);
+  }
+
+  public void enable() {
+    this.isActive = Logical.create(true);
   }
 
   public CollaboratorDto getDto() {

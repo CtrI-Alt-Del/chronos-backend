@@ -25,35 +25,35 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
-@Entity
-@Table(name = "collaborators")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
-public class CollaboratorModel{
+@Entity
+@Table(name = "collaborators")
+public class CollaboratorModel {
     @Id
     private UUID id;
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
-    @Column(name = "email", nullable = false, unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
-    @Column(name = "cpf", nullable = false, unique = true, length = 11)
+    @Column(nullable = false, unique = true, length = 11)
     private String cpf;
-    @Column(name = "password", nullable = false, length = 20)
+    @Column(nullable = false, length = 20)
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "sector", nullable = false)
+    @Column(nullable = false)
     private Sector sector;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
+    @Column(nullable = false)
     private Role role;
 
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean isActive = true;
 
     @ManyToOne
     @JoinColumn(name = "work_schedules_id", nullable = false)
