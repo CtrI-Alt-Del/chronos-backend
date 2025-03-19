@@ -24,6 +24,8 @@ public interface WorkSchedulesRepository {
 
   void update(WorkSchedule workSchedule);
 
+  void updateMany(Array<WorkSchedule> workSchedules);
+
   void remove(WorkSchedule workScheduleId);
 
   Logical hasAnyCollaborator(Id workScheduleId);

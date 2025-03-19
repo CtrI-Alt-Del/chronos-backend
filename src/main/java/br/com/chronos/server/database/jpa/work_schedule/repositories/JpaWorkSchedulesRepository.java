@@ -44,6 +44,11 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   }
 
   @Override
+  public void updateMany(Array<WorkSchedule> workSchedules) {
+    throw new UnsupportedOperationException("Unimplemented method 'updateMany'");
+  }
+
+  @Override
   public void remove(WorkSchedule workScheduleId) {
     throw new UnsupportedOperationException("Unimplemented method 'remove'");
   }
