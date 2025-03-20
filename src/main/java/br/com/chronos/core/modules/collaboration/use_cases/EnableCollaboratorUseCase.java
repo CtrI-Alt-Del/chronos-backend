@@ -1,5 +1,7 @@
 package br.com.chronos.core.modules.collaboration.use_cases;
 
+import br.com.chronos.core.modules.auth.domain.entities.Account;
+import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.CollaboratorNotFoundException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
@@ -12,8 +14,11 @@ public class EnableCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public void execute(String collaboratorId) {
+  public void execute(String collaboratorId, Account collaboratorActivator) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
+    if (!collaboratorActivator.isFromSameSector(collaborator).value()) {
+      throw new NotAuthenticatedException();
+    }
     collaborator.enable();
     repository.enable(collaborator);
   }

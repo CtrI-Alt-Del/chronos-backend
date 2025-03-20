@@ -1,5 +1,7 @@
 package br.com.chronos.core.modules.collaboration.use_cases;
 
+import br.com.chronos.core.modules.auth.domain.entities.Account;
+import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthorizedException;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.CollaboratorNotFoundException;
@@ -17,8 +19,14 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto) {
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Account responsible) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
+    if (!responsible.isFromSameSector(collaborator).value()) {
+      throw new NotAuthorizedException();
+    }
+    if (dto.sector != null && !responsible.getRole().isAdmin().value()) {
+      throw new NotAuthorizedException();
+    }
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
     collaborator.update(dto);
     repository.update(collaborator);
