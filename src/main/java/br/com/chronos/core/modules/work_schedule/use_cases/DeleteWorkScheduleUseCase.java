@@ -15,7 +15,7 @@ public class DeleteWorkScheduleUseCase {
 
   public void execute(String workScheduleId) {
     var workSchedule = findWorkSchedule(Id.create(workScheduleId));
-    var hasAnyCollaborator = repository.hasAnyActiveCollaborator(workSchedule.getId());
+    var hasAnyCollaborator = repository.hasAnyCollaborator(workSchedule.getId());
 
     if (hasAnyCollaborator.isTrue()) {
       throw new WorkScheduleWithActiveCollaboratorDeletionException();
