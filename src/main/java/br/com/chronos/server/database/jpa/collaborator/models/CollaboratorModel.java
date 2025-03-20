@@ -42,6 +42,10 @@ public class CollaboratorModel {
     private String cpf;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private int workdaysCount;
+    @Column(nullable = false)
+    private int daysOffCount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -54,6 +58,7 @@ public class CollaboratorModel {
     @Column(nullable = false)
     @Builder.Default
     private Boolean isActive = true;
+
 
     @ManyToOne
     @JoinColumn(name = "work_schedule_id", nullable = false)
