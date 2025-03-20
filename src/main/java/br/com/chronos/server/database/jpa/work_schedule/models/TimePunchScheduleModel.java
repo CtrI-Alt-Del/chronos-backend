@@ -24,7 +24,7 @@ import jakarta.persistence.OneToOne;;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "time_punch-schedules")
+@Table(name = "time_punch_schedules")
 public class TimePunchScheduleModel {
     @Id
     private UUID id;

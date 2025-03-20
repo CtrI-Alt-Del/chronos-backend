@@ -27,8 +27,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Table(name = "workday_logs")
-
-
 public class WorkdayLogModel {
     @Id
     private UUID id;
@@ -43,7 +41,7 @@ public class WorkdayLogModel {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
     @JoinColumn(name = "time_punch_schedule_id")
-    private TimePunchScheduleModel timePunchSchecule;
+    private TimePunchScheduleModel timePunchSchedule;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
@@ -52,5 +50,5 @@ public class WorkdayLogModel {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private WorkdayStatusName status;    
+    private WorkdayStatusName status;
 }

@@ -19,12 +19,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-@Table(name = "workday_off")
+@Table(name = "workdays_off")
 public class WorkdayOffModel {
     @Id
     private UUID id;
 
-    @Column(name = "date", nullable = false)
+    @Column(nullable = false)
     private Date date;
 
     @ManyToOne

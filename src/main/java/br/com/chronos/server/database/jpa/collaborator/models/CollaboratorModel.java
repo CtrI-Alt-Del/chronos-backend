@@ -56,7 +56,7 @@ public class CollaboratorModel {
     private Boolean isActive = true;
 
     @ManyToOne
-    @JoinColumn(name = "work_schedules_id", nullable = false)
+    @JoinColumn(name = "work_schedule_id", nullable = false)
     private WorkSchedulesModel workSchedule;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

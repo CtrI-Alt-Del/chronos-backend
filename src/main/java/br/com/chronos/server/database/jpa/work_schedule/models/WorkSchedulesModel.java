@@ -39,7 +39,7 @@ public class WorkSchedulesModel {
     
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "workSchedule", fetch = FetchType.LAZY)
-    private Set<TimePunchScheduleModel> timePunchSchule = new HashSet<>();
+    private Set<TimePunchScheduleModel> timePunchSchedule = new HashSet<>();
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "workSchedule", fetch = FetchType.LAZY)
