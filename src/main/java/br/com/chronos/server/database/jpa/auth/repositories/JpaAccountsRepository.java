@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
+import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.server.database.jpa.auth.mappers.AccountMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -32,7 +33,15 @@ public class JpaAccountsRepository implements AccountsRepository {
       return Optional.empty();
 
     }
-    var account = mapper.toEntity(collaboratorModel.get());
+    var account = mapper.toAccount(collaboratorModel.get());
     return Optional.of(account);
   }
+
+  @Override
+  public Collaborator findProfile(Email email) {
+    var collaboratorModel = repository.findByEmail(email.value().toString());
+    var collaborator = mapper.toCollaborator(collaboratorModel.get());
+    return collaborator;
+  }
+
 }
