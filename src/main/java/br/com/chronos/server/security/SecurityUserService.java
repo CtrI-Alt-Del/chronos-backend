@@ -27,7 +27,7 @@ public class SecurityUserService implements UserDetailsService {
       return securityUser;
     } catch (Exception e) {
       System.out.println(e);
-      throw new NotAuthenticatedException("Credenciais invalidas");
+      throw new NotAuthenticatedException();
     }
   }
 }

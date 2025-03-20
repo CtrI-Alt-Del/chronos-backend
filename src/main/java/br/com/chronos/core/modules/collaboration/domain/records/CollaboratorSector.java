@@ -3,7 +3,6 @@ package br.com.chronos.core.modules.collaboration.domain.records;
 import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Text;
-import sun.rmi.runtime.Log;
 
 public record CollaboratorSector(Sector value) {
   public enum Sector {

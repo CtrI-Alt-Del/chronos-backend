@@ -32,7 +32,7 @@ public class CollaboratorModel {
     private String email;
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)

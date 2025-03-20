@@ -61,7 +61,7 @@ public class SecurityUser implements UserDetails {
     return account.getIsActive().value();
   }
 
-  public Account getCollaborator() {
+  public Account getAccount() {
     return account;
   }
 }
