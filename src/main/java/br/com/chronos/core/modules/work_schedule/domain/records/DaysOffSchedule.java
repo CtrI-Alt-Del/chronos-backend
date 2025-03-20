@@ -4,6 +4,7 @@ import br.com.chronos.core.modules.global.domain.records.Count;
 import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Month;
+import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroDaysOffCountException;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroWorkdaysCountException;
 
@@ -18,10 +19,17 @@ public record DaysOffSchedule(Array<Date> days) {
   }
 
   public static DaysOffSchedule create(int workdaysCountValue, int daysOffCountValue) {
-    if (workdaysCountValue == 0) {
+    var workdaysCountInteger = PlusInteger.create(
+        workdaysCountValue,
+        "contagem de dias de trabalho");
+    var daysOffCountInteger = PlusInteger.create(
+        daysOffCountValue,
+        "contagem de dias de folga");
+
+    if (workdaysCountInteger.value() == 0) {
       throw new ZeroWorkdaysCountException();
     }
-    if (daysOffCountValue == 0) {
+    if (daysOffCountInteger.value() == 0) {
       throw new ZeroDaysOffCountException();
     }
 
