@@ -4,6 +4,7 @@ import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
+import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole;
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector;
 import br.com.chronos.core.modules.collaboration.domain.records.Password;
@@ -24,6 +25,7 @@ public final class Account extends Entity {
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
 
   }
+
   public Email getEmail() {
     return email;
   }
@@ -58,6 +60,17 @@ public final class Account extends Entity {
 
   public CollaboratorSector getSector() {
     return sector;
+  }
+
+  public Logical isFromSameSector(Collaborator otherAccount) {
+    if (otherAccount == null) {
+      return Logical.createAsFalse();
+    }
+    if (this.role.isAdmin().value()) {
+      return Logical.createAsTrue();
+    }
+
+    return Logical.create(this.getSector().value().equals(otherAccount.getSector().value()));
   }
 
   public AccountDto getDto() {
