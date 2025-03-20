@@ -5,6 +5,14 @@ public record Logical(boolean value) {
     return new Logical(value);
   }
 
+  public static Logical createAsTrue() {
+    return new Logical(true);
+  }
+
+  public static Logical createAsFalse() {
+    return new Logical(false);
+  }
+
   public boolean isTrue() {
     return value == true;
   }
