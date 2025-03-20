@@ -4,9 +4,13 @@ import java.util.Optional;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Logical;
+import br.com.chronos.core.modules.global.domain.records.Page;
+import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
 import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorWorkSchedule;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import kotlin.Pair;
 
 public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   @Override
@@ -17,6 +21,11 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   @Override
   public Array<WorkSchedule> findAll() {
     throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+  }
+
+  @Override
+  public Pair<Array<WorkSchedule>, PlusInteger> findMany(Page page) {
+    throw new UnsupportedOperationException("Unimplemented method 'findMany'");
   }
 
   @Override
@@ -35,13 +44,18 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   }
 
   @Override
-  public Optional<WorkSchedule> findByIdAndWithoutCollaborator(Id workScheduleId) {
-    throw new UnsupportedOperationException("Unimplemented method 'findByIdAndWithoutCollaborator'");
+  public void updateMany(Array<WorkSchedule> workSchedules) {
+    throw new UnsupportedOperationException("Unimplemented method 'updateMany'");
   }
 
   @Override
   public void remove(WorkSchedule workScheduleId) {
     throw new UnsupportedOperationException("Unimplemented method 'remove'");
+  }
+
+  @Override
+  public Logical hasAnyCollaborator(Id workScheduleId) {
+    throw new UnsupportedOperationException("Unimplemented method 'hasAnyCollaborator'");
   }
 
 }

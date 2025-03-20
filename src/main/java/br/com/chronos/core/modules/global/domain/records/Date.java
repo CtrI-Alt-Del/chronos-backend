@@ -15,6 +15,10 @@ public record Date(LocalDate value) {
     return new Date(LocalDate.now());
   }
 
+  public Date plusDays(int daysCount) {
+    return new Date(value.plusDays(daysCount));
+  }
+
   public Date minusDays(int daysCount) {
     return new Date(value.minusDays(daysCount));
   }
@@ -29,5 +33,9 @@ public record Date(LocalDate value) {
 
   public Logical isEqualOrBefore(Date date) {
     return Logical.create(value.isEqual(date.value()) || value.isBefore(value));
+  }
+
+  public Logical isMonday() {
+    return Logical.create(value.getDayOfWeek().getValue() == 1);
   }
 }

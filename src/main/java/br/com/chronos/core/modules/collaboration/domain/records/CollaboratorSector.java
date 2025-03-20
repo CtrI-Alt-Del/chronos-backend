@@ -1,6 +1,7 @@
 package br.com.chronos.core.modules.collaboration.domain.records;
 
 import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
+import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Text;
 
 public record CollaboratorSector(Sector value) {
@@ -26,18 +27,18 @@ public record CollaboratorSector(Sector value) {
     return value.toString().toLowerCase();
   }
 
-  public Boolean isFromProduction() {
-    return value == Sector.PRODUCTION;
+  public Logical isFromProduction() {
+    return Logical.create(value == Sector.PRODUCTION);
   }
 
-  public Boolean isFromComercial() {
-    return value == Sector.COMERCIAL;
+  public Logical isFromComercial() {
+    return Logical.create(value == Sector.COMERCIAL);
   }
 
-  public Boolean isFromAdministrative() {
-    return value == Sector.ADMINISTRATIVE;
+  public Logical isFromAdministrative() {
+    return Logical.create(value == Sector.ADMINISTRATIVE);
   }
-  public Boolean isFromHumanResources(){
-    return value == Sector.HUMAN_RESOURCES;
+  public Logical isFromHumanResources(){
+    return Logical.create(value == Sector.HUMAN_RESOURCES);
   }
 }

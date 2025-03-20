@@ -1,6 +1,7 @@
 package br.com.chronos.core.modules.collaboration.domain.records;
 
 import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
+import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Text;
 
 public record CollaboratorRole(Role value) {
@@ -26,16 +27,17 @@ public record CollaboratorRole(Role value) {
     return value.toString().toLowerCase();
   }
 
-  public Boolean isAdmin() {
-    return value == Role.ADMIN;
+  public Logical isAdmin() {
+    return Logical.create(value == Role.ADMIN);
   }
 
-  public Boolean isManager() {
-    return value == Role.MANAGER;
+  public Logical isManager() {
+    return Logical.create(value == Role.MANAGER);
+    
   }
 
-  public Boolean isEmployee() {
-    return value == Role.EMPLOYEE;
+  public Logical isEmployee() {
+    return Logical.create(value == Role.EMPLOYEE);
   }
 
 }

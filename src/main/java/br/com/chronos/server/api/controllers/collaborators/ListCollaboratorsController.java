@@ -1,7 +1,6 @@
 package br.com.chronos.server.api.controllers.collaborators;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +20,7 @@ public class ListCollaboratorsController {
   public ResponseEntity<PaginationResponse<CollaboratorDto>> handle(@RequestParam(defaultValue = "1") int page) {
     var useCase = new ListCollaboratorsUseCase(repository);
     var response = useCase.execute(page);
-    return ResponseEntity.status(HttpStatus.OK).body(response);
+    return ResponseEntity.ok(response);
   }
 
 }

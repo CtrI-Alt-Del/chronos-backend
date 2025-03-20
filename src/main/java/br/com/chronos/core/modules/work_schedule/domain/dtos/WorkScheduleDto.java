@@ -6,6 +6,8 @@ import java.util.List;
 public class WorkScheduleDto {
   public String id;
   public String description;
+  public int workdaysCount;
+  public int daysOffCount;
   public List<WeekdayScheduleDto> weekSchedule;
   public List<LocalDate> daysOff;
 
@@ -16,6 +18,16 @@ public class WorkScheduleDto {
 
   public WorkScheduleDto setDescription(String description) {
     this.description = description;
+    return this;
+  }
+
+  public WorkScheduleDto setWorkdaysCount(int workdaysCount) {
+    this.workdaysCount = workdaysCount;
+    return this;
+  }
+
+  public WorkScheduleDto setdaysOffCount(int daysOffCount) {
+    this.daysOffCount = daysOffCount;
     return this;
   }
 

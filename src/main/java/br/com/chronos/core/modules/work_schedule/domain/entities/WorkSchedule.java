@@ -2,27 +2,47 @@ package br.com.chronos.core.modules.work_schedule.domain.entities;
 
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.Date;
+import br.com.chronos.core.modules.global.domain.records.Count;
 import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
+import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroDaysOffCountException;
+import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroWorkdaysCountException;
 import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus;
+import br.com.chronos.core.modules.work_schedule.domain.records.DaysOffSchedule;
 
 public final class WorkSchedule extends Entity {
   private Text description;
+  private Count workdaysCount;
+  private Count daysOffCount;
   private Array<WeekdaySchedule> weekSchedule;
-  private Array<Date> daysOff;
+  private DaysOffSchedule daysOffSchedule;
 
   public WorkSchedule(WorkScheduleDto dto) {
     super(dto.id);
-    description = Text.create(dto.description, "work schedule description");
+
+    if (dto.workdaysCount == 0) {
+      throw new ZeroWorkdaysCountException();
+    }
+    if (dto.daysOffCount == 0) {
+      throw new ZeroDaysOffCountException();
+    }
+
+    description = Text.create(dto.description, "descrição da escala de trabalho");
+    workdaysCount = Count.create(dto.workdaysCount, "Contagem de dias de trabalho");
+    daysOffCount = Count.create(dto.daysOffCount, "Contagem de folgas");
     weekSchedule = Array.createFrom(dto.weekSchedule, WeekdaySchedule::new);
-    daysOff = Array.createFrom(dto.daysOff, Date::create);
+    daysOffSchedule = DaysOffSchedule.create(dto.daysOff);
+  }
+
+  public void resetDaysOffSchedule() {
+    daysOffSchedule = DaysOffSchedule.create(
+        workdaysCount.integer().value(),
+        daysOffCount.integer().value());
+
   }
 
   public WorkdayStatus getWorkdayStatus() {
-    var currentDate = Date.createFromNow();
-    var isDayOff = daysOff.some((dayOff) -> dayOff.isEqual(currentDate).isTrue());
-    if (isDayOff.isTrue()) {
+    if (daysOffSchedule.isTodayDayOff().isTrue()) {
       return WorkdayStatus.createAsDayOff();
     }
     return WorkdayStatus.createAsNormalDay();
@@ -32,12 +52,20 @@ public final class WorkSchedule extends Entity {
     return description;
   }
 
+  public Count getWorkdaysCount() {
+    return workdaysCount;
+  }
+
+  public Count getDaysOffCount() {
+    return daysOffCount;
+  }
+
   public Array<WeekdaySchedule> getWeekSchedule() {
     return weekSchedule;
   }
 
-  public Array<Date> getDaysOff() {
-    return daysOff;
+  public DaysOffSchedule getDaysOffSchedule() {
+    return daysOffSchedule;
   }
 
   public WorkScheduleDto getDto() {
@@ -46,7 +74,7 @@ public final class WorkSchedule extends Entity {
         .setDescription(getDescription().value())
         .setWeekSchedule(getWeekSchedule()
             .map((weekdaySchedule) -> weekdaySchedule.getDto()).list())
-        .setDaysOff(getDaysOff().map((dayOff) -> dayOff.value()).list());
+        .setDaysOff(getDaysOffSchedule().days().map((dayOff) -> dayOff.value()).list());
   }
 
 }
