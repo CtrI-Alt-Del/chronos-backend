@@ -29,6 +29,7 @@ public class UpdateCollaboratorUseCase {
     }
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
     collaborator.update(dto);
+
     repository.update(collaborator);
     return collaborator.getDto();
   }
