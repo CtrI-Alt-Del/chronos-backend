@@ -66,7 +66,7 @@ public final class Account extends Entity {
     if (otherAccount == null) {
       return Logical.createAsFalse();
     }
-    if (this.role.isAdmin().value()) {
+    if (this.role.isAdmin().isTrue()) {
       return Logical.createAsTrue();
     }
 
