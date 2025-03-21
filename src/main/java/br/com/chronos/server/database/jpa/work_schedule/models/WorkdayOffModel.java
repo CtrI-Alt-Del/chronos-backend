@@ -1,8 +1,8 @@
 package br.com.chronos.server.database.jpa.work_schedule.models;
 
+import java.util.Date;
 import java.util.UUID;
 
-import br.com.chronos.core.modules.global.domain.records.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
