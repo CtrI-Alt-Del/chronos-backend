@@ -1,6 +1,5 @@
 package br.com.chronos.core.modules.auth.use_cases;
 
-import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 
 public class LoginUseCase {
@@ -11,11 +10,7 @@ public class LoginUseCase {
   }
 
   public String execute(String email, String password) {
-    try {
-      var jwt = authenticationProvider.login(email, password);
-      return jwt;
-    } catch (Exception e) {
-      throw new NotAuthenticatedException();
-    }
+    var jwt = authenticationProvider.login(email, password);
+    return jwt;
   }
 }

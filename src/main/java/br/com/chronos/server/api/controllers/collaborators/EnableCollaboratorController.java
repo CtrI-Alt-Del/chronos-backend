@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.collaboration.use_cases.EnableCollaboratorUseCase;
+import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 
 @CollaboratorsController
 public class EnableCollaboratorController {
@@ -16,10 +17,14 @@ public class EnableCollaboratorController {
   @Autowired
   private CollaboratorsRepository repository;
 
+  @Autowired
+  private AuthenticationProvider authenticationProvider;
+
   @PostMapping("/enable/{id}")
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new EnableCollaboratorUseCase(repository);
-    useCase.execute(collaboratorId);
+    var responsibleEmail = this.authenticationProvider.getAuthenticatedUser().getEmail();
+    useCase.execute(collaboratorId,responsibleEmail);
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 }

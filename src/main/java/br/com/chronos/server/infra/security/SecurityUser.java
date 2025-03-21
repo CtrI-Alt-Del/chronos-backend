@@ -1,4 +1,4 @@
-package br.com.chronos.server.security;
+package br.com.chronos.server.infra.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
