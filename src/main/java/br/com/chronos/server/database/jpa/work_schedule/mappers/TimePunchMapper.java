@@ -32,4 +32,14 @@ public class TimePunchMapper {
 
     return new TimePunch(dto);
   }
+
+  public TimePunchDto toDto(TimePunchModel model) {
+    return new TimePunchDto()
+        .setId(model.getId().toString())
+        .setFirstClockIn(model.getFirstClockIn())
+        .setFirstClockOut(model.getFirstClockOut())
+        .setSecondClockIn(model.getSeconcClockIn())
+        .setSecondClockOut(model.getSecondClockOut());
+  }
+
 }
