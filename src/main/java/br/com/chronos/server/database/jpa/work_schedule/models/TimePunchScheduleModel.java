@@ -28,14 +28,14 @@ import jakarta.persistence.OneToOne;;
 public class TimePunchScheduleModel {
     @Id
     private UUID id;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "weekday", nullable = false)
     private WeekdayName weekdayName;
 
     @ManyToOne
     @JoinColumn(name = "work_schedule_id", nullable = false)
-    private WorkSchedulesModel workSchedule;
+    private WorkScheduleModel workSchedule;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
@@ -45,4 +45,3 @@ public class TimePunchScheduleModel {
     @OneToOne(mappedBy = "timePunchSchedule")
     private WorkdayLogModel workdayLog;
 }
-

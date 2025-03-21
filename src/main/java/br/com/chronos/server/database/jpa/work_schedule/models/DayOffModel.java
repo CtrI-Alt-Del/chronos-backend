@@ -1,5 +1,6 @@
 package br.com.chronos.server.database.jpa.work_schedule.models;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import br.com.chronos.core.modules.global.domain.records.Date;
@@ -19,15 +20,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-@Table(name = "workdays_off")
-public class WorkdayOffModel {
+@Table(name = "days_off")
+public class DayOffModel {
     @Id
     private UUID id;
 
     @Column(nullable = false)
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "work_schedule_id", nullable = false)
-    private WorkSchedulesModel workSchedule;
+    private WorkScheduleModel workSchedule;
 }
