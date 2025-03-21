@@ -1,4 +1,4 @@
-package br.com.chronos.server.security;
+package br.com.chronos.server.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

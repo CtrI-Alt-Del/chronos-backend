@@ -1,27 +1,35 @@
 package br.com.chronos.core.modules.collaboration.use_cases;
 
-import br.com.chronos.core.modules.global.domain.records.Cpf;
-import br.com.chronos.core.modules.global.domain.records.Email;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthorizedException;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmailException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.modules.global.domain.records.Cpf;
+import br.com.chronos.core.modules.global.domain.records.Email;
+import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 
 public class CreateCollaboratorUseCase {
   private final CollaboratorsRepository repository;
   private final AuthenticationProvider authenticationProvider;
 
-  public CreateCollaboratorUseCase(CollaboratorsRepository repository,AuthenticationProvider authenticationProvider) {
+  public CreateCollaboratorUseCase(CollaboratorsRepository repository, AuthenticationProvider authenticationProvider) {
     this.repository = repository;
     this.authenticationProvider = authenticationProvider;
   }
 
-  public CollaboratorDto execute(CollaboratorDto dto) {
+  public CollaboratorDto execute(CollaboratorDto dto, Email responsibleEmail) {
+    var responsible = this.repository.findByEmail(responsibleEmail);
     validateUniqueEmailAndCpf(dto);
     var collaboratorDto = authenticationProvider.register(dto);
+
     var collaborator = new Collaborator(collaboratorDto);
+    if (!responsible.get().isFromSameSector(collaborator).value()) {
+      throw new NotAuthorizedException();
+
+    }
+
     repository.add(collaborator);
     return collaborator.getDto();
   }

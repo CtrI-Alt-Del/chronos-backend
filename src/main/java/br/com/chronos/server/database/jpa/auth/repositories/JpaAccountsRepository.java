@@ -35,4 +35,5 @@ public class JpaAccountsRepository implements AccountsRepository {
     var account = mapper.toEntity(collaboratorModel.get());
     return Optional.of(account);
   }
+
 }

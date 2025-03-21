@@ -24,3 +24,5 @@
 | Estruturação de pastas/arquivos | file tree | 🗃️     |
 | Certificados e licenças         | cert      | 📜     |
 | Trabalho em andamento           | wip       | 🚧     |
+| Conserto critico imediato           | hotfix       | 🚑     |
+
