@@ -3,6 +3,7 @@ package br.com.chronos.server.api.controllers.work_schedule.schedules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
@@ -15,10 +16,10 @@ public class ListWorkSchedulesController {
   @Autowired
   private WorkSchedulesRepository workSchedulesRepository;
 
-  @GetMapping
+  @PostMapping("/post")
   public ResponseEntity<PaginationResponse<WorkScheduleDto>> handle(@RequestParam(defaultValue = "1") int page) {
     var useCase = new ListWorkSchedulesUseCase(workSchedulesRepository);
-    var workdaySchedules = useCase.execute(page);
-    return ResponseEntity.ok(workdaySchedules);
+    // var workdaySchedules = useCase.execute(page);
+    return ResponseEntity.ok(null);
   }
 }
