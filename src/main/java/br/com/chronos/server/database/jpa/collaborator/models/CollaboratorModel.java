@@ -1,14 +1,12 @@
 package br.com.chronos.server.database.jpa.collaborator.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole.Role;
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector.Sector;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkSchedulesModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,13 +57,12 @@ public class CollaboratorModel {
     @Builder.Default
     private Boolean isActive = true;
 
-
     @ManyToOne
     @JoinColumn(name = "work_schedule_id", nullable = false)
-    private WorkSchedulesModel workSchedule;
+    private WorkScheduleModel workSchedule;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
-    private Set<WorkdayLogModel> workdayLog = new HashSet<>();
-    
+    @Builder.Default
+    private List<WorkdayLogModel> workdayLogs = new ArrayList();
+
 }
