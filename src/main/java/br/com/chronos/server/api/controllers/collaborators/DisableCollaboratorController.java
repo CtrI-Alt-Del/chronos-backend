@@ -17,14 +17,13 @@ public class DisableCollaboratorController {
   @Autowired
   private CollaboratorsRepository repository;
 
-  @Autowired
-  private AuthenticationProvider authenticationProvider;
+  @Autowired private AuthenticationProvider authenticationProvider;
 
   @DeleteMapping("/disable/{id}")
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new DisableCollaboratorUseCase(repository);
-    var responsible = authenticationProvider.getAuthenticatedUser();
-    useCase.execute(collaboratorId,responsible);
+    var responsibleEmail = authenticationProvider.getAuthenticatedUser().getEmail();
+    useCase.execute(collaboratorId,responsibleEmail);
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 }

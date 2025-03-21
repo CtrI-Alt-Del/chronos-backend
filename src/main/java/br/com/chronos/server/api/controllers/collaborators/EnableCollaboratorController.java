@@ -23,8 +23,8 @@ public class EnableCollaboratorController {
   @PostMapping("/enable/{id}")
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new EnableCollaboratorUseCase(repository);
-    var responsible = authenticationProvider.getAuthenticatedUser();
-    useCase.execute(collaboratorId,responsible);
+    var responsibleEmail = this.authenticationProvider.getAuthenticatedUser().getEmail();
+    useCase.execute(collaboratorId,responsibleEmail);
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 }

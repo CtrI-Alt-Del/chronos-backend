@@ -23,8 +23,8 @@ public class CreateCollaboratorController {
   @PostMapping
   public ResponseEntity<CollaboratorDto> handle(@RequestBody CollaboratorDto body) {
     var useCase = new CreateCollaboratorUseCase(repository,authenticationProvider);
-    var responsible = authenticationProvider.getAuthenticatedUser();
-    var collaboratorDto = useCase.execute(body,responsible);
+    var responsibleEmail = authenticationProvider.getAuthenticatedUser().getEmail();
+    var collaboratorDto = useCase.execute(body,responsibleEmail);
     return ResponseEntity.status(HttpStatus.OK).body(collaboratorDto);
   }
 }

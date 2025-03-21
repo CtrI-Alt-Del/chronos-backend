@@ -19,12 +19,13 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Account responsible) {
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Email responsibleEmail) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
-    if (!responsible.isFromSameSector(collaborator).value()) {
+    var responsible = this.repository.findByEmail(responsibleEmail);
+    if (!responsible.get().isFromSameSector(collaborator).value()) {
       throw new NotAuthorizedException();
     }
-    if (dto.sector != null && !responsible.getRole().isAdmin().value()) {
+    if (dto.sector != null && responsible.get().getRole().isAdmin().isFalse()) {
       throw new NotAuthorizedException();
     }
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));

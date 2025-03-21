@@ -21,10 +21,11 @@ public class UpdateCollaboratorController {
   private AuthenticationProvider authenticationProvider;
 
   @PutMapping("/{id}")
-  public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId,@RequestBody CollaboratorDto body) {
+  public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId,
+      @RequestBody CollaboratorDto body) {
     var useCase = new UpdateCollaboratorUseCase(repository);
-    var responsible = authenticationProvider.getAuthenticatedUser();
-    var response = useCase.execute(collaboratorId, body,responsible);
+    var responsible = authenticationProvider.getAuthenticatedUser().getEmail();
+    var response = useCase.execute(collaboratorId, body, responsible);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }
