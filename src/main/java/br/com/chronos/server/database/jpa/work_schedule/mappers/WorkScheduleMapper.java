@@ -5,10 +5,13 @@ import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
 
+@Component
 public class WorkScheduleMapper {
   public WorkScheduleModel toModel(WorkSchedule entity) {
     var model = WorkScheduleModel.builder()
