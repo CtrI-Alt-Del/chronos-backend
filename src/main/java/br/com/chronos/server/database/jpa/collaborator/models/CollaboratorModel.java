@@ -1,21 +1,29 @@
 package br.com.chronos.server.database.jpa.collaborator.models;
 
-
-
-import jakarta.persistence.Id;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole.Role;
+import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector.Sector;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkSchedulesModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole.Role;
-import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector.Sector;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Data
 @AllArgsConstructor
@@ -34,6 +42,10 @@ public class CollaboratorModel {
     private String cpf;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private int workdaysCount;
+    @Column(nullable = false)
+    private int daysOffCount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -47,4 +59,13 @@ public class CollaboratorModel {
     @Builder.Default
     private Boolean isActive = true;
 
+
+    @ManyToOne
+    @JoinColumn(name = "work_schedule_id", nullable = false)
+    private WorkSchedulesModel workSchedule;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
+    private Set<WorkdayLogModel> workdayLog = new HashSet<>();
+    
 }

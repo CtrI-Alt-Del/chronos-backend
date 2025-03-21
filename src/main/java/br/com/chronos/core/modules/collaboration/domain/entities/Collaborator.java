@@ -90,6 +90,17 @@ public final class Collaborator extends Entity {
     this.isActive = Logical.create(true);
   }
 
+  public Logical isFromSameSector(Collaborator otherAccount) {
+    if (otherAccount == null) {
+      return Logical.createAsFalse();
+    }
+    if (this.role.isAdmin().isTrue()) {
+      return Logical.createAsTrue();
+    }
+
+    return Logical.create(this.getSector().value().equals(otherAccount.getSector().value()));
+  }
+
   public CollaboratorDto getDto() {
     var dto = new CollaboratorDto()
         .setId(getId().value().toString())
