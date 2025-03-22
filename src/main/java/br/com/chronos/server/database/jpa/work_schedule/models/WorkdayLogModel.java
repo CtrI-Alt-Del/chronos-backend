@@ -7,9 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;

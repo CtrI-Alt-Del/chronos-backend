@@ -17,19 +17,21 @@ public class LoginController {
   private AuthenticationProvider authenticationProvider;
 
   @Data
-  private static class Body{
+  private static class Request {
     private String email;
     private String password;
   }
+
   @Data
   @AllArgsConstructor
-  private static class Response{
+  private static class Response {
     private String jwt;
   }
+
   @PostMapping("/login")
-  public ResponseEntity<Response> handle(@RequestBody Body body){
+  public ResponseEntity<Response> handle(@RequestBody Request body) {
     var useCase = new LoginUseCase(authenticationProvider);
-    var jwt = useCase.execute(body.email,body.password);
+    var jwt = useCase.execute(body.email, body.password);
     var response = new Response(jwt);
     return ResponseEntity.ok(response);
   }

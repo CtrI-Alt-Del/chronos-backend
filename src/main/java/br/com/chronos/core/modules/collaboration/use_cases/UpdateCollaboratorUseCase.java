@@ -1,6 +1,5 @@
 package br.com.chronos.core.modules.collaboration.use_cases;
 
-import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthorizedException;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;

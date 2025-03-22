@@ -26,7 +26,7 @@ public class WorkScheduleDto {
     return this;
   }
 
-  public WorkScheduleDto setdaysOffCount(int daysOffCount) {
+  public WorkScheduleDto setDaysOffCount(int daysOffCount) {
     this.daysOffCount = daysOffCount;
     return this;
   }
