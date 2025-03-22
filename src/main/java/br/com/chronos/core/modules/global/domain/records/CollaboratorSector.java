@@ -1,8 +1,6 @@
-package br.com.chronos.core.modules.collaboration.domain.records;
+package br.com.chronos.core.modules.global.domain.records;
 
 import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
-import br.com.chronos.core.modules.global.domain.records.Logical;
-import br.com.chronos.core.modules.global.domain.records.Text;
 
 public record CollaboratorSector(Sector value) {
   public enum Sector {
@@ -16,13 +14,14 @@ public record CollaboratorSector(Sector value) {
     if (sector == null) {
       return new CollaboratorSector(Sector.PRODUCTION);
     }
-    var text = Text.create(sector.toUpperCase(), "collaborator sector");
+    var text = Text.create(sector.toUpperCase(), "setor");
     try {
       return new CollaboratorSector(Sector.valueOf(text.value()));
     } catch (Exception e) {
-      throw new ValidationException(text.key(), "must be from production,comercial or administrative");
+      throw new ValidationException(text.key(), "deve ser do setor produtivo, comercial ou administrativo");
+    }
   }
-  }
+
   public String toString() {
     return value.toString().toLowerCase();
   }
@@ -38,7 +37,8 @@ public record CollaboratorSector(Sector value) {
   public Logical isFromAdministrative() {
     return Logical.create(value == Sector.ADMINISTRATIVE);
   }
-  public Logical isFromHumanResources(){
+
+  public Logical isFromHumanResources() {
     return Logical.create(value == Sector.HUMAN_RESOURCES);
   }
 }
