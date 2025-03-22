@@ -2,10 +2,10 @@ package br.com.chronos.core.modules.global.domain.entities;
 
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
+import br.com.chronos.core.modules.global.domain.records.CollaboratorRole;
+import br.com.chronos.core.modules.global.domain.records.CollaboratorSector;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Text;
-import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole;
-import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector;
 
 public class Responsible extends Entity {
   private Text name;
