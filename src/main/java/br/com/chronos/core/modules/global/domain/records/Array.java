@@ -29,6 +29,13 @@ public record Array<Item>(List<Item> list) {
     return new Array<>(list);
   }
 
+  public Array<Item> addArray(Array<Item> items) {
+    for (var item : items.list()) {
+      list.add(item);
+    }
+    return new Array<>(list);
+  }
+
   public Array<Item> remove(Item item) {
     list.remove(item);
     return new Array<>(list);
