@@ -24,31 +24,32 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
   JwtProvider jwtProvider;
 
   @Autowired
-  AccountsRepository accountsRepository;
+  AccountsRepository accountRepository;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-  throws ServletException, IOException {
+      throws ServletException, IOException {
     var token = recoverToken(request);
     if (token != null) {
-      var subject =  jwtProvider.validateToken(token);
+      var subject = jwtProvider.validateToken(token);
       var account = getAccount(subject);
       var securityUser = new SecurityUser(account);
-      var authentication = new UsernamePasswordAuthenticationToken(securityUser,null,securityUser.getAuthorities());
+      var authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
-    filterChain.doFilter(request,response);
+    filterChain.doFilter(request, response);
   }
 
-  private String recoverToken(HttpServletRequest request){
+  private String recoverToken(HttpServletRequest request) {
     var authHeader = request.getHeader("Authorization");
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       return null;
     }
-    return authHeader.replace("Bearer ","");
+    return authHeader.replace("Bearer ", "");
   }
-  private Account getAccount(String email){
-    var useCase = new GetAccountUseCase(accountsRepository);
+
+  private Account getAccount(String email) {
+    var useCase = new GetAccountUseCase(accountRepository);
     var accountDto = useCase.execute(email);
     return new Account(accountDto);
   }

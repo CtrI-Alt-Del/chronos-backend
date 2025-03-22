@@ -7,19 +7,18 @@ import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsReposito
 import br.com.chronos.core.modules.global.domain.records.Email;
 
 public class GetAccountUseCase {
-
-
-  private AccountsRepository repository;
+  private final AccountsRepository repository;
 
   public GetAccountUseCase(AccountsRepository repository) {
     this.repository = repository;
   }
 
   public AccountDto execute(String email) {
-    var Account = findAccount(Email.create(email,"Account email"));
-    return Account.getDto();
+    var account = findAccount(Email.create(email));
+    return account.getDto();
   }
-  public Account findAccount(Email email){
+
+  public Account findAccount(Email email) {
     var account = repository.findByEmail(email);
     if (account.isEmpty()) {
       throw new AccountNotFoundException();

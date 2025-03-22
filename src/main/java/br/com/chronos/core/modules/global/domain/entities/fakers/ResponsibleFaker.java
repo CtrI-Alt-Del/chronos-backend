@@ -4,9 +4,9 @@ import com.github.javafaker.Faker;
 
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.modules.global.domain.entities.Responsible;
-import br.com.chronos.core.modules.global.domain.records.fakers.CollaboratorRoleFaker;
-import br.com.chronos.core.modules.global.domain.records.fakers.CollaboratorSectorFaker;
+import br.com.chronos.core.modules.global.domain.records.fakers.CollaborationSectorFaker;
 import br.com.chronos.core.modules.global.domain.records.fakers.IdFaker;
+import br.com.chronos.core.modules.global.domain.records.fakers.RoleFaker;
 
 public class ResponsibleFaker {
   private static Faker faker = new Faker();
@@ -20,7 +20,7 @@ public class ResponsibleFaker {
         .setId(IdFaker.fakeDto())
         .setName(faker.name().fullName())
         .setEmail(faker.internet().emailAddress())
-        .setRole(CollaboratorRoleFaker.fakeDto())
-        .setSector(CollaboratorSectorFaker.fakeDto());
+        .setRole(RoleFaker.fakeDto())
+        .setSector(CollaborationSectorFaker.fakeDto());
   }
 }

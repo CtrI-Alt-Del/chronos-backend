@@ -36,8 +36,8 @@ public class CreateCollaboratorUseCase {
 
   private void validateUniqueEmailAndCpf(CollaboratorDto dto) {
     var existingCollaborator = repository.findByEmailOrCpf(dto.email, dto.cpf);
-    Email email = Email.create(dto.email, "Collaborator email");
-    Cpf cpf = Cpf.create(dto.cpf, "Collaborator cpf");
+    Email email = Email.create(dto.email);
+    Cpf cpf = Cpf.create(dto.cpf);
 
     if (existingCollaborator.isEmpty()) {
       return;

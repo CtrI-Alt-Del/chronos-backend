@@ -2,23 +2,22 @@ package br.com.chronos.core.modules.global.domain.entities;
 
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.modules.global.domain.records.CollaboratorRole;
-import br.com.chronos.core.modules.global.domain.records.CollaboratorSector;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
+import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Text;
 
 public class Responsible extends Entity {
   private Text name;
   private Email email;
-  private CollaboratorRole role;
-  private CollaboratorSector sector;
+  private Role role;
+  private CollaborationSector sector;
 
   public Responsible(ResponsibleDto dto) {
     super(dto.id);
-    name = Text.create(dto.name, "Collaborator name");
-    email = Email.create(dto.email, "Collaborator email");
-    role = CollaboratorRole.create(dto.role);
-    sector = CollaboratorSector.create(dto.sector);
+    name = Text.create(dto.name, "nome do responsável");
+    email = Email.create(dto.email);
+    role = Role.create(dto.role);
   }
 
   public Text getName() {
@@ -29,11 +28,11 @@ public class Responsible extends Entity {
     return email;
   }
 
-  public CollaboratorRole getRole() {
+  public Role getRole() {
     return role;
   }
 
-  public CollaboratorSector getSector() {
+  public CollaborationSector getSector() {
     return sector;
   }
 

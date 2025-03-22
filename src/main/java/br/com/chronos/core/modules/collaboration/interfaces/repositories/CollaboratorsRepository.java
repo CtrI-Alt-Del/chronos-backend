@@ -24,6 +24,8 @@ public interface CollaboratorsRepository {
 
   void add(Collaborator collaborator);
 
+  void addMany(Array<Collaborator> collaborators);
+
   void delete(Collaborator collaborator);
 
   void disable(Collaborator collaborator);

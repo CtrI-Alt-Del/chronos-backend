@@ -7,8 +7,8 @@ import com.github.javafaker.Faker;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.fakers.CollaboratorRoleFaker;
-import br.com.chronos.core.modules.global.domain.records.fakers.CollaboratorSectorFaker;
+import br.com.chronos.core.modules.global.domain.records.fakers.CollaborationSectorFaker;
+import br.com.chronos.core.modules.global.domain.records.fakers.RoleFaker;
 
 public class CollaboratorFaker {
   private static Faker faker = new Faker();
@@ -25,8 +25,8 @@ public class CollaboratorFaker {
         .setPassword(faker.internet().password())
         .setCpf(faker.number().digits(11))
         .setActive(faker.bool().bool())
-        .setRole(CollaboratorRoleFaker.fakeDto())
-        .setSector(CollaboratorSectorFaker.fakeDto());
+        .setRole(RoleFaker.fakeDto())
+        .setSector(CollaborationSectorFaker.fakeDto());
   }
 
   public static Array<CollaboratorDto> fakeManyDto(int count) {
