@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.query.Page;
+
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole.Role;
 import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector.Sector;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,7 +49,7 @@ public class CollaboratorModel {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Sector sector;
+    private Sector<String> sector;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
