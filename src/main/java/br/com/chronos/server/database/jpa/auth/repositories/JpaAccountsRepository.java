@@ -10,15 +10,13 @@ import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.server.database.jpa.auth.mappers.AccountMapper;
-import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
+import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 
-// Cant name this to JpaCollaboratorModelsRepository,spring will complain about it
-interface JpaAccountModelsRepository extends JpaRepository<CollaboratorModel, UUID> {
-  public Optional<CollaboratorModel> findByEmail(String email);
+interface JpaAccountModelsRepository extends JpaRepository<AccountModel, UUID> {
+  public Optional<AccountModel> findByEmail(String email);
 }
 
 public class JpaAccountsRepository implements AccountsRepository {
-
   @Autowired
   JpaAccountModelsRepository repository;
 

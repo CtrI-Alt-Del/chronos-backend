@@ -16,14 +16,13 @@ import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Page;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
+import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import kotlin.Pair;
 
 interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorModel, UUID> {
-  public Optional<CollaboratorModel> findByEmail(String email);
-
-  public Optional<CollaboratorModel> findByEmailOrCpf(String email, String cpf);
+  public Optional<CollaboratorModel> findByAccountEmail(String email);
 
   public Optional<CollaboratorModel> findByCpf(String cpf);
 }
@@ -89,7 +88,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
   @Override
   public Optional<Collaborator> findByEmail(Email email) {
-    var collaboratorModel = repository.findByEmail(email.value());
+    var collaboratorModel = repository.findByAccountEmail(email.value());
     if (collaboratorModel.isEmpty()) {
       return Optional.empty();
     }
@@ -109,7 +108,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
   @Override
   public Optional<Collaborator> findByEmailOrCpf(String email, String cpf) {
-    var collaboratorModel = repository.findByEmailOrCpf(email, cpf);
+    var collaboratorModel = repository.findByAccountEmail(email);
     if (collaboratorModel.isEmpty()) {
       return Optional.empty();
     }
@@ -117,4 +116,9 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
     return Optional.of(collaborator);
   }
 
+  @Override
+  public void addMany(Array<Collaborator> collaborators) {
+    var collaboratorModels = collaborators.map(mapper::toModel);
+    repository.saveAll(collaboratorModels.list());
+  }
 }

@@ -5,11 +5,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole.Role;
-import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector.Sector;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkSchedulesModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,10 +15,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
+import br.com.chronos.server.database.jpa.auth.models.AccountModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkSchedulesModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 @Data
 @AllArgsConstructor
@@ -34,18 +36,15 @@ import jakarta.persistence.OneToMany;
 public class CollaboratorModel {
     @Id
     private UUID id;
+
     @Column(nullable = false, length = 100)
     private String name;
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
+
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
+
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
-    private int workdaysCount;
-    @Column(nullable = false)
-    private int daysOffCount;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -53,19 +52,19 @@ public class CollaboratorModel {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private RoleName role;
 
-    @Column(nullable = false)
-    @Builder.Default
-    private Boolean isActive = true;
-
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private AccountModel account;
 
     @ManyToOne
-    @JoinColumn(name = "work_schedule_id", nullable = false)
+    @JoinColumn(name = "work_schedule_id", nullable = true)
     private WorkSchedulesModel workSchedule;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
+    @Default
     private Set<WorkdayLogModel> workdayLog = new HashSet<>();
-    
+
 }

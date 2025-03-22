@@ -13,11 +13,11 @@ public class CollaboratorMapper {
         .id(entity.getId().value())
         .password(entity.getPassword().value())
         .name(entity.getName().value())
-        .email(entity.getEmail().value())
         .cpf(entity.getCpf().value())
         .sector(entity.getSector().value())
         .role(entity.getRole().value())
-        .isActive(entity.getIsActive().value()).build();
+        .build();
+
     return model;
   }
 
@@ -26,11 +26,12 @@ public class CollaboratorMapper {
         .setId(model.getId().toString())
         .setPassword(model.getPassword().toString())
         .setName(model.getName().toString())
-        .setEmail(model.getEmail().toString())
+        .setEmail(model.getAccount().getEmail().toString())
         .setCpf(model.getCpf().toString())
         .setSector(model.getSector().toString())
         .setRole(model.getRole().toString())
-        .setActive(model.getIsActive());
+        .setActive(model.getAccount().getIsActive());
+
     return new Collaborator(dto);
   }
 }
