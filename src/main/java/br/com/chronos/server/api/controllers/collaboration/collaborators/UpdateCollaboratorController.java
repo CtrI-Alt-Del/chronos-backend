@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.collaborators;
+package br.com.chronos.server.api.controllers.collaboration.collaborators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

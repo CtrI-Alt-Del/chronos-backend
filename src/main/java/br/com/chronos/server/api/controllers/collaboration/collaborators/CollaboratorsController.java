@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.collaborators;
+package br.com.chronos.server.api.controllers.collaboration.collaborators;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@RequestMapping("/collaborator")
+@RequestMapping("/collaboration/collaborators")
 public @interface CollaboratorsController {
 }
