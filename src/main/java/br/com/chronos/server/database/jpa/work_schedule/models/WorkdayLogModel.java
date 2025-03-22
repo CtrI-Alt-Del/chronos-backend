@@ -1,6 +1,6 @@
 package br.com.chronos.server.database.jpa.work_schedule.models;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,8 +31,8 @@ public class WorkdayLogModel {
     @Id
     private UUID id;
 
-    @Column(name = "started_at", nullable = false)
-    private Date started_at;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "collaborator_id", nullable = false)
@@ -41,12 +41,12 @@ public class WorkdayLogModel {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
     @JoinColumn(name = "time_punch_schedule_id")
-    private TimePunchScheduleModel timePunchSchedule;
+    private TimePunchModel timePunchSchedule;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
     @JoinColumn(name = "time_punch_log_id")
-    private TimePunchModel timePunch;
+    private TimePunchModel timePunchLog;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
