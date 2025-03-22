@@ -1,14 +1,12 @@
 package br.com.chronos.server.database.jpa.work_schedule.mappers;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.server.database.jpa.work_schedule.models.TimePunchModel;
 
-
-// Todo: tell petros about idea of using mapstruct
-@Service
+@Component
 public class TimePunchMapper {
   public TimePunchModel toModel(TimePunch entity) {
     var model = TimePunchModel.builder()

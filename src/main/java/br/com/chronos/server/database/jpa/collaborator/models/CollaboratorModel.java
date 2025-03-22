@@ -1,16 +1,22 @@
 package br.com.chronos.server.database.jpa.collaborator.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.query.Page;
+
+import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole.Role;
+import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector.Sector;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,23 +54,22 @@ public class CollaboratorModel {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Sector sector;
+    private Sector<String> sector;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RoleName role;
 
-    @OneToOne
-    @JoinColumn(name = "account_id")
-    private AccountModel account;
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean isActive = true;
 
     @ManyToOne
-    @JoinColumn(name = "work_schedule_id", nullable = true)
-    private WorkSchedulesModel workSchedule;
+    @JoinColumn(name = "work_schedule_id", nullable = false)
+    private WorkScheduleModel workSchedule;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
-    @Default
-    private Set<WorkdayLogModel> workdayLog = new HashSet<>();
+    @Builder.Default
+    private List<WorkdayLogModel> workdayLogs = new ArrayList();
 
 }
