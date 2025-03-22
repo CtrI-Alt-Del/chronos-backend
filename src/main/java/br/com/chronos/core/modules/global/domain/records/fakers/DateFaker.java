@@ -3,6 +3,7 @@ package br.com.chronos.core.modules.global.domain.records.fakers;
 import java.time.LocalDate;
 import java.util.Random;
 
+import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Date;
 
 public class DateFaker {
@@ -17,5 +18,13 @@ public class DateFaker {
     int month = 1 + random.nextInt(12);
     int day = 1 + random.nextInt(28);
     return LocalDate.of(year, month, day);
+  }
+
+  public static Array<LocalDate> fakeManyDtos(int count) {
+    Array<LocalDate> fakeWeekScheduleDtos = Array.createAsEmpty();
+    for (var index = 0; index < count; index++) {
+      fakeWeekScheduleDtos.add(fakeDto());
+    }
+    return fakeWeekScheduleDtos;
   }
 }
