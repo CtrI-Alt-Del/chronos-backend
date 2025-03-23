@@ -1,6 +1,5 @@
 package br.com.chronos.core.modules.collaboration.use_cases;
 
-import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthorizedException;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
@@ -49,8 +48,8 @@ public class UpdateCollaboratorUseCase {
       return;
 
     var existingCollaborator = repository.findByEmailOrCpf(dto.email, dto.cpf);
-    Email email = dto.email != null ? Email.create(dto.email, "Collaborator email") : null;
-    Cpf cpf = dto.cpf != null ? Cpf.create(dto.cpf, "Collaborator cpf") : null;
+    Email email = dto.email != null ? Email.create(dto.email) : null;
+    Cpf cpf = dto.cpf != null ? Cpf.create(dto.cpf) : null;
 
     if (existingCollaborator.isEmpty() || existingCollaborator.get().getId().equals(currentId)) {
       return;

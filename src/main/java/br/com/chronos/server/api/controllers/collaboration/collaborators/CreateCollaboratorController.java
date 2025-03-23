@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.collaborators;
+package br.com.chronos.server.api.controllers.collaboration.collaborators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +22,9 @@ public class CreateCollaboratorController {
 
   @PostMapping
   public ResponseEntity<CollaboratorDto> handle(@RequestBody CollaboratorDto body) {
-    var useCase = new CreateCollaboratorUseCase(repository,authenticationProvider);
+    var useCase = new CreateCollaboratorUseCase(repository, authenticationProvider);
     var responsibleEmail = authenticationProvider.getAuthenticatedUser().getEmail();
-    var collaboratorDto = useCase.execute(body,responsibleEmail);
+    var collaboratorDto = useCase.execute(body, responsibleEmail);
     return ResponseEntity.status(HttpStatus.OK).body(collaboratorDto);
   }
 }
