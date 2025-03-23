@@ -2,13 +2,12 @@ package br.com.chronos.server.database.jpa.work_schedule.models;
 
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import br.com.chronos.core.modules.work_schedule.domain.records.Weekday.WeekdayName;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,15 +16,17 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;;
+import jakarta.persistence.OneToOne;
+
+import br.com.chronos.core.modules.work_schedule.domain.records.Weekday.WeekdayName;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "time_punch_schedules")
-public class TimePunchScheduleModel {
+@Table(name = "weekday_schedules")
+public class WeekdayScheduleModel {
     @Id
     private UUID id;
 
@@ -33,12 +34,11 @@ public class TimePunchScheduleModel {
     @Column(name = "weekday", nullable = false)
     private WeekdayName weekdayName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "work_schedule_id", nullable = false)
     private WorkScheduleModel workSchedule;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToOne
-    @JoinColumn(name = "time_punch_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "time_punch_id", nullable = false)
     private TimePunchModel timePunch;
 }
