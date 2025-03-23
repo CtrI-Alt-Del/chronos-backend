@@ -1,6 +1,5 @@
 package br.com.chronos.core.modules.collaboration.domain.entities;
 
-import br.com.chronos.core.modules.auth.domain.records.Password;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
@@ -13,7 +12,6 @@ import br.com.chronos.core.modules.global.domain.records.Text;
 public final class Collaborator extends Entity {
   private Text name;
   private Email email;
-  private Password password;
   private Cpf cpf;
   private Role role;
   private CollaborationSector sector;
@@ -23,7 +21,6 @@ public final class Collaborator extends Entity {
     super(dto.id);
     name = Text.create(dto.name, "nome do colaborador");
     email = Email.create(dto.email);
-    password = Password.create(dto.password);
     cpf = Cpf.create(dto.cpf);
     role = Role.create(dto.role);
     sector = CollaborationSector.create(dto.sector);
@@ -49,10 +46,6 @@ public final class Collaborator extends Entity {
     return email;
   }
 
-  public Password getPassword() {
-    return password;
-  }
-
   public Cpf getCpf() {
     return cpf;
   }
@@ -75,9 +68,6 @@ public final class Collaborator extends Entity {
     }
     if (dto.email != null) {
       this.email = Email.create(dto.email);
-    }
-    if (dto.password != null) {
-      this.password = Password.create(dto.password);
     }
     if (dto.cpf != null) {
       this.cpf = Cpf.create(dto.cpf);
@@ -106,7 +96,6 @@ public final class Collaborator extends Entity {
         .setId(getId().value().toString())
         .setName(getName().value().toString())
         .setEmail(getEmail().value().toString())
-        .setPassword(getPassword().value().toString())
         .setCpf(getCpf().value().toString())
         .setRole(getRole().value().toString())
         .setSector(getSector().value().toString())

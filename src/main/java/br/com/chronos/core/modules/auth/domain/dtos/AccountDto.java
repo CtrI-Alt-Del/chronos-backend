@@ -7,6 +7,7 @@ public class AccountDto {
   public Boolean isActive;
   public String role;
   public String sector;
+  public String collaboratorId;
 
   public AccountDto setId(String id) {
     this.id = id;
@@ -35,6 +36,11 @@ public class AccountDto {
 
   public AccountDto setSector(String sector) {
     this.sector = sector;
+    return this;
+  }
+
+  public AccountDto setCollaboratorId(String collaboratorId) {
+    this.collaboratorId = collaboratorId;
     return this;
   }
 }

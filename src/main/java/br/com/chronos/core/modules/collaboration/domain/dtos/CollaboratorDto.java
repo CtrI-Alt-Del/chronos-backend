@@ -4,7 +4,6 @@ public class CollaboratorDto {
   public String id;
   public String name;
   public String email;
-  public String password;
   public String cpf;
   public Boolean isActive;
   public String role;
@@ -22,11 +21,6 @@ public class CollaboratorDto {
 
   public CollaboratorDto setEmail(String email) {
     this.email = email;
-    return this;
-  }
-
-  public CollaboratorDto setPassword(String password) {
-    this.password = password;
     return this;
   }
 

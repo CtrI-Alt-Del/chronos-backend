@@ -22,9 +22,8 @@ public class CollaboratorFaker {
         .setId(UUID.randomUUID().toString())
         .setName(faker.name().fullName())
         .setEmail(faker.internet().emailAddress())
-        .setPassword(faker.internet().password())
         .setCpf(faker.number().digits(11))
-        .setActive(faker.bool().bool())
+        .setActive(true)
         .setRole(RoleFaker.fakeDto())
         .setSector(CollaborationSectorFaker.fakeDto());
   }

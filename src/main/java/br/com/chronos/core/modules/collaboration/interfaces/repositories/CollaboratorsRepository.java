@@ -22,9 +22,9 @@ public interface CollaboratorsRepository {
 
   void update(Collaborator collaborator);
 
-  void add(Collaborator collaborator);
+  void add(Collaborator collaborator, Id workScheduleId);
 
-  void addMany(Array<Collaborator> collaborators);
+  void addMany(Array<Collaborator> collaborators, Id workScheduleId);
 
   void delete(Collaborator collaborator);
 

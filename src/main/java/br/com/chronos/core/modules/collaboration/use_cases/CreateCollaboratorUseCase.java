@@ -12,9 +12,12 @@ import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationPro
 
 public class CreateCollaboratorUseCase {
   private final CollaboratorsRepository repository;
+
   private final AuthenticationProvider authenticationProvider;
 
-  public CreateCollaboratorUseCase(CollaboratorsRepository repository, AuthenticationProvider authenticationProvider) {
+  public CreateCollaboratorUseCase(
+      CollaboratorsRepository repository,
+      AuthenticationProvider authenticationProvider) {
     this.repository = repository;
     this.authenticationProvider = authenticationProvider;
   }
@@ -22,16 +25,18 @@ public class CreateCollaboratorUseCase {
   public CollaboratorDto execute(CollaboratorDto dto, Email responsibleEmail) {
     var responsible = this.repository.findByEmail(responsibleEmail);
     validateUniqueEmailAndCpf(dto);
-    var collaboratorDto = authenticationProvider.register(dto);
+    return null;
+    // This will be refactored in the next PR
+    // var collaboratorDto = authenticationProvider.register(dto);
 
-    var collaborator = new Collaborator(collaboratorDto);
-    if (!responsible.get().isFromSameSector(collaborator).value()) {
-      throw new NotAuthorizedException();
+    // var collaborator = new Collaborator(collaboratorDto);
+    // if (!responsible.get().isFromSameSector(collaborator).value()) {
+    // throw new NotAuthorizedException();
 
-    }
+    // }
 
-    repository.add(collaborator);
-    return collaborator.getDto();
+    // repository.add(collaborator);
+    // return collaborator.getDto();
   }
 
   private void validateUniqueEmailAndCpf(CollaboratorDto dto) {

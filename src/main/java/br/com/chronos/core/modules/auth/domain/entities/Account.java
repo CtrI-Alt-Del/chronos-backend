@@ -3,6 +3,7 @@ package br.com.chronos.core.modules.auth.domain.entities;
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.global.domain.records.Email;
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
 import br.com.chronos.core.modules.auth.domain.records.Password;
@@ -12,13 +13,19 @@ public final class Account extends Entity {
   private Password password;
   private Logical isActive;
   private Role role;
+  private Id collaboratorId;
 
   public Account(AccountDto dto) {
     super(dto.id);
     email = Email.create(dto.email);
     password = Password.create(dto.password);
     role = Role.create(dto.role);
-    isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
+    isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.createAsTrue();
+    collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
+  }
+
+  public Logical isFromCollaborator() {
+    return Logical.create(collaboratorId != null);
   }
 
   public Email getEmail() {
@@ -31,6 +38,10 @@ public final class Account extends Entity {
 
   public Logical getIsActive() {
     return isActive;
+  }
+
+  public Id getCollaboratorId() {
+    return collaboratorId;
   }
 
   public void updateEmail(Email email) {
