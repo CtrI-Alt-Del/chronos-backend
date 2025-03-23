@@ -16,9 +16,9 @@ import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Page;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
-import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import kotlin.Pair;
 
 interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorModel, UUID> {
@@ -51,9 +51,20 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public void add(Collaborator collaborator) {
+  public void add(Collaborator collaborator, Id workScheduleId) {
     var collaboratorModel = mapper.toModel(collaborator);
+    collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(workScheduleId.value()).build());
     repository.save(collaboratorModel);
+  }
+
+  @Override
+  public void addMany(Array<Collaborator> collaborators, Id workScheduleId) {
+    var collaboratorModels = collaborators.map((collaborator) -> {
+      var collaboratorModel = mapper.toModel(collaborator);
+      collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(workScheduleId.value()).build());
+      return collaboratorModel;
+    });
+    repository.saveAll(collaboratorModels.list());
   }
 
   @Override
@@ -114,11 +125,5 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
     }
     var collaborator = mapper.toEntity(collaboratorModel.get());
     return Optional.of(collaborator);
-  }
-
-  @Override
-  public void addMany(Array<Collaborator> collaborators) {
-    var collaboratorModels = collaborators.map(mapper::toModel);
-    repository.saveAll(collaboratorModels.list());
   }
 }
