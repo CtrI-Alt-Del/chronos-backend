@@ -8,11 +8,11 @@ import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
 public record Cpf(Text text) {
   private static final Pattern CPF_PATTERN = Pattern.compile("^\\d{11}$");
 
-  public static Cpf create(String value, String key) {
-    var text = Text.create(value, key);
+  public static Cpf create(String value) {
+    var text = Text.create(value, "cpf");
     Matcher matcher = CPF_PATTERN.matcher(text.value());
     if (!matcher.matches()) {
-      throw new ValidationException(key, value + " is not valid");
+      throw new ValidationException("cpf", "não é válido");
 
     }
     return new Cpf(text);
