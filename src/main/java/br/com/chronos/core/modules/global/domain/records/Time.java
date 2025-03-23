@@ -23,6 +23,10 @@ public record Time(LocalTime value) {
     return new Time(timeResult);
   }
 
+  public Time plusHours(int hoursCount) {
+    return new Time(value.plusHours(hoursCount));
+  }
+
   public Logical hasMoreMinutesThan(int minutes) {
     var duration = Duration.between(LocalTime.MIDNIGHT, value);
     var minutesDuration = Duration.ofMinutes(10);

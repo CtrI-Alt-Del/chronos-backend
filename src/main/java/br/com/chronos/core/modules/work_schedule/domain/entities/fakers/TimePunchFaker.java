@@ -11,11 +11,16 @@ public class TimePunchFaker {
   }
 
   public static TimePunchDto fakeDto() {
+    var firstClockIn = TimeFaker.fake();
+    var firstClockOut = firstClockIn.plusHours(2);
+    var secondClockIn = firstClockOut.plusHours(2);
+    var secondClockOut = secondClockIn.plusHours(2);
+
     return new TimePunchDto()
         .setId(IdFaker.fakeDto())
-        .setFirstClockIn(TimeFaker.fakeDto())
-        .setSecondClockIn(TimeFaker.fakeDto())
-        .setFirstClockOut(TimeFaker.fakeDto())
-        .setSecondClockOut(TimeFaker.fakeDto());
+        .setFirstClockIn(firstClockIn.value())
+        .setFirstClockOut(firstClockOut.value())
+        .setSecondClockIn(secondClockIn.value())
+        .setSecondClockOut(secondClockOut.value());
   }
 }
