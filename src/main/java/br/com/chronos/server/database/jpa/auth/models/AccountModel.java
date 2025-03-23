@@ -4,18 +4,20 @@ import jakarta.persistence.Table;
 
 import java.util.UUID;
 
-import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
-import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+
+import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
+import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 @Data
 @AllArgsConstructor
@@ -41,6 +43,7 @@ public class AccountModel {
   @Column(nullable = false)
   private RoleName role;
 
-  @OneToOne(mappedBy = "account")
+  @OneToOne
+  @JoinColumn(name = "collaborator_id", nullable = true)
   private CollaboratorModel collaborator;
 }
