@@ -24,16 +24,14 @@ import kotlin.Pair;
 
 interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, UUID> {
 
-  
-org.springframework.data.domain.Page
-<WorkdayLogModel> findAllByDate(LocalDate date, PageRequest pageRequest);
+  org.springframework.data.domain.Page<WorkdayLogModel> findAllByDate(LocalDate date, PageRequest pageRequest);
 
-org.springframework.data.domain.Page <WorkdayLogModel> findAllByDateCollaboratorAndDateBetween(
-CollaboratorModel collaborator, LocalDate startDate, LocalDate endDate, PageRequest pageRequest);
+  org.springframework.data.domain.Page<WorkdayLogModel> findAllByCollaboratorAndDateBetween(
+      CollaboratorModel collaborator, LocalDate startDate, LocalDate endDate, PageRequest pageRequest);
 
-Optional <WorkdayLogModel> findByCollaboratorAndDate(
-CollaboratorModel collaborator, LocalDate Date);
- 
+  Optional<WorkdayLogModel> findByCollaboratorAndDate(
+      CollaboratorModel collaborator, LocalDate Date);
+
 }
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
@@ -48,10 +46,10 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   public Optional<WorkdayLog> findByCollaboratorAndDate(Id collaboratorId, Date date) {
 
     var workdayLogModels = repository.findByCollaboratorAndDate(
-    CollaboratorModel.builder().id(collaboratorId.value()).build(), date.value());
+        CollaboratorModel.builder().id(collaboratorId.value()).build(), date.value());
     date.value();
 
-    if (workdayLogModels.isEmpty()) {  
+    if (workdayLogModels.isEmpty()) {
       return Optional.empty();
     }
     return Optional.of(mapper.toEntity(workdayLogModels.get()));
@@ -59,10 +57,8 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
 
   @Override
   public void addMany(Array<WorkdayLog> workdayLogs) {
-
     var workdayLogModels = workdayLogs.map(mapper::toModel);
     repository.saveAll(workdayLogModels.list());
-
   }
 
   @Override
@@ -71,26 +67,24 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       DateRange dateRange,
       Page page) {
 
-      var pageRequest =
-      PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
-      var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
-      var workdayLogModels = repository.findAllByDateCollaboratorAndDateBetween(
-      collaboratorModel, dateRange.startDate().value(), dateRange.endDate().value(), pageRequest);
-      var items = workdayLogModels.getContent().stream().toList();
-      var itemsCount = workdayLogModels.getTotalElements();
+    var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
+    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
+    var workdayLogModels = repository.findAllByCollaboratorAndDateBetween(
+        collaboratorModel, dateRange.startDate().value(), dateRange.endDate().value(), pageRequest);
+    var items = workdayLogModels.getContent().stream().toList();
+    var itemsCount = workdayLogModels.getTotalElements();
 
-      return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int)itemsCount));
+    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
   }
 
   @Override
   public Pair<Array<WorkdayLog>, PlusInteger> findManyByDate(Date date, Page page) {
 
-    var pageRequest =
-    PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
+    var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
     var workdayLogModels = repository.findAllByDate(date.value(), pageRequest);
     var items = workdayLogModels.getContent().stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
 
-    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int)itemsCount));
+    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
   }
 }

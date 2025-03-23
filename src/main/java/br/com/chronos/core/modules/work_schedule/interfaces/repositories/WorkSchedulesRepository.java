@@ -22,6 +22,8 @@ public interface WorkSchedulesRepository {
 
   void add(WorkSchedule workSchedule);
 
+  void addMany(Array<WorkSchedule> workSchedules);
+
   void update(WorkSchedule workSchedule);
 
   void updateMany(Array<WorkSchedule> workSchedules);

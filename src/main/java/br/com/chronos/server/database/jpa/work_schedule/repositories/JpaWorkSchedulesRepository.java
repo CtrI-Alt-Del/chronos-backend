@@ -16,6 +16,7 @@ import br.com.chronos.core.modules.global.domain.records.Page;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
+import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorWorkSchedule;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkScheduleMapper;
@@ -70,6 +71,12 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   public void add(WorkSchedule workSchedule) {
     var workScheduleModel = mapper.toModel(workSchedule);
     repository.save(workScheduleModel);
+  }
+
+  @Override
+  public void addMany(Array<WorkSchedule> workSchedules) {
+    var workScheduleModels = workSchedules.map(mapper::toModel);
+    repository.saveAll(workScheduleModels.list());
   }
 
   @Override

@@ -38,6 +38,9 @@ public class TimePunchModel {
   @OneToOne(mappedBy = "timePunch")
   private TimePunchScheduleModel timePunchSchedule;
 
-  @OneToOne(mappedBy = "timePunch")
-  private WorkdayLogModel workdayLog;
+  @OneToOne(mappedBy = "timePunchLog")
+  private WorkdayLogModel workdayLog1;
+
+  @OneToOne(mappedBy = "timePunchSchedule")
+  private WorkdayLogModel workdayLog2;
 }

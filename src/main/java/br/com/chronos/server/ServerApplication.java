@@ -17,5 +17,4 @@ public class ServerApplication {
     System.setProperty("DATABASE_PASSWORD", dotenvProvider.get("DATABASE_PASSWORD"));
     SpringApplication.run(ServerApplication.class, args);
   }
-
 }

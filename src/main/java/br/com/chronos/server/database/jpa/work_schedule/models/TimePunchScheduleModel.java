@@ -41,7 +41,4 @@ public class TimePunchScheduleModel {
     @OneToOne
     @JoinColumn(name = "time_punch_id")
     private TimePunchModel timePunch;
-
-    @OneToOne(mappedBy = "timePunchSchedule")
-    private WorkdayLogModel workdayLog;
 }

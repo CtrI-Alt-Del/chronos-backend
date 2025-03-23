@@ -14,6 +14,7 @@ public class GetProfileController {
 
   @Autowired
   private CollaboratorsRepository repository;
+
   @Autowired
   private AuthenticationProvider authenticationProvider;
 

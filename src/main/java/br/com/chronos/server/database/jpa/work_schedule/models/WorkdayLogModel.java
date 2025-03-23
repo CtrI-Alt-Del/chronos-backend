@@ -38,12 +38,10 @@ public class WorkdayLogModel {
     @JoinColumn(name = "collaborator_id", nullable = false)
     private CollaboratorModel collaborator;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
     @JoinColumn(name = "time_punch_schedule_id")
     private TimePunchModel timePunchSchedule;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
     @JoinColumn(name = "time_punch_log_id")
     private TimePunchModel timePunchLog;

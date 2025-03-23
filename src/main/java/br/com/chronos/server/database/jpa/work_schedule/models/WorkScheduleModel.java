@@ -2,6 +2,8 @@ package br.com.chronos.server.database.jpa.work_schedule.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -15,6 +17,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Builder.Default;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import lombok.Builder.Default;
 
 @Entity
