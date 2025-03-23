@@ -1,0 +1,34 @@
+package br.com.chronos.server.database.jpa.work_schedule.models;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
+@Table(name = "days_off")
+public class DayOffModel {
+    @Id
+    private UUID id;
+
+    @Column(nullable = false)
+    private LocalDate date;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "work_schedule_id")
+    private WorkScheduleModel workSchedule;
+}
