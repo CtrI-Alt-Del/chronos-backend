@@ -25,7 +25,7 @@ public final class WeekdaySchedule extends Entity {
   public WeekdayScheduleDto getDto() {
     return new WeekdayScheduleDto()
         .setId(getId().toString())
-        .setWeekday(getWeekday().toString())
+        .setWeekday(getWeekday().toString().toLowerCase())
         .setTimePunch(getTimePunch().getDto());
   }
 

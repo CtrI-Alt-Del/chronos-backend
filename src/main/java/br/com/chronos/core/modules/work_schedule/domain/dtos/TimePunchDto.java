@@ -25,7 +25,7 @@ public class TimePunchDto {
   }
 
   public TimePunchDto setSecondClockIn(LocalTime secondClockIn) {
-    this.secondClockOut = secondClockIn;
+    this.secondClockIn = secondClockIn;
     return this;
   }
 
