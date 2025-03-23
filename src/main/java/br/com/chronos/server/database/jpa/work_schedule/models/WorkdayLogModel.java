@@ -3,11 +3,10 @@ package br.com.chronos.server.database.jpa.work_schedule.models;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -38,7 +37,7 @@ public class WorkdayLogModel {
     @JoinColumn(name = "collaborator_id", nullable = false)
     private CollaboratorModel collaborator;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "time_punch_schedule_id")
     private TimePunchModel timePunchSchedule;
 
