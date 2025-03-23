@@ -1,29 +1,31 @@
 package br.com.chronos.core.modules.auth.domain.entities;
 
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
+import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.global.domain.records.Email;
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
-import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
-import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorRole;
-import br.com.chronos.core.modules.collaboration.domain.records.CollaboratorSector;
-import br.com.chronos.core.modules.collaboration.domain.records.Password;
+import br.com.chronos.core.modules.auth.domain.records.Password;
 
 public final class Account extends Entity {
   private Email email;
   private Password password;
   private Logical isActive;
-  private CollaboratorRole role;
-  private CollaboratorSector sector;
+  private Role role;
+  private Id collaboratorId;
 
   public Account(AccountDto dto) {
     super(dto.id);
-    email = Email.create(dto.email, "Collaborator email");
-    password = Password.create(dto.password, "Collaborator password");
-    role = CollaboratorRole.create(dto.role);
-    sector = CollaboratorSector.create(dto.sector);
-    isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
+    email = Email.create(dto.email);
+    password = Password.create(dto.password);
+    role = Role.create(dto.role);
+    isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.createAsTrue();
+    collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
+  }
 
+  public Logical isFromCollaborator() {
+    return Logical.create(collaboratorId != null);
   }
 
   public Email getEmail() {
@@ -36,6 +38,10 @@ public final class Account extends Entity {
 
   public Logical getIsActive() {
     return isActive;
+  }
+
+  public Id getCollaboratorId() {
+    return collaboratorId;
   }
 
   public void updateEmail(Email email) {
@@ -54,23 +60,8 @@ public final class Account extends Entity {
     this.isActive = Logical.create(true);
   }
 
-  public CollaboratorRole getRole() {
+  public Role getRole() {
     return role;
-  }
-
-  public CollaboratorSector getSector() {
-    return sector;
-  }
-
-  public Logical isFromSameSector(Collaborator otherAccount) {
-    if (otherAccount == null) {
-      return Logical.createAsFalse();
-    }
-    if (this.role.isAdmin().isTrue()) {
-      return Logical.createAsTrue();
-    }
-
-    return Logical.create(this.getSector().value().equals(otherAccount.getSector().value()));
   }
 
   public AccountDto getDto() {
@@ -79,8 +70,7 @@ public final class Account extends Entity {
         .setEmail(getEmail().value().toString())
         .setPassword(getPassword().value().toString())
         .setActive(getIsActive().value())
-        .setRole(getRole().value().toString())
-        .setSector(getSector().value().toString());
+        .setRole(getRole().value().toString());
     return dto;
   }
 }
