@@ -7,12 +7,11 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
 import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
-import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.modules.global.interfaces.providers.JwtProvider;
 import br.com.chronos.server.infra.security.SecurityUser;
@@ -43,7 +42,7 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
   }
 
   @Override
-  public CollaboratorDto register(CollaboratorDto dto) {
+  public AccountDto register(AccountDto dto) {
     var encryptedPassword = passwordEncoder.encode(dto.password);
     dto.setPassword(encryptedPassword);
     return dto;
