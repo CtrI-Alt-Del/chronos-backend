@@ -3,7 +3,6 @@ package br.com.chronos.server.database.jpa.work_schedule.models;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -36,12 +35,12 @@ public class TimePunchModel {
   @Column(name = "second_clock_out", nullable = true)
   private LocalTime secondClockOut;
 
-  @OneToOne(mappedBy = "timePunch", cascade = CascadeType.PERSIST)
+  @OneToOne(mappedBy = "timePunch")
   private WeekdayScheduleModel weekdaySchedule;
 
-  @OneToOne(mappedBy = "timePunchLog", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "timePunchLog")
   private WorkdayLogModel workdayLog1;
 
-  @OneToOne(mappedBy = "timePunchSchedule", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "timePunchSchedule")
   private WorkdayLogModel workdayLog2;
 }

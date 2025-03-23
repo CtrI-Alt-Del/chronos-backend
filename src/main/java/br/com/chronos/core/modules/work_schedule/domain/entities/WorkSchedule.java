@@ -72,8 +72,9 @@ public final class WorkSchedule extends Entity {
     return new WorkScheduleDto()
         .setId(getId().toString())
         .setDescription(getDescription().value())
-        .setWeekSchedule(getWeekSchedule()
-            .map((weekdaySchedule) -> weekdaySchedule.getDto()).list())
+        .setWorkdaysCount(getWorkdaysCount().integer().value())
+        .setDaysOffCount(getDaysOffCount().integer().value())
+        .setWeekSchedule(getWeekSchedule().map((weekdaySchedule) -> weekdaySchedule.getDto()).list())
         .setDaysOff(getDaysOffSchedule().days().map((dayOff) -> dayOff.value()).list());
   }
 

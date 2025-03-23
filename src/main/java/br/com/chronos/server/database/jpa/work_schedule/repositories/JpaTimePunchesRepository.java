@@ -1,10 +1,14 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
@@ -13,7 +17,9 @@ import br.com.chronos.server.database.jpa.work_schedule.mappers.TimePunchMapper;
 import br.com.chronos.server.database.jpa.work_schedule.models.TimePunchModel;
 
 interface JpaTimePunchModelsRepository extends JpaRepository<TimePunchModel, UUID> {
-
+  @Modifying
+  @Query(value = "DELETE FROM time_punches WHERE id IN (:timePunchIds)", nativeQuery = true)
+  void deleteMany(@Param("timePunchIds") List<UUID> timePunchIds);
 }
 
 public class JpaTimePunchesRepository implements TimePunchesRepository {
