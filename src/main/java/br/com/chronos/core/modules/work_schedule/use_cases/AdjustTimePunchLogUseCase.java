@@ -14,7 +14,6 @@ import br.com.chronos.core.modules.work_schedule.interfaces.repositories.Workday
 
 public class AdjustTimePunchLogUseCase {
   private final WorkdayLogsRepository workdayLogsRepository;
-
   private final TimePunchesRepository timePunchesRepository;
 
   public AdjustTimePunchLogUseCase(
@@ -36,7 +35,7 @@ public class AdjustTimePunchLogUseCase {
     if (timePunch.isEmpty()) {
       throw new TimePunchNotFoundException();
     }
-    var isTimePunchLog = workdayLogsRepository.hasTimePunch(timePunch.get());
+    var isTimePunchLog = workdayLogsRepository.hasTimePunchLog(timePunch.get());
     if (isTimePunchLog.isFalse()) {
       throw new TimePunchNotLoggedException();
     }

@@ -12,6 +12,7 @@ import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.entities.fakers.CollaboratorFaker;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.records.Array;
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.modules.work_schedule.domain.entities.fakers.WorkScheduleFaker;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
@@ -49,7 +50,10 @@ public class DatabaseSeed implements CommandLineRunner {
     collaborators.addArray(managers).addArray(employees);
     collaboratorsRepository.addMany(collaborators, workSchedules.firstItem().getId());
 
-    var accounts = fakeAccounts(collaborators);
+    var employeeAccountTest = fakeEmployeeAccountTest(employees.item(0).getId());
+    var managerAccountTest = fakeManagerAccountTest(employees.item(1).getId());
+    var accounts = fakeAccounts(collaborators.removeFirstItem().removeFirstItem());
+    accounts.add(employeeAccountTest).add(managerAccountTest);
     accountsRepository.addMany(accounts);
   }
 
@@ -86,5 +90,28 @@ public class DatabaseSeed implements CommandLineRunner {
       authenticationProvider.register(accountDto);
       return new Account(accountDto);
     });
+  }
+
+  private Account fakeEmployeeAccountTest(Id collaboratorId) {
+    var dto = AccountFaker
+        .fakeDto()
+        .setId("d7df66ad-8f98-4709-afb9-db3ab1e85b46")
+        .setEmail("chronos.employee@gmail.com")
+        .setRole("employee")
+        .setCollaboratorId(collaboratorId.toString());
+    authenticationProvider.register(dto);
+    return new Account(dto);
+  }
+
+  private Account fakeManagerAccountTest(Id collaboratorId) {
+    var dto = AccountFaker
+        .fakeDto()
+        .setId("d7df66ad-8f98-4709-afb9-db3ab1e85b46")
+        .setEmail("chronos.manager@gmail.com")
+        .setPassword("123456")
+        .setRole("manager")
+        .setCollaboratorId(collaboratorId.toString());
+    authenticationProvider.register(dto);
+    return new Account(dto);
   }
 }

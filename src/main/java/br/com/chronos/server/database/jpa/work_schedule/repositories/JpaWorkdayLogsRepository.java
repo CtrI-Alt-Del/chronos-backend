@@ -131,4 +131,22 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
 
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
   }
+
+  @Override
+  public Logical hasTimePunchLog(TimePunch timePunch) {
+    return Logical.create(repository.timePunchLogExists(timePunch.getId().value()));
+  }
+
+  @Override
+  @Transactional
+  public void removeManyByDate(Date date) {
+    var workdayLogsModels = repository.findAllByDate(date.value());
+    Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
+
+    for (var workdayLogsModel : workdayLogsModels) {
+      timePunchModels.add(workdayLogsModel.getTimePunchLog());
+    }
+    repository.deleteAllInBatch(workdayLogsModels);
+    timePunchModelsRepository.deleteAllInBatch(timePunchModels.list());
+  }
 }

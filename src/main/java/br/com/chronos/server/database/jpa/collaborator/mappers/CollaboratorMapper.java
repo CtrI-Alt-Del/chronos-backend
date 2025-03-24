@@ -13,7 +13,6 @@ public class CollaboratorMapper {
         .id(entity.getId().value())
         .name(entity.getName().value())
         .cpf(entity.getCpf().value())
-        .sector(entity.getSector().value())
         .build();
 
     return model;
@@ -25,7 +24,7 @@ public class CollaboratorMapper {
         .setName(model.getName().toString())
         .setEmail(model.getAccount().getEmail().toString())
         .setCpf(model.getCpf().toString())
-        .setSector(model.getSector().toString())
+        .setSector(model.getAccount().getSector().toString())
         .setRole(model.getAccount().getRole().toString())
         .setActive(model.getAccount().getIsActive());
 
