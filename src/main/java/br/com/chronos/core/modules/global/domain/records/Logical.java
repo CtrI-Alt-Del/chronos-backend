@@ -21,11 +21,15 @@ public record Logical(boolean value) {
     return value == false;
   }
 
-  public boolean and(Logical logical) {
-    return isTrue() && logical.isTrue();
+  public Logical and(Logical logical) {
+    return Logical.create(isTrue() && logical.isTrue());
   }
 
-  public boolean or(Logical logical) {
-    return isTrue() || logical.isTrue();
+  public Logical andNot(Logical logical) {
+    return Logical.create(isFalse() && logical.isFalse());
+  }
+
+  public Logical or(Logical logical) {
+    return Logical.create(isTrue() || logical.isTrue());
   }
 }

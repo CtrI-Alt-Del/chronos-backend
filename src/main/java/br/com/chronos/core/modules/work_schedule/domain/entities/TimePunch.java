@@ -1,8 +1,10 @@
 package br.com.chronos.core.modules.work_schedule.domain.entities;
 
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
+import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Time;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
+import br.com.chronos.core.modules.work_schedule.domain.exceptions.TimePunchNotOpenException;
 import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod;
 
 public final class TimePunch extends Entity {
@@ -28,11 +30,16 @@ public final class TimePunch extends Entity {
   }
 
   public void punch(Time time) {
-    if (firstClockIn == null) {
+    System.out.println("isClosed(): " + isClosed());
+    if (isClosed().isTrue()) {
+      throw new TimePunchNotOpenException();
+    }
+
+    if (firstClockIn.isNull().isTrue()) {
       firstClockIn = time;
-    } else if (firstClockOut == null) {
+    } else if (firstClockOut.isNull().isTrue()) {
       firstClockOut = time;
-    } else if (secondClockIn == null) {
+    } else if (secondClockIn.isNull().isTrue()) {
       secondClockIn = time;
     } else {
       secondClockOut = time;
@@ -61,6 +68,13 @@ public final class TimePunch extends Entity {
     firstClockOut = timePunch.getFirstClockOut();
     secondClockIn = timePunch.getSecondClockIn();
     secondClockOut = timePunch.getSecondClockOut();
+  }
+
+  public Logical isClosed() {
+    return firstClockIn.isNull()
+        .andNot(firstClockOut.isNull())
+        .andNot(secondClockIn.isNull())
+        .andNot(secondClockOut.isNull());
   }
 
   public Time getFirstClockIn() {
