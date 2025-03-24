@@ -19,6 +19,7 @@ import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Page;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
+import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
@@ -54,6 +55,9 @@ interface JpaWeekdayScheduleModelsRepository extends JpaRepository<WeekdaySchedu
   @Modifying
   @Query(value = "DELETE FROM weekday_schedules WHERE work_schedule_id = :workScheduleId", nativeQuery = true)
   void deleteManyByWorkSchedule(@Param("workScheduleId") UUID workScheduleId);
+
+  @Query(value = "SELECT EXISTS (SELECT 1 FROM weekday_schedules WHERE time_punch_id = :timePunchId)", nativeQuery = true)
+  boolean timePunchLogExists(@Param("timePunchId") UUID timePunchId);
 }
 
 public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
@@ -191,6 +195,11 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   @Override
   public Logical hasAnyCollaborator(Id workScheduleId) {
     return Logical.create(workScheduleModelsRepository.hasAnyCollaborator(workScheduleId.value()));
+  }
+
+  @Override
+  public Logical hasTimePunchSchedule(TimePunch timePunch) {
+    return Logical.create(weekdayScheduleModelsRepository.timePunchLogExists(timePunch.getId().value()));
   }
 
 }
