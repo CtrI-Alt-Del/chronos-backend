@@ -50,9 +50,10 @@ public class DatabaseSeed implements CommandLineRunner {
     collaborators.addArray(managers).addArray(employees);
     collaboratorsRepository.addMany(collaborators, workSchedules.firstItem().getId());
 
-    var accounts = fakeAccounts(collaborators.removeLastItem());
-    var accountTest = fakeAccountTest(employees.lastItem().getId());
-    accounts.add(accountTest);
+    var employeeAccountTest = fakeEmployeeAccountTest(employees.item(0).getId());
+    var managerAccountTest = fakeManagerAccountTest(employees.item(1).getId());
+    var accounts = fakeAccounts(collaborators.removeFirstItem().removeFirstItem());
+    accounts.add(employeeAccountTest).add(managerAccountTest);
     accountsRepository.addMany(accounts);
   }
 
@@ -91,14 +92,26 @@ public class DatabaseSeed implements CommandLineRunner {
     });
   }
 
-  private Account fakeAccountTest(Id collaboratorId) {
+  private Account fakeEmployeeAccountTest(Id collaboratorId) {
     var dto = AccountFaker
         .fakeDto()
         .setId("d7df66ad-8f98-4709-afb9-db3ab1e85b46")
-        .setEmail("chronos@gmail.com")
-        .setPassword("123456")
+        .setEmail("chronos.employee@gmail.com")
         .setRole("employee")
         .setCollaboratorId(collaboratorId.toString());
+    authenticationProvider.register(dto);
+    return new Account(dto);
+  }
+
+  private Account fakeManagerAccountTest(Id collaboratorId) {
+    var dto = AccountFaker
+        .fakeDto()
+        .setId("d7df66ad-8f98-4709-afb9-db3ab1e85b46")
+        .setEmail("chronos.manager@gmail.com")
+        .setPassword("123456")
+        .setRole("manager")
+        .setCollaboratorId(collaboratorId.toString());
+    authenticationProvider.register(dto);
     return new Account(dto);
   }
 }
