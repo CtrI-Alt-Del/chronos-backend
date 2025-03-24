@@ -95,6 +95,7 @@ public class DatabaseSeed implements CommandLineRunner {
     var dto = AccountFaker
         .fakeDto()
         .setId("d7df66ad-8f98-4709-afb9-db3ab1e85b46")
+        .setEmail("chronos@gmail.com")
         .setPassword("123456")
         .setRole("employee")
         .setCollaboratorId(collaboratorId.toString());
