@@ -44,7 +44,7 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
 
   List<WorkdayLogModel> findAllByDate(LocalDate date);
 
-  @Query(value = "SELECT EXISTS (SELECT 1 FROM work_day_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
+  @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
   boolean timePunchLogExists(@Param("timePunchId") UUID timePunchId);
 
 }

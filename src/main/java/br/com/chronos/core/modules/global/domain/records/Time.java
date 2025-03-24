@@ -32,4 +32,8 @@ public record Time(LocalTime value) {
     var minutesDuration = Duration.ofMinutes(10);
     return Logical.create(duration.compareTo(minutesDuration) > 0);
   }
+
+  public Logical isNull() {
+    return Logical.create(value == null);
+  }
 }

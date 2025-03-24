@@ -2,6 +2,7 @@ package br.com.chronos.core.modules.work_schedule.domain.entities;
 
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Date;
+import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkLeaveDto;
 
 public final class WorkLeave extends Entity {
@@ -14,7 +15,7 @@ public final class WorkLeave extends Entity {
     endedAt = Date.create(dto.endedAt);
   }
 
-  public boolean covers(Date date) {
+  public Logical covers(Date date) {
     return startedAt.isEqualOrAfter(date).or(endedAt.isEqualOrBefore(date));
   }
 
