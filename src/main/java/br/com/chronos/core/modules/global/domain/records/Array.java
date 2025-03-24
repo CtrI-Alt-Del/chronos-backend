@@ -89,4 +89,9 @@ public record Array<Item>(List<Item> list) {
     return list.get(size().value() - 1);
   }
 
+  public Array<Item> removeLastItem() {
+    list.removeLast();
+    return new Array<>(list);
+  }
+
 }
