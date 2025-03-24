@@ -126,7 +126,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
-  public Logical hasTimePunch(TimePunch timePunch) {
+  public Logical hasTimePunchLog(TimePunch timePunch) {
     return Logical.create(repository.timePunchLogExists(timePunch.getId().value()));
   }
 

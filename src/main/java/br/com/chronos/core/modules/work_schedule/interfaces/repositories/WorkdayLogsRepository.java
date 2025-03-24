@@ -27,5 +27,5 @@ public interface WorkdayLogsRepository {
 
   void removeManyByDate(Date date);
 
-  Logical hasTimePunch(TimePunch timePunch);
+  Logical hasTimePunchLog(TimePunch timePunch);
 }
