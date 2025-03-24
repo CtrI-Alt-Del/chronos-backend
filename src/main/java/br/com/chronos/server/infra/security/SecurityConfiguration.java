@@ -28,7 +28,7 @@ public class SecurityConfiguration {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-            .requestMatchers("/collaborator").hasRole("MANAGER")
+            .requestMatchers("/collaboration/collaborator").hasRole("MANAGER")
             .anyRequest().permitAll())
         .addFilterBefore(securityJwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();

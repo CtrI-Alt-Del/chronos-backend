@@ -3,13 +3,15 @@ package br.com.chronos.server.database.jpa.work_schedule.repositories;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import kotlin.Pair;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
@@ -18,27 +20,40 @@ import br.com.chronos.core.modules.global.domain.records.Page;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
-import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorWorkSchedule;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
+import br.com.chronos.server.database.jpa.work_schedule.mappers.TimePunchMapper;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.WeekdayScheduleMapper;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkScheduleMapper;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WeekdayScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
-import kotlin.Pair;
 
 interface JpaWorkScheduleModelsRepository extends JpaRepository<WorkScheduleModel, UUID> {
-  @Query(value = "SELECT EXISTS (SELECT 1 FROM collaborators WHERE work_schedule_id = :work_schedule_id)", nativeQuery = true)
-  boolean hasAnyCollaborator(@Param("work_schedule_id") UUID workScheduleId);
+  @Query(value = "SELECT EXISTS (SELECT 1 FROM collaborators WHERE work_schedule_id = :workScheduleId)", nativeQuery = true)
+  boolean hasAnyCollaborator(@Param("workScheduleId") UUID workScheduleId);
+
+  @Query(value = "SELECT DISTINCT(work_schedule_id) FROM collaborators", nativeQuery = true)
+  List<UUID> findWorkScheduleWithAnyCollaboratorIds();
+
+  @Query(value = "SELECT id FROM collaborators WHERE work_schedule_id = :workScheduleId", nativeQuery = true)
+  List<UUID> findCollaboratorIdsByWorkSchedule(@Param("workScheduleId") UUID workScheduleId);
+
+  @Modifying
+  @Query(value = "DELETE FROM work_schedules WHERE id = :workScheduleId", nativeQuery = true)
+  void deleteById(@Param("workScheduleId") UUID workScheduleId);
 }
 
 interface JpaDayOffModelsRepository extends JpaRepository<DayOffModel, UUID> {
-
+  @Modifying
+  @Query(value = "DELETE FROM days_off WHERE work_schedule_id = :workScheduleId", nativeQuery = true)
+  void deleteManyByWorkSchedule(@Param("workScheduleId") UUID workScheduleId);
 }
 
 interface JpaWeekdayScheduleModelsRepository extends JpaRepository<WeekdayScheduleModel, UUID> {
-
+  @Modifying
+  @Query(value = "DELETE FROM weekday_schedules WHERE work_schedule_id = :workScheduleId", nativeQuery = true)
+  void deleteManyByWorkSchedule(@Param("workScheduleId") UUID workScheduleId);
 }
 
 public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
@@ -59,6 +74,9 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
 
   @Autowired
   private WeekdayScheduleMapper weekdayScheduleMapper;
+
+  @Autowired
+  private TimePunchMapper timePunchMapper;
 
   @Autowired
   private WorkScheduleMapper mapper;
@@ -91,8 +109,16 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   }
 
   @Override
-  public Array<CollaboratorWorkSchedule> findAllCollaboratorWorkSchedules() {
-    throw new UnsupportedOperationException("Unimplemented method 'findAllCollaboratorWorkSchedules'");
+  public Array<WorkSchedule> findAllWithAnyCollaborator() {
+    var ids = workScheduleModelsRepository.findWorkScheduleWithAnyCollaboratorIds();
+    var workScheduleModels = workScheduleModelsRepository.findAllById(ids);
+    return Array.createFrom(workScheduleModels, mapper::toEntity);
+  }
+
+  @Override
+  public Array<Id> findCollaboratorIdsByWorkSchedule(WorkSchedule workSchedule) {
+    var ids = workScheduleModelsRepository.findCollaboratorIdsByWorkSchedule(workSchedule.getId().value());
+    return Array.createFrom(ids, (id) -> Id.create(id.toString()));
   }
 
   @Override
@@ -119,8 +145,10 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   private void addWeekSchedule(WorkSchedule workSchedule) {
     var weekdayScheduleModels = workSchedule.getWeekSchedule().map((weekdaySchedule) -> {
       var weekdayScheduleModel = weekdayScheduleMapper.toModel(weekdaySchedule);
-      timePunchModelsRepository.save(weekdayScheduleModel.getTimePunch());
+      var timePunchModel = timePunchMapper.toModel(weekdaySchedule.getTimePunch());
+      timePunchModelsRepository.save(timePunchModel);
       weekdayScheduleModel.setWorkSchedule(mapper.toModel(workSchedule));
+      weekdayScheduleModel.setTimePunch(timePunchModel);
       return weekdayScheduleModel;
     });
     weekdayScheduleModelsRepository.saveAll(weekdayScheduleModels.list());
@@ -148,9 +176,16 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   }
 
   @Override
+  @Transactional
   public void remove(WorkSchedule workSchedule) {
-    var workScheduleModel = mapper.toModel(workSchedule);
-    workScheduleModelsRepository.delete(workScheduleModel);
+    dayOffModelsRepository.deleteManyByWorkSchedule(workSchedule.getId().value());
+
+    var timePunchIds = workSchedule.getWeekSchedule()
+        .map((weekdaySchedule) -> weekdaySchedule.getTimePunch().getId().value());
+    weekdayScheduleModelsRepository.deleteManyByWorkSchedule(workSchedule.getId().value());
+    timePunchModelsRepository.deleteMany(timePunchIds.list());
+
+    workScheduleModelsRepository.deleteById(workSchedule.getId().value());
   }
 
   @Override

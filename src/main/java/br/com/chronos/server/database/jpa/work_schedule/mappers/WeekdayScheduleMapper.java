@@ -18,7 +18,6 @@ public class WeekdayScheduleMapper {
         .builder()
         .id(Id.random().value())
         .weekdayName(entity.getWeekday().name())
-        .timePunch(timePuchMapper.toModel(entity.getTimePunch()))
         .build();
   }
 

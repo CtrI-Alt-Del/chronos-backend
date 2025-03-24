@@ -34,7 +34,7 @@ public class WeekdayScheduleModel {
     @Column(name = "weekday", nullable = false)
     private WeekdayName weekdayName;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "work_schedule_id", nullable = false)
     private WorkScheduleModel workSchedule;
 

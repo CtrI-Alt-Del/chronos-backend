@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
@@ -16,7 +16,7 @@ public class DeleteWorkScheduleController {
   private WorkSchedulesRepository workSchedulesRepository;
 
   @DeleteMapping("/{workScheduleId}")
-  public ResponseEntity<WorkScheduleDto> handle(@RequestParam String workScheduleId) {
+  public ResponseEntity<WorkScheduleDto> handle(@PathVariable String workScheduleId) {
     var useCase = new DeleteWorkScheduleUseCase(workSchedulesRepository);
     useCase.execute(workScheduleId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
