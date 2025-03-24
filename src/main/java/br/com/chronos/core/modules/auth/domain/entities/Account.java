@@ -2,6 +2,7 @@ package br.com.chronos.core.modules.auth.domain.entities;
 
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Role;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
@@ -14,6 +15,7 @@ public final class Account extends Entity {
   private Logical isActive;
   private Role role;
   private Id collaboratorId;
+  private CollaborationSector sector;
 
   public Account(AccountDto dto) {
     super(dto.id);
@@ -21,6 +23,7 @@ public final class Account extends Entity {
     password = Password.create(dto.password);
     role = Role.create(dto.role);
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.createAsTrue();
+    sector = (dto.sector != null) ? CollaborationSector.create(dto.sector) : null;
     collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
   }
 
@@ -38,6 +41,10 @@ public final class Account extends Entity {
 
   public Logical getIsActive() {
     return isActive;
+  }
+
+  public CollaborationSector getSector() {
+    return sector;
   }
 
   public Id getCollaboratorId() {
@@ -70,7 +77,8 @@ public final class Account extends Entity {
         .setEmail(getEmail().value().toString())
         .setPassword(getPassword().value().toString())
         .setActive(getIsActive().value())
-        .setRole(getRole().value().toString());
+        .setRole(getRole().toString())
+        .setSector(getSector().toString());
     return dto;
   }
 }
