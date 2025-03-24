@@ -1,15 +1,17 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import kotlin.Pair;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
@@ -18,7 +20,6 @@ import br.com.chronos.core.modules.global.domain.records.Page;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
-import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorWorkSchedule;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.TimePunchMapper;
@@ -27,11 +28,16 @@ import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkScheduleMapp
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WeekdayScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
-import kotlin.Pair;
 
 interface JpaWorkScheduleModelsRepository extends JpaRepository<WorkScheduleModel, UUID> {
   @Query(value = "SELECT EXISTS (SELECT 1 FROM collaborators WHERE work_schedule_id = :workScheduleId)", nativeQuery = true)
   boolean hasAnyCollaborator(@Param("workScheduleId") UUID workScheduleId);
+
+  @Query(value = "SELECT DISTINCT(work_schedule_id) FROM collaborators", nativeQuery = true)
+  List<UUID> findWorkScheduleWithAnyCollaboratorIds();
+
+  @Query(value = "SELECT id FROM collaborators WHERE work_schedule_id = :workScheduleId", nativeQuery = true)
+  List<UUID> findCollaboratorIdsByWorkSchedule(@Param("workScheduleId") UUID workScheduleId);
 
   @Modifying
   @Query(value = "DELETE FROM work_schedules WHERE id = :workScheduleId", nativeQuery = true)
@@ -103,8 +109,16 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   }
 
   @Override
-  public Array<CollaboratorWorkSchedule> findAllCollaboratorWorkSchedules() {
-    throw new UnsupportedOperationException("Unimplemented method 'findAllCollaboratorWorkSchedules'");
+  public Array<WorkSchedule> findAllWithAnyCollaborator() {
+    var ids = workScheduleModelsRepository.findWorkScheduleWithAnyCollaboratorIds();
+    var workScheduleModels = workScheduleModelsRepository.findAllById(ids);
+    return Array.createFrom(workScheduleModels, mapper::toEntity);
+  }
+
+  @Override
+  public Array<Id> findCollaboratorIdsByWorkSchedule(WorkSchedule workSchedule) {
+    var ids = workScheduleModelsRepository.findCollaboratorIdsByWorkSchedule(workSchedule.getId().value());
+    return Array.createFrom(ids, (id) -> Id.create(id.toString()));
   }
 
   @Override

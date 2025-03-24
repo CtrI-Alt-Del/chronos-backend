@@ -6,7 +6,6 @@ import java.util.UUID;
 import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import jakarta.persistence.EnumType;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -37,12 +36,12 @@ public class WorkdayLogModel {
     @JoinColumn(name = "collaborator_id", nullable = false)
     private CollaboratorModel collaborator;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "time_punch_schedule_id")
+    @ManyToOne
+    @JoinColumn(name = "time_punch_schedule_id", nullable = false)
     private TimePunchModel timePunchSchedule;
 
     @OneToOne
-    @JoinColumn(name = "time_punch_log_id")
+    @JoinColumn(name = "time_punch_log_id", nullable = false)
     private TimePunchModel timePunchLog;
 
     @Enumerated(EnumType.STRING)

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 @Service
@@ -14,12 +15,16 @@ public class WorkdayLogMapper {
     private TimePunchMapper TimePunchMapper;
 
     public WorkdayLogModel toModel(WorkdayLog entity) {
+        var collaboratorModel = CollaboratorModel
+                .builder()
+                .id(entity.getResponsible().getId().value())
+                .build();
+
         var model = WorkdayLogModel.builder()
                 .id(entity.getId().value())
                 .date(entity.getDate().value())
-                .timePunchSchedule(TimePunchMapper.toModel(entity.getTimePunchSchedule()))
-                .timePunchLog(TimePunchMapper.toModel(entity.getTimePunchLog()))
                 .status(entity.getStatus().name())
+                .collaborator(collaboratorModel)
                 .build();
 
         return model;
