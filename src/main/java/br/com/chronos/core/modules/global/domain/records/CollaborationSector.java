@@ -18,7 +18,7 @@ public record CollaborationSector(Sector value) {
     try {
       return new CollaborationSector(Sector.valueOf(text.value()));
     } catch (Exception e) {
-      throw new ValidationException(text.key(), "deve ser do setor produtivo, comercial ou administrativo");
+      throw new ValidationException(text.key(), "deve ser do setor de produção, comercial ou administrativo");
     }
   }
 
