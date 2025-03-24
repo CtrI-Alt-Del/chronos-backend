@@ -3,6 +3,7 @@ package br.com.chronos.core.modules.work_schedule.domain.entities;
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Count;
+import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroDaysOffCountException;
@@ -34,6 +35,13 @@ public final class WorkSchedule extends Entity {
     daysOffSchedule = DaysOffSchedule.create(dto.daysOff);
   }
 
+  public TimePunch getTodayTimePunchSchedule() {
+    var today = Date.createFromNow();
+    var todaySchedule = weekSchedule.find(
+        (weekdaySchedule) -> weekdaySchedule.getWeekday().isEqual(today.getWeekday()).isTrue());
+    return todaySchedule.getTimePunch();
+  }
+
   public void resetDaysOffSchedule() {
     daysOffSchedule = DaysOffSchedule.create(
         workdaysCount.integer().value(),
@@ -41,7 +49,7 @@ public final class WorkSchedule extends Entity {
 
   }
 
-  public WorkdayStatus getWorkdayStatus() {
+  public WorkdayStatus getTodayWorkdayStatus() {
     if (daysOffSchedule.isTodayDayOff().isTrue()) {
       return WorkdayStatus.createAsDayOff();
     }
