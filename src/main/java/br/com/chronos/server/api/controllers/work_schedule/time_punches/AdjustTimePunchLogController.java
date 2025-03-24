@@ -11,22 +11,27 @@ import lombok.Data;
 
 import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePunchesRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.EditTimePunchScheduleUseCase;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
+import br.com.chronos.core.modules.work_schedule.use_cases.AdjustTimePunchLogUseCase;
 
+@TimePunchesController
 public class AdjustTimePunchLogController {
   @Autowired
   private TimePunchesRepository timePunchesRepository;
 
+  @Autowired
+  private WorkdayLogsRepository workdayLogsRepository;
+
   @Data
   private static class Request {
     private LocalTime punch;
+    private String punchPeriod;
   }
 
   @PatchMapping("/{timePunchId}/adjust")
-  public ResponseEntity<TimePunchDto> handle(@PathVariable String timePunchId, @RequestBody TimePunchDto body) {
-    body.setId(timePunchId);
-    var useCase = new EditTimePunchScheduleUseCase(timePunchesRepository);
-    var timePunchDto = useCase.execute(body);
+  public ResponseEntity<TimePunchDto> handle(@PathVariable String timePunchId, @RequestBody Request body) {
+    var useCase = new AdjustTimePunchLogUseCase(timePunchesRepository, workdayLogsRepository);
+    var timePunchDto = useCase.execute(timePunchId, body.getPunch(), body.getPunchPeriod());
     return ResponseEntity.ok(timePunchDto);
   }
 }
