@@ -45,7 +45,7 @@ public class CollaboratorModel {
     @Column(nullable = false)
     private Sector sector;
 
-    @OneToOne(mappedBy = "collaborator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "collaborator", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private AccountModel account;
 
     @ManyToOne
