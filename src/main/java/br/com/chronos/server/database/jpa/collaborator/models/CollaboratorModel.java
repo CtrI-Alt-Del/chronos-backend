@@ -8,8 +8,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
 import jakarta.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +18,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
@@ -40,10 +37,6 @@ public class CollaboratorModel {
 
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Sector sector;
 
     @OneToOne(mappedBy = "collaborator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private AccountModel account;

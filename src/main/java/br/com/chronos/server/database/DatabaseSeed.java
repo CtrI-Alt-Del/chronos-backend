@@ -12,6 +12,7 @@ import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.entities.fakers.CollaboratorFaker;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.records.Array;
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.modules.work_schedule.domain.entities.fakers.WorkScheduleFaker;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
@@ -49,7 +50,9 @@ public class DatabaseSeed implements CommandLineRunner {
     collaborators.addArray(managers).addArray(employees);
     collaboratorsRepository.addMany(collaborators, workSchedules.firstItem().getId());
 
-    var accounts = fakeAccounts(collaborators);
+    var accounts = fakeAccounts(collaborators.removeLastItem());
+    var accountTest = fakeAccountTest(employees.lastItem().getId());
+    accounts.add(accountTest);
     accountsRepository.addMany(accounts);
   }
 
@@ -86,5 +89,15 @@ public class DatabaseSeed implements CommandLineRunner {
       authenticationProvider.register(accountDto);
       return new Account(accountDto);
     });
+  }
+
+  private Account fakeAccountTest(Id collaboratorId) {
+    var dto = AccountFaker
+        .fakeDto()
+        .setId("d7df66ad-8f98-4709-afb9-db3ab1e85b46")
+        .setPassword("123456")
+        .setRole("employee")
+        .setCollaboratorId(collaboratorId.toString());
+    return new Account(dto);
   }
 }

@@ -2,7 +2,6 @@ package br.com.chronos.server.database.jpa.work_schedule.models;
 
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
