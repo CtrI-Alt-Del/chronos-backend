@@ -1,5 +1,6 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
