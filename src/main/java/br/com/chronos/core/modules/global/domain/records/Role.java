@@ -17,7 +17,7 @@ public record Role(RoleName value) {
     try {
       return new Role(RoleName.valueOf(text.value()));
     } catch (Exception e) {
-      throw new ValidationException(text.key(), "must be admin,manager or employee");
+      throw new ValidationException(text.key(), "deve ser admin, gestor ou funcionário");
     }
   }
 

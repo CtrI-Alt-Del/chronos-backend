@@ -25,6 +25,7 @@ public final class Account extends Entity {
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.createAsTrue();
     sector = (dto.sector != null) ? CollaborationSector.create(dto.sector) : null;
     collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
+    sector = (dto.sector != null) ? CollaborationSector.create(dto.sector) : null;
   }
 
   public Logical isFromCollaborator() {
@@ -37,6 +38,10 @@ public final class Account extends Entity {
 
   public Password getPassword() {
     return password;
+  }
+
+  public CollaborationSector getSector() {
+    return sector;
   }
 
   public Logical getIsActive() {

@@ -30,6 +30,7 @@ public class AccountMapper {
         .setRole(model.getRole().toString())
         .setSector(model.getSector().toString());
 
+
     return new Account(dto);
   }
 }
