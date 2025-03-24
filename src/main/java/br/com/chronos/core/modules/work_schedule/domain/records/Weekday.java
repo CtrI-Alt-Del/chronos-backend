@@ -1,6 +1,7 @@
 package br.com.chronos.core.modules.work_schedule.domain.records;
 
 import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
+import br.com.chronos.core.modules.global.domain.records.Logical;
 
 public record Weekday(WeekdayName name) {
   public enum WeekdayName {
@@ -20,6 +21,10 @@ public record Weekday(WeekdayName name) {
     } catch (Exception e) {
       throw new ValidationException("Weekday", "must be a valid name for weekday");
     }
+  }
+
+  public Logical isEqual(Weekday weekday) {
+    return Logical.create(name.equals(weekday.name));
   }
 
   public String toString() {
