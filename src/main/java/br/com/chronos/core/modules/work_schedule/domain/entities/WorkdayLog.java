@@ -22,7 +22,7 @@ public final class WorkdayLog extends Entity {
 
     public WorkdayLogResponsible(String id, ResponsibleDto dto) {
       this.id = Id.create(id);
-      this.entity = new Responsible(dto);
+      this.entity = (dto != null) ? new Responsible(dto) : null;
     }
 
     public Id getId() {
@@ -32,7 +32,6 @@ public final class WorkdayLog extends Entity {
     public Responsible getEntity() {
       return entity;
     }
-
   }
 
   public WorkdayLog(WorkdayLogDto dto) {
@@ -79,11 +78,15 @@ public final class WorkdayLog extends Entity {
   }
 
   public WorkdayLogDto getDto() {
+    var responsibleDto = (getResponsible().getEntity() != null) ? getResponsible().getEntity().getDto() : null;
     return new WorkdayLogDto()
         .setId(getId().toString())
         .setDate(getDate().value())
         .setTimePunchSchedule(getTimePunchSchedule().getDto())
-        .setTimePunchLog(getTimePunchLog().getDto());
+        .setTimePunchLog(getTimePunchLog().getDto())
+        .setStatus(getStatus().toString().toLowerCase())
+        .setResponsible(
+            getResponsible().getId().toString(), responsibleDto);
   }
 
 }

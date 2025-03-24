@@ -23,7 +23,7 @@ public class TimePunchMapper {
   public TimePunch toEntity(TimePunchModel model) {
     var dto = new TimePunchDto()
         .setId(model.getId().toString())
-        .setFirstClockOut(model.getFirstClockIn())
+        .setFirstClockIn(model.getFirstClockIn())
         .setFirstClockOut(model.getFirstClockOut())
         .setSecondClockIn(model.getSecondClockIn())
         .setSecondClockOut(model.getSecondClockOut());

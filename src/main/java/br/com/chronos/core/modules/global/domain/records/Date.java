@@ -2,6 +2,8 @@ package br.com.chronos.core.modules.global.domain.records;
 
 import java.time.LocalDate;
 
+import br.com.chronos.core.modules.work_schedule.domain.records.Weekday;
+
 public record Date(LocalDate value) {
   public static Date create(LocalDate value, String zoneArea) {
     return new Date(value);
@@ -37,5 +39,9 @@ public record Date(LocalDate value) {
 
   public Logical isMonday() {
     return Logical.create(value.getDayOfWeek().getValue() == 1);
+  }
+
+  public Weekday getWeekday() {
+    return Weekday.create(value.getDayOfWeek().toString());
   }
 }
