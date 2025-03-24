@@ -120,10 +120,11 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public Optional<Collaborator> findByEmailOrCpf(String email, String cpf) {
     var collaboratorModel = repository.findByAccountEmail(email);
-    if (collaboratorModel.isEmpty()) {
-      return Optional.empty();
+    if (collaboratorModel.isPresent()) {
+      return Optional.of(mapper.toEntity(collaboratorModel.get()));
     }
-    var collaborator = mapper.toEntity(collaboratorModel.get());
-    return Optional.of(collaborator);
+
+    collaboratorModel = repository.findByCpf(cpf);
+    return collaboratorModel.map(mapper::toEntity);
   }
 }

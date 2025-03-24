@@ -37,11 +37,11 @@ public class WorkScheduleModel {
     @Column(nullable = false)
     private int daysOffCount;
 
-    @OneToMany(mappedBy = "workSchedule", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "workSchedule", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Default
     private List<DayOffModel> daysOff = new ArrayList<>();
 
-    @OneToMany(mappedBy = "workSchedule", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "workSchedule", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @Default
     private List<WeekdayScheduleModel> weekdaySchedules = new ArrayList<>();
 
