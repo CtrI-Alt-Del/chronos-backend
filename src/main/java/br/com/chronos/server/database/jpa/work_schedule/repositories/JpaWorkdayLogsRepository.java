@@ -111,7 +111,14 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
         collaboratorModel, dateRange.startDate().value(), dateRange.endDate().value(), pageRequest);
     var items = workdayLogModels.getContent().stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
+    var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
+    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
+    var workdayLogModels = repository.findAllByCollaboratorAndDateBetween(
+        collaboratorModel, dateRange.startDate().value(), dateRange.endDate().value(), pageRequest);
+    var items = workdayLogModels.getContent().stream().toList();
+    var itemsCount = workdayLogModels.getTotalElements();
 
+    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
   }
 
@@ -123,23 +130,5 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     var itemsCount = workdayLogModels.getTotalElements();
 
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
-  }
-
-  @Override
-  public Logical hasTimePunch(TimePunch timePunch) {
-    return Logical.create(repository.timePunchLogExists(timePunch.getId().value()));
-  }
-
-  @Override
-  @Transactional
-  public void removeManyByDate(Date date) {
-    var workdayLogsModels = repository.findAllByDate(date.value());
-    Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
-
-    for (var workdayLogsModel : workdayLogsModels) {
-      timePunchModels.add(workdayLogsModel.getTimePunchLog());
-    }
-    repository.deleteAllInBatch(workdayLogsModels);
-    timePunchModelsRepository.deleteAllInBatch(timePunchModels.list());
   }
 }
