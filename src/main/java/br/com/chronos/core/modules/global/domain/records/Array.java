@@ -57,6 +57,22 @@ public record Array<Item>(List<Item> list) {
     return new Array<>(new_list);
   }
 
+  public Item find(Predicate<? super Item> predicate) {
+    var item = list
+        .stream()
+        .filter(predicate)
+        .findFirst();
+
+    if (item.isEmpty()) {
+      return null;
+    }
+    return item.get();
+  }
+
+  public Logical includes(Item item) {
+    return Logical.create(list.contains(item));
+  }
+
   public Logical some(Predicate<? super Item> predicate) {
     return Logical.create(list.stream().anyMatch(predicate));
   }
