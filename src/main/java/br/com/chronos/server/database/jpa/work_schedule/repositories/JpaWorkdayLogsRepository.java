@@ -18,7 +18,7 @@ import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.DateRange;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
-import br.com.chronos.core.modules.global.domain.records.Page;
+import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
@@ -103,7 +103,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   public Pair<Array<WorkdayLog>, PlusInteger> findManyByCollaboratorAndDateRange(
       Id collaboratorId,
       DateRange dateRange,
-      Page page) {
+      PageNumber page) {
 
     var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
     var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
@@ -123,7 +123,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
-  public Pair<Array<WorkdayLog>, PlusInteger> findManyByDate(Date date, Page page) {
+  public Pair<Array<WorkdayLog>, PlusInteger> findManyByDate(Date date, PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
     var workdayLogModels = repository.findAllByDate(date.value(), pageRequest);
     var items = workdayLogModels.getContent().stream().toList();
