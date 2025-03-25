@@ -7,12 +7,14 @@ import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.global.domain.records.Page;
+import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
+import br.com.chronos.core.modules.global.domain.records.Role;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import kotlin.Pair;
 
 public interface CollaboratorsRepository {
-  Pair<Array<Collaborator>, PlusInteger> findMany(Page page);
+  Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page,Role.RoleName role,Sector sector);
 
   Optional<Collaborator> findCollaboratorById(Id id);
 

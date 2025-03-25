@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.collaboration.use_cases.ListCollaboratorsUseCase;
+import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 
 @CollaboratorsController
@@ -16,10 +17,16 @@ public class ListCollaboratorsController {
   @Autowired
   private CollaboratorsRepository repository;
 
+  @Autowired
+  private AuthenticationProvider authenticationProvider;
+
   @GetMapping
   public ResponseEntity<PaginationResponse<CollaboratorDto>> handle(@RequestParam(defaultValue = "1") int page) {
     var useCase = new ListCollaboratorsUseCase(repository);
-    var response = useCase.execute(page);
+    var responsible = authenticationProvider.getAuthenticatedUser();
+    var sector = responsible.getSector();
+    var role = responsible.getRole();
+    var response = useCase.execute(page,role.value(),sector.value());
     return ResponseEntity.ok(response);
   }
 
