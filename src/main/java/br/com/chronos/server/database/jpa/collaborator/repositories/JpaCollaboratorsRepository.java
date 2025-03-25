@@ -4,22 +4,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
-import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -49,11 +45,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
   @Override
   public void update(Collaborator collaborator, Id workScheduleId) {
-    CollaboratorModel collaboratorModel;
-    collaboratorModel = repository.findById(collaborator.getId().value()).get();
-    var accountModel = collaboratorModel.getAccount();
-    accountModel.setSector(collaborator.getSector().value());
-    accountModel.setRole(collaborator.getRole().value());
+    var collaboratorModel = mapper.toModel(collaborator);
     collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(workScheduleId.value()).build());
     repository.save(collaboratorModel);
   }

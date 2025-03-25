@@ -18,9 +18,6 @@ public class ListCollaboratorsController {
   @Autowired
   private CollaboratorsRepository repository;
 
-  @Autowired
-  private AuthenticationProvider authenticationProvider;
-
   @GetMapping
   public ResponseEntity<PaginationResponse<CollaboratorDto>> handle(@RequestParam(defaultValue = "1") int page,
       @RequestParam(defaultValue = "true",name = "active") boolean isActive) {
