@@ -40,8 +40,10 @@ public class CreateCollaboratorController {
     var useCase = new CreateCollaboratorUseCase(accountsRepository, collaboratorsRepository, authenticationProvider);
     var password = Password.create(body.password);
     var workScheduleId = Id.create(body.workScheduleId);
-    var responsible = authenticationProvider.getAuthenticatedUser().getEmail();
-    var collaboratorDto = useCase.execute(body.collaboratorDto, workScheduleId, password, responsible);
+    var responsible = authenticationProvider.getAuthenticatedUser();
+    var responsibleSector = responsible.getSector();
+    var responsibleRole = responsible.getRole();
+    var collaboratorDto = useCase.execute(body.collaboratorDto, workScheduleId, password, responsibleSector,responsibleRole);
     return ResponseEntity.status(HttpStatus.OK).body(collaboratorDto);
   }
 }
