@@ -24,9 +24,9 @@ public class ListCollaboratorsController {
   public ResponseEntity<PaginationResponse<CollaboratorDto>> handle(@RequestParam(defaultValue = "1") int page) {
     var useCase = new ListCollaboratorsUseCase(repository);
     var responsible = authenticationProvider.getAuthenticatedUser();
-    var sector = responsible.getSector();
+    var sector = responsible.getSector().value();
     var role = responsible.getRole();
-    var response = useCase.execute(page,role.value(),sector.value());
+    var response = useCase.execute(page,role.value(),sector);
     return ResponseEntity.ok(response);
   }
 

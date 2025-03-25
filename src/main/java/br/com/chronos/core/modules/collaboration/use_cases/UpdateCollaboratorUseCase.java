@@ -12,6 +12,7 @@ import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Role;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 
 public class UpdateCollaboratorUseCase {
   private final CollaboratorsRepository repository;
@@ -21,7 +22,7 @@ public class UpdateCollaboratorUseCase {
   }
 
   public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Id workScheduleId,
-      CollaborationSector responsibleSector, Role responsibleRole) {
+      Sector responsibleSector, Role responsibleRole) {
     if (dto == null) {
       dto = new CollaboratorDto();
     }

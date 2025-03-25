@@ -15,6 +15,7 @@ import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Role;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 
 public class CreateCollaboratorUseCase {
@@ -33,7 +34,7 @@ public class CreateCollaboratorUseCase {
   }
 
   public CollaboratorDto execute(CollaboratorDto dto, Id workScheduleId, Password password,
-      CollaborationSector responsibleSector, Role responsibleRole) {
+       Sector   responsibleSector  , Role responsibleRole  ){
 
     validateUniqueEmailAndCpf(dto);
     var collaborator = new Collaborator(dto);
