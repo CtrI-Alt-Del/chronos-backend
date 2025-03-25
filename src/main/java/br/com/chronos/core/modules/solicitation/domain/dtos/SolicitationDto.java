@@ -6,7 +6,7 @@ import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
 
 public class SolicitationDto {
   public String description;
-  public LocalDate solicitatedAt;
+  public LocalDate date;
   public String status;
   public String feedbackMessage;
   public ResponsibleAggregateDto senderResponsible;
@@ -17,8 +17,8 @@ public class SolicitationDto {
     return this;
   }
 
-  public SolicitationDto setSolicitatedAt(LocalDate solicitatedAt) {
-    this.solicitatedAt = solicitatedAt;
+  public SolicitationDto setDate(LocalDate date) {
+    this.date = date;
     return this;
   }
 
