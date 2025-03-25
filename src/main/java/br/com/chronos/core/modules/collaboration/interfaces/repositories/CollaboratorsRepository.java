@@ -20,7 +20,7 @@ public interface CollaboratorsRepository {
 
   Optional<Collaborator> findByCpf(Cpf cpf);
 
-  Id findWorkScheduleId(Id collaboratorId);
+  Id findWorkScheduleIdByCollaborator(Id collaboratorId);
 
   void update(Collaborator collaborator, Id workScheduleId);
 

@@ -74,7 +74,7 @@ public class UpdateCollaboratorUseCase {
   }
 
   private Id getWorkScheduleId(Id collaboratorId) {
-    var workScheduleId = repository.findWorkScheduleId(collaboratorId);
+    var workScheduleId = repository.findWorkScheduleIdByCollaborator(collaboratorId);
     return workScheduleId;
   }
 }

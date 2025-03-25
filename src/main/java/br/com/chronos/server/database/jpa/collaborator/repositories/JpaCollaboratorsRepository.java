@@ -132,7 +132,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Id findWorkScheduleId(Id collaboratorId) {
+  public Id findWorkScheduleIdByCollaborator(Id collaboratorId) {
     var collaboratorModel = repository.findById(collaboratorId.value());
     var workScheduleUUID = collaboratorModel.get().getWorkSchedule().getId().toString();
     return Id.create(workScheduleUUID);
