@@ -18,8 +18,10 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Email responsibleEmail,
-      Id workScheduleId) {
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Email responsibleEmail,Id workScheduleId) {
+    if (dto == null) {
+        dto = new CollaboratorDto(); 
+    }
     var collaborator = findCollaborator(Id.create(collaboratorId));
     var responsible = this.repository.findByEmail(responsibleEmail);
     if (!responsible.get().isFromSameSector(collaborator).value()) {
