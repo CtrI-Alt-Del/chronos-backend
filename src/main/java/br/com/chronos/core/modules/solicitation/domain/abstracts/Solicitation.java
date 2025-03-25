@@ -16,6 +16,7 @@ public abstract class Solicitation extends Entity {
   public ResponsibleAggregate replierResponsible;
 
   public Solicitation(SolicitationDto dto) {
+    super(dto.id);
     description = Text.create(dto.description, "Descrição da solicitação");
     feedbackMessage = Text.create(dto.feedbackMessage, "Mensagem de feedback da solicitação");
     status = SolicitationStatus.create(dto.status);
@@ -46,6 +47,7 @@ public abstract class Solicitation extends Entity {
 
   public SolicitationDto getDto() {
     return new SolicitationDto()
+        .setId(getId().toString())
         .setDescription(description.value())
         .setStatus(getStatus().toString())
         .setFeedbackMessage(getFeedbackMessage().value())
