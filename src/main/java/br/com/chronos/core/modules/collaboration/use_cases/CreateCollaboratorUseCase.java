@@ -1,46 +1,62 @@
 package br.com.chronos.core.modules.collaboration.use_cases;
 
+import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
+import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthorizedException;
+import br.com.chronos.core.modules.auth.domain.records.Password;
+import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmailException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
+import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 
 public class CreateCollaboratorUseCase {
-  private final CollaboratorsRepository repository;
+  private final CollaboratorsRepository collaboratorsRepository;
 
   private final AuthenticationProvider authenticationProvider;
+  private final AccountsRepository accountsRepository;
 
   public CreateCollaboratorUseCase(
-      CollaboratorsRepository repository,
+      AccountsRepository accountsRepository,
+      CollaboratorsRepository collaboratorsRepository,
       AuthenticationProvider authenticationProvider) {
-    this.repository = repository;
+    this.accountsRepository = accountsRepository;
+    this.collaboratorsRepository = collaboratorsRepository;
     this.authenticationProvider = authenticationProvider;
   }
 
-  public CollaboratorDto execute(CollaboratorDto dto, Email responsibleEmail) {
-    var responsible = this.repository.findByEmail(responsibleEmail);
+  public CollaboratorDto execute(CollaboratorDto dto, Id workScheduleId, Password password,
+      CollaborationSector responsibleSector, Role responsibleRole) {
+
     validateUniqueEmailAndCpf(dto);
-    return null;
-    // This will be refactored in the next PR
-    // var collaboratorDto = authenticationProvider.register(dto);
+    var collaborator = new Collaborator(dto);
 
-    // var collaborator = new Collaborator(collaboratorDto);
-    // if (!responsible.get().isFromSameSector(collaborator).value()) {
-    // throw new NotAuthorizedException();
-
-    // }
-
-    // repository.add(collaborator);
-    // return collaborator.getDto();
+    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
+      throw new NotAuthorizedException();
+    }
+    var accountDto = new AccountDto()
+        .setPassword(password.value().toString())
+        .setEmail(dto.email)
+        .setActive(collaborator.getIsActive().value())
+        .setRole(collaborator.getRole().value().toString())
+        .setSector(collaborator.getSector().value().toString())
+        .setCollaboratorId(collaborator.getId().value().toString());
+    var registeredAccount = authenticationProvider.register(accountDto);
+    var account = new Account(registeredAccount);
+    collaboratorsRepository.add(collaborator, workScheduleId);
+    accountsRepository.add(account);
+    return collaborator.getDto();
   }
 
   private void validateUniqueEmailAndCpf(CollaboratorDto dto) {
-    var existingCollaborator = repository.findByEmailOrCpf(dto.email, dto.cpf);
+    var existingCollaborator = collaboratorsRepository.findByEmailOrCpf(dto.email, dto.cpf);
     Email email = Email.create(dto.email);
     Cpf cpf = Cpf.create(dto.cpf);
 

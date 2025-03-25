@@ -35,8 +35,9 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   CollaboratorMapper mapper;
 
   @Override
-  public void update(Collaborator collaborator) {
+  public void update(Collaborator collaborator, Id workScheduleId) {
     var collaboratorModel = mapper.toModel(collaborator);
+    collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(workScheduleId.value()).build());
     repository.save(collaboratorModel);
   }
 
@@ -88,12 +89,14 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public void disable(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
+    // collaboratorModel.setIsActive(false);
     repository.save(collaboratorModel);
   }
 
   @Override
   public void enable(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
+    // collaboratorModel.setIsActive(true);
     repository.save(collaboratorModel);
   }
 
@@ -120,10 +123,18 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public Optional<Collaborator> findByEmailOrCpf(String email, String cpf) {
     var collaboratorModel = repository.findByAccountEmail(email);
-    if (collaboratorModel.isEmpty()) {
-      return Optional.empty();
+    if (collaboratorModel.isPresent()) {
+      return Optional.of(mapper.toEntity(collaboratorModel.get()));
     }
-    var collaborator = mapper.toEntity(collaboratorModel.get());
-    return Optional.of(collaborator);
+
+    collaboratorModel = repository.findByCpf(cpf);
+    return collaboratorModel.map(mapper::toEntity);
+  }
+
+  @Override
+  public Id findWorkScheduleIdByCollaborator(Id collaboratorId) {
+    var collaboratorModel = repository.findById(collaboratorId.value());
+    var workScheduleUUID = collaboratorModel.get().getWorkSchedule().getId().toString();
+    return Id.create(workScheduleUUID);
   }
 }

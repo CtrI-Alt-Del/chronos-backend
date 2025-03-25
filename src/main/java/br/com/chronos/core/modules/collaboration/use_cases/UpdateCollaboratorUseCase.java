@@ -7,9 +7,11 @@ import br.com.chronos.core.modules.collaboration.domain.exceptions.CollaboratorN
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmailException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Role;
 
 public class UpdateCollaboratorUseCase {
   private final CollaboratorsRepository repository;
@@ -18,19 +20,29 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Email responsibleEmail) {
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Id workScheduleId,
+      CollaborationSector responsibleSector, Role responsibleRole) {
+    if (dto == null) {
+      dto = new CollaboratorDto();
+    }
     var collaborator = findCollaborator(Id.create(collaboratorId));
-    var responsible = this.repository.findByEmail(responsibleEmail);
-    if (!responsible.get().isFromSameSector(collaborator).value()) {
+
+    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
       throw new NotAuthorizedException();
     }
-    if (dto.sector != null && responsible.get().getRole().isAdmin().isFalse()) {
+    if (dto.sector != null && responsibleRole.isAdmin().isFalse()) {
       throw new NotAuthorizedException();
     }
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
     collaborator.update(dto);
 
-    repository.update(collaborator);
+    if (workScheduleId != null) {
+      repository.update(collaborator, workScheduleId);
+    } else {
+      var workId = getWorkScheduleId(collaborator.getId());
+      repository.update(collaborator, workId);
+    }
+
     return collaborator.getDto();
   }
 
@@ -62,5 +74,10 @@ public class UpdateCollaboratorUseCase {
     if (cpf != null && existingCollaborator.get().getCpf().equals(cpf)) {
       throw new ExistingCpfException();
     }
+  }
+
+  private Id getWorkScheduleId(Id collaboratorId) {
+    var workScheduleId = repository.findWorkScheduleIdByCollaborator(collaboratorId);
+    return workScheduleId;
   }
 }

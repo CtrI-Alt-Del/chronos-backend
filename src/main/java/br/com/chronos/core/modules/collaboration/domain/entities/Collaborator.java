@@ -27,15 +27,18 @@ public final class Collaborator extends Entity {
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
   }
 
-  public Logical isFromSameSector(Collaborator collaborator) {
-    if (collaborator == null) {
+  public Logical isFromSameSector(CollaborationSector sector, Role role) {
+    if (sector == null) {
       return Logical.createAsFalse();
     }
-    if (this.role.isAdmin().isTrue()) {
+    if (role == null) {
+      return Logical.createAsFalse();
+    }
+    if (role.isAdmin().isTrue()) {
       return Logical.createAsTrue();
     }
 
-    return Logical.create(this.getSector().value().equals(collaborator.getSector().value()));
+    return Logical.create(this.getSector().value().equals(sector.value()));
   }
 
   public Text getName() {

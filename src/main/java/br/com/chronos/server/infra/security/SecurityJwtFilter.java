@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.chronos.core.modules.auth.domain.entities.Account;
+import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
 import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.modules.auth.use_cases.GetAccountUseCase;
 import br.com.chronos.core.modules.global.interfaces.providers.JwtProvider;
@@ -32,10 +33,18 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
     var token = recoverToken(request);
     if (token != null) {
       var subject = jwtProvider.validateToken(token);
-      var account = getAccount(subject);
-      var securityUser = new SecurityUser(account);
-      var authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+      try {
+        var account = getAccount(subject);
+        var securityUser = new SecurityUser(account);
+        var authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+      } catch (Exception e) {
+
+        // In case somehow user(malicious user) gets invalid token,this way it wont fuck up the system and return a nice response
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("Autenticacao falhou");
+        return;
+      }
     }
     filterChain.doFilter(request, response);
   }
@@ -51,6 +60,10 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
   private Account getAccount(String email) {
     var useCase = new GetAccountUseCase(accountRepository);
     var accountDto = useCase.execute(email);
+    if (accountDto == null) {
+        throw new NotAuthenticatedException();
+    }
     return new Account(accountDto);
   }
 }
+
