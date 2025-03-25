@@ -4,21 +4,23 @@ import java.time.LocalTime;
 
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Time;
+import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.TimePunchNotFoundException;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePunchesRepository;
 
-public class PunchUseCase {
+public class PunchTimeUseCase {
   private final TimePunchesRepository repository;
 
-  public PunchUseCase(TimePunchesRepository repository) {
+  public PunchTimeUseCase(TimePunchesRepository repository) {
     this.repository = repository;
   }
 
-  public void execute(String timePunchId, LocalTime punch) {
+  public TimePunchDto execute(String timePunchId, LocalTime punch) {
     var timePunch = findTimePunch(timePunchId);
     timePunch.punch(Time.create(punch));
     repository.update(timePunch);
+    return timePunch.getDto();
   }
 
   private TimePunch findTimePunch(String timePunchId) {

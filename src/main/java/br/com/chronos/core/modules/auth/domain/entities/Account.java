@@ -23,6 +23,7 @@ public final class Account extends Entity {
     password = Password.create(dto.password);
     role = Role.create(dto.role);
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.createAsTrue();
+    sector = (dto.sector != null) ? CollaborationSector.create(dto.sector) : null;
     collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
     sector = (dto.sector != null) ? CollaborationSector.create(dto.sector) : null;
   }
@@ -45,6 +46,10 @@ public final class Account extends Entity {
 
   public Logical getIsActive() {
     return isActive;
+  }
+
+  public CollaborationSector getSector() {
+    return sector;
   }
 
   public Id getCollaboratorId() {
@@ -77,7 +82,8 @@ public final class Account extends Entity {
         .setEmail(getEmail().value().toString())
         .setPassword(getPassword().value().toString())
         .setActive(getIsActive().value())
-        .setRole(getRole().value().toString());
+        .setRole(getRole().toString())
+        .setSector(getSector().toString());
     return dto;
   }
 }

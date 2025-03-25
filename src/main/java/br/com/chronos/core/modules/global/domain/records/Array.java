@@ -81,6 +81,10 @@ public record Array<Item>(List<Item> list) {
     return PlusInteger.create(list.size(), "tamanho do array");
   }
 
+  public Item item(int index) {
+    return list.get(index);
+  }
+
   public Item firstItem() {
     return list.get(0);
   }
@@ -89,4 +93,13 @@ public record Array<Item>(List<Item> list) {
     return list.get(size().value() - 1);
   }
 
+  public Array<Item> removeFirstItem() {
+    list.removeLast();
+    return new Array<>(list);
+  }
+
+  public Array<Item> removeLastItem() {
+    list.removeLast();
+    return new Array<>(list);
+  }
 }

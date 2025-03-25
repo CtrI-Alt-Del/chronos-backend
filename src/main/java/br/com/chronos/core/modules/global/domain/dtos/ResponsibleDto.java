@@ -5,7 +5,6 @@ public class ResponsibleDto {
   public String name;
   public String email;
   public String role;
-  public String sector;
 
   public ResponsibleDto setId(String id) {
     this.id = id;
@@ -24,11 +23,6 @@ public class ResponsibleDto {
 
   public ResponsibleDto setRole(String role) {
     this.role = role;
-    return this;
-  }
-
-  public ResponsibleDto setSector(String sector) {
-    this.sector = sector;
     return this;
   }
 }

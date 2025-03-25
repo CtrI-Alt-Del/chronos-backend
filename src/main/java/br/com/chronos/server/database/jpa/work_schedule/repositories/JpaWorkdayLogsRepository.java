@@ -44,7 +44,7 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
 
   List<WorkdayLogModel> findAllByDate(LocalDate date);
 
-  @Query(value = "SELECT EXISTS (SELECT 1 FROM work_day_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
+  @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
   boolean timePunchLogExists(@Param("timePunchId") UUID timePunchId);
 
 }
@@ -130,5 +130,23 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     var itemsCount = workdayLogModels.getTotalElements();
 
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
+  }
+
+  @Override
+  public Logical hasTimePunchLog(TimePunch timePunch) {
+    return Logical.create(repository.timePunchLogExists(timePunch.getId().value()));
+  }
+
+  @Override
+  @Transactional
+  public void removeManyByDate(Date date) {
+    var workdayLogsModels = repository.findAllByDate(date.value());
+    Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
+
+    for (var workdayLogsModel : workdayLogsModels) {
+      timePunchModels.add(workdayLogsModel.getTimePunchLog());
+    }
+    repository.deleteAllInBatch(workdayLogsModels);
+    timePunchModelsRepository.deleteAllInBatch(timePunchModels.list());
   }
 }

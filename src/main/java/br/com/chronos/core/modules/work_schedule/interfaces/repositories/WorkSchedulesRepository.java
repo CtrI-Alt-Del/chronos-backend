@@ -7,16 +7,18 @@ import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Page;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.domain.records.Array;
+import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
-import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorWorkSchedule;
 import kotlin.Pair;
 
 public interface WorkSchedulesRepository {
   Optional<WorkSchedule> findById(Id workScheduleId);
 
-  Array<CollaboratorWorkSchedule> findAllCollaboratorWorkSchedules();
+  Array<WorkSchedule> findAllWithAnyCollaborator();
 
   Array<WorkSchedule> findAll();
+
+  Array<Id> findCollaboratorIdsByWorkSchedule(WorkSchedule workSchedule);
 
   Pair<Array<WorkSchedule>, PlusInteger> findMany(Page page);
 
@@ -28,7 +30,9 @@ public interface WorkSchedulesRepository {
 
   void updateMany(Array<WorkSchedule> workSchedules);
 
-  void remove(WorkSchedule workScheduleId);
+  void remove(WorkSchedule workSchedule);
 
   Logical hasAnyCollaborator(Id workScheduleId);
+
+  Logical hasTimePunchSchedule(TimePunch timePunch);
 }
