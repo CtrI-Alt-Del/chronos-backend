@@ -94,7 +94,7 @@ public record Array<Item>(List<Item> list) {
   }
 
   public Array<Item> removeFirstItem() {
-    list.removeLast();
+    list.removeFirst();
     return new Array<>(list);
   }
 
