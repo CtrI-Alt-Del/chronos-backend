@@ -43,17 +43,26 @@ public class DatabaseSeed implements CommandLineRunner {
 
     Array<Collaborator> collaborators = Array.createAsEmpty();
     var admin = fakeAdmin();
-    var managers = fakeManagers();
-    var employees = fakeEmployees();
+    var managers = fakeManagers(6);
+    var employees = fakeEmployees(12);
 
-    accountsRepository.add(admin);
-    collaborators.addArray(managers).addArray(employees);
+    var managerTest = fakeManagers(1).firstItem();
+    var employeeTest = fakeEmployees(1).firstItem();
+
+    collaborators
+        .addArray(managers)
+        .addArray(employees)
+        .add(managerTest)
+        .add(employeeTest);
     collaboratorsRepository.addMany(collaborators, workSchedules.firstItem().getId());
 
-    var employeeAccountTest = fakeEmployeeAccountTest(employees.item(0).getId());
-    var managerAccountTest = fakeManagerAccountTest(employees.item(1).getId());
-    var accounts = fakeAccounts(collaborators.removeFirstItem().removeFirstItem());
-    accounts.add(employeeAccountTest).add(managerAccountTest);
+    var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
+    var managerAccountTest = fakeManagerAccountTest(managerTest.getId());
+    var accounts = fakeAccounts(collaborators.removeLastItem().removeLastItem());
+    accounts
+        .add(admin)
+        .add(employeeAccountTest)
+        .add(managerAccountTest);
     accountsRepository.addMany(accounts);
   }
 
@@ -63,16 +72,16 @@ public class DatabaseSeed implements CommandLineRunner {
     return new Account(fakeDto);
   }
 
-  private Array<Collaborator> fakeManagers() {
-    var fakeDtos = CollaboratorFaker.fakeManyDto(6);
+  private Array<Collaborator> fakeManagers(int count) {
+    var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
       fakeDto.setRole("manager");
       return new Collaborator(fakeDto);
     });
   }
 
-  private Array<Collaborator> fakeEmployees() {
-    var fakeDtos = CollaboratorFaker.fakeManyDto(12);
+  private Array<Collaborator> fakeEmployees(int count) {
+    var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
       fakeDto.setRole("employee");
       return new Collaborator(fakeDto);
@@ -95,7 +104,6 @@ public class DatabaseSeed implements CommandLineRunner {
   private Account fakeEmployeeAccountTest(Id collaboratorId) {
     var dto = AccountFaker
         .fakeDto()
-        .setId("d7df66ad-8f98-4709-afb9-db3ab1e85b46")
         .setEmail("chronos.employee@gmail.com")
         .setRole("employee")
         .setCollaboratorId(collaboratorId.toString());
@@ -106,9 +114,7 @@ public class DatabaseSeed implements CommandLineRunner {
   private Account fakeManagerAccountTest(Id collaboratorId) {
     var dto = AccountFaker
         .fakeDto()
-        .setId("d7df66ad-8f98-4709-afb9-db3ab1e85b46")
         .setEmail("chronos.manager@gmail.com")
-        .setPassword("123456")
         .setRole("manager")
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
