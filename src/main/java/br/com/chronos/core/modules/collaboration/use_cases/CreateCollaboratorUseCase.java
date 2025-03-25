@@ -1,12 +1,9 @@
 package br.com.chronos.core.modules.collaboration.use_cases;
 
-import br.com.chronos.core.modules.auth.domain.records.Password;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
 import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthorizedException;
+import br.com.chronos.core.modules.auth.domain.records.Password;
 import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
@@ -32,8 +29,6 @@ public class CreateCollaboratorUseCase {
     this.collaboratorsRepository = collaboratorsRepository;
     this.authenticationProvider = authenticationProvider;
   }
-
-  @Transactional
   public CollaboratorDto execute(CollaboratorDto dto, Id workScheduleId, Password password, Email responsibleEmail) {
     var responsible = this.collaboratorsRepository.findByEmail(responsibleEmail);
     if (responsible.isEmpty()) {
