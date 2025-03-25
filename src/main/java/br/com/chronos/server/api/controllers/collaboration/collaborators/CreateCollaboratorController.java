@@ -30,7 +30,7 @@ public class CreateCollaboratorController {
   @Data
   private static class Request {
     CollaboratorDto collaboratorDto;
-    Id workScheduleId;
+    String workScheduleId;
     String password;
   }
 
@@ -39,8 +39,9 @@ public class CreateCollaboratorController {
     System.out.println(body);
     var useCase = new CreateCollaboratorUseCase(accountsRepository, collaboratorsRepository, authenticationProvider);
     var password = Password.create(body.password);
+    var workScheduleId = Id.create(body.workScheduleId);
     var responsible = authenticationProvider.getAuthenticatedUser().getEmail();
-    var collaboratorDto = useCase.execute(body.collaboratorDto, body.workScheduleId, password, responsible);
+    var collaboratorDto = useCase.execute(body.collaboratorDto, workScheduleId, password, responsible);
     return ResponseEntity.status(HttpStatus.OK).body(collaboratorDto);
   }
 }

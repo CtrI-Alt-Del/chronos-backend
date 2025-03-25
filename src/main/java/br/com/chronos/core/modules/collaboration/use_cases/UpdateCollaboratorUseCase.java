@@ -18,7 +18,8 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Email responsibleEmail) {
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Email responsibleEmail,
+      Id workScheduleId) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
     var responsible = this.repository.findByEmail(responsibleEmail);
     if (!responsible.get().isFromSameSector(collaborator).value()) {
@@ -30,7 +31,13 @@ public class UpdateCollaboratorUseCase {
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
     collaborator.update(dto);
 
-    repository.update(collaborator);
+    if (workScheduleId != null) {
+      repository.update(collaborator, workScheduleId);
+    } else {
+      var workId = getWorkScheduleId(collaborator.getId());
+      repository.update(collaborator, workId);
+    }
+
     return collaborator.getDto();
   }
 
@@ -62,5 +69,10 @@ public class UpdateCollaboratorUseCase {
     if (cpf != null && existingCollaborator.get().getCpf().equals(cpf)) {
       throw new ExistingCpfException();
     }
+  }
+
+  private Id getWorkScheduleId(Id collaboratorId) {
+    var workScheduleId = repository.findWorkScheduleId(collaboratorId);
+    return workScheduleId;
   }
 }

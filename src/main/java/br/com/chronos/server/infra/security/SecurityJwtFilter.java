@@ -42,7 +42,7 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
 
         // In case somehow user(malicious user) gets invalid token,this way it wont fuck up the system and return a nice response
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().write("Autenticacao falhou ");
+        response.getWriter().write("Autenticacao falhou");
         return;
       }
     }
