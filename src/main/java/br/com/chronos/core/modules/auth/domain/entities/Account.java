@@ -48,10 +48,6 @@ public final class Account extends Entity {
     return isActive;
   }
 
-  public CollaborationSector getSector() {
-    return sector;
-  }
-
   public Id getCollaboratorId() {
     return collaboratorId;
   }
