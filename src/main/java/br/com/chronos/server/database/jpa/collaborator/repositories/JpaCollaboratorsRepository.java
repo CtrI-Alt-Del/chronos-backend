@@ -16,6 +16,7 @@ import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sec
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
@@ -32,7 +33,11 @@ interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorMode
 
   Page<CollaboratorModel> findAllByAccountRoleNot(RoleName role, Pageable pageable);
 
-  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSector(RoleName role, Sector sector, Pageable pageable);
+  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
+      RoleName role,
+      Sector sector,
+      Boolean isActive,
+      Pageable pageable);
 }
 
 public class JpaCollaboratorsRepository implements CollaboratorsRepository {
@@ -88,14 +93,14 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
   @Override
   public Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page, RoleName requesterRole,
-      Sector requesterSector) {
+      Sector requesterSector, Logical isActive) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     Page<CollaboratorModel> collaboratorModels;
     if (requesterRole == RoleName.ADMIN) {
       collaboratorModels = repository.findAllByAccountRoleNot(RoleName.ADMIN, pageRequest);
     } else {
-      collaboratorModels = repository.findAllByAccountRoleNotAndAccountSector(RoleName.ADMIN, requesterSector,
-          pageRequest);
+      collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(RoleName.ADMIN, requesterSector,
+          isActive.value(), pageRequest);
     }
     System.out.println(collaboratorModels);
     var items = collaboratorModels.getContent().stream().toList();
@@ -108,15 +113,19 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
   @Override
   public void disable(Collaborator collaborator) {
-    var collaboratorModel = mapper.toModel(collaborator);
-    // collaboratorModel.setIsActive(false);
+    CollaboratorModel collaboratorModel;
+    collaboratorModel = repository.findById(collaborator.getId().value()).get();
+    var accountModel = collaboratorModel.getAccount();
+    accountModel.setIsActive(false);
     repository.save(collaboratorModel);
   }
 
   @Override
   public void enable(Collaborator collaborator) {
-    var collaboratorModel = mapper.toModel(collaborator);
-    // collaboratorModel.setIsActive(true);
+    CollaboratorModel collaboratorModel;
+    collaboratorModel = repository.findById(collaborator.getId().value()).get();
+    var accountModel = collaboratorModel.getAccount();
+    accountModel.setIsActive(true);
     repository.save(collaboratorModel);
   }
 
