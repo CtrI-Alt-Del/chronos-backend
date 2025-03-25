@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
@@ -16,6 +18,8 @@ import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -91,7 +95,8 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
     if (requesterRole == RoleName.ADMIN) {
       collaboratorModels = repository.findAllByAccountRoleNot(RoleName.ADMIN, pageRequest);
     } else {
-      collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(RoleName.ADMIN, requesterSector,
+      collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(RoleName.ADMIN,
+          requesterSector,
           isActive.value(), pageRequest);
     }
     System.out.println(collaboratorModels);
