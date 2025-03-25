@@ -2,7 +2,7 @@ package br.com.chronos.core.modules.work_schedule.domain.dtos;
 
 import java.time.LocalDate;
 
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
+import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
 
 public class WorkdayLogDto {
   public String id;
@@ -10,22 +10,7 @@ public class WorkdayLogDto {
   public TimePunchDto timePunchSchedule;
   public TimePunchDto timePunchLog;
   public String status;
-  public WorkdayLogDtoResponsible responsible;
-
-  public static class WorkdayLogDtoResponsible {
-    public String id;
-    public ResponsibleDto dto;
-
-    public WorkdayLogDtoResponsible setId(String id) {
-      this.id = id;
-      return this;
-    }
-
-    public WorkdayLogDtoResponsible setDto(ResponsibleDto dto) {
-      this.dto = dto;
-      return this;
-    }
-  }
+  public ResponsibleAggregateDto responsible;
 
   public WorkdayLogDto setId(String id) {
     this.id = id;
@@ -52,16 +37,13 @@ public class WorkdayLogDto {
     return this;
   }
 
-  public WorkdayLogDto setResponsible(String id) {
-    this.responsible = new WorkdayLogDtoResponsible()
-        .setId(id);
+  public WorkdayLogDto setResponsible(ResponsibleAggregateDto dto) {
+    this.responsible = dto;
     return this;
   }
 
-  public WorkdayLogDto setResponsible(String id, ResponsibleDto dto) {
-    this.responsible = new WorkdayLogDtoResponsible()
-        .setId(id)
-        .setDto(dto);
+  public WorkdayLogDto setResponsibleId(String id) {
+    this.responsible = new ResponsibleAggregateDto().setId(id);
     return this;
   }
 }
