@@ -1,5 +1,6 @@
 package br.com.chronos.core.modules.work_schedule.domain.entities.fakers;
 
+import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.modules.global.domain.entities.fakers.ResponsibleFaker;
 import br.com.chronos.core.modules.global.domain.records.fakers.DateFaker;
 import br.com.chronos.core.modules.global.domain.records.fakers.IdFaker;
@@ -21,7 +22,7 @@ public class WorkdayLogFaker {
         .setTimePunchLog(TimePunchFaker.fakeDto())
         .setTimePunchSchedule(TimePunchFaker.fakeDto())
         .setStatus(WorkdayStatusFaker.fakeDto())
-        .setResponsible(fakeResponsibleDto.id, fakeResponsibleDto);
+        .setResponsible(new ResponsibleAggregateDto(fakeResponsibleDto));
   }
 
   public static Array<WorkdayLog> fakeMany(int count) {

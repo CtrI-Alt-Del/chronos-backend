@@ -111,14 +111,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
         collaboratorModel, dateRange.startDate().value(), dateRange.endDate().value(), pageRequest);
     var items = workdayLogModels.getContent().stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
-    var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
-    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
-    var workdayLogModels = repository.findAllByCollaboratorAndDateBetween(
-        collaboratorModel, dateRange.startDate().value(), dateRange.endDate().value(), pageRequest);
-    var items = workdayLogModels.getContent().stream().toList();
-    var itemsCount = workdayLogModels.getTotalElements();
 
-    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
   }
 

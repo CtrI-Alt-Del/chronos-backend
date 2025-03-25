@@ -13,7 +13,7 @@ public record Role(RoleName value) {
     if (role == null) {
       return new Role(RoleName.EMPLOYEE);
     }
-    var text = Text.create(role.toUpperCase(), "collaborator role");
+    var text = Text.create(role.toUpperCase(), "cargo");
     try {
       return new Role(RoleName.valueOf(text.value()));
     } catch (Exception e) {

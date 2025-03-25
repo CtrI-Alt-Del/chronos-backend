@@ -36,7 +36,7 @@ public class CreateTodayWorkdayLogsUseCase {
             .setDate(Date.createFromNow().value())
             .setTimePunchLog(new TimePunchDto())
             .setStatus(workdayStatus.toString())
-            .setResponsible(collaboratorId.toString());
+            .setResponsibleId(collaboratorId.toString());
 
         return new WorkdayLog(workdayLogDto);
       });
