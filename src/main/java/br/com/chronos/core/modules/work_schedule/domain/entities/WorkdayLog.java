@@ -12,7 +12,7 @@ public final class WorkdayLog extends Entity {
   private TimePunch timePunchSchedule;
   private TimePunch timePunchLog;
   private WorkdayStatus status;
-  private ResponsibleAggregate responsibleAggregate;
+  private ResponsibleAggregate responsible;
 
   public WorkdayLog(WorkdayLogDto dto) {
     super(dto.id);
@@ -20,7 +20,7 @@ public final class WorkdayLog extends Entity {
     timePunchSchedule = new TimePunch(dto.timePunchSchedule);
     timePunchLog = (dto.timePunchLog != null) ? new TimePunch(dto.timePunchLog) : new TimePunch();
     status = WorkdayStatus.create(dto.status);
-    responsibleAggregate = new ResponsibleAggregate(dto.responsible);
+    responsible = new ResponsibleAggregate(dto.responsible);
   }
 
   public Time getLatetime() {
@@ -53,8 +53,8 @@ public final class WorkdayLog extends Entity {
     return status;
   }
 
-  public ResponsibleAggregate getResponsibleAggregate() {
-    return responsibleAggregate;
+  public ResponsibleAggregate getResponsible() {
+    return responsible;
   }
 
   public WorkdayLogDto getDto() {
@@ -64,7 +64,7 @@ public final class WorkdayLog extends Entity {
         .setTimePunchSchedule(getTimePunchSchedule().getDto())
         .setTimePunchLog(getTimePunchLog().getDto())
         .setStatus(getStatus().toString().toLowerCase())
-        .setResponsible(getResponsibleAggregate().getDto());
+        .setResponsible(getResponsible().getDto());
   }
 
 }

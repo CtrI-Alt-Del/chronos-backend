@@ -18,7 +18,7 @@ public class WorkdayLogMapper {
   public WorkdayLogModel toModel(WorkdayLog entity) {
     var collaboratorModel = CollaboratorModel
         .builder()
-        .id(entity.getResponsibleAggregate().getId().value())
+        .id(entity.getResponsible().getId().value())
         .build();
 
     var model = WorkdayLogModel.builder()
