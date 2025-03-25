@@ -32,9 +32,11 @@ public class UpdateCollaboratorController {
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId,
       @RequestBody Request body) {
     var useCase = new UpdateCollaboratorUseCase(repository);
-    var responsible = authenticationProvider.getAuthenticatedUser().getEmail();
+    var responsible = authenticationProvider.getAuthenticatedUser();
+    var responsibleSector = responsible.getSector();
+    var responsibleRole = responsible.getRole();
     Id workScheduleId = body.workScheduleId != null ? Id.create(body.workScheduleId) : null;
-    var response = useCase.execute(collaboratorId, body.collaboratorDto, responsible, workScheduleId);
+    var response = useCase.execute(collaboratorId, body.collaboratorDto,  workScheduleId,responsibleSector,responsibleRole);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }

@@ -7,9 +7,11 @@ import br.com.chronos.core.modules.collaboration.domain.exceptions.CollaboratorN
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmailException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Role;
 
 public class UpdateCollaboratorUseCase {
   private final CollaboratorsRepository repository;
@@ -18,16 +20,17 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Email responsibleEmail,Id workScheduleId) {
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Id workScheduleId,
+      CollaborationSector responsibleSector, Role responsibleRole) {
     if (dto == null) {
-        dto = new CollaboratorDto(); 
+      dto = new CollaboratorDto();
     }
     var collaborator = findCollaborator(Id.create(collaboratorId));
-    var responsible = this.repository.findByEmail(responsibleEmail);
-    if (!responsible.get().isFromSameSector(collaborator).value()) {
+
+    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
       throw new NotAuthorizedException();
     }
-    if (dto.sector != null && responsible.get().getRole().isAdmin().isFalse()) {
+    if (dto.sector != null && responsibleRole.isAdmin().isFalse()) {
       throw new NotAuthorizedException();
     }
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
