@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.UUID;
 
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus;
+import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus.Status;
 import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod;
+import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod.PeriodName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import jakarta.persistence.Column;
@@ -50,7 +52,7 @@ public class WorkdayLogAdjustmentSolicitationModel {
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, name = "status")
-  private SolicitationStatus solicitationStatus;
+  private Status solicitationStatus;
 
   @ManyToOne
   @JoinColumn(name = "workday_log_id", nullable = false)
@@ -61,5 +63,5 @@ public class WorkdayLogAdjustmentSolicitationModel {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "time_punch_period", nullable = false)
-  private TimePunchPeriod timePunchPeriod;
+  private PeriodName timePunchPeriod;
 }
