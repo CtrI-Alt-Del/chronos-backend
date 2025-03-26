@@ -29,11 +29,11 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
   private JwtProvider jwtProvider;
 
   @Override
-  public String login(String email, String password) {
-    var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+  public String login(AccountDto accountDto,String password) {
+    var authenticationToken = new UsernamePasswordAuthenticationToken(accountDto.email, password);
     try {
       authenticationManager.authenticate(authenticationToken);
-      return jwtProvider.generateToken(email);
+      return jwtProvider.generateToken(accountDto);
     } catch (DisabledException e) {
       throw new DisabledAccountException();
     } catch (BadCredentialsException e) {
