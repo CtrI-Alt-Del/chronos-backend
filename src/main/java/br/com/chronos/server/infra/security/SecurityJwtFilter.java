@@ -33,6 +33,7 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
     var token = recoverToken(request);
     if (token != null) {
       var subject = jwtProvider.validateToken(token);
+      System.out.println(subject);
       try {
         var account = getAccount(subject);
         var securityUser = new SecurityUser(account);
@@ -40,7 +41,6 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
       } catch (Exception e) {
 
-        // In case somehow user(malicious user) gets invalid token,this way it wont fuck up the system and return a nice response
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("Autenticacao falhou");
         return;
