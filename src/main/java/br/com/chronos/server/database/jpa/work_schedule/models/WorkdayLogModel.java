@@ -1,6 +1,7 @@
 package br.com.chronos.server.database.jpa.work_schedule.models;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.EnumType;
@@ -52,5 +53,5 @@ public class WorkdayLogModel {
   private WorkdayStatusName status;
 
   @OneToMany(mappedBy = "workdayLog")
-  private WorkdayLogAdjustmentSolicitationModel workdayLogAdjustmentSolicitation;
+  private List<WorkdayLogAdjustmentSolicitationModel> workdayLogAdjustmentSolicitation;
 }
