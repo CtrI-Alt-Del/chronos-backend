@@ -19,10 +19,9 @@ public class CorsConfig implements WebMvcConfigurer {
     if (allowedOrigin == null || allowedOrigin.isEmpty()) {
       throw new IllegalStateException("Missing required environment for variable for Web App Url ");
     }
-
     registry.addMapping("/**")
         .allowedOrigins(allowedOrigin)
-        .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
+        .allowedMethods("*")
         .allowedHeaders("*")
         .allowCredentials(true);
   }
