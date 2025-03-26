@@ -10,7 +10,7 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
     private Time time;
     private TimePunchPeriod period;
 
-    private TimePunchLogAdjustmentSolicitation(TimePunchLogAdjustmentSolicitationDto dto) {
+    public TimePunchLogAdjustmentSolicitation(TimePunchLogAdjustmentSolicitationDto dto) {
         super(dto);
         time = new Time(dto.time);
         period = TimePunchPeriod.create(dto.period);
