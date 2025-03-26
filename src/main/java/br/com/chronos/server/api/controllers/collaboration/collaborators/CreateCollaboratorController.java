@@ -41,9 +41,10 @@ public class CreateCollaboratorController {
     var password = Password.create(body.password);
     var workScheduleId = Id.create(body.workScheduleId);
     var responsible = authenticationProvider.getAuthenticatedUser();
-    var responsibleSector = responsible.getSector();
+    var responsibleSector = responsible.getSector().value();
     var responsibleRole = responsible.getRole();
-    var collaboratorDto = useCase.execute(body.collaboratorDto, workScheduleId, password, responsibleSector,responsibleRole);
+    var collaboratorDto = useCase.execute(body.collaboratorDto, workScheduleId, password, responsibleSector,
+        responsibleRole);
     return ResponseEntity.status(HttpStatus.OK).body(collaboratorDto);
   }
 }

@@ -29,7 +29,7 @@ public class SecurityConfiguration {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers("/collaboration/collaborator").hasRole("MANAGER")
-            .anyRequest().permitAll())
+            .anyRequest().authenticated())
         .addFilterBefore(securityJwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }

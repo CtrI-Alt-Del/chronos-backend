@@ -33,7 +33,7 @@ public class UpdateCollaboratorController {
       @RequestBody Request body) {
     var useCase = new UpdateCollaboratorUseCase(repository);
     var responsible = authenticationProvider.getAuthenticatedUser();
-    var responsibleSector = responsible.getSector();
+    var responsibleSector = responsible.getSector().value();
     var responsibleRole = responsible.getRole();
     Id workScheduleId = body.workScheduleId != null ? Id.create(body.workScheduleId) : null;
     var response = useCase.execute(collaboratorId, body.collaboratorDto,  workScheduleId,responsibleSector,responsibleRole);

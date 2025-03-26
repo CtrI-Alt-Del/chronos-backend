@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
@@ -13,8 +15,11 @@ import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.global.domain.records.Page;
+import br.com.chronos.core.modules.global.domain.records.Logical;
+import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -25,6 +30,14 @@ interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorMode
   public Optional<CollaboratorModel> findByAccountEmail(String email);
 
   public Optional<CollaboratorModel> findByCpf(String cpf);
+
+  Page<CollaboratorModel> findAllByAccountRoleNot(RoleName role, Pageable pageable);
+
+  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
+      RoleName role,
+      Sector sector,
+      Boolean isActive,
+      Pageable pageable);
 }
 
 public class JpaCollaboratorsRepository implements CollaboratorsRepository {
@@ -75,9 +88,18 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Pair<Array<Collaborator>, PlusInteger> findMany(Page page) {
+  public Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page, RoleName requesterRole,
+      Sector requesterSector, Logical isActive) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var collaboratorModels = repository.findAll(pageRequest);
+    Page<CollaboratorModel> collaboratorModels;
+    if (requesterRole == RoleName.ADMIN) {
+      collaboratorModels = repository.findAllByAccountRoleNot(RoleName.ADMIN, pageRequest);
+    } else {
+      collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(RoleName.ADMIN,
+          requesterSector,
+          isActive.value(), pageRequest);
+    }
+    System.out.println(collaboratorModels);
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();
 
@@ -88,15 +110,19 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
   @Override
   public void disable(Collaborator collaborator) {
-    var collaboratorModel = mapper.toModel(collaborator);
-    // collaboratorModel.setIsActive(false);
+    CollaboratorModel collaboratorModel;
+    collaboratorModel = repository.findById(collaborator.getId().value()).get();
+    var accountModel = collaboratorModel.getAccount();
+    accountModel.setIsActive(false);
     repository.save(collaboratorModel);
   }
 
   @Override
   public void enable(Collaborator collaborator) {
-    var collaboratorModel = mapper.toModel(collaborator);
-    // collaboratorModel.setIsActive(true);
+    CollaboratorModel collaboratorModel;
+    collaboratorModel = repository.findById(collaborator.getId().value()).get();
+    var accountModel = collaboratorModel.getAccount();
+    accountModel.setIsActive(true);
     repository.save(collaboratorModel);
   }
 
