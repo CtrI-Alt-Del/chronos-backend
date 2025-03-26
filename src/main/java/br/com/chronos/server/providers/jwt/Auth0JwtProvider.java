@@ -5,7 +5,10 @@ import java.time.ZoneOffset;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
 import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
 import br.com.chronos.core.modules.global.domain.records.DateTime;
 import br.com.chronos.core.modules.global.interfaces.providers.EnvProvider;
@@ -27,11 +30,18 @@ public class Auth0JwtProvider implements JwtProvider {
   }
 
   @Override
-  public String generateToken(String email) {
+  public String generateToken(AccountDto accountDto) {
     var expirationDate = DateTime.createFromNow().addDays(7);
+    ObjectMapper objectMapper = new ObjectMapper();
+    String accountJson;
+    try {
+      accountJson = objectMapper.writeValueAsString(accountDto);
+    } catch (JsonProcessingException e) {
+      throw new NotAuthenticatedException();
+    }
     var jwt = JWT.create()
         .withIssuer(issuer)
-        .withSubject(email)
+        .withSubject(accountJson)
         .withExpiresAt(expirationDate.value().toInstant(ZoneOffset.of("-03:00")))
         .sign(algorithm);
     return jwt;
@@ -39,10 +49,10 @@ public class Auth0JwtProvider implements JwtProvider {
 
   @Override
   public String validateToken(String token) {
-    try{
+    try {
       var subject = JWT.require(algorithm).withIssuer(issuer).build().verify(token).getSubject();
       return subject;
-    }catch(JWTVerificationException exception){
+    } catch (JWTVerificationException exception) {
       throw new NotAuthenticatedException();
     }
   }
