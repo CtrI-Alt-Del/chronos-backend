@@ -50,8 +50,12 @@ public class CollaboratorModel {
   @Builder.Default
   private List<WorkdayLogModel> workdayLogs = new ArrayList();
 
-  @OneToOne(mappedBy = "collaborator", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "senderResponsible", fetch = FetchType.LAZY)
   @Builder.Default
-  private List<WorkdayLogAdjustmentSolicitationModel> workdayLogAdjustmentSolicitations = new ArrayList();
+  private List<WorkdayLogAdjustmentSolicitationModel> sentSolicitations = new ArrayList<>();
+
+  @OneToMany(mappedBy = "replierResponsible", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<WorkdayLogAdjustmentSolicitationModel> repliedSolicitations = new ArrayList<>();
 
 }

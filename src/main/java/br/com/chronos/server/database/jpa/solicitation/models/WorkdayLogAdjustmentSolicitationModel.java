@@ -2,7 +2,6 @@ package br.com.chronos.server.database.jpa.solicitation.models;
 
 import java.time.LocalTime;
 import java.util.Date;
-import java.util.Timer;
 import java.util.UUID;
 
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus;
@@ -16,7 +15,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,20 +31,26 @@ public class WorkdayLogAdjustmentSolicitationModel {
   @Id
   private UUID id;
 
-  @ManyToOne
-  @JoinColumn(name = "collaborator_id", nullable = false)
-  private CollaboratorModel collaborator;
+  @Column(nullable = true)
+  private String description;
 
   @Column(nullable = false)
   private Date request_at;
 
+  @Column(nullable = true)
+  private String feedbackMessage;
+
+  @ManyToOne
+  @JoinColumn(name = "sender_responsible_id", nullable = false)
+  private CollaboratorModel senderResponsible; 
+
+  @ManyToOne
+  @JoinColumn(name = "replier_responsible_id")
+  private CollaboratorModel replierResponsible;
+
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, name = "status")
   private SolicitationStatus solicitationStatus;
-
-  @OneToOne
-  @JoinColumn(name = "justification_id",nullable = false)
-  private JustificationModel justification;
 
   @ManyToOne
   @JoinColumn(name = "workday_log_id", nullable = false)
