@@ -19,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
+import br.com.chronos.server.database.jpa.solicitation.models.WorkdayLogAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
@@ -29,24 +30,28 @@ import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 @Entity
 @Table(name = "collaborators")
 public class CollaboratorModel {
-    @Id
-    private UUID id;
+  @Id
+  private UUID id;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+  @Column(nullable = false, length = 100)
+  private String name;
 
-    @Column(nullable = false, unique = true, length = 11)
-    private String cpf;
+  @Column(nullable = false, unique = true, length = 11)
+  private String cpf;
 
-    @OneToOne(mappedBy = "collaborator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private AccountModel account;
+  @OneToOne(mappedBy = "collaborator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+  private AccountModel account;
 
-    @ManyToOne
-    @JoinColumn(name = "work_schedule_id", nullable = false)
-    private WorkScheduleModel workSchedule;
+  @ManyToOne
+  @JoinColumn(name = "work_schedule_id", nullable = false)
+  private WorkScheduleModel workSchedule;
 
-    @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<WorkdayLogModel> workdayLogs = new ArrayList();
+  @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<WorkdayLogModel> workdayLogs = new ArrayList();
+
+  @OneToOne(mappedBy = "collaborator", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<WorkdayLogAdjustmentSolicitationModel> workdayLogAdjustmentSolicitations = new ArrayList();
 
 }
