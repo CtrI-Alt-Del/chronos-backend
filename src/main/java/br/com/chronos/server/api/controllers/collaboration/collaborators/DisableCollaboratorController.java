@@ -23,8 +23,10 @@ public class DisableCollaboratorController {
   @DeleteMapping("/disable/{id}")
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new DisableCollaboratorUseCase(repository);
-    var responsibleEmail = authenticationProvider.getAuthenticatedUser().getEmail();
-    useCase.execute(collaboratorId, responsibleEmail);
+    var responsible = authenticationProvider.getAuthenticatedUser();
+    var sector = responsible.getSector().value();
+    var role = responsible.getRole();
+    useCase.execute(collaboratorId, sector, role);
     return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 }

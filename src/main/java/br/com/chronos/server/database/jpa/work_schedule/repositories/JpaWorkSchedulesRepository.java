@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
-import br.com.chronos.core.modules.global.domain.records.Page;
+import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
@@ -101,7 +101,7 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   }
 
   @Override
-  public Pair<Array<WorkSchedule>, PlusInteger> findMany(Page page) {
+  public Pair<Array<WorkSchedule>, PlusInteger> findMany(PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var workScheduleModels = workScheduleModelsRepository.findAll(pageRequest);
     var items = workScheduleModels.stream().toList();
