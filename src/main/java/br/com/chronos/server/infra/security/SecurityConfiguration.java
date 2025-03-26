@@ -27,6 +27,7 @@ public class SecurityConfiguration {
         .csrf(crsf -> crsf.disable())
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers("/collaboration/collaborator").hasRole("MANAGER")
             .anyRequest().authenticated())
