@@ -29,8 +29,8 @@ public class AccountMapper {
         .setPassword(model.getPassword().toString())
         .setActive(model.getIsActive())
         .setRole(model.getRole().toString())
-        .setSector(model.getSector().toString());
-
+        .setSector(model.getSector().toString())
+        .setCollaboratorId(model.getCollaborator().getId().toString());
 
     return new Account(dto);
   }
