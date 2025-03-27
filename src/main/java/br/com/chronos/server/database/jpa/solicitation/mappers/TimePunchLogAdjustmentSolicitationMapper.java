@@ -37,7 +37,7 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .setRole(model.getSenderResponsible().getAccount().getRole().toString());
 
     var senderResponsibleAggregateDto = new ResponsibleAggregateDto()
-        .setId(model.getReplierResponsible().getId().toString())
+        .setId(model.getSenderResponsible().getId().toString())
         .setResponsibleDto(senderResponsibleDto);
 
     var replierResponsibleDto = new ResponsibleDto()
