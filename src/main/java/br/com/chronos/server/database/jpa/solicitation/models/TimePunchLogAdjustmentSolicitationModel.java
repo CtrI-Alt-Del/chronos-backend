@@ -1,12 +1,11 @@
 package br.com.chronos.server.database.jpa.solicitation.models;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
-import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus;
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus.Status;
-import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod;
 import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod.PeriodName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
@@ -28,8 +27,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "workday_log_adjustment_requests")
-public class WorkdayLogAdjustmentSolicitationModel {
+@Table(name = "time_punch_log_adjustment_solicitation")
+public class TimePunchLogAdjustmentSolicitationModel {
   @Id
   private UUID id;
 
@@ -37,7 +36,7 @@ public class WorkdayLogAdjustmentSolicitationModel {
   private String description;
 
   @Column(nullable = false)
-  private Date request_at;
+  private LocalDate request_at;
 
   @Column(nullable = true)
   private String feedbackMessage;
