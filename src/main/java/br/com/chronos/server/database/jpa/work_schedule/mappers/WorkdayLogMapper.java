@@ -33,7 +33,7 @@ public class WorkdayLogMapper {
 
   public WorkdayLog toEntity(WorkdayLogModel model) {
     var responsibleDto = new ResponsibleDto()
-        .setId(model.getCollaborator().toString())
+        .setId(model.getCollaborator().getId().toString())
         .setName(model.getCollaborator().getName())
         .setEmail(model.getCollaborator().getAccount().getEmail())
         .setRole(model.getCollaborator().getAccount().getRole().toString());
