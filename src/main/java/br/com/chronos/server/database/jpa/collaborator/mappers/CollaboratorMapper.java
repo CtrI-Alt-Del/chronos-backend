@@ -1,12 +1,13 @@
 package br.com.chronos.server.database.jpa.collaborator.mappers;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
-@Service
+@Component
 public class CollaboratorMapper {
   public CollaboratorModel toModel(Collaborator entity) {
     var model = CollaboratorModel.builder()
