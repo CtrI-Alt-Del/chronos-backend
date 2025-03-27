@@ -31,7 +31,7 @@ interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorMode
 
   public Optional<CollaboratorModel> findByCpf(String cpf);
 
-  Page<CollaboratorModel> findAllByAccountRoleNot(RoleName role, Pageable pageable);
+  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountIsActive(RoleName role, Pageable pageable, Boolean isActive);
 
   Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
       RoleName role,
@@ -93,7 +93,8 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     Page<CollaboratorModel> collaboratorModels;
     if (requesterRole == RoleName.ADMIN) {
-      collaboratorModels = repository.findAllByAccountRoleNot(RoleName.ADMIN, pageRequest);
+      collaboratorModels = repository.findAllByAccountRoleNotAndAccountIsActive(RoleName.ADMIN, pageRequest,
+          isActive.value());
     } else {
       collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(RoleName.ADMIN,
           requesterSector,

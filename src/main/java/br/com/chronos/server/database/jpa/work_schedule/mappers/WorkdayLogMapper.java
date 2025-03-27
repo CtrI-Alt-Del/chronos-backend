@@ -1,6 +1,7 @@
 package br.com.chronos.server.database.jpa.work_schedule.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
@@ -10,7 +11,7 @@ import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
-@Service
+@Component
 public class WorkdayLogMapper {
   @Autowired
   private TimePunchMapper TimePunchMapper;
@@ -33,7 +34,7 @@ public class WorkdayLogMapper {
 
   public WorkdayLog toEntity(WorkdayLogModel model) {
     var responsibleDto = new ResponsibleDto()
-        .setId(model.getCollaborator().toString())
+        .setId(model.getCollaborator().getId().toString())
         .setName(model.getCollaborator().getName())
         .setEmail(model.getCollaborator().getAccount().getEmail())
         .setRole(model.getCollaborator().getAccount().getRole().toString());
