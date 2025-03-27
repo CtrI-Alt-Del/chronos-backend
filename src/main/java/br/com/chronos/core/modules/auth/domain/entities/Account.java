@@ -79,7 +79,8 @@ public final class Account extends Entity {
         .setPassword(getPassword().value().toString())
         .setActive(getIsActive().value())
         .setRole(getRole().toString())
-        .setSector(getSector().toString());
+        .setSector(getSector().toString())
+        .setCollaboratorId(getCollaboratorId().value().toString());
     return dto;
   }
 }

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 
 import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.solicitation.models.WorkdayLogAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
 
 @Entity
 @AllArgsConstructor
@@ -53,6 +53,7 @@ public class WorkdayLogModel {
   @Column(name = "status", nullable = false)
   private WorkdayStatusName status;
 
-  @OneToMany(mappedBy = "workdayLog", fetch = FetchType.LAZY)
-  private List<WorkdayLogAdjustmentSolicitationModel> workdayLogAdjustmentSolicitation;
+  // @OneToMany(mappedBy = "workdayLog", fetch = FetchType.LAZY)
+  // private List<WorkdayLogAdjustmentSolicitationModel>
+  // workdayLogAdjustmentSolicitation;
 }

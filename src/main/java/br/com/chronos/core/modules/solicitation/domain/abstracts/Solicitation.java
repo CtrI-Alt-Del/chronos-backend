@@ -25,6 +25,11 @@ public abstract class Solicitation extends Entity {
     replierResponsible = new ResponsibleAggregate(dto.replierResponsible);
   }
 
+  public Text getDescription(){
+    return description;
+  }
+  
+
   public SolicitationStatus getStatus() {
     return status;
   }

@@ -33,7 +33,6 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
     var token = recoverToken(request);
     if (token != null) {
       var subject = jwtProvider.validateToken(token);
-      System.out.println(subject);
       try {
         var account = getAccount(subject);
         var securityUser = new SecurityUser(account);
