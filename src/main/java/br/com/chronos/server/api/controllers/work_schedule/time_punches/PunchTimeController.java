@@ -20,13 +20,13 @@ public class PunchTimeController {
 
   @Data
   private static class Request {
-    private LocalTime punch;
+    private LocalTime time;
   }
 
   @PatchMapping("/{timePunchId}")
   public ResponseEntity<TimePunchDto> handle(@PathVariable String timePunchId, @RequestBody Request body) {
     var useCase = new PunchTimeUseCase(timePunchesRepository);
-    var timePunchDto = useCase.execute(timePunchId, body.getPunch());
+    var timePunchDto = useCase.execute(timePunchId, body.getTime());
     return ResponseEntity.ok(timePunchDto);
   }
 }
