@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chronos.core.modules.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.modules.solicitation.domain.entities.WorkScheduleAdjustmentSolicitation;
@@ -36,12 +37,14 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   WorkScheduleAdjustmentSolicitationMapper workScheduleAdjustmentMapper;
 
   @Override
+  @Transactional
   public void addTimePunchLogAdjustmentSolicitation(TimePunchLogAdjustmentSolicitation solicitation) {
     var timePunchAdjustmentSolicitationModel = timePunchAdjustmentMapper.toModel(solicitation);
     timePunchLogAdjustmentSolicitationModelsRepository.save(timePunchAdjustmentSolicitationModel);
   }
 
   @Override
+  @Transactional
   public void addWorkScheduleAdjustmentSolicitation(WorkScheduleAdjustmentSolicitation solicitation) {
     var workScheduleAdjustmentSolicitationModel = workScheduleAdjustmentMapper.toModel(solicitation);
     workScheduleAdjustmentSolcitationModelsRepository.save(workScheduleAdjustmentSolicitationModel);

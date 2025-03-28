@@ -36,7 +36,7 @@ public class TimePunchLogAdjustmentSolicitationModel {
   private String description;
 
   @Column(nullable = false)
-  private LocalDate request_at;
+  private LocalDate requestedAt;
 
   @Column(nullable = true)
   private String feedbackMessage;
