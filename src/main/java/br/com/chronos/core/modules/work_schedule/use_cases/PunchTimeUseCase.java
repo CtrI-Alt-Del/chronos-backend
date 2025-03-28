@@ -16,9 +16,9 @@ public class PunchTimeUseCase {
     this.repository = repository;
   }
 
-  public TimePunchDto execute(String timePunchId, LocalTime punch) {
+  public TimePunchDto execute(String timePunchId, LocalTime time) {
     var timePunch = findTimePunch(timePunchId);
-    timePunch.punch(Time.create(punch));
+    timePunch.punch(Time.create(time));
     repository.update(timePunch);
     return timePunch.getDto();
   }

@@ -55,7 +55,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Optional<Collaborator> findCollaboratorById(Id id) {
+  public Optional<Collaborator> findById(Id id) {
     var collaboratorModel = repository.findById(id.value());
     if (collaboratorModel.isEmpty()) {
       return Optional.empty();

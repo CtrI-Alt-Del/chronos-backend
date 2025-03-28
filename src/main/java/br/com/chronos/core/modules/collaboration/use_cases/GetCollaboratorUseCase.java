@@ -13,13 +13,13 @@ public class GetCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId){
+  public CollaboratorDto execute(String collaboratorId) {
     var Collaborator = findCollaborator(Id.create(collaboratorId));
     return Collaborator.getDto();
   }
 
   private Collaborator findCollaborator(Id collaboratorId) {
-    var collaborator = repository.findCollaboratorById(collaboratorId);
+    var collaborator = repository.findById(collaboratorId);
     if (collaborator.isEmpty()) {
       throw new CollaboratorNotFoundException();
 

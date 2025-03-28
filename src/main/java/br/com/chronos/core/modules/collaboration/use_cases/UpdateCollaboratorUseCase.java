@@ -48,7 +48,7 @@ public class UpdateCollaboratorUseCase {
   }
 
   private Collaborator findCollaborator(Id collaboratorId) {
-    var collaborator = repository.findCollaboratorById(collaboratorId);
+    var collaborator = repository.findById(collaboratorId);
     if (collaborator.isEmpty()) {
       throw new CollaboratorNotFoundException();
 
