@@ -20,6 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
@@ -52,10 +53,17 @@ public class CollaboratorModel {
 
   @OneToMany(mappedBy = "senderResponsible", fetch = FetchType.LAZY)
   @Builder.Default
-  private List<TimePunchLogAdjustmentSolicitationModel> sentSolicitations = new ArrayList<>();
+  private List<TimePunchLogAdjustmentSolicitationModel> sentTimePunchSolicitations = new ArrayList<>();
 
   @OneToMany(mappedBy = "replierResponsible", fetch = FetchType.LAZY)
   @Builder.Default
-  private List<TimePunchLogAdjustmentSolicitationModel> repliedSolicitations = new ArrayList<>();
+  private List<TimePunchLogAdjustmentSolicitationModel> repliedTimePunchSolicitations = new ArrayList<>();
 
+  @OneToMany(mappedBy = "senderResponsible", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<WorkScheduleAdjustmentSolicitationModel> sentWorkScheduleSolicitations = new ArrayList<>();
+
+  @OneToMany(mappedBy = "replierResponsible", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<TimePunchLogAdjustmentSolicitationModel> repliedWorkScheduleSolicitations = new ArrayList<>();
 }

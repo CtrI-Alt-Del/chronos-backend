@@ -25,6 +25,7 @@ public class ResponsibleAggregate extends Aggregate<Responsible> {
         .setId(getId().toString())
         .setResponsibleDto(
             new ResponsibleDto()
+                .setId(responsibleDto.id)
                 .setName(responsibleDto.name)
                 .setEmail(responsibleDto.email)
                 .setRole(responsibleDto.role));

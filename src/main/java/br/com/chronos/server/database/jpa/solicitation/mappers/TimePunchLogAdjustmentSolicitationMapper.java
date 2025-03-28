@@ -18,7 +18,7 @@ public class TimePunchLogAdjustmentSolicitationMapper {
     return TimePunchLogAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription().value())
-        .request_at(entity.getDate().value())
+        .requestedAt(entity.getDate().value())
         .feedbackMessage(entity.getFeedbackMessage().value())
         .solicitationStatus(entity.getStatus().value())
         .time(entity.getTime().value())
@@ -31,35 +31,31 @@ public class TimePunchLogAdjustmentSolicitationMapper {
   public TimePunchLogAdjustmentSolicitation toEntity(TimePunchLogAdjustmentSolicitationModel model) {
 
     var senderResponsibleDto = new ResponsibleDto()
-        .setId(model.getSenderResponsible().getId().toString())
-        .setName(model.getSenderResponsible().getName())
-        .setEmail(model.getSenderResponsible().getAccount().getEmail())
-        .setRole(model.getSenderResponsible().getAccount().getRole().toString());
+    .setId(model.getSenderResponsible().getId().toString())
+    .setName(model.getSenderResponsible().getName())
+    .setEmail(model.getSenderResponsible().getAccount().getEmail())
+    .setRole(model.getSenderResponsible().getAccount().getRole().toString());
 
-    var senderResponsibleAggregateDto = new ResponsibleAggregateDto()
-        .setId(model.getSenderResponsible().getId().toString())
-        .setResponsibleDto(senderResponsibleDto);
+    var senderResponsibleAggregateDto = new ResponsibleAggregateDto(senderResponsibleDto);
 
     var replierResponsibleDto = new ResponsibleDto()
-        .setId(model.getReplierResponsible().getId().toString())
-        .setName(model.getReplierResponsible().getName())
-        .setEmail(model.getReplierResponsible().getAccount().getEmail())
-        .setRole(model.getReplierResponsible().getAccount().getRole().toString());
+    .setId(model.getReplierResponsible().getId().toString())
+    .setName(model.getReplierResponsible().getName())
+    .setEmail(model.getReplierResponsible().getAccount().getEmail())
+    .setRole(model.getReplierResponsible().getAccount().getRole().toString());
 
-    var replierResponsibleAggregateDto = new ResponsibleAggregateDto()
-        .setId(model.getReplierResponsible().getId().toString())
-        .setResponsibleDto(replierResponsibleDto);
+    var replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
 
     var dto = new TimePunchLogAdjustmentSolicitationDto()
-        .setTime(model.getTime())
-        .setId(model.getId().toString())
-        .setDescription(model.getDescription().toString())
-        .setDate(model.getRequest_at())
-        .setStatus(model.getSolicitationStatus().toString())
-        .setFeedbackMessage(model.getFeedbackMessage().toString())
-        .setSenderResponsible(senderResponsibleAggregateDto)
-        .setReplierResponsible(replierResponsibleAggregateDto);
-
+    .setTime(model.getTime())
+    .setId(model.getId().toString())
+    .setDescription(model.getDescription().toString())
+    .setDate(model.getRequestedAt())
+    .setStatus(model.getSolicitationStatus().toString())
+    .setFeedbackMessage(model.getFeedbackMessage().toString())
+    .setSenderResponsible(senderResponsibleAggregateDto)
+    .setReplierResponsible(replierResponsibleAggregateDto);
+    
     return new TimePunchLogAdjustmentSolicitation(dto);
   }
 }

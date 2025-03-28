@@ -19,7 +19,7 @@ public record Weekday(WeekdayName name) {
       var weekdayName = WeekdayName.valueOf(value.toUpperCase());
       return new Weekday(weekdayName);
     } catch (Exception e) {
-      throw new ValidationException("Weekday", "must be a valid name for weekday");
+      throw new ValidationException("Dia de semana", "Deve ser um dia da semana valido");
     }
   }
 

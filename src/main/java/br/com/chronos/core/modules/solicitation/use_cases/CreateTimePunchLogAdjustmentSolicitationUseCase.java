@@ -15,7 +15,7 @@ public class CreateTimePunchLogAdjustmentSolicitationUseCase {
     public TimePunchLogAdjustmentSolicitationDto execute(TimePunchLogAdjustmentSolicitationDto dto) {
         var solicitation = new TimePunchLogAdjustmentSolicitation(dto);
         repository.addTimePunchLogAdjustmentSolicitation(solicitation);
-        return (TimePunchLogAdjustmentSolicitationDto)solicitation.getDto();
+        return solicitation.getDto();
     }
 
 

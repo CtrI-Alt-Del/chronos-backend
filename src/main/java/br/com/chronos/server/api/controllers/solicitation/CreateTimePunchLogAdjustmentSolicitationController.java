@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.solicitation.time_punch_log_adjustments;
+package br.com.chronos.server.api.controllers.solicitation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,13 +9,13 @@ import br.com.chronos.core.modules.solicitation.domain.dtos.TimePunchLogAdjustme
 import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
 import br.com.chronos.core.modules.solicitation.use_cases.CreateTimePunchLogAdjustmentSolicitationUseCase;
 
-@TimePunchLogAdjustmentController
+@SolicitationsController
 public class CreateTimePunchLogAdjustmentSolicitationController {
 
-    @Autowired
-    private SolicitationsRepository solicitationsRepository;
+  @Autowired
+  private SolicitationsRepository solicitationsRepository;
 
-    @PostMapping
+    @PostMapping("/time-punch-adjustment")
     public ResponseEntity<TimePunchLogAdjustmentSolicitationDto> handle(
             @RequestBody TimePunchLogAdjustmentSolicitationDto body) {
         var useCase = new CreateTimePunchLogAdjustmentSolicitationUseCase(solicitationsRepository);

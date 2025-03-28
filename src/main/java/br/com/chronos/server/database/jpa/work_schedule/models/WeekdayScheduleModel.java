@@ -18,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 import br.com.chronos.core.modules.work_schedule.domain.records.Weekday.WeekdayName;
+import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
 
 @Data
 @AllArgsConstructor
@@ -26,12 +27,12 @@ import br.com.chronos.core.modules.work_schedule.domain.records.Weekday.WeekdayN
 @Builder
 @Table(name = "weekday_schedules")
 public class WeekdayScheduleModel {
-    @Id
-    private UUID id;
+  @Id
+  private UUID id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "weekday", nullable = false)
-    private WeekdayName weekdayName;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "weekday", nullable = false)
+  private WeekdayName weekdayName;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "time_punch_id", nullable = false)
