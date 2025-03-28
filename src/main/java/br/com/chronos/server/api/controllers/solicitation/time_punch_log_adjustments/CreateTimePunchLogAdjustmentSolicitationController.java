@@ -13,13 +13,14 @@ import br.com.chronos.core.modules.solicitation.use_cases.CreateTimePunchLogAdju
 @TimePunchLogAdjustmentController
 public class CreateTimePunchLogAdjustmentSolicitationController {
 
-    @Autowired
-    private SolicitationsRepository solicitationsRepository;
+  @Autowired
+  private SolicitationsRepository solicitationsRepository;
 
-    @PostMapping
-    public ResponseEntity<TimePunchLogAdjustmentSolicitationDto> handle(@RequestBody TimePunchLogAdjustmentSolicitationDto body) {
-        var useCase = new CreateTimePunchLogAdjustmentSolicitationUseCase(solicitationsRepository);
-        var timePunchLogAdjustmentSolicitationDto = useCase.execute(body);
-        return ResponseEntity.status(HttpStatus.OK).body(timePunchLogAdjustmentSolicitationDto);
-    }
+  @PostMapping
+  public ResponseEntity<TimePunchLogAdjustmentSolicitationDto> handle(
+      @RequestBody TimePunchLogAdjustmentSolicitationDto body) {
+    var useCase = new CreateTimePunchLogAdjustmentSolicitationUseCase(solicitationsRepository);
+    var timePunchLogAdjustmentSolicitationDto = useCase.execute(body);
+    return ResponseEntity.status(HttpStatus.OK).body(timePunchLogAdjustmentSolicitationDto);
+  }
 }
