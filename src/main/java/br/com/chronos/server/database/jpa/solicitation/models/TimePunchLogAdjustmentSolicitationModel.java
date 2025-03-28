@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "time_punch_log_adjustment_solicitation")
+@Table(name = "time_punch_log_adjustment_solicitations")
 public class TimePunchLogAdjustmentSolicitationModel {
   @Id
   private UUID id;
