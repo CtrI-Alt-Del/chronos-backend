@@ -32,8 +32,4 @@ public class DayOffModel {
   @ManyToOne
   @JoinColumn(name = "work_schedule_id")
   private WorkScheduleModel workSchedule;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "work_schedule_id")
-    private WorkScheduleModel workSchedule;
 }
