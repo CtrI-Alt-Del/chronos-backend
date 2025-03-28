@@ -1,7 +1,6 @@
 package br.com.chronos.server.api.controllers.collaboration.collaborators;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,6 @@ public class GetCollaboratorController {
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new GetCollaboratorUseCase(repository);
     var response = useCase.execute(collaboratorId);
-    return ResponseEntity.status(HttpStatus.FOUND).body(response);
+    return ResponseEntity.ok(response);
   }
 }
