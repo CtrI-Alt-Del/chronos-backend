@@ -22,7 +22,7 @@ public abstract class Solicitation extends Entity {
     status = SolicitationStatus.create(dto.status);
     date = Date.create(dto.date);
     senderResponsible = new ResponsibleAggregate(dto.senderResponsible);
-    replierResponsible = new ResponsibleAggregate(dto.replierResponsible);
+    replierResponsible = dto.replierResponsible != null ? new ResponsibleAggregate(dto.replierResponsible) : null;
   }
 
   public Text getDescription(){
