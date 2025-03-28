@@ -24,7 +24,7 @@ public class CreateTodayWorkdayLogsUseCase {
   public void execute() {
     var workSchedules = workSchedulesRepository.findAllWithAnyCollaborator();
     Array<WorkdayLog> workdayLogs = Array.createAsEmpty();
-    workdayLogsRepository.removeManyByDate(Date.createFromNow());
+    // workdayLogsRepository.removeManyByDate(Date.createFromNow());
 
     for (var workSchedule : workSchedules.list()) {
       var workdayStatus = getWorkdayStatus(workSchedule);

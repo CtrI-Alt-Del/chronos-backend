@@ -6,6 +6,7 @@ import java.util.UUID;
 import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -32,4 +33,7 @@ public class DayOffModel {
   @JoinColumn(name = "work_schedule_id")
   private WorkScheduleModel workSchedule;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "work_schedule_id")
+    private WorkScheduleModel workSchedule;
 }

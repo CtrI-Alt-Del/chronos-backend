@@ -25,11 +25,6 @@ public class DatabaseConfiguration {
   }
 
   @Bean
-  SolicitationsRepository solicitationsRepository(){
-    return new JpaSolicitationsRepository();
-  }
-
-  @Bean
   WorkdayLogsRepository workdayLogsRepository() {
     return new JpaWorkdayLogsRepository();
   }
@@ -47,6 +42,11 @@ public class DatabaseConfiguration {
   @Bean
   AccountsRepository accountsRepository() {
     return new JpaAccountsRepository();
+  }
+
+  @Bean
+  SolicitationsRepository solicitationsRepository() {
+    return new JpaSolicitationsRepository();
   }
 
 }

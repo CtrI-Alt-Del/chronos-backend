@@ -1,12 +1,13 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import kotlin.Pair;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -14,12 +15,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.DateRange;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
@@ -32,9 +35,7 @@ import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, UUID> {
 
-  org.springframework.data.domain.Page<WorkdayLogModel> findAllByDate(LocalDate date, PageRequest pageRequest);
-
-  org.springframework.data.domain.Page<WorkdayLogModel> findAllByCollaboratorAndDateBetween(
+  Page<WorkdayLogModel> findAllByCollaboratorAndDateBetween(
       CollaboratorModel collaborator,
       LocalDate startDate,
       LocalDate endDate,
@@ -42,10 +43,16 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
 
   Optional<WorkdayLogModel> findByCollaboratorAndDate(CollaboratorModel collaborator, LocalDate Date);
 
-  List<WorkdayLogModel> findAllByDate(LocalDate date);
+  Page<WorkdayLogModel> findManyByDate(
+      LocalDate date,
+      PageRequest pageRequest);
 
   @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
   boolean timePunchLogExists(@Param("timePunchId") UUID timePunchId);
+
+  @Modifying
+  @Query(value = "DELETE FROM workday_logs WHERE date = :date", nativeQuery = true)
+  void deleteAllByDate(@Param("date") LocalDate date);
 
 }
 
@@ -86,7 +93,6 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       var timePunchScheduleModel = timePunchMapper.toModel(workdayLog.getTimePunchSchedule());
 
       timePunchModels.add(timePunchLogModel);
-      System.out.println("timePunchModels.includes: " + timePunchModels.includes(timePunchScheduleModel).isFalse());
       if (timePunchModels.includes(timePunchScheduleModel).isFalse()) {
         timePunchModels.add(timePunchScheduleModel);
       }
@@ -109,18 +115,25 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
     var workdayLogModels = repository.findAllByCollaboratorAndDateBetween(
         collaboratorModel, dateRange.startDate().value(), dateRange.endDate().value(), pageRequest);
-    var items = workdayLogModels.getContent().stream().toList();
+    var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
 
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
   }
 
   @Override
-  public Pair<Array<WorkdayLog>, PlusInteger> findManyByDate(Date date, PageNumber page) {
+  public Pair<Array<WorkdayLog>, PlusInteger> findManyByDateAndCollaborationSector(
+      Date date,
+      CollaborationSector sector,
+      PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
-    var workdayLogModels = repository.findAllByDate(date.value(), pageRequest);
-    var items = workdayLogModels.getContent().stream().toList();
+    var workdayLogModels = repository.findManyByDate(
+        date.value(),
+        pageRequest);
+    var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
+
+    System.out.println(items.size());
 
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
   }
@@ -133,13 +146,6 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Override
   @Transactional
   public void removeManyByDate(Date date) {
-    var workdayLogsModels = repository.findAllByDate(date.value());
-    Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
-
-    for (var workdayLogsModel : workdayLogsModels) {
-      timePunchModels.add(workdayLogsModel.getTimePunchLog());
-    }
-    repository.deleteAllInBatch(workdayLogsModels);
-    timePunchModelsRepository.deleteAllInBatch(timePunchModels.list());
+    repository.deleteAllByDate(date.value());
   }
 }

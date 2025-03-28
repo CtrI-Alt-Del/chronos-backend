@@ -8,6 +8,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -36,15 +37,15 @@ public class WorkdayLogModel {
   @Column(name = "date", nullable = false)
   private LocalDate date;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "collaborator_id", nullable = false)
   private CollaboratorModel collaborator;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "time_punch_schedule_id", nullable = false)
   private TimePunchModel timePunchSchedule;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "time_punch_log_id", nullable = false)
   private TimePunchModel timePunchLog;
 
@@ -52,6 +53,7 @@ public class WorkdayLogModel {
   @Column(name = "status", nullable = false)
   private WorkdayStatusName status;
 
-  @OneToMany(mappedBy = "workdayLog")
-  private List<TimePunchLogAdjustmentSolicitationModel> workdayLogAdjustmentSolicitation;
+  // @OneToMany(mappedBy = "workdayLog", fetch = FetchType.LAZY)
+  // private List<WorkdayLogAdjustmentSolicitationModel>
+  // workdayLogAdjustmentSolicitation;
 }

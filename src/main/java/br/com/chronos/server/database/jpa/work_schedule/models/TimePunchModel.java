@@ -40,7 +40,7 @@ public class TimePunchModel {
   @Column(name = "second_clock_out", nullable = true)
   private LocalTime secondClockOut;
 
-  @OneToOne(mappedBy = "timePunch")
+  @OneToOne(mappedBy = "timePunch", fetch = FetchType.EAGER)
   private WeekdayScheduleModel weekdaySchedule;
 
   @OneToOne(mappedBy = "timePunchLog", fetch = FetchType.LAZY)

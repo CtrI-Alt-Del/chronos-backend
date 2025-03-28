@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import br.com.chronos.core.modules.global.interfaces.providers.EnvProvider;
 
 @Configuration
-public class CorsConfig implements WebMvcConfigurer {
+public class CorsConfiguration implements WebMvcConfigurer {
 
   @Autowired
   private EnvProvider dotenvProvider;
