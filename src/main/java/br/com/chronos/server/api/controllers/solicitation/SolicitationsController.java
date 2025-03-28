@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.solicitation.work_schedule_adjustments;
+package br.com.chronos.server.api.controllers.solicitation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @RestController
-@RequestMapping("/solicitation/work-schedule-adjustment")
-public @interface WorkScheduleAdjustmentController {
+@RequestMapping("/solicitation")
+public @interface SolicitationsController {
+
 }
