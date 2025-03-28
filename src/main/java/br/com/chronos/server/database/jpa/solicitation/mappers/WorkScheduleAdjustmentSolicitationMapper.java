@@ -23,7 +23,7 @@ public class WorkScheduleAdjustmentSolicitationMapper {
     var solicitationModel = WorkScheduleAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription().value())
-        .request_at(entity.getDate().value())
+        .requestedAt(entity.getDate().value())
         .feedbackMessage(entity.getFeedbackMessage().value())
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponsible)
@@ -40,9 +40,7 @@ public class WorkScheduleAdjustmentSolicitationMapper {
         .setEmail(model.getSenderResponsible().getAccount().getEmail())
         .setRole(model.getSenderResponsible().getAccount().getRole().toString());
 
-    var senderResponsibleAggregateDto = new ResponsibleAggregateDto()
-        .setId(model.getSenderResponsible().getId().toString())
-        .setResponsibleDto(senderResponsibleDto);
+    var senderResponsibleAggregateDto = new ResponsibleAggregateDto(senderResponsibleDto);
 
     var replierResponsibleDto = new ResponsibleDto()
         .setId(model.getReplierResponsible().getId().toString())
@@ -50,16 +48,14 @@ public class WorkScheduleAdjustmentSolicitationMapper {
         .setEmail(model.getReplierResponsible().getAccount().getEmail())
         .setRole(model.getReplierResponsible().getAccount().getRole().toString());
 
-    var replierResponsibleAggregateDto = new ResponsibleAggregateDto()
-        .setId(model.getReplierResponsible().getId().toString())
-        .setResponsibleDto(replierResponsibleDto);
+    var replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
 
     var workSchedule = workScheduleMapper.toEntity(model.getWorkSchedule());
 
     var dto = new WorkScheduleAdjustmentSolicitationDto()
         .setId(model.getId().toString())
         .setDescription(model.getDescription().toString())
-        .setDate(model.getRequest_at())
+        .setDate(model.getRequestedAt())
         .setStatus(model.getSolicitationStatus().toString())
         .setFeedbackMessage(model.getFeedbackMessage().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
