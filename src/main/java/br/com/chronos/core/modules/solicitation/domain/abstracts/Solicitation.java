@@ -57,7 +57,7 @@ public abstract class Solicitation extends Entity {
         .setStatus(getStatus().toString())
         .setFeedbackMessage(getFeedbackMessage().value())
         .setDate(getDate().value())
-        .setStatus(getStatus().toString())
+        .setStatus(getStatus().value().toString())
         .setReplierResponsible(getReplierResponsible().getDto())
         .setSenderResponsible(getSenderResponsible().getDto());
   }
