@@ -24,9 +24,15 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
         return period;
     }
 
-    public SolicitationDto getDto() {
+    public TimePunchLogAdjustmentSolicitationDto getDto() {
     TimePunchLogAdjustmentSolicitationDto dto = new TimePunchLogAdjustmentSolicitationDto();
     dto.setId(getId().toString());
+    dto.setDescription(getDescription().value());
+    dto.setDate(getDate().value());
+    dto.setStatus(getStatus().toString());
+    dto.setFeedbackMessage(getFeedbackMessage().value());
+    dto.setSenderResponsible(getSenderResponsible().getDto());
+    dto.setReplierResponsible(getReplierResponsible().getDto());
     dto.setTime(getTime().value());
     dto.setPeriod(getPeriod().toString());
     return dto;
