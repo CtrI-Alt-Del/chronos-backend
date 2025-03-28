@@ -27,7 +27,8 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .replierResponsible(replierResponsible).build();
 
   }
-  public TimePunchLogAdjustmentSolicitation toEntity(TimePunchLogAdjustmentSolicitationModel model){
+
+  public TimePunchLogAdjustmentSolicitation toEntity(TimePunchLogAdjustmentSolicitationModel model) {
 
     var senderResponsibleDto = new ResponsibleDto()
     .setId(model.getSenderResponsible().getId().toString())

@@ -106,6 +106,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .fakeDto()
         .setEmail("chronos.employee@gmail.com")
         .setRole("employee")
+        .setPassword("123456")
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);
@@ -116,6 +117,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .fakeDto()
         .setEmail("chronos.manager@gmail.com")
         .setRole("manager")
+        .setPassword("123456")
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);

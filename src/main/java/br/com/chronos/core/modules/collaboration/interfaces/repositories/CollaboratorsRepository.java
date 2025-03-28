@@ -15,9 +15,9 @@ import br.com.chronos.core.modules.global.domain.records.Role;
 import kotlin.Pair;
 
 public interface CollaboratorsRepository {
-  Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page,Role.RoleName role,Sector sector,Logical isActive);
+  Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page, Role.RoleName role, Sector sector, Logical isActive);
 
-  Optional<Collaborator> findCollaboratorById(Id id);
+  Optional<Collaborator> findById(Id id);
 
   Optional<Collaborator> findByEmail(Email email);
 

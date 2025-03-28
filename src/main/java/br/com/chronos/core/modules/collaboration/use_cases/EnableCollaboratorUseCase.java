@@ -18,7 +18,7 @@ public class EnableCollaboratorUseCase {
 
   public void execute(String collaboratorId, Sector responsibleSector, Role responsibleRole) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
-    if (collaborator.isFromSameSector(responsibleSector,responsibleRole).isFalse()) {
+    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
       throw new NotAuthorizedException();
 
     }
@@ -28,7 +28,7 @@ public class EnableCollaboratorUseCase {
   }
 
   private Collaborator findCollaborator(Id collaboratorId) {
-    var collaborator = repository.findCollaboratorById(collaboratorId);
+    var collaborator = repository.findById(collaboratorId);
     if (collaborator.isEmpty()) {
       throw new CollaboratorNotFoundException();
     }
