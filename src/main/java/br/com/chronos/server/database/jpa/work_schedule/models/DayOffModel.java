@@ -3,6 +3,7 @@ package br.com.chronos.server.database.jpa.work_schedule.models;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,13 +22,14 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "days_off")
 public class DayOffModel {
-    @Id
-    private UUID id;
+  @Id
+  private UUID id;
 
-    @Column(nullable = false)
-    private LocalDate date;
+  @Column(nullable = false)
+  private LocalDate date;
 
-    @ManyToOne
-    @JoinColumn(name = "work_schedule_id")
-    private WorkScheduleModel workSchedule;
+  @ManyToOne
+  @JoinColumn(name = "work_schedule_id")
+  private WorkScheduleModel workSchedule;
+
 }
