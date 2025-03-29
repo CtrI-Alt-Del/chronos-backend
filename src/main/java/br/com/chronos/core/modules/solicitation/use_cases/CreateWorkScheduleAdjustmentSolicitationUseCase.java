@@ -1,5 +1,7 @@
 package br.com.chronos.core.modules.solicitation.use_cases;
 
+import br.com.chronos.core.modules.global.domain.exceptions.NotFoundException;
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.solicitation.domain.dtos.WorkScheduleAdjustmentSolicitationDto;
 import br.com.chronos.core.modules.solicitation.domain.entities.WorkScheduleAdjustmentSolicitation;
 import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
@@ -18,11 +20,16 @@ public class CreateWorkScheduleAdjustmentSolicitationUseCase {
   }
 
   public WorkScheduleAdjustmentSolicitationDto execute(WorkScheduleAdjustmentSolicitationDto dto) {
-    var workSchedule = new WorkSchedule(dto.workScheduleDto);
-    workSchedulesRepository.add(workSchedule);
-    dto.setWorkScheduleDto(workSchedule.getDto());
+    var workSchedule = findWorkScheduleById(Id.create(dto.workScheduleId));
     var solicitation = new WorkScheduleAdjustmentSolicitation(dto);
     solicitationsRepository.addWorkScheduleAdjustmentSolicitation(solicitation);
     return solicitation.getDto();
+  }
+  private WorkSchedule findWorkScheduleById(Id id) {
+    var workSchedule = workSchedulesRepository.findById(id);
+    if (workSchedule.isEmpty()) {
+      throw new NotFoundException("Work schedule not found");
+    }
+    return workSchedule.get();
   }
 }

@@ -50,7 +50,4 @@ public class WorkScheduleModel {
     @OneToMany(mappedBy = "workSchedule", fetch = FetchType.LAZY)
     @Default
     private List<CollaboratorModel> collaborators = new ArrayList<>();
-
-    @OneToOne(mappedBy = "workSchedule",fetch = FetchType.LAZY)
-    private WorkScheduleAdjustmentSolicitationModel workScheduleAdjustmentSolicitation;
 }
