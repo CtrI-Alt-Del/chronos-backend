@@ -181,6 +181,18 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
 
   @Override
   @Transactional
+  public void updateDaysOffSchedule(WorkSchedule workSchedule) {
+    var daysOffModel = workSchedule.getDaysOffSchedule().days().map((dayOff) -> {
+      var dayOffModel = dayOffMapper.toModel(dayOff);
+      dayOffModel.setWorkSchedule(mapper.toModel(workSchedule));
+      return dayOffModel;
+    });
+    dayOffModelsRepository.deleteManyByWorkSchedule(workSchedule.getId().value());
+    dayOffModelsRepository.saveAll(daysOffModel.list());
+  }
+
+  @Override
+  @Transactional
   public void remove(WorkSchedule workSchedule) {
     dayOffModelsRepository.deleteManyByWorkSchedule(workSchedule.getId().value());
 

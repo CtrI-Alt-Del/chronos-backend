@@ -1,7 +1,7 @@
 package br.com.chronos.core.modules.work_schedule.use_cases;
 
-import br.com.chronos.core.modules.global.domain.records.PageNumber;
-import br.com.chronos.core.modules.global.responses.PaginationResponse;
+import java.util.List;
+
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 
@@ -12,13 +12,8 @@ public class ListWorkSchedulesUseCase {
     this.repository = repository;
   }
 
-  public PaginationResponse<WorkScheduleDto> execute(int page) {
-    var response = repository.findMany(PageNumber.create(page));
-    var workSchedules = response.getFirst().map(workSchedule -> workSchedule.getDto());
-    var itemsCount = response.getSecond();
-
-    return new PaginationResponse<WorkScheduleDto>(
-        workSchedules.list(),
-        itemsCount.value());
+  public List<WorkScheduleDto> execute(int page) {
+    var workSchedules = repository.findAll();
+    return workSchedules.map((workSchedule) -> workSchedule.getDto()).list();
   }
 }

@@ -1,5 +1,8 @@
 package br.com.chronos.core.modules.work_schedule.domain.entities;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Count;
@@ -47,6 +50,10 @@ public final class WorkSchedule extends Entity {
         workdaysCount.integer().value(),
         daysOffCount.integer().value());
 
+  }
+
+  public void replaceDaysOffSchedule(List<LocalDate> daysOff) {
+    daysOffSchedule = DaysOffSchedule.create(daysOff);
   }
 
   public WorkdayStatus getTodayWorkdayStatus() {
