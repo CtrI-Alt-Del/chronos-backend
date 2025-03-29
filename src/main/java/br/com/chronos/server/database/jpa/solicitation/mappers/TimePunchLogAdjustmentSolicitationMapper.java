@@ -8,6 +8,7 @@ import br.com.chronos.core.modules.solicitation.domain.dtos.TimePunchLogAdjustme
 import br.com.chronos.core.modules.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 @Component
 public class TimePunchLogAdjustmentSolicitationMapper {
@@ -15,6 +16,7 @@ public class TimePunchLogAdjustmentSolicitationMapper {
   public TimePunchLogAdjustmentSolicitationModel toModel(TimePunchLogAdjustmentSolicitation entity) {
     var senderResponsible = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();
     var replierResponsible = CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build();
+    var workdayLog = WorkdayLogModel.builder().id(entity.getWorkdayLogId().value()).build();
     return TimePunchLogAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription().value())
@@ -24,8 +26,7 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .time(entity.getTime().value())
         .timePunchPeriod(entity.getPeriod().name())
         .senderResponsible(senderResponsible)
-        .replierResponsible(replierResponsible).build();
-
+        .replierResponsible(replierResponsible).workdayLog(workdayLog).build();
   }
 
   public TimePunchLogAdjustmentSolicitation toEntity(TimePunchLogAdjustmentSolicitationModel model) {
@@ -54,7 +55,8 @@ public class TimePunchLogAdjustmentSolicitationMapper {
     .setStatus(model.getSolicitationStatus().toString())
     .setFeedbackMessage(model.getFeedbackMessage().toString())
     .setSenderResponsible(senderResponsibleAggregateDto)
-    .setReplierResponsible(replierResponsibleAggregateDto);
+    .setReplierResponsible(replierResponsibleAggregateDto)
+    .setWorkdayLogId(model.getWorkdayLog().getId().toString());
     
     return new TimePunchLogAdjustmentSolicitation(dto);
   }
