@@ -27,7 +27,7 @@ public interface CollaboratorsRepository {
 
   void update(Collaborator collaborator, Id workScheduleId);
 
-  void add(Collaborator collaborator, Id workScheduleId);
+  void add(Collaborator collaborator);
 
   void addMany(Array<Collaborator> collaborators, Id workScheduleId);
 

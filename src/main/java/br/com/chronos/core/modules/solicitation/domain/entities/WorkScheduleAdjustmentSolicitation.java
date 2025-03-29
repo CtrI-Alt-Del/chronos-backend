@@ -20,7 +20,7 @@ public class WorkScheduleAdjustmentSolicitation extends Solicitation {
     dto.setStatus(getStatus().value().toString());
     dto.setFeedbackMessage(getFeedbackMessage().value());
     dto.setSenderResponsible(getSenderResponsible().getDto());
-    dto.setReplierResponsible(getReplierResponsible().getDto());
+    dto.setReplierResponsible(getReplierResponsible() != null ? getReplierResponsible().getDto() : null);
     dto.setWorkScheduleDto(getWorkSchedule().getDto());
     return dto;
   }
