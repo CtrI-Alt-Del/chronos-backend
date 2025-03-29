@@ -64,9 +64,9 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public void add(Collaborator collaborator, Id workScheduleId) {
+  public void add(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
-    collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(workScheduleId.value()).build());
+    collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(collaborator.getWorkScheduleId().value()).build());
     repository.save(collaboratorModel);
   }
 

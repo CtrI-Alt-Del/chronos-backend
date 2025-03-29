@@ -20,7 +20,7 @@ public class ListAllSolicitationsController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @GetMapping
+  @GetMapping("/solicitations")
   public ResponseEntity<List<SolicitationDto>> handle() {
     var useCase = new ListAllSolicitationsUseCase(solicitationsRepository);
     var sector = authenticationProvider.getAuthenticatedUser().getSector().value();
