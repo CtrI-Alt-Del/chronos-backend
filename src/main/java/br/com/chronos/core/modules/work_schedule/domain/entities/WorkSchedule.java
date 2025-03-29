@@ -11,8 +11,8 @@ import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroDaysOffCountException;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroWorkdaysCountException;
-import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus;
 import br.com.chronos.core.modules.work_schedule.domain.records.DaysOffSchedule;
+import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus;
 
 public final class WorkSchedule extends Entity {
   private Text description;
@@ -41,7 +41,9 @@ public final class WorkSchedule extends Entity {
   public TimePunch getTodayTimePunchSchedule() {
     var today = Date.createFromNow();
     var todaySchedule = weekSchedule.find(
-        (weekdaySchedule) -> weekdaySchedule.getWeekday().isEqual(today.getWeekday()).isTrue());
+        (weekdaySchedule) -> {
+          return weekdaySchedule.getWeekday().isEqual(today.getWeekday()).isTrue();
+        });
     return todaySchedule.getTimePunch();
   }
 
