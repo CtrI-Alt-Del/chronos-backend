@@ -11,7 +11,7 @@ public class ResponsibleAggregate extends Aggregate<Responsible> {
   public ResponsibleAggregate(ResponsibleAggregateDto aggregateDto) {
     super(
         aggregateDto.id,
-        (aggregateDto.responsibleDto != null) ? new Responsible(aggregateDto.responsibleDto) : null,
+        (aggregateDto.dto != null) ? new Responsible(aggregateDto.dto) : null,
         ENTITY_NAME);
   }
 

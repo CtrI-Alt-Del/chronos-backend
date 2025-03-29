@@ -2,14 +2,14 @@ package br.com.chronos.core.modules.global.domain.dtos;
 
 public class ResponsibleAggregateDto {
   public String id;
-  public ResponsibleDto responsibleDto;
+  public ResponsibleDto dto;
 
   public ResponsibleAggregateDto() {
   }
 
   public ResponsibleAggregateDto(ResponsibleDto responsibleDto) {
     this.id = responsibleDto.id;
-    this.responsibleDto = responsibleDto;
+    this.dto = responsibleDto;
   }
 
   public ResponsibleAggregateDto setId(String id) {
@@ -18,7 +18,7 @@ public class ResponsibleAggregateDto {
   }
 
   public ResponsibleAggregateDto setResponsibleDto(ResponsibleDto responsibleDto) {
-    this.responsibleDto = responsibleDto;
+    this.dto = responsibleDto;
     return this;
   }
 }
