@@ -3,13 +3,13 @@ package br.com.chronos.core.modules.solicitation.domain.dtos;
 import java.time.LocalDate;
 
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
 
 public class WorkScheduleAdjustmentSolicitationDto extends SolicitationDto {
-  public WorkScheduleDto workScheduleDto;
-
-  public WorkScheduleAdjustmentSolicitationDto setWorkScheduleDto(WorkScheduleDto workScheduleDto){
-    this.workScheduleDto = workScheduleDto;
+  public String workScheduleId;
+  public WorkScheduleAdjustmentSolicitationDto setWorkScheduleId(String workScheduleId){
+    this.workScheduleId = workScheduleId;
     return this;
   }
   public WorkScheduleAdjustmentSolicitationDto setId(String id) {

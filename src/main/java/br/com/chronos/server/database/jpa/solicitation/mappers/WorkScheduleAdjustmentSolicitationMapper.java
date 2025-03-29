@@ -21,7 +21,6 @@ public class WorkScheduleAdjustmentSolicitationMapper {
     var replierResponsible = (entity.getReplierResponsible() != null)
         ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
-    var workScheduleModel = workScheduleMapper.toModel(entity.getWorkSchedule());
     var solicitationModel = WorkScheduleAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription().value())
@@ -30,8 +29,7 @@ public class WorkScheduleAdjustmentSolicitationMapper {
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponsible)
         .replierResponsible(replierResponsible)
-        .workSchedule(workScheduleModel)
-        .build();
+        .workScheduleId(entity.getWorkScheduleId().value()).build();
 
     return solicitationModel;
   }
@@ -55,7 +53,6 @@ public class WorkScheduleAdjustmentSolicitationMapper {
 
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
-    var workSchedule = workScheduleMapper.toEntity(model.getWorkSchedule());
 
     var dto = new WorkScheduleAdjustmentSolicitationDto()
         .setId(model.getId().toString())
@@ -65,7 +62,7 @@ public class WorkScheduleAdjustmentSolicitationMapper {
         .setFeedbackMessage(model.getFeedbackMessage().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
         .setReplierResponsible(replierResponsibleAggregateDto)
-        .setWorkScheduleDto(workSchedule.getDto());
+        .setWorkScheduleId(model.getWorkScheduleId().toString());
     return new WorkScheduleAdjustmentSolicitation(dto);
 
   }

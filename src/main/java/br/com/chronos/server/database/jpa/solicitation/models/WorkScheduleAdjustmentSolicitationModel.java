@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus.Status;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,7 +12,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,8 +50,6 @@ public class WorkScheduleAdjustmentSolicitationModel {
   @Column(nullable = false, name = "status")
   private Status solicitationStatus;
 
-  @OneToOne
-  @JoinColumn(nullable = false,name = "work_schedule_id")
-  private WorkScheduleModel workSchedule;
-
+  @Column(nullable = false, name = "work_schedule_id")
+  private UUID workScheduleId;
 }

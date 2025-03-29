@@ -1,15 +1,16 @@
 package br.com.chronos.core.modules.solicitation.domain.entities;
 
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.modules.solicitation.domain.dtos.WorkScheduleAdjustmentSolicitationDto;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
 
 public class WorkScheduleAdjustmentSolicitation extends Solicitation {
-  private WorkSchedule workSchedule;
+  private Id workScheduleId;
 
   public WorkScheduleAdjustmentSolicitation(WorkScheduleAdjustmentSolicitationDto dto) {
     super(dto);
-    workSchedule = new WorkSchedule(dto.workScheduleDto);
+    workScheduleId = Id.create(dto.workScheduleId);
   }
 
   public WorkScheduleAdjustmentSolicitationDto getDto() {
@@ -21,11 +22,11 @@ public class WorkScheduleAdjustmentSolicitation extends Solicitation {
     dto.setFeedbackMessage(getFeedbackMessage().value());
     dto.setSenderResponsible(getSenderResponsible().getDto());
     dto.setReplierResponsible(getReplierResponsible() != null ? getReplierResponsible().getDto() : null);
-    dto.setWorkScheduleDto(getWorkSchedule().getDto());
+    dto.setWorkScheduleId(getWorkScheduleId().value().toString());
     return dto;
   }
 
-  public WorkSchedule getWorkSchedule() {
-    return workSchedule;
+  public Id getWorkScheduleId() {
+    return workScheduleId;
   }
 }
