@@ -8,6 +8,7 @@ import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
 public class TimePunchLogAdjustmentSolicitationDto extends SolicitationDto {
   public LocalTime time;
   public String period;
+  public String workdayLogId;
 
   public TimePunchLogAdjustmentSolicitationDto setTime(LocalTime time) {
     this.time = time;
@@ -51,6 +52,11 @@ public class TimePunchLogAdjustmentSolicitationDto extends SolicitationDto {
 
   public TimePunchLogAdjustmentSolicitationDto setReplierResponsible(ResponsibleAggregateDto replierResponsible) {
     super.setReplierResponsible(replierResponsible);
+    return this;
+  }
+
+  public TimePunchLogAdjustmentSolicitationDto setWorkdayLogId(String workdayLogId) {
+    this.workdayLogId = workdayLogId;
     return this;
   }
 }
