@@ -35,8 +35,12 @@ public record DaysOffSchedule(Array<Date> days) {
 
     var month = Month.createFromNow();
     var monthDay = month.firstMonday();
-    var monthLastDay = month.lastDay();
 
+    if (monthDay.value().getDayOfMonth() != 1) {
+      monthDay = monthDay.minusDays(7);
+    }
+
+    var monthLastDay = month.lastDay();
     var workdaysCount = Count.create();
     var daysOffCount = Count.create();
     Array<Date> daysOff = Array.createAsEmpty();
