@@ -41,6 +41,7 @@ public class CreateTodayWorkdayLogsUseCase {
         return new WorkdayLog(workdayLogDto);
       });
     }
+    System.out.println(workdayLogs);
     workdayLogsRepository.addMany(workdayLogs);
   }
 

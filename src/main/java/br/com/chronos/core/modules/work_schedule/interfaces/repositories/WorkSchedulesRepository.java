@@ -9,7 +9,6 @@ import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
-import br.com.chronos.core.modules.work_schedule.domain.records.DaysOffSchedule;
 import kotlin.Pair;
 
 public interface WorkSchedulesRepository {
@@ -28,6 +27,8 @@ public interface WorkSchedulesRepository {
   void addMany(Array<WorkSchedule> workSchedules);
 
   void update(WorkSchedule workSchedule);
+
+  void updateWeekSchedule(WorkSchedule workSchedule);
 
   void updateDaysOffSchedule(WorkSchedule workSchedule);
 

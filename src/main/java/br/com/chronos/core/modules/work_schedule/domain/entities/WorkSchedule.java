@@ -54,8 +54,14 @@ public final class WorkSchedule extends Entity {
 
   }
 
-  public void replaceDaysOffSchedule(List<LocalDate> daysOff) {
-    daysOffSchedule = DaysOffSchedule.create(daysOff);
+  public void updateDaysOffSchedule(int workdaysCount, int daysOffCount, List<LocalDate> daysOff) {
+    this.workdaysCount = Count.create(workdaysCount, "Contagem de dias de trabalho");
+    this.daysOffCount = Count.create(daysOffCount, "Contagem de folgas");
+    this.daysOffSchedule = DaysOffSchedule.create(daysOff);
+  }
+
+  public void updateWeekSchedule(Array<WeekdaySchedule> weekSchedule) {
+    this.weekSchedule = weekSchedule;
   }
 
   public WorkdayStatus getTodayWorkdayStatus() {
