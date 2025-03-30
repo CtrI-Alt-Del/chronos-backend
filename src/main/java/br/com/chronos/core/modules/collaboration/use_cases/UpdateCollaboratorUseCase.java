@@ -7,7 +7,6 @@ import br.com.chronos.core.modules.collaboration.domain.exceptions.CollaboratorN
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmailException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
@@ -21,7 +20,7 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, Id workScheduleId,
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto,
       Sector responsibleSector, Role responsibleRole) {
     if (dto == null) {
       dto = new CollaboratorDto();
@@ -37,12 +36,7 @@ public class UpdateCollaboratorUseCase {
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
     collaborator.update(dto);
 
-    if (workScheduleId != null) {
-      repository.update(collaborator, workScheduleId);
-    } else {
-      var workId = getWorkScheduleId(collaborator.getId());
-      repository.update(collaborator, workId);
-    }
+    repository.update(collaborator);
 
     return collaborator.getDto();
   }
@@ -75,10 +69,5 @@ public class UpdateCollaboratorUseCase {
     if (cpf != null && existingCollaborator.get().getCpf().equals(cpf)) {
       throw new ExistingCpfException();
     }
-  }
-
-  private Id getWorkScheduleId(Id collaboratorId) {
-    var workScheduleId = repository.findWorkScheduleIdByCollaborator(collaboratorId);
-    return workScheduleId;
   }
 }

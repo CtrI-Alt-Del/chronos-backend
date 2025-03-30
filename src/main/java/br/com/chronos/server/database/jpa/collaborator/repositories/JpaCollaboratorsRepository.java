@@ -47,9 +47,12 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   CollaboratorMapper mapper;
 
   @Override
-  public void update(Collaborator collaborator, Id workScheduleId) {
+  public void update(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
-    collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(workScheduleId.value()).build());
+    collaboratorModel.setWorkSchedule(WorkScheduleModel
+        .builder()
+        .id(collaborator.getWorkScheduleId().value())
+        .build());
     repository.save(collaboratorModel);
   }
 
@@ -66,15 +69,21 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public void add(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
-    collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(collaborator.getWorkScheduleId().value()).build());
+    collaboratorModel.setWorkSchedule(
+        WorkScheduleModel.builder()
+            .id(collaborator.getWorkScheduleId().value())
+            .build());
     repository.save(collaboratorModel);
   }
 
   @Override
-  public void addMany(Array<Collaborator> collaborators, Id workScheduleId) {
+  public void addMany(Array<Collaborator> collaborators) {
     var collaboratorModels = collaborators.map((collaborator) -> {
       var collaboratorModel = mapper.toModel(collaborator);
-      collaboratorModel.setWorkSchedule(WorkScheduleModel.builder().id(workScheduleId.value()).build());
+      collaboratorModel.setWorkSchedule(WorkScheduleModel
+          .builder()
+          .id(collaborator.getWorkScheduleId().value())
+          .build());
       return collaboratorModel;
     });
     repository.saveAll(collaboratorModels.list());

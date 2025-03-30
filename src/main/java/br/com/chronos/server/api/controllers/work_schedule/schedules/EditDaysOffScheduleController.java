@@ -25,7 +25,7 @@ public class EditDaysOffScheduleController {
     private List<LocalDate> daysOff;
   }
 
-  @PutMapping("/{workScheduleId}/days-off")
+  @PutMapping("/{workScheduleId}/days-off-schedule")
   public ResponseEntity<WorkScheduleDto> handle(@PathVariable String workScheduleId, @RequestBody Request body) {
     var useCase = new EditDaysOffScheduleUseCase(workSchedulesRepository);
     useCase.execute(workScheduleId, body.getWorkdaysCount(), body.getDaysOffCount(), body.getDaysOff());

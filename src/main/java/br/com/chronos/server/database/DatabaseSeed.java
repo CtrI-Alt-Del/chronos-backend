@@ -40,21 +40,22 @@ public class DatabaseSeed implements CommandLineRunner {
 
     var workSchedules = WorkScheduleFaker.fakeMany(3);
     workSchedulesRepository.addMany(workSchedules);
+    var workScheduleId = workSchedules.firstItem().getId();
 
     Array<Collaborator> collaborators = Array.createAsEmpty();
     var admin = fakeAdmin();
-    var managers = fakeManagers(6);
-    var employees = fakeEmployees(12);
+    var managers = fakeManagers(6, workScheduleId);
+    var employees = fakeEmployees(12, workScheduleId);
 
-    var managerTest = fakeManagers(1).firstItem();
-    var employeeTest = fakeEmployees(1).firstItem();
+    var managerTest = fakeManagers(1, workScheduleId).firstItem();
+    var employeeTest = fakeEmployees(1, workScheduleId).firstItem();
 
     collaborators
         .addArray(managers)
         .addArray(employees)
         .add(managerTest)
         .add(employeeTest);
-    collaboratorsRepository.addMany(collaborators, workSchedules.firstItem().getId());
+    collaboratorsRepository.addMany(collaborators);
 
     var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
     var managerAccountTest = fakeManagerAccountTest(managerTest.getId());
@@ -72,18 +73,20 @@ public class DatabaseSeed implements CommandLineRunner {
     return new Account(fakeDto);
   }
 
-  private Array<Collaborator> fakeManagers(int count) {
+  private Array<Collaborator> fakeManagers(int count, Id workScheduleId) {
     var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
       fakeDto.setRole("manager");
+      fakeDto.setWorkScheduleId(workScheduleId.toString());
       return new Collaborator(fakeDto);
     });
   }
 
-  private Array<Collaborator> fakeEmployees(int count) {
+  private Array<Collaborator> fakeEmployees(int count, Id workScheduleId) {
     var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
       fakeDto.setRole("employee");
+      fakeDto.setWorkScheduleId(workScheduleId.toString());
       return new Collaborator(fakeDto);
     });
   }

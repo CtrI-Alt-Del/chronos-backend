@@ -25,11 +25,11 @@ public interface CollaboratorsRepository {
 
   Id findWorkScheduleIdByCollaborator(Id collaboratorId);
 
-  void update(Collaborator collaborator, Id workScheduleId);
+  void update(Collaborator collaborator);
 
   void add(Collaborator collaborator);
 
-  void addMany(Array<Collaborator> collaborators, Id workScheduleId);
+  void addMany(Array<Collaborator> collaborators);
 
   void delete(Collaborator collaborator);
 

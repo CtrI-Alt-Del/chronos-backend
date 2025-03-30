@@ -64,6 +64,10 @@ public final class WorkSchedule extends Entity {
     this.weekSchedule = weekSchedule;
   }
 
+  public void updateDescription(String description) {
+    this.description = Text.create(description, "descrição da escala de trabalho");
+  }
+
   public WorkdayStatus getTodayWorkdayStatus() {
     if (daysOffSchedule.isTodayDayOff().isTrue()) {
       return WorkdayStatus.createAsDayOff();
