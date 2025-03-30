@@ -15,7 +15,9 @@ public class TimePunchLogAdjustmentSolicitationMapper {
 
   public TimePunchLogAdjustmentSolicitationModel toModel(TimePunchLogAdjustmentSolicitation entity) {
     var senderResponsible = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();
-    var replierResponsible = CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build();
+    var replierResponsible = (entity.getReplierResponsible() != null)
+        ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
+        : null;
     var workdayLog = WorkdayLogModel.builder().id(entity.getWorkdayLogId().value()).build();
     return TimePunchLogAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
@@ -39,16 +41,21 @@ public class TimePunchLogAdjustmentSolicitationMapper {
 
     var senderResponsibleAggregateDto = new ResponsibleAggregateDto(senderResponsibleDto);
 
-    var replierResponsibleDto = new ResponsibleDto()
-    .setId(model.getReplierResponsible().getId().toString())
-    .setName(model.getReplierResponsible().getName())
-    .setEmail(model.getReplierResponsible().getAccount().getEmail())
-    .setRole(model.getReplierResponsible().getAccount().getRole().toString());
+    ResponsibleAggregateDto replierResponsibleAggregateDto = null;
+    if (model.getReplierResponsible() != null) {
+      var replierResponsibleDto = new ResponsibleDto()
+          .setId(model.getReplierResponsible().getId().toString())
+          .setName(model.getReplierResponsible().getName())
+          .setEmail(model.getReplierResponsible().getAccount().getEmail())
+          .setRole(model.getReplierResponsible().getAccount().getRole().toString());
 
-    var replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
+      replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
+    }
+
 
     var dto = new TimePunchLogAdjustmentSolicitationDto()
     .setTime(model.getTime())
+    .setPeriod(model.getTimePunchPeriod().toString())
     .setId(model.getId().toString())
     .setDescription(model.getDescription().toString())
     .setDate(model.getRequestedAt())

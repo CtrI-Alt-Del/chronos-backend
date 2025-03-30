@@ -11,6 +11,10 @@ public record SolicitationStatus(Status value) {
   }
 
   public static SolicitationStatus create(String value) {
+    if (value == null) {
+      return new SolicitationStatus(Status.PENDING);
+      
+    }
     var text = Text.create(value.toUpperCase(), "status");
     try {
       return new SolicitationStatus(Status.valueOf(text.value()));

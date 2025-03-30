@@ -10,13 +10,14 @@ import java.util.Optional;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Role;
 
 public interface SolicitationsRepository {
   void addTimePunchLogAdjustmentSolicitation(TimePunchLogAdjustmentSolicitation solicitation);
 
   void addWorkScheduleAdjustmentSolicitation(WorkScheduleAdjustmentSolicitation solicitation);
 
-  Array<Solicitation> findMany(Sector sector);
+  Array<Solicitation> findMany(Sector sector,Role role,Id userId);
 
   void resolveSolicitation(Solicitation solicitation);
 

@@ -3,7 +3,6 @@ package br.com.chronos.core.modules.solicitation.domain.entities;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Time;
 import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
-import br.com.chronos.core.modules.solicitation.domain.dtos.SolicitationDto;
 import br.com.chronos.core.modules.solicitation.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
 import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod;
 
@@ -39,7 +38,7 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
     dto.setStatus(getStatus().value().toString());
     dto.setFeedbackMessage(getFeedbackMessage().value());
     dto.setSenderResponsible(getSenderResponsible().getDto());
-    dto.setReplierResponsible(getReplierResponsible().getDto());
+    dto.setReplierResponsible(getReplierResponsible() != null ? getReplierResponsible().getDto() : null);
     dto.setTime(getTime().value());
     dto.setPeriod(getPeriod().toString());
     dto.setWorkdayLogId(getWorkdayLogId().toString());

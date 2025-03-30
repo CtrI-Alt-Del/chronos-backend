@@ -12,6 +12,9 @@ public record Date(LocalDate value) {
   public static Date create(LocalDate value) {
     return new Date(value);
   }
+  public static Date now(){
+    return new Date(LocalDate.now());
+  }
 
   public static Date createFromNow() {
     return new Date(LocalDate.now());
