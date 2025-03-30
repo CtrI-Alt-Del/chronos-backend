@@ -2,8 +2,8 @@ package br.com.chronos.server.api.controllers.collaboration.collaborators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
@@ -19,7 +19,7 @@ public class EnableCollaboratorController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @PostMapping("/enable/{id}")
+  @PatchMapping("/{id}/enable")
   public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new EnableCollaboratorUseCase(repository);
     var responsible = this.authenticationProvider.getAuthenticatedUser();
