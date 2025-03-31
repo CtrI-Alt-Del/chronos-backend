@@ -34,10 +34,15 @@ import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, UUID> {
 
+  @Query("""
+      SELECT wl FROM WorkdayLogModel wl
+      LEFT JOIN FETCH wl.collaborator c
+      WHERE c.id = :collaboratorId and wl.date BETWEEN :startDate AND :endDate
+      """)
   Page<WorkdayLogModel> findAllByCollaboratorAndDateBetween(
-      CollaboratorModel collaborator,
-      LocalDate startDate,
-      LocalDate endDate,
+      @Param("collaboratorId") UUID collaboratorId,
+      @Param("startDate") LocalDate startDate,
+      @Param("endDate") LocalDate endDate,
       PageRequest pageRequest);
 
   Optional<WorkdayLogModel> findByCollaboratorAndDate(CollaboratorModel collaborator, LocalDate Date);
@@ -109,11 +114,12 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       Id collaboratorId,
       DateRange dateRange,
       PageNumber page) {
-
-    var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
-    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var workdayLogModels = repository.findAllByCollaboratorAndDateBetween(
-        collaboratorModel, dateRange.startDate().value(), dateRange.endDate().value(), pageRequest);
+        collaboratorId.value(),
+        dateRange.startDate().value(),
+        dateRange.endDate().value(),
+        pageRequest);
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
 
@@ -125,14 +131,12 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       Date date,
       CollaborationSector sector,
       PageNumber page) {
-    var pageRequest = PageRequest.of(page.number().value(), PaginationResponse.ITEMS_PER_PAGE);
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var workdayLogModels = repository.findManyByDate(
         date.value(),
         pageRequest);
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
-
-    System.out.println(items.size());
 
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
   }

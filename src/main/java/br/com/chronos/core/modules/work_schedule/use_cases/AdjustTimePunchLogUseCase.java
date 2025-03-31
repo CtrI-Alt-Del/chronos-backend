@@ -23,9 +23,9 @@ public class AdjustTimePunchLogUseCase {
     this.workdayLogsRepository = workdayLogsRepository;
   }
 
-  public TimePunchDto execute(String timePunchId, LocalTime adjustedPunch, String punchPeriod) {
+  public TimePunchDto execute(String timePunchId, LocalTime time, String period) {
     var timePunchLog = findTimePunchLog(Id.create(timePunchId));
-    timePunchLog.adjust(Time.create(adjustedPunch), TimePunchPeriod.create(punchPeriod));
+    timePunchLog.adjust(Time.create(time), TimePunchPeriod.create(period));
     timePunchesRepository.update(timePunchLog);
     return timePunchLog.getDto();
   }

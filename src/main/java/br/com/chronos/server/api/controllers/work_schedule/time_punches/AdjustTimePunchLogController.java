@@ -24,14 +24,14 @@ public class AdjustTimePunchLogController {
 
   @Data
   private static class Request {
-    private LocalTime punch;
-    private String punchPeriod;
+    private LocalTime time;
+    private String period;
   }
 
   @PatchMapping("/{timePunchId}/adjust")
   public ResponseEntity<TimePunchDto> handle(@PathVariable String timePunchId, @RequestBody Request body) {
     var useCase = new AdjustTimePunchLogUseCase(timePunchesRepository, workdayLogsRepository);
-    var timePunchDto = useCase.execute(timePunchId, body.getPunch(), body.getPunchPeriod());
+    var timePunchDto = useCase.execute(timePunchId, body.getTime(), body.getPeriod());
     return ResponseEntity.ok(timePunchDto);
   }
 }

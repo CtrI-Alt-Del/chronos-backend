@@ -9,10 +9,10 @@ import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
-public class ListCollaboratorWorkdayLogsUseCase {
+public class ReportCollaboratorHistoryUseCase {
   private final WorkdayLogsRepository repository;
 
-  public ListCollaboratorWorkdayLogsUseCase(WorkdayLogsRepository repository) {
+  public ReportCollaboratorHistoryUseCase(WorkdayLogsRepository repository) {
     this.repository = repository;
   }
 
