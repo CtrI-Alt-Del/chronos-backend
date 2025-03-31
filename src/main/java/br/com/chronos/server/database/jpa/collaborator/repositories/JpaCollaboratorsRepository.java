@@ -98,7 +98,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page, RoleName requesterRole,
       Sector requesterSector, Logical isActive) {
-    var pageRequest = PageRequest.of(page.number().value() - 1, 20);
+    var pageRequest = PageRequest.of(page.number().value() - 1, 10);
     Page<CollaboratorModel> collaboratorModels;
     if (requesterRole == RoleName.ADMIN) {
       collaboratorModels = repository.findAllByAccountRoleNotAndAccountIsActive(RoleName.ADMIN, pageRequest,
