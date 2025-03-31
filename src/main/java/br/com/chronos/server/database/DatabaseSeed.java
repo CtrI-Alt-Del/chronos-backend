@@ -70,6 +70,9 @@ public class DatabaseSeed implements CommandLineRunner {
   private Account fakeAdmin() {
     var fakeDto = AccountFaker.fakeDto();
     fakeDto.setRole("admin");
+    fakeDto.setEmail("choronos.admin@gmail.com");
+    fakeDto.setPassword("123456");
+    authenticationProvider.register(fakeDto);
     return new Account(fakeDto);
   }
 
