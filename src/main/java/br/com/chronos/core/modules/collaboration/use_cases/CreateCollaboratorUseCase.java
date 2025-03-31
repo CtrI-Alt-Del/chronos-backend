@@ -32,7 +32,7 @@ public class CreateCollaboratorUseCase {
 
   public CollaboratorDto execute(CollaboratorDto dto, Password password,
       Sector responsibleSector, Role responsibleRole) {
-
+    dto.sector = dto.sector == null ? responsibleSector.toString() : dto.sector;
     validateUniqueEmailAndCpf(dto);
     var collaborator = new Collaborator(dto);
 
