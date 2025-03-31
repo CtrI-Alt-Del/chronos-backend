@@ -10,12 +10,15 @@ import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Email;
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.server.database.jpa.auth.mappers.AccountMapper;
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 interface JpaAccountModelsRepository extends JpaRepository<AccountModel, UUID> {
   public Optional<AccountModel> findByEmail(String email);
+
+  public Optional<AccountModel> findByCollaborator(CollaboratorModel collaborator);
 }
 
 public class JpaAccountsRepository implements AccountsRepository {
@@ -58,6 +61,32 @@ public class JpaAccountsRepository implements AccountsRepository {
       accountModel.setCollaborator(collaboratorModel);
     }
     return accountModel;
+  }
+
+  @Override
+  public Optional<Account> findByCollaborator(Id collaborationId) {
+    var collaboratorModel = CollaboratorModel
+        .builder()
+        .id(collaborationId.value())
+        .build();
+
+    var account = repository.findByCollaborator(collaboratorModel);
+    if (account.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(mapper.toEntity(account.get()));
+  }
+
+  @Override
+  public void update(Account account) {
+    var accountModel = mapper.toModel(account);
+    var collaboratorModel = CollaboratorModel
+        .builder()
+        .id(account.getCollaboratorId().value())
+        .build();
+    accountModel.setCollaborator(collaboratorModel);
+    repository.save(accountModel);
   }
 
 }

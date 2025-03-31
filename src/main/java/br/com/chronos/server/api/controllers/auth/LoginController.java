@@ -13,7 +13,6 @@ import lombok.Data;
 
 @AuthController
 public class LoginController {
-
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
@@ -34,7 +33,7 @@ public class LoginController {
 
   @PostMapping("/login")
   public ResponseEntity<Response> handle(@RequestBody Request body) {
-    var useCase = new LoginUseCase(authenticationProvider,accountsRepository);
+    var useCase = new LoginUseCase(authenticationProvider, accountsRepository);
     var jwt = useCase.execute(body.email, body.password);
     var response = new Response(jwt);
     return ResponseEntity.ok(response);

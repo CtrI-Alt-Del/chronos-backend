@@ -19,9 +19,9 @@ public class UpdateCollaboratorController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @PutMapping("/{id}")
+  @PutMapping("/{collaboratorId}")
   public ResponseEntity<CollaboratorDto> handle(
-      @PathVariable("id") String collaboratorId,
+      @PathVariable String collaboratorId,
       @RequestBody CollaboratorDto body) {
     var useCase = new UpdateCollaboratorUseCase(repository);
     var responsible = authenticationProvider.getAuthenticatedUser();
