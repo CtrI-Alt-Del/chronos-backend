@@ -30,9 +30,6 @@ public class UpdateCollaboratorUseCase {
     if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
       throw new NotAuthorizedException();
     }
-    if (dto.sector != null && responsibleRole.isAdmin().isFalse()) {
-      throw new NotAuthorizedException();
-    }
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
     collaborator.update(dto);
 
