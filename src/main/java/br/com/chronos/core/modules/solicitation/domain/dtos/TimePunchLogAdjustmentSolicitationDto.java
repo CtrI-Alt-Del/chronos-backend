@@ -9,6 +9,7 @@ public class TimePunchLogAdjustmentSolicitationDto extends SolicitationDto {
   public LocalTime time;
   public String period;
   public String workdayLogId;
+  public String reason;
 
   public TimePunchLogAdjustmentSolicitationDto setTime(LocalTime time) {
     this.time = time;
@@ -57,6 +58,10 @@ public class TimePunchLogAdjustmentSolicitationDto extends SolicitationDto {
 
   public TimePunchLogAdjustmentSolicitationDto setWorkdayLogId(String workdayLogId) {
     this.workdayLogId = workdayLogId;
+    return this;
+  }
+  public TimePunchLogAdjustmentSolicitationDto setReason(String reason) {
+    this.reason = reason;
     return this;
   }
 }
