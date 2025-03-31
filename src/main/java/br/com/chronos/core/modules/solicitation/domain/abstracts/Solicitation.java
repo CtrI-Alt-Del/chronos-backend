@@ -17,8 +17,8 @@ public abstract class Solicitation extends Entity {
 
   public Solicitation(SolicitationDto dto) {
     super(dto.id);
-    description = Text.create(dto.description, "Descrição da solicitação");
-    feedbackMessage = Text.create(dto.feedbackMessage, "Mensagem de feedback da solicitação");
+    description = dto.description != null ? Text.create(dto.description, "Descrição da solicitação") : null;
+    feedbackMessage = dto.feedbackMessage != null ? Text.create(dto.feedbackMessage, "Mensagem de feedback da solicitação") : null;
     status = SolicitationStatus.create(dto.status);
     date = dto.date != null ? Date.create(dto.date) : Date.now();
     senderResponsible = new ResponsibleAggregate(dto.senderResponsible);
