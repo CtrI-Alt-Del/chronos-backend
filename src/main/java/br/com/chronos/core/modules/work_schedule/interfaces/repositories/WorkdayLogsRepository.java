@@ -27,6 +27,8 @@ public interface WorkdayLogsRepository {
       CollaborationSector sector,
       PageNumber page);
 
+  void add(WorkdayLog workdayLogs);
+
   void addMany(Array<WorkdayLog> workdayLogs);
 
   void removeManyByDate(Date date);

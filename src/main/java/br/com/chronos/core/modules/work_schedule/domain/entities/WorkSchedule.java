@@ -8,7 +8,9 @@ import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Count;
 import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.Text;
+import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
+import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroDaysOffCountException;
 import br.com.chronos.core.modules.work_schedule.domain.exceptions.ZeroWorkdaysCountException;
 import br.com.chronos.core.modules.work_schedule.domain.records.DaysOffSchedule;
@@ -36,6 +38,17 @@ public final class WorkSchedule extends Entity {
     daysOffCount = Count.create(dto.daysOffCount, "Contagem de folgas");
     weekSchedule = Array.createFrom(dto.weekSchedule, WeekdaySchedule::new);
     daysOffSchedule = DaysOffSchedule.create(dto.daysOff);
+  }
+
+  public WorkdayLog createWorkdayLog(String collaboratorId) {
+    var workdayLogDto = new WorkdayLogDto()
+        .setTimePunchSchedule(getTodayTimePunchSchedule().getDto())
+        .setDate(Date.createFromNow().value())
+        .setTimePunchLog(new TimePunchDto())
+        .setStatus(getTodayWorkdayStatus().toString())
+        .setResponsibleId(collaboratorId);
+
+    return new WorkdayLog(workdayLogDto);
   }
 
   public TimePunch getTodayTimePunchSchedule() {

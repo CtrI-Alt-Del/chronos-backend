@@ -20,12 +20,12 @@ public class EnableCollaboratorController {
   private AuthenticationProvider authenticationProvider;
 
   @PatchMapping("/{id}/enable")
-  public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
+  public ResponseEntity<Void> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new EnableCollaboratorUseCase(repository);
     var responsible = this.authenticationProvider.getAuthenticatedUser();
     var sector = responsible.getSector().value();
     var role = responsible.getRole();
     useCase.execute(collaboratorId, sector, role);
-    return ResponseEntity.ok(null);
+    return ResponseEntity.noContent().build();
   }
 }

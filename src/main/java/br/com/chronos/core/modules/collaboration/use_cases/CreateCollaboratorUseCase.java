@@ -12,15 +12,13 @@ import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmail
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
-import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 
 public class CreateCollaboratorUseCase {
-  private final CollaboratorsRepository collaboratorsRepository;
-
   private final AuthenticationProvider authenticationProvider;
+  private final CollaboratorsRepository collaboratorsRepository;
   private final AccountsRepository accountsRepository;
 
   public CreateCollaboratorUseCase(
@@ -32,7 +30,7 @@ public class CreateCollaboratorUseCase {
     this.authenticationProvider = authenticationProvider;
   }
 
-  public CollaboratorDto execute(CollaboratorDto dto,  Password password,
+  public CollaboratorDto execute(CollaboratorDto dto, Password password,
       Sector responsibleSector, Role responsibleRole) {
 
     validateUniqueEmailAndCpf(dto);

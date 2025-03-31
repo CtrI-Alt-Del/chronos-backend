@@ -1,6 +1,8 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import kotlin.Pair;
@@ -78,6 +80,22 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       return Optional.empty();
     }
     return Optional.of(mapper.toEntity(workdayLogModels.get()));
+  }
+
+  @Override
+  @Transactional
+  public void add(WorkdayLog workdayLog) {
+    var workdayLogModel = mapper.toModel(workdayLog);
+    var timePunchLogModel = timePunchMapper.toModel(workdayLog.getTimePunchLog());
+    var timePunchScheduleModel = timePunchMapper.toModel(workdayLog.getTimePunchSchedule());
+    Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
+
+    timePunchModels.add(timePunchLogModel).add(timePunchScheduleModel);
+    timePunchModelsRepository.saveAll(timePunchModels.list());
+
+    workdayLogModel.setTimePunchLog(timePunchLogModel);
+    workdayLogModel.setTimePunchSchedule(timePunchScheduleModel);
+    repository.save(workdayLogModel);
   }
 
   @Override
