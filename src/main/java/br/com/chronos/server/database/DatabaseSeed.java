@@ -16,7 +16,9 @@ import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.modules.work_schedule.domain.entities.fakers.CollaboratorScheduleFaker;
 import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.use_cases.CreateCollaboratorScheduleUseCase;
 
 @Component
 public class DatabaseSeed implements CommandLineRunner {
@@ -27,7 +29,10 @@ public class DatabaseSeed implements CommandLineRunner {
   private CollaboratorsRepository collaboratorsRepository;
 
   @Autowired
-  private CollaboratorSchedulesRepository collaboratorSchedulesRepository;
+  private WeekdaySchedulesRepository weekdaySchedulesRepository;
+
+  @Autowired
+  private DayOffSchedulesRepository dayOffSchedulesRepository;
 
   @Autowired
   private AccountsRepository accountsRepository;
@@ -55,9 +60,9 @@ public class DatabaseSeed implements CommandLineRunner {
     collaboratorsRepository.addMany(collaborators);
 
     var collaboratorSchedules = fakeCollaboratorSchedules(collaborators);
-    collaboratorSchedulesRepository.
+    addManyCollaboratorSchedules(collaboratorSchedules);
 
-        var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
+    var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
     var managerAccountTest = fakeManagerAccountTest(managerTest.getId());
     var accounts = fakeAccounts(collaborators.removeLastItem().removeLastItem());
     accounts
@@ -128,5 +133,15 @@ public class DatabaseSeed implements CommandLineRunner {
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);
+  }
+
+  private void addManyCollaboratorSchedules(Array<CollaboratorSchedule> collaboratorSchedules) {
+    var useCase = new CreateCollaboratorScheduleUseCase(weekdaySchedulesRepository, dayOffSchedulesRepository);
+    for (var collaboratorSchedule : collaboratorSchedules.list()) {
+      useCase.execute(
+          collaboratorSchedule.collaboratorId().toString(),
+          collaboratorSchedule.weekSchedule().map((dayOff) -> dayOff.getDto()).list(),
+          collaboratorSchedule.daysOffSchedule().getDto());
+    }
   }
 }

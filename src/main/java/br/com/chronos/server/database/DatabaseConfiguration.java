@@ -8,8 +8,10 @@ import br.com.chronos.core.modules.collaboration.interfaces.repositories.Collabo
 import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePunchesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 import br.com.chronos.server.database.jpa.auth.repositories.JpaAccountsRepository;
 import br.com.chronos.server.database.jpa.collaborator.repositories.JpaCollaboratorsRepository;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaSolicitationsRepository;
@@ -17,6 +19,8 @@ import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaCollabor
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaTimePunchesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkdayLogsRepository;
+import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWeekdaySchedulesRepository;
+import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaDayOffSchedulesRepository;
 
 @Configuration
 public class DatabaseConfiguration {
@@ -32,13 +36,18 @@ public class DatabaseConfiguration {
   }
 
   @Bean
-  WorkSchedulesRepository workSchedulesRepository() {
-    return new JpaWorkSchedulesRepository();
+  WeekdaySchedulesRepository weekdaySchedulesRepository() {
+    return new JpaWeekdaySchedulesRepository();
   }
 
   @Bean
-  CollaboratorSchedulesRepository collaboratorSchedulesRepository() {
-    return new JpaCollaboratorSchedulesRepository();
+  DayOffSchedulesRepository DayOffSchedulesRepository() {
+    return new JpaDayOffSchedulesRepository();
+  }
+
+  @Bean
+  WorkSchedulesRepository workSchedulesRepository() {
+    return new JpaWorkSchedulesRepository();
   }
 
   @Bean
