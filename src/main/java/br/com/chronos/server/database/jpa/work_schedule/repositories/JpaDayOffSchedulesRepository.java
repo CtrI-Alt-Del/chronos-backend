@@ -55,32 +55,43 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
 
   @Override
   @Transactional
-  public void add(DayOffSchedule dayOffSchedule, Id collaborator) {
+  public void add(DayOffSchedule dayOffSchedule, Id collaboratorId) {
+    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
     var dayOffScheduleModel = dayOffScheduleMapper.toModel(dayOffSchedule);
-    dayOffScheduleModelsRepository.save(dayOffScheduleModel);
-    var daysOffModels = toDayOffModels(dayOffSchedule);
-    dayOffModelsRepository.saveAll(daysOffModels.list());
+    dayOffScheduleModel.setCollaborator(collaboratorModel);
 
+    var dayOffModels = dayOffSchedule.getDaysOff().map((dayOff) -> {
+      var dayOffModel = dayOffMapper.toModel(dayOff);
+      dayOffModel.setDayOffSchedule(dayOffScheduleModel);
+      return dayOffModel;
+    });
+
+    dayOffScheduleModelsRepository.save(dayOffScheduleModel);
+    dayOffModelsRepository.saveAll(dayOffModels.list());
   }
 
   @Override
   @Transactional
-  public void addMany(Array<DayOffSchedule> dayOffSchedules, Id collaborator) {
-    Array<DayOffModel> dayOffModels = Array.createAsEmpty();
+  public void addMany(Array<DayOffSchedule> dayOffSchedules, Id collaboratorId) {
+    System.out.println("collaboratorId: " + collaboratorId);
+    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
+    Array<DayOffModel> allDayOffModels = Array.createAsEmpty();
+
     var dayOffScheduleModels = dayOffSchedules.map((dayOffSchedule) -> {
-      dayOffModels.addArray(toDayOffModels(dayOffSchedule));
-      return dayOffScheduleMapper.toModel(dayOffSchedule);
+      var dayOffScheduleModel = dayOffScheduleMapper.toModel(dayOffSchedule);
+      dayOffScheduleModel.setCollaborator(collaboratorModel);
+
+      var dayOffModels = dayOffSchedule.getDaysOff().map((dayOff) -> {
+        var dayOffModel = dayOffMapper.toModel(dayOff);
+        dayOffModel.setDayOffSchedule(dayOffScheduleModel);
+        return dayOffModel;
+      });
+
+      allDayOffModels.addArray(dayOffModels);
+      return dayOffScheduleModel;
     });
     dayOffScheduleModelsRepository.saveAll(dayOffScheduleModels.list());
-    dayOffModelsRepository.saveAll(dayOffModels.list());
-  }
-
-  private Array<DayOffModel> toDayOffModels(DayOffSchedule dayOffSchedule) {
-    return dayOffSchedule.getDaysOff().map((dayOff) -> {
-      var dayOffModel = dayOffMapper.toModel(dayOff);
-      dayOffModel.setDayOffSchedule(dayOffScheduleMapper.toModel(dayOffSchedule));
-      return dayOffModel;
-    });
+    dayOffModelsRepository.saveAll(allDayOffModels.list());
   }
 
   @Override
