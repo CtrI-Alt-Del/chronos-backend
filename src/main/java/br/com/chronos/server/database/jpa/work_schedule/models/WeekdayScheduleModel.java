@@ -18,7 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 import br.com.chronos.core.modules.work_schedule.domain.records.Weekday.WeekdayName;
-import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 @Data
 @AllArgsConstructor
@@ -34,11 +34,11 @@ public class WeekdayScheduleModel {
   @Column(name = "weekday", nullable = false)
   private WeekdayName weekdayName;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "time_punch_id", nullable = false)
-    private TimePunchModel timePunch;
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "time_punch_id", nullable = false)
+  private TimePunchModel timePunch;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "work_schedule_id", nullable = false)
-    private WorkScheduleModel workSchedule;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "collaborator_id", nullable = false)
+  private CollaboratorModel collaborator;
 }

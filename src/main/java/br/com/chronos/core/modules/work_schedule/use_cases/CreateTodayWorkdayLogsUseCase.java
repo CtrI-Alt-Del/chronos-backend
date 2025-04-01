@@ -4,48 +4,43 @@ import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
-import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
 import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
 public class CreateTodayWorkdayLogsUseCase {
   private final WorkdayLogsRepository workdayLogsRepository;
-  private final WorkSchedulesRepository workSchedulesRepository;
+  private final CollaboratorSchedulesRepository collaboratorSchedulesRepository;
 
   public CreateTodayWorkdayLogsUseCase(
       WorkdayLogsRepository workdayLogsRepository,
-      WorkSchedulesRepository workSchedulesRepository) {
-    this.workSchedulesRepository = workSchedulesRepository;
+      CollaboratorSchedulesRepository collaboratorSchedulesRepository) {
+    this.collaboratorSchedulesRepository = collaboratorSchedulesRepository;
     this.workdayLogsRepository = workdayLogsRepository;
   }
 
   public void execute() {
-    var workSchedules = workSchedulesRepository.findAllWithAnyCollaborator();
+    var collaboratorSchedules = collaboratorSchedulesRepository.findAll();
     Array<WorkdayLog> workdayLogs = Array.createAsEmpty();
     // workdayLogsRepository.removeManyByDate(Date.createFromNow());
 
-    for (var workSchedule : workSchedules.list()) {
-      var workdayStatus = getWorkdayStatus(workSchedule);
+    for (var collaboratorSchedule : collaboratorSchedules.list()) {
+      var workdayStatus = getWorkdayStatus(collaboratorSchedule);
+      var workdayLogDto = new WorkdayLogDto()
+          .setTimePunchSchedule(collaboratorSchedule.getTodayTimePunchSchedule().getDto())
+          .setDate(Date.createFromNow().value())
+          .setTimePunchLog(new TimePunchDto())
+          .setStatus(workdayStatus.toString())
+          .setResponsibleId(collaboratorSchedule.collaboratorId().toString());
 
-      var collaboratorIds = workSchedulesRepository.findCollaboratorIdsByWorkSchedule(workSchedule);
-      workdayLogs = collaboratorIds.map((collaboratorId) -> {
-        var workdayLogDto = new WorkdayLogDto()
-            .setTimePunchSchedule(workSchedule.getTodayTimePunchSchedule().getDto())
-            .setDate(Date.createFromNow().value())
-            .setTimePunchLog(new TimePunchDto())
-            .setStatus(workdayStatus.toString())
-            .setResponsibleId(collaboratorId.toString());
-
-        return new WorkdayLog(workdayLogDto);
-      });
+      workdayLogs.add(new WorkdayLog(workdayLogDto));
     }
-    System.out.println(workdayLogs);
     workdayLogsRepository.addMany(workdayLogs);
   }
 
-  private WorkdayStatus getWorkdayStatus(WorkSchedule workSchedule) {
-    return workSchedule.getTodayWorkdayStatus();
+  private WorkdayStatus getWorkdayStatus(CollaboratorSchedule collaboratorSchedule) {
+    return collaboratorSchedule.getTodayWorkdayStatus();
   }
 }

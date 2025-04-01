@@ -22,7 +22,6 @@ import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import kotlin.Pair;
 
 interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorModel, UUID> {
@@ -49,10 +48,6 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public void update(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
-    collaboratorModel.setWorkSchedule(WorkScheduleModel
-        .builder()
-        .id(collaborator.getWorkScheduleId().value())
-        .build());
     repository.save(collaboratorModel);
   }
 
@@ -69,23 +64,12 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public void add(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
-    collaboratorModel.setWorkSchedule(
-        WorkScheduleModel.builder()
-            .id(collaborator.getWorkScheduleId().value())
-            .build());
     repository.save(collaboratorModel);
   }
 
   @Override
   public void addMany(Array<Collaborator> collaborators) {
-    var collaboratorModels = collaborators.map((collaborator) -> {
-      var collaboratorModel = mapper.toModel(collaborator);
-      collaboratorModel.setWorkSchedule(WorkScheduleModel
-          .builder()
-          .id(collaborator.getWorkScheduleId().value())
-          .build());
-      return collaboratorModel;
-    });
+    var collaboratorModels = collaborators.map(mapper::toModel);
     repository.saveAll(collaboratorModels.list());
   }
 
@@ -164,12 +148,5 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
     collaboratorModel = repository.findByCpf(cpf);
     return collaboratorModel.map(mapper::toEntity);
-  }
-
-  @Override
-  public Id findWorkScheduleIdByCollaborator(Id collaboratorId) {
-    var collaboratorModel = repository.findById(collaboratorId.value());
-    var workScheduleUUID = collaboratorModel.get().getWorkSchedule().getId().toString();
-    return Id.create(workScheduleUUID);
   }
 }

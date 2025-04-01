@@ -14,14 +14,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.DayOffScheduleModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WeekdayScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 @Data
@@ -43,9 +42,12 @@ public class CollaboratorModel {
   @OneToOne(mappedBy = "collaborator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   private AccountModel account;
 
-  @ManyToOne
-  @JoinColumn(name = "work_schedule_id", nullable = false)
-  private WorkScheduleModel workSchedule;
+  @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<WeekdayScheduleModel> weekdaySchedules = new ArrayList();
+
+  @OneToOne(mappedBy = "collaborator", fetch = FetchType.LAZY)
+  private DayOffScheduleModel dayOffSchedule;
 
   @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
   @Builder.Default

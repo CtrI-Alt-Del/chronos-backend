@@ -27,4 +27,8 @@ public class WeekdayScheduleMapper {
         .setWeekday(model.getWeekdayName().toString().toLowerCase())
         .setTimePunch(timePuchMapper.toDto(model.getTimePunch()));
   }
+
+  public WeekdaySchedule toEntity(WeekdayScheduleModel model) {
+    return new WeekdaySchedule(toDto(model));
+  }
 }
