@@ -1,28 +1,35 @@
 package br.com.chronos.core.modules.work_schedule.use_cases;
 
+import java.util.List;
+
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Date;
+import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
 import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
 public class CreateTodayWorkdayLogsUseCase {
   private final WorkdayLogsRepository workdayLogsRepository;
-  private final CollaboratorSchedulesRepository collaboratorSchedulesRepository;
+  private final WeekdaySchedulesRepository weekdaySchedulesRepository;
+  private final DayOffSchedulesRepository dayOffSchedulesRepository;
 
   public CreateTodayWorkdayLogsUseCase(
       WorkdayLogsRepository workdayLogsRepository,
-      CollaboratorSchedulesRepository collaboratorSchedulesRepository) {
-    this.collaboratorSchedulesRepository = collaboratorSchedulesRepository;
+      WeekdaySchedulesRepository weekdaySchedulesRepository,
+      DayOffSchedulesRepository dayOffSchedulesRepository) {
     this.workdayLogsRepository = workdayLogsRepository;
+    this.weekdaySchedulesRepository = weekdaySchedulesRepository;
+    this.dayOffSchedulesRepository = dayOffSchedulesRepository;
   }
 
-  public void execute() {
-    var collaboratorSchedules = collaboratorSchedulesRepository.findAll();
+  public void execute(List<String> collaboratorIds) {
+    var collaboratorSchedules = findCollaboratorSchedules(collaboratorIds);
     Array<WorkdayLog> workdayLogs = Array.createAsEmpty();
     // workdayLogsRepository.removeManyByDate(Date.createFromNow());
 
@@ -42,5 +49,22 @@ public class CreateTodayWorkdayLogsUseCase {
 
   private WorkdayStatus getWorkdayStatus(CollaboratorSchedule collaboratorSchedule) {
     return collaboratorSchedule.getTodayWorkdayStatus();
+  }
+
+  private Array<CollaboratorSchedule> findCollaboratorSchedules(List<String> collaboratorIds) {
+    Array<CollaboratorSchedule> collaboratorSchedules = Array.createAsEmpty();
+    for (var id : collaboratorIds) {
+      var collaboratorId = Id.create(id);
+      var weekSchedule = weekdaySchedulesRepository.findManyByCollaborator(collaboratorId);
+      var dayOffSchedule = dayOffSchedulesRepository.findByCollaborator(collaboratorId);
+
+      var collaboratorSchedule = CollaboratorSchedule.create(
+          collaboratorId,
+          weekSchedule,
+          dayOffSchedule.get());
+      collaboratorSchedules.add(collaboratorSchedule);
+    }
+
+    return collaboratorSchedules;
   }
 }

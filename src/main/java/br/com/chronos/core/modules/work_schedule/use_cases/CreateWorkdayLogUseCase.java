@@ -1,32 +1,34 @@
 package br.com.chronos.core.modules.work_schedule.use_cases;
 
 import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
-import br.com.chronos.core.modules.work_schedule.domain.exceptions.WorkScheduleNotFoundException;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
 public class CreateWorkdayLogUseCase {
   private final WorkdayLogsRepository workdayLogsRepository;
-  private final WorkSchedulesRepository workSchedulesRepository;
+  private final WeekdaySchedulesRepository weekdaySchedulesRepository;
+  private final DayOffSchedulesRepository dayOffSchedulesRepository;
 
-  public CreateWorkdayLogUseCase(WorkdayLogsRepository workdayLogsRepository,
-      WorkSchedulesRepository workSchedulesRepository) {
+  public CreateWorkdayLogUseCase(
+      WorkdayLogsRepository workdayLogsRepository,
+      WeekdaySchedulesRepository weekdaySchedulesRepository,
+      DayOffSchedulesRepository dayOffSchedulesRepository) {
     this.workdayLogsRepository = workdayLogsRepository;
-    this.workSchedulesRepository = workSchedulesRepository;
+    this.weekdaySchedulesRepository = weekdaySchedulesRepository;
+    this.dayOffSchedulesRepository = dayOffSchedulesRepository;
   }
 
-  public void execute(String collaboratorId, String workScheduleId) {
-    var workSchedule = findWorkSchedule(Id.create(workScheduleId));
-    var workdayLog = workSchedule.createWorkdayLog(collaboratorId);
+  public void execute(String collaboratorId) {
+    var collaboratorSchedule = findCollaboratorSchedule(Id.create(collaboratorId));
+    var workdayLog = collaboratorSchedule.createWorkdayLog(collaboratorId);
     workdayLogsRepository.add(workdayLog);
   }
 
-  private WorkSchedule findWorkSchedule(Id id) {
-    var workSchedule = workSchedulesRepository.findById(id);
-    if (workSchedule.isEmpty()) {
-      throw new WorkScheduleNotFoundException();
-    }
-    return workSchedule.get();
+  private CollaboratorSchedule findCollaboratorSchedule(Id collaboratorId) {
+    var weekSchedule = weekdaySchedulesRepository.findManyByCollaborator(collaboratorId);
+    var dayOffSchedule = dayOffSchedulesRepository.findByCollaborator(collaboratorId);
+    return CollaboratorSchedule.create(collaboratorId, weekSchedule, dayOffSchedule.get());
   }
 }

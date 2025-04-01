@@ -5,13 +5,18 @@ import java.util.List;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.DayOffScheduleDto;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WeekdayScheduleDto;
 import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 
 public class CreateCollaboratorScheduleUseCase {
-  private final CollaboratorSchedulesRepository repository;
+  private final WeekdaySchedulesRepository weekdaySchedulesRepository;
+  private final DayOffSchedulesRepository dayOffSchedulesRepository;
 
-  public CreateCollaboratorScheduleUseCase(CollaboratorSchedulesRepository repository) {
-    this.repository = repository;
+  public CreateCollaboratorScheduleUseCase(
+      WeekdaySchedulesRepository weekdaySchedulesRepository,
+      DayOffSchedulesRepository dayOffSchedulesRepository) {
+    this.weekdaySchedulesRepository = weekdaySchedulesRepository;
+    this.dayOffSchedulesRepository = dayOffSchedulesRepository;
   }
 
   public void execute(
@@ -23,6 +28,11 @@ public class CreateCollaboratorScheduleUseCase {
         weekdaySchedulesDto,
         dayOffScheduleDto);
 
-    repository.add(collaboratorSchedule);
+    weekdaySchedulesRepository.addMany(
+        collaboratorSchedule.weekSchedule(),
+        collaboratorSchedule.collaboratorId());
+    dayOffSchedulesRepository.add(
+        collaboratorSchedule.daysOffSchedule(),
+        collaboratorSchedule.collaboratorId());
   }
 }

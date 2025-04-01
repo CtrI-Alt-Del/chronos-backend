@@ -1,5 +1,6 @@
 package br.com.chronos.server.database.jpa.collaborator.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,6 +29,8 @@ interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorMode
   public Optional<CollaboratorModel> findByAccountEmail(String email);
 
   public Optional<CollaboratorModel> findByCpf(String cpf);
+
+  public List<CollaboratorModel> findAllByAccountIsActiveTrue();
 
   Page<CollaboratorModel> findAllByAccountRoleNotAndAccountIsActive(RoleName role, Pageable pageable, Boolean isActive);
 
@@ -148,5 +151,11 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
     collaboratorModel = repository.findByCpf(cpf);
     return collaboratorModel.map(mapper::toEntity);
+  }
+
+  @Override
+  public Array<Collaborator> findAllActive() {
+    var collaboratorModels = repository.findAllByAccountIsActiveTrue();
+    return Array.createFrom(collaboratorModels, mapper::toEntity);
   }
 }

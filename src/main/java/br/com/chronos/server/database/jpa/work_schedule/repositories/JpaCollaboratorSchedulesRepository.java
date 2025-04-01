@@ -1,6 +1,7 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 interface JpaCollaboratorModelRepository extends JpaRepository<CollaboratorModel, UUID> {
@@ -20,11 +23,18 @@ interface JpaCollaboratorModelRepository extends JpaRepository<CollaboratorModel
 }
 
 public class JpaCollaboratorSchedulesRepository implements CollaboratorSchedulesRepository {
-  private final JpaWeekdaySchedulesRepository weekdaySchedulesRespository = new JpaWeekdaySchedulesRepository();
-  private final JpaDayOffSchedulesRepository dayOffSchedulesRespository = new JpaDayOffSchedulesRepository();
-
   @Autowired
   private JpaCollaboratorModelRepository collaboratorModelsRepository;
+
+  private WeekdaySchedulesRepository weekdaySchedulesRepository;
+
+  private DayOffSchedulesRepository dayOffSchedulesRepository;
+
+  public JpaCollaboratorSchedulesRepository(WeekdaySchedulesRepository weekdaySchedulesRepository,
+      DayOffSchedulesRepository dayOffSchedulesRepository) {
+    this.weekdaySchedulesRepository = weekdaySchedulesRepository;
+    this.dayOffSchedulesRepository = dayOffSchedulesRepository;
+  }
 
   @Override
   public Array<CollaboratorSchedule> findAll() {
@@ -33,8 +43,8 @@ public class JpaCollaboratorSchedulesRepository implements CollaboratorSchedules
     var collaboratorIds = collaboratorModelsRepository.findAllCollaboratorIds();
     for (var collaboratorId : collaboratorIds) {
       var id = Id.create(collaboratorId.toString());
-      var weekSchedule = weekdaySchedulesRespository.findManyByCollaborator(id);
-      var dayOffSchedule = dayOffSchedulesRespository.findByCollaborator(id);
+      var weekSchedule = weekdaySchedulesRepository.findManyByCollaborator(id);
+      var dayOffSchedule = dayOffSchedulesRepository.findByCollaborator(id);
 
       var collaboratorSchedule = CollaboratorSchedule.create(id, weekSchedule, dayOffSchedule.get());
       collaboratorSchedules.add(collaboratorSchedule);
@@ -46,12 +56,32 @@ public class JpaCollaboratorSchedulesRepository implements CollaboratorSchedules
   @Override
   @Transactional
   public void add(CollaboratorSchedule collaboratorSchedule) {
-    weekdaySchedulesRespository.addMany(
+    weekdaySchedulesRepository.addMany(
         collaboratorSchedule.weekSchedule(),
         collaboratorSchedule.collaboratorId());
-    dayOffSchedulesRespository.add(
+    dayOffSchedulesRepository.add(
         collaboratorSchedule.daysOffSchedule(),
         collaboratorSchedule.collaboratorId());
+  }
+
+  @Override
+  public void addMany(Array<CollaboratorSchedule> collaboratorSchedules) {
+    for (var collaboratorSchedule : collaboratorSchedules.list()) {
+      add(collaboratorSchedule);
+    }
+  }
+
+  @Override
+  public Optional<CollaboratorSchedule> findByCollaborator(Id collaborator) {
+    var weekSchedule = weekdaySchedulesRepository.findManyByCollaborator(collaborator);
+    var dayOffSchedule = dayOffSchedulesRepository.findByCollaborator(collaborator);
+
+    if (dayOffSchedule.isEmpty()) {
+      return Optional.empty();
+    }
+
+    var collaboratorSchedules = CollaboratorSchedule.create(collaborator, weekSchedule, dayOffSchedule.get());
+    return Optional.of(collaboratorSchedules);
   }
 
 }

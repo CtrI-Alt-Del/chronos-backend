@@ -1,32 +1,16 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import kotlin.Pair;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.PageNumber;
 import br.com.chronos.core.modules.global.domain.records.PlusInteger;
-import br.com.chronos.core.modules.global.responses.PaginationResponse;
 import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
-import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
-import br.com.chronos.server.database.jpa.work_schedule.mappers.TimePunchMapper;
-import br.com.chronos.server.database.jpa.work_schedule.mappers.WeekdayScheduleMapper;
-import br.com.chronos.server.database.jpa.work_schedule.models.DayOffModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WeekdayScheduleModel;
 
 // interface JpaWorkScheduleModelsRepository extends JpaRepository<WorkScheduleModel, UUID> {
 //   @Query(value = "SELECT EXISTS (SELECT 1 FROM collaborators WHERE work_schedule_id = :workScheduleId)", nativeQuery = true)

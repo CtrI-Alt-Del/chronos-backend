@@ -3,8 +3,8 @@ package br.com.chronos.server.database.jpa.work_schedule.repositories;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,13 +12,13 @@ import org.springframework.data.repository.query.Param;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.work_schedule.domain.entities.WeekdaySchedule;
-import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRespository;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.TimePunchMapper;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.WeekdayScheduleMapper;
 import br.com.chronos.server.database.jpa.work_schedule.models.TimePunchModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WeekdayScheduleModel;
+import jakarta.transaction.Transactional;
 
 interface JpaWeekdayScheduleModelsRepository extends JpaRepository<WeekdayScheduleModel, UUID> {
   @Modifying
@@ -31,7 +31,7 @@ interface JpaWeekdayScheduleModelsRepository extends JpaRepository<WeekdaySchedu
   List<WeekdayScheduleModel> findManyByCollaborator(CollaboratorModel collaboratorModel);
 }
 
-public class JpaWeekdaySchedulesRepository implements WeekdaySchedulesRespository {
+public class JpaWeekdaySchedulesRepository implements WeekdaySchedulesRepository {
   @Autowired
   private JpaWeekdayScheduleModelsRepository weekdayScheduleModelsRepository;
 
@@ -52,11 +52,8 @@ public class JpaWeekdaySchedulesRepository implements WeekdaySchedulesRespositor
   }
 
   @Override
-  public void addMany(Array<WeekdaySchedule> weekdaysSchedules, Id collaborator) {
-    addWeekSchedule(weekdaysSchedules, collaborator);
-  }
-
-  private void addWeekSchedule(Array<WeekdaySchedule> weekdaySchedules, Id collaborator) {
+  @Transactional
+  public void addMany(Array<WeekdaySchedule> weekdaySchedules, Id collaborator) {
     var collaboratorModel = CollaboratorModel.builder().id(collaborator.value()).build();
     Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
 
