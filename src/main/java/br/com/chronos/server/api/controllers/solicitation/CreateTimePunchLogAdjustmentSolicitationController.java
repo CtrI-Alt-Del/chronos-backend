@@ -28,10 +28,8 @@ public class CreateTimePunchLogAdjustmentSolicitationController {
       @RequestBody TimePunchLogAdjustmentSolicitationDto body) {
     var useCase = new CreateTimePunchLogAdjustmentSolicitationUseCase(solicitationsRepository, collaboratorsRepository);
     var responsible = authenticationProvider.getAuthenticatedUser();
-    var senderEmail = responsible.getEmail();
-    var senderRole = responsible.getRole();
     var senderId = responsible.getCollaboratorId();
-    var timePunchLogAdjustmentSolicitationDto = useCase.execute(body, senderId, senderEmail, senderRole);
+    var timePunchLogAdjustmentSolicitationDto = useCase.execute(body, senderId);
     return ResponseEntity.ok(timePunchLogAdjustmentSolicitationDto);
   }
 }
