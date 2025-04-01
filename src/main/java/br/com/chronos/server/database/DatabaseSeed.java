@@ -14,8 +14,9 @@ import br.com.chronos.core.modules.collaboration.interfaces.repositories.Collabo
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.work_schedule.domain.entities.fakers.WorkScheduleFaker;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import br.com.chronos.core.modules.work_schedule.domain.entities.fakers.CollaboratorScheduleFaker;
+import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
+import br.com.chronos.core.modules.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
 
 @Component
 public class DatabaseSeed implements CommandLineRunner {
@@ -26,7 +27,7 @@ public class DatabaseSeed implements CommandLineRunner {
   private CollaboratorsRepository collaboratorsRepository;
 
   @Autowired
-  private WorkSchedulesRepository workSchedulesRepository;
+  private CollaboratorSchedulesRepository collaboratorSchedulesRepository;
 
   @Autowired
   private AccountsRepository accountsRepository;
@@ -38,17 +39,13 @@ public class DatabaseSeed implements CommandLineRunner {
     if (!isEnable)
       return;
 
-    var workSchedules = WorkScheduleFaker.fakeMany(3);
-    workSchedulesRepository.addMany(workSchedules);
-    var workScheduleId = workSchedules.firstItem().getId();
-
     Array<Collaborator> collaborators = Array.createAsEmpty();
     var admin = fakeAdmin();
-    var managers = fakeManagers(6, workScheduleId);
-    var employees = fakeEmployees(12, workScheduleId);
+    var managers = fakeManagers(6);
+    var employees = fakeEmployees(12);
 
-    var managerTest = fakeManagers(1, workScheduleId).firstItem();
-    var employeeTest = fakeEmployees(1, workScheduleId).firstItem();
+    var managerTest = fakeManagers(1).firstItem();
+    var employeeTest = fakeEmployees(1).firstItem();
 
     collaborators
         .addArray(managers)
@@ -57,7 +54,10 @@ public class DatabaseSeed implements CommandLineRunner {
         .add(employeeTest);
     collaboratorsRepository.addMany(collaborators);
 
-    var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
+    var collaboratorSchedules = fakeCollaboratorSchedules(collaborators);
+    collaboratorSchedulesRepository.
+
+        var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
     var managerAccountTest = fakeManagerAccountTest(managerTest.getId());
     var accounts = fakeAccounts(collaborators.removeLastItem().removeLastItem());
     accounts
@@ -73,20 +73,18 @@ public class DatabaseSeed implements CommandLineRunner {
     return new Account(fakeDto);
   }
 
-  private Array<Collaborator> fakeManagers(int count, Id workScheduleId) {
+  private Array<Collaborator> fakeManagers(int count) {
     var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
       fakeDto.setRole("manager");
-      fakeDto.setWorkScheduleId(workScheduleId.toString());
       return new Collaborator(fakeDto);
     });
   }
 
-  private Array<Collaborator> fakeEmployees(int count, Id workScheduleId) {
+  private Array<Collaborator> fakeEmployees(int count) {
     var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
       fakeDto.setRole("employee");
-      fakeDto.setWorkScheduleId(workScheduleId.toString());
       return new Collaborator(fakeDto);
     });
   }
@@ -101,6 +99,12 @@ public class DatabaseSeed implements CommandLineRunner {
           .setCollaboratorId(collaborator.getId().toString());
       authenticationProvider.register(accountDto);
       return new Account(accountDto);
+    });
+  }
+
+  private Array<CollaboratorSchedule> fakeCollaboratorSchedules(Array<Collaborator> collaborators) {
+    return collaborators.map((collaborator) -> {
+      return CollaboratorScheduleFaker.fake(collaborator.getId().toString());
     });
   }
 

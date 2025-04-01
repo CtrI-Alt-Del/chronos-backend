@@ -1,6 +1,5 @@
 package br.com.chronos.server.database.jpa.collaborator.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
@@ -9,7 +8,6 @@ import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 @Component
 public class CollaboratorMapper {
-  @Autowired
   public CollaboratorModel toModel(Collaborator entity) {
     var model = CollaboratorModel.builder()
         .id(entity.getId().value())

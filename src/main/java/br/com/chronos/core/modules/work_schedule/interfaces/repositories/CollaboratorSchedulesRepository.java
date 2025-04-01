@@ -7,4 +7,6 @@ public interface CollaboratorSchedulesRepository {
   Array<CollaboratorSchedule> findAll();
 
   void add(CollaboratorSchedule collaboratorSchedule);
+
+  void addMany(Array<CollaboratorSchedule> collaboratorSchedule);
 }

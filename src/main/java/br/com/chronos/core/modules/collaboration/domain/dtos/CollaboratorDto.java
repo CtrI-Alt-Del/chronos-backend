@@ -8,7 +8,6 @@ public class CollaboratorDto {
   public Boolean isActive;
   public String role;
   public String sector;
-  public String workScheduleId;
 
   public CollaboratorDto setId(String id) {
     this.id = id;
@@ -42,10 +41,6 @@ public class CollaboratorDto {
 
   public CollaboratorDto setSector(String sector) {
     this.sector = sector;
-    return this;
-  }
-  public CollaboratorDto setWorkScheduleId(String workScheduleId) {
-    this.workScheduleId = workScheduleId;
     return this;
   }
 }
