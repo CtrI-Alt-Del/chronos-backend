@@ -8,7 +8,6 @@ import br.com.chronos.core.modules.solicitation.domain.dtos.TimePunchLogAdjustme
 import br.com.chronos.core.modules.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 @Component
 public class TimePunchLogAdjustmentSolicitationMapper {
@@ -18,7 +17,6 @@ public class TimePunchLogAdjustmentSolicitationMapper {
     var replierResponsible = (entity.getReplierResponsible() != null)
         ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
-    var workdayLog = WorkdayLogModel.builder().id(entity.getWorkdayLogId().value()).build();
     return TimePunchLogAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription() != null ? entity.getDescription().value() : null)
@@ -28,7 +26,8 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .time(entity.getTime().value())
         .timePunchPeriod(entity.getPeriod().name())
         .senderResponsible(senderResponsible)
-        .replierResponsible(replierResponsible).workdayLog(workdayLog)
+        .replierResponsible(replierResponsible)
+        .date(entity.getWorkdayLogDate().value())
         .reason(entity.getReason().value())
         .build();
 
@@ -51,10 +50,10 @@ public class TimePunchLogAdjustmentSolicitationMapper {
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
-  
+
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
-    String description = model.getDescription() != null ? model.getDescription().toString() : null;   
+    String description = model.getDescription() != null ? model.getDescription().toString() : null;
     String feedbackMessage = model.getFeedbackMessage() != null ? model.getFeedbackMessage().toString() : null;
     var dto = new TimePunchLogAdjustmentSolicitationDto()
         .setTime(model.getTime())
@@ -66,7 +65,7 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .setFeedbackMessage(feedbackMessage)
         .setSenderResponsible(senderResponsibleAggregateDto)
         .setReplierResponsible(replierResponsibleAggregateDto)
-        .setWorkdayLogId(model.getWorkdayLog().getId().toString())
+        .setWorkdayLogDate(model.getDate())
         .setReason(model.getReason().toString());
 
     return new TimePunchLogAdjustmentSolicitation(dto);

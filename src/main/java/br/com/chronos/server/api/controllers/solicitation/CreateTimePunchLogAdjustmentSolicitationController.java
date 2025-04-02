@@ -18,15 +18,12 @@ public class CreateTimePunchLogAdjustmentSolicitationController {
   @Autowired
   private SolicitationsRepository solicitationsRepository;
   @Autowired
-  private CollaboratorsRepository collaboratorsRepository;
-
-  @Autowired
   private AuthenticationProvider authenticationProvider;
 
   @PostMapping("/time-punch-adjustment")
   public ResponseEntity<TimePunchLogAdjustmentSolicitationDto> handle(
       @RequestBody TimePunchLogAdjustmentSolicitationDto body) {
-    var useCase = new CreateTimePunchLogAdjustmentSolicitationUseCase(solicitationsRepository, collaboratorsRepository);
+    var useCase = new CreateTimePunchLogAdjustmentSolicitationUseCase(solicitationsRepository);
     var responsible = authenticationProvider.getAuthenticatedUser();
     var senderId = responsible.getCollaboratorId();
     var timePunchLogAdjustmentSolicitationDto = useCase.execute(body, senderId);
