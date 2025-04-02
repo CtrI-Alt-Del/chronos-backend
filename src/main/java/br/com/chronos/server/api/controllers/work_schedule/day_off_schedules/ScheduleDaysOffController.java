@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.work_schedule.schedules;
+package br.com.chronos.server.api.controllers.work_schedule.day_off_schedules;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.chronos.core.modules.work_schedule.use_cases.ScheduleDaysOffUseCase;
 
-@WorkSchedulesController
+@DayOffSchedulesController
 public class ScheduleDaysOffController {
-  @GetMapping("/days-off-schedule")
+  @GetMapping
   public ResponseEntity<List<LocalDate>> handle(
       @RequestParam int workdaysCount,
       @RequestParam int daysOffCount) {

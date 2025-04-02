@@ -52,13 +52,13 @@ public final class TimePunch extends Entity {
         firstClockIn = time;
         break;
       case TimePunchPeriod.PeriodName.FIRST_CLOCK_OUT:
-        firstClockIn = time;
+        firstClockOut = time;
         break;
       case TimePunchPeriod.PeriodName.SECOND_CLOCK_IN:
-        firstClockIn = time;
+        secondClockIn = time;
         break;
       case TimePunchPeriod.PeriodName.SECOND_CLOCK_OUT:
-        firstClockIn = time;
+        secondClockOut = time;
         break;
     }
   }

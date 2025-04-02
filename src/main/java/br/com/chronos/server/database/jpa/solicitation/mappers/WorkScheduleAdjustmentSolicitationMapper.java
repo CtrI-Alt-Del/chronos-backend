@@ -1,6 +1,5 @@
 package br.com.chronos.server.database.jpa.solicitation.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
@@ -9,12 +8,9 @@ import br.com.chronos.core.modules.solicitation.domain.dtos.WorkScheduleAdjustme
 import br.com.chronos.core.modules.solicitation.domain.entities.WorkScheduleAdjustmentSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
-import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkScheduleMapper;
 
 @Component
 public class WorkScheduleAdjustmentSolicitationMapper {
-  @Autowired
-  private WorkScheduleMapper workScheduleMapper;
 
   public WorkScheduleAdjustmentSolicitationModel toModel(WorkScheduleAdjustmentSolicitation entity) {
     var senderResponsible = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();

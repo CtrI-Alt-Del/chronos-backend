@@ -15,6 +15,8 @@ import br.com.chronos.core.modules.global.domain.records.Role;
 import kotlin.Pair;
 
 public interface CollaboratorsRepository {
+  Array<Collaborator> findAllActive();
+
   Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page, Role.RoleName role, Sector sector, Logical isActive);
 
   Optional<Collaborator> findById(Id id);
@@ -22,8 +24,6 @@ public interface CollaboratorsRepository {
   Optional<Collaborator> findByEmail(Email email);
 
   Optional<Collaborator> findByCpf(Cpf cpf);
-
-  Id findWorkScheduleIdByCollaborator(Id collaboratorId);
 
   void update(Collaborator collaborator);
 

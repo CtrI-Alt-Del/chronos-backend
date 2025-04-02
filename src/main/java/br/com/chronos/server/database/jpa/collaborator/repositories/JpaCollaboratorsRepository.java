@@ -1,5 +1,6 @@
 package br.com.chronos.server.database.jpa.collaborator.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,13 +23,14 @@ import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkScheduleModel;
 import kotlin.Pair;
 
 interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorModel, UUID> {
   public Optional<CollaboratorModel> findByAccountEmail(String email);
 
   public Optional<CollaboratorModel> findByCpf(String cpf);
+
+  public List<CollaboratorModel> findAllByAccountIsActiveTrue();
 
   Page<CollaboratorModel> findAllByAccountRoleNotAndAccountIsActive(RoleName role, Pageable pageable, Boolean isActive);
 
@@ -49,10 +51,6 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public void update(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
-    collaboratorModel.setWorkSchedule(WorkScheduleModel
-        .builder()
-        .id(collaborator.getWorkScheduleId().value())
-        .build());
     repository.save(collaboratorModel);
   }
 
@@ -69,23 +67,12 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public void add(Collaborator collaborator) {
     var collaboratorModel = mapper.toModel(collaborator);
-    collaboratorModel.setWorkSchedule(
-        WorkScheduleModel.builder()
-            .id(collaborator.getWorkScheduleId().value())
-            .build());
     repository.save(collaboratorModel);
   }
 
   @Override
   public void addMany(Array<Collaborator> collaborators) {
-    var collaboratorModels = collaborators.map((collaborator) -> {
-      var collaboratorModel = mapper.toModel(collaborator);
-      collaboratorModel.setWorkSchedule(WorkScheduleModel
-          .builder()
-          .id(collaborator.getWorkScheduleId().value())
-          .build());
-      return collaboratorModel;
-    });
+    var collaboratorModels = collaborators.map(mapper::toModel);
     repository.saveAll(collaboratorModels.list());
   }
 
@@ -167,9 +154,8 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Id findWorkScheduleIdByCollaborator(Id collaboratorId) {
-    var collaboratorModel = repository.findById(collaboratorId.value());
-    var workScheduleUUID = collaboratorModel.get().getWorkSchedule().getId().toString();
-    return Id.create(workScheduleUUID);
+  public Array<Collaborator> findAllActive() {
+    var collaboratorModels = repository.findAllByAccountIsActiveTrue();
+    return Array.createFrom(collaboratorModels, mapper::toEntity);
   }
 }

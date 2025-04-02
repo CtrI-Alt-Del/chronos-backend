@@ -5,7 +5,6 @@ import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
-import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.global.domain.records.Text;
@@ -18,7 +17,6 @@ public final class Collaborator extends Entity {
   private Role role;
   private CollaborationSector sector;
   private Logical isActive;
-  private Id workScheduleId;
 
   public Collaborator(CollaboratorDto dto) {
     super(dto.id);
@@ -28,7 +26,6 @@ public final class Collaborator extends Entity {
     role = Role.create(dto.role);
     sector = CollaborationSector.create(dto.sector);
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
-    workScheduleId = Id.create(dto.workScheduleId);
   }
 
   public Logical isFromSameSector(Sector sector, Role role) {
@@ -68,9 +65,6 @@ public final class Collaborator extends Entity {
   public Logical getIsActive() {
     return isActive;
   }
-  public Id getWorkScheduleId() {
-    return workScheduleId;
-  }
 
   public void update(CollaboratorDto dto) {
     if (dto.name != null) {
@@ -91,9 +85,6 @@ public final class Collaborator extends Entity {
     if (dto.isActive != null) {
       this.isActive = Logical.create(dto.isActive);
     }
-    if (dto.workScheduleId != null) {
-      this.workScheduleId = Id.create(dto.workScheduleId);
-    }
   }
 
   public void disable() {
@@ -112,8 +103,7 @@ public final class Collaborator extends Entity {
         .setCpf(getCpf().value().toString())
         .setRole(getRole().value().toString())
         .setSector(getSector().value().toString())
-        .setActive(getIsActive().value())
-        .setWorkScheduleId(getWorkScheduleId().value().toString());
+        .setActive(getIsActive().value());
     return dto;
   }
 }

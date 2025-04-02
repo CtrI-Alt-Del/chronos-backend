@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.work_schedule.schedules;
+package br.com.chronos.server.api.controllers.work_schedule.collaborator_schedules;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @RestController
-@RequestMapping("work-schedule/schedules")
-public @interface WorkSchedulesController {
+@RequestMapping("work-schedule/collaborator-schedules")
+public @interface CollaboratorScheduleController {
 
 }

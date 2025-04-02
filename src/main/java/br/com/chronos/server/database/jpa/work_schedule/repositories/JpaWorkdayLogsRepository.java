@@ -1,12 +1,9 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import kotlin.Pair;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.domain.Page;
@@ -40,6 +37,7 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
       SELECT wl FROM WorkdayLogModel wl
       LEFT JOIN FETCH wl.collaborator c
       WHERE c.id = :collaboratorId and wl.date BETWEEN :startDate AND :endDate
+      ORDER BY wl.date DESC
       """)
   Page<WorkdayLogModel> findAllByCollaboratorAndDateBetween(
       @Param("collaboratorId") UUID collaboratorId,
