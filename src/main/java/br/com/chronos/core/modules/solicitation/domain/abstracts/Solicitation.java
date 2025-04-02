@@ -6,6 +6,7 @@ import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.solicitation.domain.dtos.SolicitationDto;
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus;
+import br.com.chronos.core.modules.solicitation.domain.records.SolicitationType;
 
 public abstract class Solicitation extends Entity {
   public Text description;
@@ -14,7 +15,7 @@ public abstract class Solicitation extends Entity {
   public SolicitationStatus status;
   public ResponsibleAggregate senderResponsible;
   public ResponsibleAggregate replierResponsible;
-  public Text type;
+  public SolicitationType type;
   public Solicitation(SolicitationDto dto) {
     super(dto.id);
     description = dto.description != null ? Text.create(dto.description, "Descrição da solicitação") : null;
@@ -49,7 +50,7 @@ public abstract class Solicitation extends Entity {
   public ResponsibleAggregate getReplierResponsible() {
     return replierResponsible;
   }
-  public Text getType(){
+  public SolicitationType getType(){
     return type;
   }
   public SolicitationDto getDto() {
@@ -62,6 +63,6 @@ public abstract class Solicitation extends Entity {
         .setStatus(getStatus().value().toString())
         .setReplierResponsible(getReplierResponsible().getDto())
         .setSenderResponsible(getSenderResponsible().getDto())
-        .setType(getType().value());
+        .setType(getType().toString());
   }
 }
