@@ -6,6 +6,7 @@ import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.global.domain.records.Time;
 import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.modules.solicitation.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
+import br.com.chronos.core.modules.solicitation.domain.records.SolicitationType;
 import br.com.chronos.core.modules.solicitation.domain.records.TimePunchAdjustmentReason;
 import br.com.chronos.core.modules.solicitation.domain.records.TimePunchAdjustmentReason.Reason;
 import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod;
@@ -18,7 +19,7 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
 
   public TimePunchLogAdjustmentSolicitation(TimePunchLogAdjustmentSolicitationDto dto) {
     super(dto);
-    this.type = Text.create("TimePunchSolicitation", "solicitation type");
+    this.type = SolicitationType.createAsTimePunch();
     time = new Time(dto.time);
     period = TimePunchPeriod.create(dto.period);
     workdayLogDate = new Date(dto.workdayLogDate);
@@ -58,7 +59,7 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
     dto.setPeriod(getPeriod().toString());
     dto.setWorkdayLogDate(getWorkdayLogDate().value());
     dto.setReason(getReason().value().toString());
-    dto.setType(getType().value());
+    dto.setType(getType().value().toString());
     return dto;
   }
 

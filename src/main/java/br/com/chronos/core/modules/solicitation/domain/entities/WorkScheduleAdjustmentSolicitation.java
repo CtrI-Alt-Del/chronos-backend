@@ -3,13 +3,14 @@ package br.com.chronos.core.modules.solicitation.domain.entities;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.modules.solicitation.domain.dtos.WorkScheduleAdjustmentSolicitationDto;
-import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
+import br.com.chronos.core.modules.solicitation.domain.records.SolicitationType;
 
 public class WorkScheduleAdjustmentSolicitation extends Solicitation {
   private Id workScheduleId;
 
   public WorkScheduleAdjustmentSolicitation(WorkScheduleAdjustmentSolicitationDto dto) {
     super(dto);
+    this.type = SolicitationType.createAsWorkSchedule();
     workScheduleId = Id.create(dto.workScheduleId);
   }
 
@@ -23,6 +24,7 @@ public class WorkScheduleAdjustmentSolicitation extends Solicitation {
     dto.setSenderResponsible(getSenderResponsible().getDto());
     dto.setReplierResponsible(getReplierResponsible() != null ? getReplierResponsible().getDto() : null);
     dto.setWorkScheduleId(getWorkScheduleId().value().toString());
+    dto.setType(getType().value().toString());
     return dto;
   }
 
