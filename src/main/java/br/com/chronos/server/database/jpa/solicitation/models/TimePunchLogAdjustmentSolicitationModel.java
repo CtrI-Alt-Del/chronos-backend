@@ -14,6 +14,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -54,9 +55,8 @@ public class TimePunchLogAdjustmentSolicitationModel {
   @Column(nullable = false, name = "status")
   private Status solicitationStatus;
 
-  @ManyToOne
-  @JoinColumn(name = "workday_log_id", nullable = false)
-  private WorkdayLogModel workdayLog;
+  @Column(name = "date")
+  private LocalDate date;
 
   @Column(nullable = false)
   private LocalTime time;
