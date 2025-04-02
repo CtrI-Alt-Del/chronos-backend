@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.chronos.core.modules.global.domain.exceptions.NotFoundException;
 import br.com.chronos.core.modules.global.domain.records.Array;
 import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.modules.global.domain.records.Id;
