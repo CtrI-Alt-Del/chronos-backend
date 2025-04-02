@@ -26,8 +26,8 @@ interface JpaDayOffScheduleModelsRepository extends JpaRepository<DayOffSchedule
 
 interface JpaDayOffModelsRepository extends JpaRepository<DayOffModel, UUID> {
   @Modifying
-  @Query(value = "DELETE FROM days_off WHERE work_schedule_id = :collaboratorId", nativeQuery = true)
-  void deleteManyByCollaborator(@Param("collaboratorId") UUID collaboratorId);
+  @Query(value = "DELETE FROM days_off WHERE day_off_schedule_id = :dayOffScheduleId", nativeQuery = true)
+  void deleteManyByDayOffSchedule(@Param("dayOffScheduleId") UUID dayOffScheduleId);
 }
 
 public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
@@ -73,7 +73,6 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
   @Override
   @Transactional
   public void addMany(Array<DayOffSchedule> dayOffSchedules, Id collaboratorId) {
-    System.out.println("collaboratorId: " + collaboratorId);
     var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
     Array<DayOffModel> allDayOffModels = Array.createAsEmpty();
 
@@ -95,8 +94,18 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
   }
 
   @Override
-  public void replace(DayOffSchedule dayOffSchedule, Id collaborator) {
-    throw new UnsupportedOperationException("Unimplemented method 'replace'");
+  @Transactional
+  public void replace(DayOffSchedule dayOffSchedule, Id collaboratorId) {
+    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
+    var dayOffScheduleModel = dayOffScheduleModelsRepository.findByCollaborator(collaboratorModel);
+    dayOffModelsRepository.deleteManyByDayOffSchedule(dayOffScheduleModel.get().getId());
+
+    var dayOffModels = dayOffSchedule.getDaysOff().map((dayOff) -> {
+      var dayOffModel = dayOffMapper.toModel(dayOff);
+      dayOffModel.setDayOffSchedule(dayOffScheduleModel.get());
+      return dayOffModel;
+    });
+    dayOffModelsRepository.saveAll(dayOffModels.list());
   }
 
 }

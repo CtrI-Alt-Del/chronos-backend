@@ -30,7 +30,7 @@ public class CreateCollaboratorUseCase {
     this.authenticationProvider = authenticationProvider;
   }
 
-  public CollaboratorDto execute(CollaboratorDto dto, Password password,
+  public String execute(CollaboratorDto dto, Password password,
       Sector responsibleSector, Role responsibleRole) {
     dto.sector = dto.sector == null ? responsibleSector.toString() : dto.sector;
     validateUniqueEmailAndCpf(dto);
@@ -50,7 +50,7 @@ public class CreateCollaboratorUseCase {
     var account = new Account(registeredAccount);
     collaboratorsRepository.add(collaborator);
     accountsRepository.add(account);
-    return collaborator.getDto();
+    return collaborator.getId().toString();
   }
 
   private void validateUniqueEmailAndCpf(CollaboratorDto dto) {

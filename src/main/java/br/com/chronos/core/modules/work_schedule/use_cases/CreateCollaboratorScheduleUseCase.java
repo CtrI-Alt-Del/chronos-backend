@@ -23,6 +23,7 @@ public class CreateCollaboratorScheduleUseCase {
       String collaboratorId,
       List<WeekdayScheduleDto> weekdaySchedulesDto,
       DayOffScheduleDto dayOffScheduleDto) {
+    System.out.println("collaboratorId: " + collaboratorId);
     var collaboratorSchedule = CollaboratorSchedule.create(
         collaboratorId,
         weekdaySchedulesDto,

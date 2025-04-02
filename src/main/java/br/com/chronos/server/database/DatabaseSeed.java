@@ -12,6 +12,7 @@ import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.entities.fakers.CollaboratorFaker;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.records.Array;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.modules.work_schedule.domain.entities.fakers.CollaboratorScheduleFaker;
@@ -74,7 +75,10 @@ public class DatabaseSeed implements CommandLineRunner {
 
   private Account fakeAdmin() {
     var fakeDto = AccountFaker.fakeDto();
-    fakeDto.setRole("admin");
+    fakeDto
+        .setRole("admin")
+        .setEmail("chronos.admin@gmail.com")
+        .setPassword("123456");
     return new Account(fakeDto);
   }
 
@@ -119,6 +123,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .setEmail("chronos.employee@gmail.com")
         .setRole("employee")
         .setPassword("123456")
+        .setSector(CollaborationSector.Sector.COMERCIAL.toString())
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);
@@ -130,6 +135,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .setEmail("chronos.manager@gmail.com")
         .setRole("manager")
         .setPassword("123456")
+        .setSector(CollaborationSector.Sector.COMERCIAL.toString())
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);

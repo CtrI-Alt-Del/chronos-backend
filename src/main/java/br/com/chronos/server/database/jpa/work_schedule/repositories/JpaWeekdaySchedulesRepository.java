@@ -22,8 +22,8 @@ import jakarta.transaction.Transactional;
 
 interface JpaWeekdayScheduleModelsRepository extends JpaRepository<WeekdayScheduleModel, UUID> {
   @Modifying
-  @Query(value = "DELETE FROM weekday_schedules WHERE work_schedule_id = :workScheduleId", nativeQuery = true)
-  void deleteManyByWorkSchedule(@Param("workScheduleId") UUID workScheduleId);
+  @Query(value = "DELETE FROM weekday_schedules WHERE collaborator_id = :collaboratorId", nativeQuery = true)
+  void deleteManyByWorkSchedule(@Param("collaboratorId") UUID collaboratorId);
 
   @Query(value = "SELECT EXISTS (SELECT 1 FROM weekday_schedules WHERE time_punch_id = :timePunchId)", nativeQuery = true)
   boolean timePunchLogExists(@Param("timePunchId") UUID timePunchId);
@@ -70,8 +70,10 @@ public class JpaWeekdaySchedulesRepository implements WeekdaySchedulesRepository
   }
 
   @Override
-  public void replaceMany(Array<WeekdaySchedule> weekdaysSchedule, Id collaborator) {
-    throw new UnsupportedOperationException("Unimplemented method 'replaceMany'");
+  @Transactional
+  public void replaceMany(Array<WeekdaySchedule> weekdaysSchedule, Id collaboratorId) {
+    weekdayScheduleModelsRepository.deleteManyByWorkSchedule(collaboratorId.value());
+    addMany(weekdaysSchedule, collaboratorId);
   }
 
 }

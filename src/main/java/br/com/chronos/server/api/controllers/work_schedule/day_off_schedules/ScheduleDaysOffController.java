@@ -11,7 +11,7 @@ import br.com.chronos.core.modules.work_schedule.use_cases.ScheduleDaysOffUseCas
 
 @DayOffSchedulesController
 public class ScheduleDaysOffController {
-  @GetMapping("/days-off-schedule")
+  @GetMapping
   public ResponseEntity<List<LocalDate>> handle(
       @RequestParam int workdaysCount,
       @RequestParam int daysOffCount) {

@@ -13,6 +13,9 @@ public class UpdateDaysOffScheduleUseCase {
   }
 
   public void execute(String collaboratorId, DayOffScheduleDto dayOffScheduleDto) {
+    System.out.println("workdaysCount: " + dayOffScheduleDto.workdaysCount);
+    System.out.println("daysOffCount  : " + dayOffScheduleDto.daysOffCount);
+    System.out.println("daysOff  : " + dayOffScheduleDto.daysOff);
     var dayOffSchedule = new DayOffSchedule(dayOffScheduleDto);
     repository.replace(dayOffSchedule, Id.create(collaboratorId));
   }
