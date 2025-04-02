@@ -6,7 +6,7 @@ import br.com.chronos.core.modules.global.domain.records.Text;
 public record TimePunchAdjustmentReason(Reason value) {
   public enum Reason {
     UNWANTED,
-    FORGTTEN,
+    FORGOTTEN,
     SICK,
     OTHER
   }
