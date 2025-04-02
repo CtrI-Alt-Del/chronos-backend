@@ -14,7 +14,7 @@ public abstract class Solicitation extends Entity {
   public SolicitationStatus status;
   public ResponsibleAggregate senderResponsible;
   public ResponsibleAggregate replierResponsible;
-
+  public Text type;
   public Solicitation(SolicitationDto dto) {
     super(dto.id);
     description = dto.description != null ? Text.create(dto.description, "Descrição da solicitação") : null;
@@ -49,16 +49,19 @@ public abstract class Solicitation extends Entity {
   public ResponsibleAggregate getReplierResponsible() {
     return replierResponsible;
   }
-
+  public Text getType(){
+    return type;
+  }
   public SolicitationDto getDto() {
     return new SolicitationDto()
         .setId(getId().toString())
-        .setDescription(description.value())
+        .setDescription(getDescription().value())
         .setStatus(getStatus().toString())
         .setFeedbackMessage(getFeedbackMessage().value())
         .setDate(getDate().value())
         .setStatus(getStatus().value().toString())
         .setReplierResponsible(getReplierResponsible().getDto())
-        .setSenderResponsible(getSenderResponsible().getDto());
+        .setSenderResponsible(getSenderResponsible().getDto())
+        .setType(getType().value());
   }
 }
