@@ -10,7 +10,8 @@ import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.modules.solicitation.domain.dtos.SolicitationDto;
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus;
 import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
-
+import br.com.chronos.core.modules.global.domain.records.Text;
+import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
 public class ResolveSolicitationUseCase {
   private final SolicitationsRepository solicitationsRepository;
   private final CollaboratorsRepository collaboratorsRepository;
@@ -21,10 +22,19 @@ public class ResolveSolicitationUseCase {
     this.collaboratorsRepository = collaboratorsRepository;
   }
 
-  public SolicitationDto execute(String solicitationId, String responsibleId, SolicitationStatus status) {
+  public SolicitationDto execute(String solicitationId, String responsibleId, String status,
+      String feedbackMessage) {
     var solicitation = findSolicitation(Id.create(solicitationId));
     var responsible = findResponsible(Id.create(responsibleId));
-    solicitation.status = status;
+    var solicitationStatus = SolicitationStatus.create(status);
+    solicitation.status = solicitationStatus;
+    if (solicitation.status.value() == SolicitationStatus.Status.PENDING) {
+      throw new ValidationException("status","O status deve ser diferente de PENDENTE");
+      
+    }
+    if (feedbackMessage != null) {
+      solicitation.feedbackMessage = Text.create(feedbackMessage, "Mensagem de feedback da solicitacao");
+    }
     solicitation.replierResponsible = responsible;
     solicitationsRepository.resolveSolicitation(solicitation);
     return solicitation.getDto();

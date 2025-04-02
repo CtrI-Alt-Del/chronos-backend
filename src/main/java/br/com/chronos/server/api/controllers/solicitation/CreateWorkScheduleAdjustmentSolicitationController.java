@@ -31,9 +31,13 @@ public class CreateWorkScheduleAdjustmentSolicitationController {
   @PostMapping("/work-schedule-adjustment")
   public ResponseEntity<WorkScheduleAdjustmentSolicitationDto> handle(
       @RequestBody WorkScheduleAdjustmentSolicitationDto body) {
-    var useCase = new CreateWorkScheduleAdjustmentSolicitationUseCase(solicitationsRepository, workSchedulesRepository,collaboratorsRepository);
-    var account = authenticationProvider.getAuthenticatedUser();
-    var response = useCase.execute(body,account);
+    var useCase = new CreateWorkScheduleAdjustmentSolicitationUseCase(solicitationsRepository, workSchedulesRepository,
+        collaboratorsRepository);
+    var responsible = authenticationProvider.getAuthenticatedUser();
+    var senderEmail = responsible.getEmail();
+    var senderRole = responsible.getRole();
+    var senderId = responsible.getCollaboratorId();
+    var response = useCase.execute(body, senderId, senderEmail, senderRole);
     return ResponseEntity.ok(response);
   }
 }

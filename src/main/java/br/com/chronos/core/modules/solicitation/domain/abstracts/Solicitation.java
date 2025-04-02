@@ -6,6 +6,7 @@ import br.com.chronos.core.modules.global.domain.records.Date;
 import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.solicitation.domain.dtos.SolicitationDto;
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus;
+import br.com.chronos.core.modules.solicitation.domain.records.SolicitationType;
 
 public abstract class Solicitation extends Entity {
   public Text description;
@@ -14,11 +15,11 @@ public abstract class Solicitation extends Entity {
   public SolicitationStatus status;
   public ResponsibleAggregate senderResponsible;
   public ResponsibleAggregate replierResponsible;
-
+  public SolicitationType type;
   public Solicitation(SolicitationDto dto) {
     super(dto.id);
-    description = Text.create(dto.description, "Descrição da solicitação");
-    feedbackMessage = Text.create(dto.feedbackMessage, "Mensagem de feedback da solicitação");
+    description = dto.description != null ? Text.create(dto.description, "Descrição da solicitação") : null;
+    feedbackMessage = dto.feedbackMessage != null ? Text.create(dto.feedbackMessage, "Mensagem de feedback da solicitação") : null;
     status = SolicitationStatus.create(dto.status);
     date = dto.date != null ? Date.create(dto.date) : Date.now();
     senderResponsible = new ResponsibleAggregate(dto.senderResponsible);
@@ -49,16 +50,19 @@ public abstract class Solicitation extends Entity {
   public ResponsibleAggregate getReplierResponsible() {
     return replierResponsible;
   }
-
+  public SolicitationType getType(){
+    return type;
+  }
   public SolicitationDto getDto() {
     return new SolicitationDto()
         .setId(getId().toString())
-        .setDescription(description.value())
+        .setDescription(getDescription().value())
         .setStatus(getStatus().toString())
         .setFeedbackMessage(getFeedbackMessage().value())
         .setDate(getDate().value())
         .setStatus(getStatus().value().toString())
         .setReplierResponsible(getReplierResponsible().getDto())
-        .setSenderResponsible(getSenderResponsible().getDto());
+        .setSenderResponsible(getSenderResponsible().getDto())
+        .setType(getType().toString());
   }
 }

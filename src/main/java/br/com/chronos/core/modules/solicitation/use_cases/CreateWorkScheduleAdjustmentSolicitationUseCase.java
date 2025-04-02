@@ -1,11 +1,12 @@
 package br.com.chronos.core.modules.solicitation.use_cases;
 
-import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.modules.global.domain.exceptions.NotFoundException;
+import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.solicitation.domain.dtos.WorkScheduleAdjustmentSolicitationDto;
 import br.com.chronos.core.modules.solicitation.domain.entities.WorkScheduleAdjustmentSolicitation;
 import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
@@ -27,13 +28,14 @@ public class CreateWorkScheduleAdjustmentSolicitationUseCase {
     this.collaboratorsRepository = collaboratorsRepository;
   }
 
-  public WorkScheduleAdjustmentSolicitationDto execute(WorkScheduleAdjustmentSolicitationDto dto, Account sender) {
+  public WorkScheduleAdjustmentSolicitationDto execute(WorkScheduleAdjustmentSolicitationDto dto, Id collaboratorId,
+      Email senderEmail, Role senderRole) {
     var workSchedule = findWorkScheduleById(Id.create(dto.workScheduleId));
     var senderResponsibleDto = new ResponsibleDto()
-        .setId(sender.getCollaboratorId().value().toString())
-        .setEmail(sender.getEmail().value().toString())
-        .setRole(sender.getRole().value().toString())
-        .setName(findSenderName(sender.getCollaboratorId()));
+        .setId(collaboratorId.value().toString())
+        .setEmail(senderEmail.value().toString())
+        .setRole(senderRole.value().toString())
+        .setName(findSenderName(collaboratorId));
     dto.setSenderResponsible(new ResponsibleAggregateDto(senderResponsibleDto));
     var solicitation = new WorkScheduleAdjustmentSolicitation(dto);
     solicitationsRepository.addWorkScheduleAdjustmentSolicitation(solicitation);

@@ -12,6 +12,12 @@ public class SolicitationDto {
   public String feedbackMessage;
   public ResponsibleAggregateDto senderResponsible;
   public ResponsibleAggregateDto replierResponsible;
+  public String type;
+
+  public SolicitationDto setType(String type) {
+    this.type = type;
+    return this;
+  }
 
   public SolicitationDto setId(String id) {
     this.id = id;

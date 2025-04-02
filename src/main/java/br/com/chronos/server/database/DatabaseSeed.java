@@ -79,6 +79,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .setRole("admin")
         .setEmail("chronos.admin@gmail.com")
         .setPassword("123456");
+    authenticationProvider.register(fakeDto);
     return new Account(fakeDto);
   }
 
