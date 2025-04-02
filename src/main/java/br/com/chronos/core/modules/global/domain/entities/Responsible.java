@@ -13,9 +13,9 @@ public class Responsible extends Entity {
 
   public Responsible(ResponsibleDto dto) {
     super(dto.id);
-    name = Text.create(dto.name, "nome do responsável");
-    email = Email.create(dto.email);
-    role = Role.create(dto.role);
+    name = dto.name != null ? Text.create(dto.name,"nome do responsavel ") : null;
+    email = dto.email != null ? Email.create(dto.email) : null;
+    role = dto.role != null ? Role.create(dto.role) : null;
   }
 
   public Text getName() {
@@ -33,8 +33,8 @@ public class Responsible extends Entity {
   public ResponsibleDto getDto() {
     return new ResponsibleDto()
         .setId(getId().toString())
-        .setName(getName().value())
-        .setEmail(getEmail().value())
-        .setRole(getRole().toString());
+        .setName(getName() != null ? getName().value() : null)
+        .setEmail(getEmail() != null ? getEmail().value() : null)
+        .setRole(getRole() != null ? getRole().toString() : null);
   }
 }
