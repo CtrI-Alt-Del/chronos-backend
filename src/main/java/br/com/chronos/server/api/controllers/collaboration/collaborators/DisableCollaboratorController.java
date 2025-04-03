@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.collaboration.use_cases.DisableCollaboratorUseCase;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 
 @CollaboratorsController
 public class DisableCollaboratorController {
@@ -15,16 +14,10 @@ public class DisableCollaboratorController {
   @Autowired
   private CollaboratorsRepository repository;
 
-  @Autowired
-  private AuthenticationProvider authenticationProvider;
-
   @PatchMapping("/{id}/disable")
   public ResponseEntity<Void> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new DisableCollaboratorUseCase(repository);
-    var responsible = authenticationProvider.getAccount();
-    var sector = responsible.getSector().value();
-    var role = responsible.getRole();
-    useCase.execute(collaboratorId, sector, role);
+    useCase.execute(collaboratorId);
     return ResponseEntity.noContent().build();
   }
 }

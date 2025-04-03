@@ -43,14 +43,8 @@ public class CreateCollaboratorController {
   public ResponseEntity<Response> handle(@RequestBody Request body) {
     var useCase = new CreateCollaboratorUseCase(accountsRepository, collaboratorsRepository, authenticationProvider);
     var password = Password.create(body.password);
-    var responsible = authenticationProvider.getAccount();
-    var responsibleSector = responsible.getSector().value();
-    var responsibleRole = responsible.getRole();
-    var collaboratorId = useCase.execute(
-        body.collaboratorDto,
-        password,
-        responsibleSector,
-        responsibleRole);
+    var account = authenticationProvider.getAccount();
+    var collaboratorId = useCase.execute(body.collaboratorDto, password, account.sector);
     return ResponseEntity.ok(new Response(collaboratorId));
   }
 }
