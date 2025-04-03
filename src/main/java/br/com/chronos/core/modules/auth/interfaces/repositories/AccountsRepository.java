@@ -13,7 +13,7 @@ public interface AccountsRepository {
   void addMany(Array<Account> accounts);
 
   Optional<Account> findByCollaborator(Id CollaborationId);
-  
+
   Optional<Account> findByEmail(Email email);
 
   void update(Account account);
