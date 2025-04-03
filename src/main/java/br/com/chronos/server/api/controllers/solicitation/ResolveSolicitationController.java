@@ -22,21 +22,20 @@ public class ResolveSolicitationController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @Autowired
-  private CollaboratorsRepository collaboratorsRepository;
-
   @Data
   private static class Body {
     private String feedbackMessage;
     private String status;
+    private String solicitationType;
   }
 
   @PatchMapping("/resolve/{id}")
   public ResponseEntity<SolicitationDto> handle(@PathVariable("id") String solicitationId, @RequestBody Body body) {
-    var useCase = new ResolveSolicitationUseCase(solicitationsRepository, collaboratorsRepository);
+    var useCase = new ResolveSolicitationUseCase(solicitationsRepository);
     var responsible = authenticationProvider.getAuthenticatedUser();
-    var response = useCase.execute(solicitationId, responsible.getCollaboratorId().toString(), body.status,
-        body.feedbackMessage);
+    var collaboratorId = responsible.getCollaboratorId();
+    var response = useCase.execute(solicitationId, collaboratorId, body.status,
+        body.feedbackMessage, body.solicitationType);
     return ResponseEntity.ok(response);
 
   }

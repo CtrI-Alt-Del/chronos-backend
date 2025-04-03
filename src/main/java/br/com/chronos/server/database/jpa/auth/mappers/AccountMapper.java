@@ -21,7 +21,7 @@ public class AccountMapper {
     return model;
   }
 
-  public Account toEntity(AccountModel model) {
+  public AccountDto toDto(AccountModel model) {
     var dto = new AccountDto()
         .setId(model.getId().toString())
         .setEmail(model.getEmail().toString())
@@ -31,6 +31,9 @@ public class AccountMapper {
         .setSector(model.getSector().toString())
         .setCollaboratorId(model.getCollaborator().getId().toString());
 
-    return new Account(dto);
+    return dto;
+  }
+  public Account toEntity(AccountModel model) {
+    return new Account(toDto(model));
   }
 }

@@ -2,7 +2,6 @@ package br.com.chronos.server.database.jpa.work_schedule.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
