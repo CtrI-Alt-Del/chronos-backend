@@ -2,7 +2,6 @@ package br.com.chronos.core.modules.collaboration.use_cases;
 
 import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
 import br.com.chronos.core.modules.auth.domain.entities.Account;
-import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthorizedException;
 import br.com.chronos.core.modules.auth.domain.records.Password;
 import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
@@ -35,10 +34,6 @@ public class CreateCollaboratorUseCase {
     dto.sector = dto.sector == null ? responsibleSector.toString() : dto.sector;
     validateUniqueEmailAndCpf(dto);
     var collaborator = new Collaborator(dto);
-
-    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
-      throw new NotAuthorizedException();
-    }
     var accountDto = new AccountDto()
         .setPassword(password.value().toString())
         .setEmail(dto.email)

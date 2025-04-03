@@ -26,10 +26,6 @@ public class UpdateCollaboratorUseCase {
       dto = new CollaboratorDto();
     }
     var collaborator = findCollaborator(Id.create(collaboratorId));
-
-    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
-      throw new NotAuthorizedException();
-    }
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
     collaborator.update(dto);
 

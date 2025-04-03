@@ -21,7 +21,7 @@ public class DisableCollaboratorController {
   @PatchMapping("/{id}/disable")
   public ResponseEntity<Void> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new DisableCollaboratorUseCase(repository);
-    var responsible = authenticationProvider.getAuthenticatedUser();
+    var responsible = authenticationProvider.getAccount();
     var sector = responsible.getSector().value();
     var role = responsible.getRole();
     useCase.execute(collaboratorId, sector, role);

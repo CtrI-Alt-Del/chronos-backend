@@ -17,10 +17,6 @@ public class DisableCollaboratorUseCase {
 
   public void execute(String collaboratorId, Sector responsibleSector, Role responsibleRole) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
-    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
-      throw new NotAuthorizedException();
-
-    }
     collaborator.disable();
     repository.disable(collaborator);
   }
