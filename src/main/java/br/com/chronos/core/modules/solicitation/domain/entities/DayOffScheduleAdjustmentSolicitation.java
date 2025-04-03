@@ -10,7 +10,7 @@ public class DayOffScheduleAdjustmentSolicitation extends Solicitation {
 
   public DayOffScheduleAdjustmentSolicitation(DayOffScheduleAdjustmentSolicitationDto dto) {
     super(dto);
-    this.type = SolicitationType.createAsWorkSchedule();
+    this.type = SolicitationType.createAsDayOffSchedule();
     dayOffSchedule = new DayOffSchedule(dto.dayOffScheduleDto);
   }
 
