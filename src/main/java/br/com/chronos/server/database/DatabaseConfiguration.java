@@ -15,9 +15,9 @@ import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSch
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.server.database.jpa.auth.repositories.JpaAccountsRepository;
 import br.com.chronos.server.database.jpa.collaborator.repositories.JpaCollaboratorsRepository;
-import br.com.chronos.server.database.jpa.solicitation.repositories.JpaDayOffScheduleAdjustmentRepository;
+import br.com.chronos.server.database.jpa.solicitation.repositories.JpaDayOffScheduleAdjustmentSolicitationsRepository;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaSolicitationsRepository;
-import br.com.chronos.server.database.jpa.solicitation.repositories.JpaTimeLogPunchAdjustmentRepository;
+import br.com.chronos.server.database.jpa.solicitation.repositories.JpaTimePunchLogPunchAdjustmentSolicitationsRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaDayOffSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaTimePunchesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWeekdaySchedulesRepository;
@@ -69,12 +69,12 @@ public class DatabaseConfiguration {
 
   @Bean
   TimePunchLogAdjustmentRepository timePunchAdjustmentRepository(){
-    return new JpaTimeLogPunchAdjustmentRepository();
+    return new JpaTimePunchLogPunchAdjustmentSolicitationsRepository();
   }
 
   @Bean
   DayOffScheduleAdjustmentRepository dayOffSchedulesRepository() {
-    return new JpaDayOffScheduleAdjustmentRepository();
+    return new JpaDayOffScheduleAdjustmentSolicitationsRepository();
   }
 
 }
