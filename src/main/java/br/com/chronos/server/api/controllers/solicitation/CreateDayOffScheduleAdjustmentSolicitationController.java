@@ -1,6 +1,7 @@
 package br.com.chronos.server.api.controllers.solicitation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,6 @@ public class CreateDayOffScheduleAdjustmentSolicitationController {
   @Autowired
   private DayOffSchedulesRepository dayOffSchedulesRepository;
 
-
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
@@ -32,6 +32,6 @@ public class CreateDayOffScheduleAdjustmentSolicitationController {
     var responsible = authenticationProvider.getAuthenticatedUser();
     var senderId = responsible.getCollaboratorId();
     var response = useCase.execute(body, senderId);
-    return ResponseEntity.ok(response);
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }
