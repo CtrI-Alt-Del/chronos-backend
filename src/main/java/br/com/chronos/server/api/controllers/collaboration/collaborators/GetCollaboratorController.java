@@ -15,8 +15,8 @@ public class GetCollaboratorController {
   @Autowired
   private CollaboratorsRepository repository;
 
-  @GetMapping("/{id}")
-  public ResponseEntity<CollaboratorDto> handle(@PathVariable("id") String collaboratorId) {
+  @GetMapping("/{collaboratorId}")
+  public ResponseEntity<CollaboratorDto> handle(@PathVariable String collaboratorId) {
     var useCase = new GetCollaboratorUseCase(repository);
     var response = useCase.execute(collaboratorId);
     return ResponseEntity.ok(response);

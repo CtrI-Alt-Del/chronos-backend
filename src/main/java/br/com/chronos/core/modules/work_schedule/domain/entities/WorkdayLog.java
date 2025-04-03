@@ -3,6 +3,7 @@ package br.com.chronos.core.modules.work_schedule.domain.entities;
 import br.com.chronos.core.modules.global.domain.abstracts.Entity;
 import br.com.chronos.core.modules.global.domain.aggregates.ResponsibleAggregate;
 import br.com.chronos.core.modules.global.domain.records.Date;
+import br.com.chronos.core.modules.global.domain.records.PlusInteger;
 import br.com.chronos.core.modules.global.domain.records.Time;
 import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus;
@@ -13,6 +14,7 @@ public final class WorkdayLog extends Entity {
   private TimePunch timePunchLog;
   private WorkdayStatus status;
   private ResponsibleAggregate responsible;
+  private PlusInteger workloadSchedule;
 
   public WorkdayLog(WorkdayLogDto dto) {
     super(dto.id);
@@ -21,6 +23,7 @@ public final class WorkdayLog extends Entity {
     timePunchLog = (dto.timePunchLog != null) ? new TimePunch(dto.timePunchLog) : new TimePunch();
     status = WorkdayStatus.create(dto.status);
     responsible = new ResponsibleAggregate(dto.responsible);
+    workloadSchedule = PlusInteger.create(dto.workload);
   }
 
   public Time getLatetime() {
@@ -51,6 +54,10 @@ public final class WorkdayLog extends Entity {
 
   public WorkdayStatus getStatus() {
     return status;
+  }
+
+  public PlusInteger getWorkloadSchedule() {
+    return workloadSchedule;
   }
 
   public ResponsibleAggregate getResponsible() {

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
@@ -35,6 +36,7 @@ public class JpaAccountsRepository implements AccountsRepository {
   }
 
   @Override
+  @Transactional
   public void addMany(Array<Account> accounts) {
     var accountModels = accounts.map(this::toModel);
     repository.saveAll(accountModels.list());

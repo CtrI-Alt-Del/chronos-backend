@@ -8,7 +8,6 @@ import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Logical;
 import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.global.domain.records.Text;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 
 public final class Collaborator extends Entity {
   private Text name;
@@ -28,18 +27,12 @@ public final class Collaborator extends Entity {
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
   }
 
-  public Logical isFromSameSector(Sector sector, Role role) {
-    if (sector == null) {
-      return Logical.createAsFalse();
-    }
-    if (role == null) {
-      return Logical.createAsFalse();
-    }
-    if (role.isAdmin().isTrue()) {
+  public Logical hasSameSectorOf(Collaborator collaborator) {
+    if (collaborator.getRole().isAdmin().isTrue()) {
       return Logical.createAsTrue();
     }
 
-    return Logical.create(this.getSector().value().equals(sector));
+    return getSector().isEqual(collaborator.getSector());
   }
 
   public Text getName() {

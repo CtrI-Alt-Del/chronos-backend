@@ -21,6 +21,9 @@ public class SecurityConfiguration {
   @Autowired
   private SecurityJwtFilter securityJwtFilter;
 
+  @Autowired
+  private SecurityCollaborationSectorFilter securityCollaborationSectorFilter;
+
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     return httpSecurity
@@ -31,7 +34,12 @@ public class SecurityConfiguration {
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
             .requestMatchers("/collaboration/collaborator").hasRole("MANAGER")
             .anyRequest().authenticated())
-        .addFilterBefore(securityJwtFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(
+            securityJwtFilter,
+            UsernamePasswordAuthenticationFilter.class)
+        .addFilterAfter(
+            securityCollaborationSectorFilter,
+            UsernamePasswordAuthenticationFilter.class)
         .build();
   }
 

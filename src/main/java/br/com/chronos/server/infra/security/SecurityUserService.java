@@ -1,10 +1,10 @@
 package br.com.chronos.server.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import br.com.chronos.core.modules.auth.domain.entities.Account;
 import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
@@ -26,7 +26,6 @@ public class SecurityUserService implements UserDetailsService {
       var securityUser = new SecurityUser(account);
       return securityUser;
     } catch (Exception e) {
-      System.out.println(e);
       throw new NotAuthenticatedException();
     }
   }

@@ -95,7 +95,6 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
           requesterSector,
           isActive.value(), pageRequest);
     }
-    System.out.println(collaboratorModels);
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();
 
