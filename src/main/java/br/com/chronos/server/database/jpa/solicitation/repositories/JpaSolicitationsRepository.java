@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.global.domain.records.Role;
 import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.modules.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.modules.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.modules.solicitation.domain.records.SolicitationType;
 import br.com.chronos.core.modules.solicitation.interfaces.repository.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
 import br.com.chronos.core.modules.solicitation.interfaces.repository.TimePunchLogAdjustmentRepository;
@@ -25,34 +24,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   DayOffScheduleAdjustmentRepository dayOffScheduleAdjustmentSolcitationModelsRepository;
-
-  @Override
-  @Transactional(readOnly = true)
-  public Array<Solicitation> findMany(Sector sector, Role role, Id userId) {
-    List<TimePunchLogAdjustmentSolicitation> timePunchSolicitations;
-    List<DayOffScheduleAdjustmentSolicitation> dayOffScheduleSolicitations;
-
-    if (role.isEmployee().isTrue()) {
-      timePunchSolicitations = timePunchLogAdjustmentSolicitationModelsRepository
-          .findAllByCollaboratorId(userId).list();
-
-      dayOffScheduleSolicitations = dayOffScheduleAdjustmentSolcitationModelsRepository
-          .findAllByCollaboratorId(userId).list();
-    } else {
-
-      timePunchSolicitations = timePunchLogAdjustmentSolicitationModelsRepository
-          .findAllByCollaboratorSector(sector).list();
-
-      dayOffScheduleSolicitations = dayOffScheduleAdjustmentSolcitationModelsRepository
-          .findAllByCollaboratorSector(sector).list();
-    }
-
-    var allSolicitations = new ArrayList<Solicitation>();
-    allSolicitations.addAll(timePunchSolicitations);
-    allSolicitations.addAll(dayOffScheduleSolicitations);
-
-    return new Array<>(allSolicitations);
-  }
 
   @Override
   public void resolveSolicitation(Solicitation solicitation) {
@@ -68,18 +39,50 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public Optional<Solicitation> findSolicitationById(Id solicitationId) {
-    var timePunchSolicitation = timePunchLogAdjustmentSolicitationModelsRepository.findSolicitationById(solicitationId);
-    if (timePunchSolicitation.isPresent()) {
-      return Optional.of(timePunchSolicitation.get());
+  public Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type) {
+    if (type.isTimePunch().isTrue()) {
+      var solicitation = timePunchLogAdjustmentSolicitationModelsRepository
+          .findSolicitationById(solicitationId);
+      return Optional.of(solicitation.get());
+    } else {
+      var solicitation = dayOffScheduleAdjustmentSolcitationModelsRepository
+          .findSolicitationById(solicitationId);
+      return Optional.of(solicitation.get());
     }
+  }
 
-    var dayOffScheduleSolicitation = dayOffScheduleAdjustmentSolcitationModelsRepository
-        .findSolicitationById(solicitationId);
-    if (dayOffScheduleSolicitation.isPresent()) {
-      return Optional.of(dayOffScheduleSolicitation.get());
-    }
+  @Override
+  public Array<Solicitation> findAllByCollaboratorId(Id collaboratorId) {
+    List<TimePunchLogAdjustmentSolicitation> timePunchSolicitations;
+    List<DayOffScheduleAdjustmentSolicitation> dayOffScheduleSolicitations;
+    timePunchSolicitations = timePunchLogAdjustmentSolicitationModelsRepository
+        .findAllByCollaboratorId(collaboratorId).list();
 
-    return Optional.empty();
+    dayOffScheduleSolicitations = dayOffScheduleAdjustmentSolcitationModelsRepository
+        .findAllByCollaboratorId(collaboratorId).list();
+    var allSolicitations = new ArrayList<Solicitation>();
+    allSolicitations.addAll(timePunchSolicitations);
+    allSolicitations.addAll(dayOffScheduleSolicitations);
+
+    return new Array<>(allSolicitations);
+
+  }
+
+  @Override
+  public Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector) {
+    List<TimePunchLogAdjustmentSolicitation> timePunchSolicitations;
+    List<DayOffScheduleAdjustmentSolicitation> dayOffScheduleSolicitations;
+
+    timePunchSolicitations = timePunchLogAdjustmentSolicitationModelsRepository
+        .findAllByCollaboratorSector(sector).list();
+
+    dayOffScheduleSolicitations = dayOffScheduleAdjustmentSolcitationModelsRepository
+        .findAllByCollaboratorSector(sector).list();
+
+    var allSolicitations = new ArrayList<Solicitation>();
+    allSolicitations.addAll(timePunchSolicitations);
+    allSolicitations.addAll(dayOffScheduleSolicitations);
+
+    return new Array<>(allSolicitations);
   }
 }

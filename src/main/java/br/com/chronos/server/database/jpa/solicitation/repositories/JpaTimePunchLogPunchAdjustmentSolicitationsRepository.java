@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
@@ -23,7 +24,7 @@ interface JpaTimePunchAdjustmentSolicitationRepository
       UUID userId);
 }
 
-public class JpaTimeLogPunchAdjustmentRepository implements TimePunchLogAdjustmentRepository {
+public class JpaTimePunchLogPunchAdjustmentSolicitationsRepository implements TimePunchLogAdjustmentRepository {
 
   @Autowired
   private JpaTimePunchAdjustmentSolicitationRepository solicitationRepository;
@@ -56,8 +57,8 @@ public class JpaTimeLogPunchAdjustmentRepository implements TimePunchLogAdjustme
   }
 
   @Override
-  public Array<TimePunchLogAdjustmentSolicitation> findAllByCollaboratorSector(Sector sector) {
-    var solicitationModels = solicitationRepository.findAllBySenderResponsibleAccountSector(sector);
+  public Array<TimePunchLogAdjustmentSolicitation> findAllByCollaboratorSector(CollaborationSector sector) {
+    var solicitationModels = solicitationRepository.findAllBySenderResponsibleAccountSector(sector.value());
     return Array.createFrom(solicitationModels, mapper::toEntity);
   }
 }

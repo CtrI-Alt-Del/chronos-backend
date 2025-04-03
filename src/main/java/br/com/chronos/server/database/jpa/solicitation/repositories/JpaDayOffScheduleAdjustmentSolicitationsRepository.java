@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.modules.global.domain.records.Array;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.modules.global.domain.records.Id;
 import br.com.chronos.core.modules.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
@@ -30,7 +31,7 @@ interface JpaAdjustmentDayOffScheduleModelsRepository extends JpaRepository<DayO
 
 }
 
-public class JpaDayOffScheduleAdjustmentRepository implements DayOffScheduleAdjustmentRepository {
+public class JpaDayOffScheduleAdjustmentSolicitationsRepository implements DayOffScheduleAdjustmentRepository {
 
   @Autowired
   private JpaDayOffScheduleAdjustmentRepositorySolicitation solicitationRepository;
@@ -76,8 +77,8 @@ public class JpaDayOffScheduleAdjustmentRepository implements DayOffScheduleAdju
   }
 
   @Override
-  public Array<DayOffScheduleAdjustmentSolicitation> findAllByCollaboratorSector(Sector sector) {
-    var solicitationModels = solicitationRepository.findAllBySenderResponsibleAccountSector(sector);
+  public Array<DayOffScheduleAdjustmentSolicitation> findAllByCollaboratorSector(CollaborationSector sector) {
+    var solicitationModels = solicitationRepository.findAllBySenderResponsibleAccountSector(sector.value());
     return Array.createFrom(solicitationModels, solicitationMapper::toEntity);
   }
 }
