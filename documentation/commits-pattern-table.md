@@ -25,7 +25,6 @@
 | Certificados e licenças         | cert      | 📜     |
 | Trabalho em andamento           | wip       | 🚧     |
 | Conserto de erro de emergencia  | hotfix    | 🚑     |
-| Entrega continua                | cd        | 🚚     |
-| Integracao continua             | ci        | 🏎️     |
-
-
+| Entrega contínua                | cd        | 🚚    |
+| Integração contínua             | ci        | 🏎️     |
+| Containers Docker               | docker    | 🐳    |
