@@ -20,7 +20,7 @@ import br.com.chronos.core.global.domain.records.DateRange;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
-import br.com.chronos.core.global.domain.records.PlusInteger;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
@@ -126,7 +126,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
-  public Pair<Array<WorkdayLog>, PlusInteger> findManyByCollaboratorAndDateRange(
+  public Pair<Array<WorkdayLog>, PlusIntegerNumber> findManyByCollaboratorAndDateRange(
       Id collaboratorId,
       DateRange dateRange,
       PageNumber page) {
@@ -139,11 +139,11 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
 
-    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
+    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusIntegerNumber.create((int) itemsCount));
   }
 
   @Override
-  public Pair<Array<WorkdayLog>, PlusInteger> findManyByDateAndCollaborationSector(
+  public Pair<Array<WorkdayLog>, PlusIntegerNumber> findManyByDateAndCollaborationSector(
       Date date,
       CollaborationSector sector,
       PageNumber page) {
@@ -154,7 +154,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
 
-    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusInteger.create((int) itemsCount));
+    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusIntegerNumber.create((int) itemsCount));
   }
 
   @Override

@@ -19,7 +19,7 @@ import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
-import br.com.chronos.core.global.domain.records.PlusInteger;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.domain.records.Role.RoleName;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -83,7 +83,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page, RoleName requesterRole,
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findMany(PageNumber page, RoleName requesterRole,
       Sector requesterSector, Logical isActive) {
     var pageRequest = PageRequest.of(page.number().value() - 1, 10);
     Page<CollaboratorModel> collaboratorModels;
@@ -101,7 +101,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
 
     return new Pair<>(
         Array.createFrom(items, mapper::toEntity),
-        PlusInteger.create((int) itemsCount, "contagem de colaboradores"));
+        PlusIntegerNumber.create((int) itemsCount, "contagem de colaboradores"));
   }
 
   @Override

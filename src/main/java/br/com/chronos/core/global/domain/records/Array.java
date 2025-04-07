@@ -77,8 +77,8 @@ public record Array<Item>(List<Item> list) {
     return Logical.create(list.stream().anyMatch(predicate));
   }
 
-  public PlusInteger size() {
-    return PlusInteger.create(list.size(), "tamanho do array");
+  public PlusIntegerNumber size() {
+    return PlusIntegerNumber.create(list.size(), "tamanho do array");
   }
 
   public Item item(int index) {

@@ -6,7 +6,7 @@ import br.com.chronos.core.global.domain.records.Count;
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Month;
-import br.com.chronos.core.global.domain.records.PlusInteger;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
 import br.com.chronos.core.work_schedule.domain.exceptions.ZeroDaysOffCountException;
 import br.com.chronos.core.work_schedule.domain.exceptions.ZeroWorkdaysCountException;
@@ -32,10 +32,10 @@ public class DayOffSchedule extends Entity {
   }
 
   static Array<Date> scheduleDaysOff(int workdaysCountValue, int daysOffCountValue) {
-    var workdaysCountInteger = PlusInteger.create(
+    var workdaysCountInteger = PlusIntegerNumber.create(
         workdaysCountValue,
         "contagem de dias de trabalho");
-    var daysOffCountInteger = PlusInteger.create(
+    var daysOffCountInteger = PlusIntegerNumber.create(
         daysOffCountValue,
         "contagem de dias de folga");
 

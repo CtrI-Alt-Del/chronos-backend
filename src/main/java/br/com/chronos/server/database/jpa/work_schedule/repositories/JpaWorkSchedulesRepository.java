@@ -7,7 +7,7 @@ import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
-import br.com.chronos.core.global.domain.records.PlusInteger;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkSchedule;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkSchedulesRepository;
@@ -69,7 +69,7 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   }
 
   @Override
-  public Pair<Array<WorkSchedule>, PlusInteger> findMany(PageNumber page) {
+  public Pair<Array<WorkSchedule>, PlusIntegerNumber> findMany(PageNumber page) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'findMany'");
   }
@@ -168,7 +168,8 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
   // }
 
   // @Override
-  // public Pair<Array<WorkSchedule>, PlusInteger> findMany(PageNumber page) {
+  // public Pair<Array<WorkSchedule>, PlusIntegerNumber> findMany(PageNumber page)
+  // {
   // var pageRequest = PageRequest.of(page.number().value() - 1,
   // PaginationResponse.ITEMS_PER_PAGE);
   // var workScheduleModels = workScheduleModelsRepository.findAll(pageRequest);
@@ -177,7 +178,7 @@ public class JpaWorkSchedulesRepository implements WorkSchedulesRepository {
 
   // return new Pair<>(
   // Array.createFrom(items, mapper::toEntity),
-  // PlusInteger.create((int) itemsCount, "contagem de escalas"));
+  // PlusIntegerNumber.create((int) itemsCount, "contagem de escalas"));
   // }
 
   // @Override

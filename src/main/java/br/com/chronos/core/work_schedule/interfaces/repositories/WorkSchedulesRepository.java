@@ -5,7 +5,7 @@ import java.util.Optional;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
-import br.com.chronos.core.global.domain.records.PlusInteger;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkSchedule;
@@ -20,7 +20,7 @@ public interface WorkSchedulesRepository {
 
   Array<Id> findCollaboratorIdsByWorkSchedule(WorkSchedule workSchedule);
 
-  Pair<Array<WorkSchedule>, PlusInteger> findMany(PageNumber page);
+  Pair<Array<WorkSchedule>, PlusIntegerNumber> findMany(PageNumber page);
 
   void add(WorkSchedule workSchedule);
 

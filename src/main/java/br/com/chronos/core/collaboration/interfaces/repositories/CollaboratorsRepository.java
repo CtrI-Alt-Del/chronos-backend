@@ -10,14 +10,15 @@ import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
-import br.com.chronos.core.global.domain.records.PlusInteger;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.domain.records.Role;
 import kotlin.Pair;
 
 public interface CollaboratorsRepository {
   Array<Collaborator> findAllActive();
 
-  Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page, Role.RoleName role, Sector sector, Logical isActive);
+  Pair<Array<Collaborator>, PlusIntegerNumber> findMany(PageNumber page, Role.RoleName role, Sector sector,
+      Logical isActive);
 
   Optional<Collaborator> findById(Id id);
 

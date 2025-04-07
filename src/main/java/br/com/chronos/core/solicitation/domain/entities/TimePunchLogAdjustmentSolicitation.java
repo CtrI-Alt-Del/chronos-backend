@@ -2,7 +2,6 @@ package br.com.chronos.core.solicitation.domain.entities;
 
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.global.domain.records.Date;
-import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
