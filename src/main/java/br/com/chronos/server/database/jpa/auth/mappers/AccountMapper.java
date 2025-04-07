@@ -2,8 +2,8 @@ package br.com.chronos.server.database.jpa.auth.mappers;
 
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
-import br.com.chronos.core.modules.auth.domain.entities.Account;
+import br.com.chronos.core.auth.domain.dtos.AccountDto;
+import br.com.chronos.core.auth.domain.entities.Account;
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 
 @Component

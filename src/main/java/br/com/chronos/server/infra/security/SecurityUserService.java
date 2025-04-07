@@ -6,10 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.chronos.core.modules.auth.domain.entities.Account;
-import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
-import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
-import br.com.chronos.core.modules.auth.use_cases.GetAccountUseCase;
+import br.com.chronos.core.auth.domain.entities.Account;
+import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
+import br.com.chronos.core.auth.use_cases.GetAccountUseCase;
 
 @Service
 public class SecurityUserService implements UserDetailsService {
