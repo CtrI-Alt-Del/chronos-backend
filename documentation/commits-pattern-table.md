@@ -24,5 +24,8 @@
 | Estruturação de pastas/arquivos | file tree | 🗃️     |
 | Certificados e licenças         | cert      | 📜     |
 | Trabalho em andamento           | wip       | 🚧     |
-| Conserto critico imediato           | hotfix       | 🚑     |
+| Conserto de erro de emergencia  | hotfix    | 🚑     |
+| Entrega continua                | cd        | 🚚     |
+| Integracao continua             | ci        | 🏎️     |
+
 
