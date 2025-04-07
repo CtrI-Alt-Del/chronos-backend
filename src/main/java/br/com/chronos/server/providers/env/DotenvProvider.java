@@ -1,6 +1,6 @@
 package br.com.chronos.server.providers.env;
 
-import br.com.chronos.core.modules.global.interfaces.providers.EnvProvider;
+import br.com.chronos.core.global.interfaces.providers.EnvProvider;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class DotenvProvider implements EnvProvider {

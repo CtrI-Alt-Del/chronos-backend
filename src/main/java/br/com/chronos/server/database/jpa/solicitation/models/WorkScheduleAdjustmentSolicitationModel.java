@@ -3,7 +3,7 @@ package br.com.chronos.server.database.jpa.solicitation.models;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus.Status;
+import br.com.chronos.core.solicitation.domain.records.SolicitationStatus.Status;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

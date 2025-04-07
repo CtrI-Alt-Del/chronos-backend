@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
-import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
+import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
+import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
+import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 

@@ -2,10 +2,10 @@ package br.com.chronos.server.database.jpa.solicitation.mappers;
 
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.modules.solicitation.domain.dtos.WorkScheduleAdjustmentSolicitationDto;
-import br.com.chronos.core.modules.solicitation.domain.entities.WorkScheduleAdjustmentSolicitation;
+import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
+import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
+import br.com.chronos.core.solicitation.domain.dtos.WorkScheduleAdjustmentSolicitationDto;
+import br.com.chronos.core.solicitation.domain.entities.WorkScheduleAdjustmentSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
 

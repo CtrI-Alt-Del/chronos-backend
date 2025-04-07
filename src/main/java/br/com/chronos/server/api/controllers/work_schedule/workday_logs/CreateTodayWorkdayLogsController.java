@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.http.ResponseEntity;
 
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.collaboration.use_cases.ListAllActiveCollaboratorsUseCase;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.CreateTodayWorkdayLogsUseCase;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.use_cases.ListAllActiveCollaboratorsUseCase;
+import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
+import br.com.chronos.core.work_schedule.use_cases.CreateTodayWorkdayLogsUseCase;
 
 @WorkdayLogsController
 public class CreateTodayWorkdayLogsController {

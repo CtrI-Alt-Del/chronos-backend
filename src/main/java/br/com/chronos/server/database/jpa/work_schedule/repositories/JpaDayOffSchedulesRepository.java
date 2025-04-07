@@ -10,10 +10,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.work_schedule.domain.entities.DayOffSchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.work_schedule.domain.entities.DayOffSchedule;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffScheduleMapper;

@@ -3,14 +3,14 @@ package br.com.chronos.server.database.jpa.work_schedule.repositories;
 import java.util.Optional;
 import kotlin.Pair;
 
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.global.domain.records.Logical;
-import br.com.chronos.core.modules.global.domain.records.PageNumber;
-import br.com.chronos.core.modules.global.domain.records.PlusInteger;
-import br.com.chronos.core.modules.work_schedule.domain.entities.TimePunch;
-import br.com.chronos.core.modules.work_schedule.domain.entities.WorkSchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Logical;
+import br.com.chronos.core.global.domain.records.PageNumber;
+import br.com.chronos.core.global.domain.records.PlusInteger;
+import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
+import br.com.chronos.core.work_schedule.domain.entities.WorkSchedule;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 
 // interface JpaWorkScheduleModelsRepository extends JpaRepository<WorkScheduleModel, UUID> {
 //   @Query(value = "SELECT EXISTS (SELECT 1 FROM collaborators WHERE work_schedule_id = :workScheduleId)", nativeQuery = true)

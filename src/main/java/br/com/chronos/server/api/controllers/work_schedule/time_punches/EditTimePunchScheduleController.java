@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePunchesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.EditTimePunchScheduleUseCase;
+import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
+import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import br.com.chronos.core.work_schedule.use_cases.EditTimePunchScheduleUseCase;
 
 @TimePunchesController
 public class EditTimePunchScheduleController {

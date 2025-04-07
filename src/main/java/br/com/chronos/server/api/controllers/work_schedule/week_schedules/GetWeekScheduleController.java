@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import br.com.chronos.core.modules.work_schedule.domain.dtos.WeekdayScheduleDto;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.GetWeekScheduleUseCase;
+import br.com.chronos.core.work_schedule.domain.dtos.WeekdayScheduleDto;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
+import br.com.chronos.core.work_schedule.use_cases.GetWeekScheduleUseCase;
 
 @WeekSchedulesController
 public class GetWeekScheduleController {

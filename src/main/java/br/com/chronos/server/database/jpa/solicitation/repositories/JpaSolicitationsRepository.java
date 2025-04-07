@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.global.domain.records.Role;
-import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
-import br.com.chronos.core.modules.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
-import br.com.chronos.core.modules.solicitation.domain.entities.WorkScheduleAdjustmentSolicitation;
-import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Role;
+import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
+import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.WorkScheduleAdjustmentSolicitation;
+import br.com.chronos.core.solicitation.interfaces.repository.SolicitationsRepository;
 import br.com.chronos.server.database.jpa.solicitation.mappers.TimePunchLogAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.WorkScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
@@ -79,7 +79,7 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
       workScheduleSolicitations = workScheduleAdjustmentSolcitationModelsRepository
           .findAllBySenderResponsibleId(userId.value());
     } else {
-      
+
       timePunchSolicitations = timePunchLogAdjustmentSolicitationModelsRepository
           .findAllBySenderResponsibleAccountSector(sector);
 
@@ -87,7 +87,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
           .findAllBySenderResponsibleAccountSector(sector);
     }
 
-    
     var timePunchSolicitationsEntities = timePunchSolicitations.stream()
         .map(timePunchAdjustmentMapper::toEntity)
         .toList();
@@ -96,7 +95,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
         .map(workScheduleAdjustmentMapper::toEntity)
         .toList();
 
-    
     var allSolicitations = new ArrayList<Solicitation>();
     allSolicitations.addAll(timePunchSolicitationsEntities);
     allSolicitations.addAll(workScheduleSolicitationsEntities);

@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.collaboration.use_cases.UpdateCollaboratorUseCase;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.collaboration.domain.dtos.CollaboratorDto;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.use_cases.UpdateCollaboratorUseCase;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 
 @CollaboratorsController
 public class UpdateCollaboratorController {

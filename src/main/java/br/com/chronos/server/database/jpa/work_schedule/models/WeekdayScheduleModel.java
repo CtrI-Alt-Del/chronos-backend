@@ -17,7 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
-import br.com.chronos.core.modules.work_schedule.domain.records.Weekday.WeekdayName;
+import br.com.chronos.core.work_schedule.domain.records.Weekday.WeekdayName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 @Data

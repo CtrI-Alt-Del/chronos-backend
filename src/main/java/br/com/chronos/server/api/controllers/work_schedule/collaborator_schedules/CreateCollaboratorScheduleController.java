@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import lombok.Data;
 
-import br.com.chronos.core.modules.work_schedule.domain.dtos.DayOffScheduleDto;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.WeekdayScheduleDto;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.CreateCollaboratorScheduleUseCase;
-import br.com.chronos.core.modules.work_schedule.use_cases.CreateWorkdayLogUseCase;
+import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
+import br.com.chronos.core.work_schedule.domain.dtos.WeekdayScheduleDto;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
+import br.com.chronos.core.work_schedule.use_cases.CreateCollaboratorScheduleUseCase;
+import br.com.chronos.core.work_schedule.use_cases.CreateWorkdayLogUseCase;
 
 @CollaboratorScheduleController
 public class CreateCollaboratorScheduleController {

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import lombok.Data;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePunchesRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.PunchTimeUseCase;
+import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
+import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
+import br.com.chronos.core.work_schedule.use_cases.PunchTimeUseCase;
 
 @TimePunchesController
 public class PunchTimeController {

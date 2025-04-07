@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.collaboration.use_cases.GetCollaboratorUseCase;
+import br.com.chronos.core.collaboration.domain.dtos.CollaboratorDto;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.use_cases.GetCollaboratorUseCase;
 
 @CollaboratorsController
 public class GetCollaboratorController {

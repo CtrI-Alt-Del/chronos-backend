@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import br.com.chronos.core.modules.work_schedule.use_cases.ScheduleDaysOffUseCase;
+import br.com.chronos.core.work_schedule.use_cases.ScheduleDaysOffUseCase;
 
 @DayOffSchedulesController
 public class ScheduleDaysOffController {

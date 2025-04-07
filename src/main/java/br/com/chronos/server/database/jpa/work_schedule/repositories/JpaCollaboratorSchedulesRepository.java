@@ -9,12 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.work_schedule.domain.records.CollaboratorSchedule;
+import br.com.chronos.core.work_schedule.interfaces.repositories.CollaboratorSchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 interface JpaCollaboratorModelRepository extends JpaRepository<CollaboratorModel, UUID> {

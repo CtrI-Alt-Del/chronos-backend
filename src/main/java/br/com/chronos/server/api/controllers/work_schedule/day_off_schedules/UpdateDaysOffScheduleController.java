@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.DayOffScheduleDto;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkScheduleDto;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.UpdateDaysOffScheduleUseCase;
+import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
+import br.com.chronos.core.work_schedule.domain.dtos.WorkScheduleDto;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.work_schedule.use_cases.UpdateDaysOffScheduleUseCase;
 
 @DayOffSchedulesController
 public class UpdateDaysOffScheduleController {

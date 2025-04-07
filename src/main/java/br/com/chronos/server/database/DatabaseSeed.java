@@ -5,21 +5,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.CommandLineRunner;
 
-import br.com.chronos.core.modules.auth.domain.entities.Account;
-import br.com.chronos.core.modules.auth.domain.entities.fakers.AccountFaker;
-import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
-import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
-import br.com.chronos.core.modules.collaboration.domain.entities.fakers.CollaboratorFaker;
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.work_schedule.domain.entities.fakers.CollaboratorScheduleFaker;
-import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.CreateCollaboratorScheduleUseCase;
+import br.com.chronos.core.auth.domain.entities.Account;
+import br.com.chronos.core.auth.domain.entities.fakers.AccountFaker;
+import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
+import br.com.chronos.core.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.collaboration.domain.entities.fakers.CollaboratorFaker;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.work_schedule.domain.entities.fakers.CollaboratorScheduleFaker;
+import br.com.chronos.core.work_schedule.domain.records.CollaboratorSchedule;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
+import br.com.chronos.core.work_schedule.use_cases.CreateCollaboratorScheduleUseCase;
 
 @Component
 public class DatabaseSeed implements CommandLineRunner {

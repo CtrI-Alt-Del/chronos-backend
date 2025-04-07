@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.global.domain.records.Date;
-import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Date;
+import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffModel;
 
 @Component

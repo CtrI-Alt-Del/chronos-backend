@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
 import lombok.Data;
 
-import br.com.chronos.core.modules.work_schedule.domain.dtos.TimePunchDto;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePunchesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.AdjustTimePunchLogUseCase;
+import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
+import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
+import br.com.chronos.core.work_schedule.use_cases.AdjustTimePunchLogUseCase;
 
 @TimePunchesController
 public class AdjustTimePunchLogController {

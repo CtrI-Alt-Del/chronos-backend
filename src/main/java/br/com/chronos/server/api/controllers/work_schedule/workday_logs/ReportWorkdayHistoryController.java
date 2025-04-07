@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.ResponseEntity;
 
-import br.com.chronos.core.modules.global.responses.PaginationResponse;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.ReportWorkdayHistoryUseCase;
+import br.com.chronos.core.global.responses.PaginationResponse;
+import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
+import br.com.chronos.core.work_schedule.use_cases.ReportWorkdayHistoryUseCase;
 
 @WorkdayLogsController
 public class ReportWorkdayHistoryController {

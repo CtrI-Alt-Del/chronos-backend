@@ -3,8 +3,8 @@ package br.com.chronos.server.database.jpa.auth.models;
 import java.util.UUID;
 import jakarta.persistence.Table;
 import jakarta.persistence.EnumType;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
-import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
+import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.global.domain.records.Role.RoleName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Data
 @AllArgsConstructor

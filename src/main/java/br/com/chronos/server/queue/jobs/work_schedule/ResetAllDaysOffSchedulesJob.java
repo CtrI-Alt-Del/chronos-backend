@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.ResetAllDaysOffSchedulesUseCase;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import br.com.chronos.core.work_schedule.use_cases.ResetAllDaysOffSchedulesUseCase;
 
 @Component
 public class ResetAllDaysOffSchedulesJob {

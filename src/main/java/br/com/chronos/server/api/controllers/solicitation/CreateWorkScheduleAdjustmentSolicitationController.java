@@ -5,12 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.solicitation.domain.dtos.WorkScheduleAdjustmentSolicitationDto;
-import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
-import br.com.chronos.core.modules.solicitation.use_cases.CreateWorkScheduleAdjustmentSolicitationUseCase;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.solicitation.domain.dtos.WorkScheduleAdjustmentSolicitationDto;
+import br.com.chronos.core.solicitation.interfaces.repository.SolicitationsRepository;
+import br.com.chronos.core.solicitation.use_cases.CreateWorkScheduleAdjustmentSolicitationUseCase;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 import lombok.AllArgsConstructor;
 
 @SolicitationsController

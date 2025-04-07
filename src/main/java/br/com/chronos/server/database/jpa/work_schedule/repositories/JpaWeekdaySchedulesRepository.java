@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.work_schedule.domain.entities.WeekdaySchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.work_schedule.domain.entities.WeekdaySchedule;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.TimePunchMapper;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.WeekdayScheduleMapper;
