@@ -2,6 +2,7 @@ package br.com.chronos.core.hour_bank.domain.records;
 
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.global.domain.records.IntegerNumber;
+import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.hour_bank.domain.dtos.HourBankTransactionDto;
 
@@ -25,6 +26,14 @@ public record HourBankTransaction(IntegerNumber value, Operation operation) {
     } catch (Exception e) {
       throw new ValidationException(text.key(), "deve ser admin, gestor ou funcionário");
     }
+  }
+
+  public Logical isCreditOperation() {
+    return Logical.create(operation.equals(Operation.CREDIT));
+  }
+
+  public Logical isDebitOperation() {
+    return Logical.create(operation.equals(Operation.DEBIT));
   }
 
 }
