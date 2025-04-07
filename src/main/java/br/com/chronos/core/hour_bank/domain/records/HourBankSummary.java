@@ -10,8 +10,21 @@ public record HourBankSummary(
     IntegerNumber debit) {
 
   public HourBankSummary create(Array<HourBankTransaction> transactions) {
-    credit = IntegerNumber.create(dto.credit, "crédito do banco de horas");
-    debit = IntegerNumber.create(dto.debit, "débito do banco de horas");
+    var balance = IntegerNumber.create(0, "saldo do banco de horas");
+    var credit = IntegerNumber.create(0, "crédito do banco de horas");
+    var debit = IntegerNumber.create(0, "débito do banco de horas");
+
+    for (HourBankTransaction transaction : transactions.list()) {
+      if (transaction.isCreditOperation().isTrue()) {
+        credit = credit.plus(transaction.value());
+      } else {
+        debit = debit.plus(transaction.value());
+      }
+    }
+
+    balance = balance.plus(credit).minus(debit);
+
+    return new HourBankSummary(balance, credit, debit);
   }
 
   public HourBankSummaryDto getDto() {
