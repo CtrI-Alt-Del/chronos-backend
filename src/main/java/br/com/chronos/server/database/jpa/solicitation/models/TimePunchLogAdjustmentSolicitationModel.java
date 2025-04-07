@@ -2,13 +2,12 @@ package br.com.chronos.server.database.jpa.solicitation.models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus.Status;
+import br.com.chronos.core.modules.solicitation.domain.records.TimePunchAdjustmentReason.Reason;
 import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod.PeriodName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -53,9 +52,8 @@ public class TimePunchLogAdjustmentSolicitationModel {
   @Column(nullable = false, name = "status")
   private Status solicitationStatus;
 
-  @ManyToOne
-  @JoinColumn(name = "workday_log_id", nullable = false)
-  private WorkdayLogModel workdayLog;
+  @Column(name = "date")
+  private LocalDate date;
 
   @Column(nullable = false)
   private LocalTime time;
@@ -63,4 +61,8 @@ public class TimePunchLogAdjustmentSolicitationModel {
   @Enumerated(EnumType.STRING)
   @Column(name = "time_punch_period", nullable = false)
   private PeriodName timePunchPeriod;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "reason",nullable = false)
+  private Reason reason;
 }

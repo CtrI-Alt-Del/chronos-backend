@@ -1,40 +1,45 @@
 package br.com.chronos.server.database.jpa.solicitation.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.modules.solicitation.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
-import br.com.chronos.core.modules.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.modules.global.domain.records.Array;
+import br.com.chronos.core.modules.solicitation.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
+import br.com.chronos.core.modules.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
+import br.com.chronos.core.modules.work_schedule.domain.dtos.DayOffScheduleDto;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.solicitation.models.DayOffScheduleAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
 
 @Component
-public class TimePunchLogAdjustmentSolicitationMapper {
+public class DayOffScheduleAdjustmentSolicitationMapper {
 
-  public TimePunchLogAdjustmentSolicitationModel toModel(TimePunchLogAdjustmentSolicitation entity) {
+  @Autowired
+  private DayOffMapper dayOffMapper;
+
+  public DayOffScheduleAdjustmentSolicitationModel toModel(DayOffScheduleAdjustmentSolicitation entity) {
     var senderResponsible = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();
     var replierResponsible = (entity.getReplierResponsible() != null)
         ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
-    return TimePunchLogAdjustmentSolicitationModel.builder()
+    var solicitationModel = DayOffScheduleAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription() != null ? entity.getDescription().value() : null)
         .requestedAt(entity.getDate().value())
         .feedbackMessage(entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
         .solicitationStatus(entity.getStatus().value())
-        .time(entity.getTime().value())
-        .timePunchPeriod(entity.getPeriod().name())
         .senderResponsible(senderResponsible)
         .replierResponsible(replierResponsible)
-        .date(entity.getWorkdayLogDate().value())
-        .reason(entity.getReason().value())
+        .daysOffCount(entity.getDayOffSchedule().getDaysOffCount().integer().value())
+        .workDaysCount(entity.getDayOffSchedule().getWorkdaysCount().integer().value())
         .build();
 
+    return solicitationModel;
   }
 
-  public TimePunchLogAdjustmentSolicitationDto toDto(TimePunchLogAdjustmentSolicitationModel model) {
-
+  public DayOffScheduleAdjustmentSolicitationDto toDto(DayOffScheduleAdjustmentSolicitationModel model) {
     var senderResponsibleDto = new ResponsibleDto()
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
@@ -57,9 +62,15 @@ public class TimePunchLogAdjustmentSolicitationMapper {
     String description = model.getDescription() != null ? model.getDescription().toString() : null;
     String feedbackMessage = model.getFeedbackMessage() != null ? model.getFeedbackMessage().toString() : null;
 
-    var dto = new TimePunchLogAdjustmentSolicitationDto()
-        .setTime(model.getTime())
-        .setPeriod(model.getTimePunchPeriod().toString())
+    var daysOffDto = Array.createFrom(model.getDaysOff(), dayOffMapper::toDto).list();
+
+    var daysOffScheduleDto = new DayOffScheduleDto()
+        .setId(model.getId().toString())
+        .setWorkdaysCount(model.getWorkDaysCount())
+        .setDaysOffCount(model.getDaysOffCount())
+        .setDaysOff(daysOffDto);
+
+    var dto = new DayOffScheduleAdjustmentSolicitationDto()
         .setId(model.getId().toString())
         .setDescription(description)
         .setDate(model.getRequestedAt())
@@ -67,13 +78,13 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .setFeedbackMessage(feedbackMessage)
         .setSenderResponsible(senderResponsibleAggregateDto)
         .setReplierResponsible(replierResponsibleAggregateDto)
-        .setWorkdayLogDate(model.getDate())
-        .setReason(model.getReason().toString());
+        .setDayOffSchedule(daysOffScheduleDto);
 
     return dto;
+
   }
 
-  public TimePunchLogAdjustmentSolicitation toEntity(TimePunchLogAdjustmentSolicitationModel model) {
-    return new TimePunchLogAdjustmentSolicitation(toDto(model));
+  public DayOffScheduleAdjustmentSolicitation toEntity(DayOffScheduleAdjustmentSolicitationModel model) {
+    return new DayOffScheduleAdjustmentSolicitation(toDto(model));
   }
 }
