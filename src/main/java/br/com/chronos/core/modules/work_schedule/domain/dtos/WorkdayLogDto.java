@@ -10,6 +10,7 @@ public class WorkdayLogDto {
   public TimePunchDto timePunchSchedule;
   public TimePunchDto timePunchLog;
   public String status;
+  public byte workload;
   public ResponsibleAggregateDto responsible;
 
   public WorkdayLogDto setId(String id) {
@@ -34,6 +35,11 @@ public class WorkdayLogDto {
 
   public WorkdayLogDto setStatus(String status) {
     this.status = status;
+    return this;
+  }
+
+  public WorkdayLogDto setWorkload(byte workload) {
+    this.workload = workload;
     return this;
   }
 

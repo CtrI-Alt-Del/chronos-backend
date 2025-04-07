@@ -23,12 +23,10 @@ public class ListCollaboratorsController {
 
   @GetMapping
   public ResponseEntity<PaginationResponse<CollaboratorDto>> handle(@RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "true",name = "active") boolean isActive) {
+      @RequestParam(defaultValue = "true", name = "active") boolean isActive) {
     var useCase = new ListCollaboratorsUseCase(repository);
-    var responsible = authenticationProvider.getAuthenticatedUser();
-    var sector = responsible.getSector().value();
-    var role = responsible.getRole();
-    var response = useCase.execute(page, role.value(), sector, Logical.create(isActive));
+    var account = authenticationProvider.getAccount();
+    var response = useCase.execute(page, account.role, account.sector, isActive);
     return ResponseEntity.ok(response);
   }
 

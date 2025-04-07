@@ -2,7 +2,6 @@ package br.com.chronos.core.modules.collaboration.use_cases;
 
 import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
 import br.com.chronos.core.modules.auth.domain.entities.Account;
-import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthorizedException;
 import br.com.chronos.core.modules.auth.domain.records.Password;
 import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
@@ -12,8 +11,6 @@ import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmail
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
-import br.com.chronos.core.modules.global.domain.records.Role;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
 
 public class CreateCollaboratorUseCase {
@@ -30,21 +27,16 @@ public class CreateCollaboratorUseCase {
     this.authenticationProvider = authenticationProvider;
   }
 
-  public String execute(CollaboratorDto dto, Password password,
-      Sector responsibleSector, Role responsibleRole) {
-    dto.sector = dto.sector == null ? responsibleSector.toString() : dto.sector;
+  public String execute(CollaboratorDto dto, Password password, String collaborationSector) {
     validateUniqueEmailAndCpf(dto);
-    var collaborator = new Collaborator(dto);
 
-    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
-      throw new NotAuthorizedException();
-    }
+    var collaborator = new Collaborator(dto);
     var accountDto = new AccountDto()
         .setPassword(password.value().toString())
         .setEmail(dto.email)
         .setActive(collaborator.getIsActive().value())
         .setRole(collaborator.getRole().value().toString())
-        .setSector(collaborator.getSector().value().toString())
+        .setSector(collaborationSector)
         .setCollaboratorId(collaborator.getId().value().toString());
     var registeredAccount = authenticationProvider.register(accountDto);
     var account = new Account(registeredAccount);
