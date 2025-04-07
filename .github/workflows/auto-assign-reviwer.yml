@@ -24,12 +24,12 @@ jobs:
 
             if (author === 'kaufon') {
               reviewers.push('johnpetros');
-              reviewers.push(getRandom(['kukas', '0thigs']));
+              reviewers.push(getRandom(['EduardoKuwahara', '0thigs']));
             } else if (author === 'johnpetros') {
               reviewers.push('kaufon');
-              reviewers.push(getRandom(['kukas', '0thigs']));
-            } else if (author === 'kukas' || author === '0thigs') {
-              const others = ['kaufon', 'johnpetros', author === 'kukas' ? '0thigs' : 'kukas'];
+              reviewers.push(getRandom(['EduardoKuwahara', '0thigs']));
+            } else if (author === 'EduardoKuwahara' || author === '0thigs') {
+              const others = ['kaufon', 'johnpetros', author === 'EduardoKuwahara' ? '0thigs' : 'EduardoKuwahara'];
               const first = getRandom(others);
               const second = getRandom(others.filter(x => x !== first));
               reviewers = [first, second];
