@@ -11,4 +11,11 @@ public record IntegerNumber(int value) {
     return new IntegerNumber(value);
   }
 
+  public IntegerNumber plus(IntegerNumber integer) {
+    return new IntegerNumber(this.value + integer.value);
+  }
+
+  public IntegerNumber minus(IntegerNumber integer) {
+    return new IntegerNumber(this.value - integer.value);
+  }
 }
