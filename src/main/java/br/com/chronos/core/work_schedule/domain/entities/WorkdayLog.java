@@ -6,47 +6,44 @@ import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus;
+import br.com.chronos.core.work_schedule.domain.records.Workload;
 
 public final class WorkdayLog extends Entity {
   private Date date;
-  private TimePunch timePunchSchedule;
-  private TimePunch timePunchLog;
+  private TimePunch timePunch;
   private WorkdayStatus status;
+  private Workload workloadSchedule;
   private ResponsibleAggregate responsible;
 
   public WorkdayLog(WorkdayLogDto dto) {
     super(dto.id);
     date = (dto.date != null) ? Date.create(dto.date) : Date.createFromNow();
-    timePunchSchedule = new TimePunch(dto.timePunchSchedule);
-    timePunchLog = (dto.timePunchLog != null) ? new TimePunch(dto.timePunchLog) : new TimePunch();
+    timePunch = (dto.timePunch != null) ? new TimePunch(dto.timePunch) : new TimePunch();
     status = WorkdayStatus.create(dto.status);
+    workloadSchedule = Workload.create(dto.workloadSchedule);
     responsible = new ResponsibleAggregate(dto.responsible);
   }
 
-  public Time getLatetime() {
-    var firstTimeInDifference = timePunchSchedule.getFirstClockIn()
-        .getDifferenceFrom(timePunchLog.getFirstClockIn());
-    var secondTimeInDifference = timePunchSchedule.getFirstClockOut()
-        .getDifferenceFrom(timePunchLog.getFirstClockOut());
-
-    var totalLatetime = firstTimeInDifference.plus(secondTimeInDifference);
-    return totalLatetime;
+  public Time getOvertime() {
+    var totalTime = timePunch.getTotalTime();
+    var overtime = totalTime.getDifferenceFrom(workloadSchedule.toTime());
+    return overtime;
   }
 
-  public void justify() {
-    timePunchLog.replaceWith(timePunchSchedule);
+  public Time getLatetime() {
+    return timePunch.getTotalTime();
   }
 
   public Date getDate() {
     return date;
   }
 
-  public TimePunch getTimePunchSchedule() {
-    return timePunchSchedule;
+  public Workload getWorkloadSchedule() {
+    return workloadSchedule;
   }
 
-  public TimePunch getTimePunchLog() {
-    return timePunchLog;
+  public TimePunch getTimePunch() {
+    return timePunch;
   }
 
   public WorkdayStatus getStatus() {
@@ -61,8 +58,8 @@ public final class WorkdayLog extends Entity {
     return new WorkdayLogDto()
         .setId(getId().toString())
         .setDate(getDate().value())
-        .setTimePunchSchedule(getTimePunchSchedule().getDto())
-        .setTimePunchLog(getTimePunchLog().getDto())
+        .setWorkloadSchedule(getWorkloadSchedule().hours().value())
+        .setTimePunch(getTimePunch().getDto())
         .setStatus(getStatus().toString().toLowerCase())
         .setResponsible(getResponsible().getDto());
   }

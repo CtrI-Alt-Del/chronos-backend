@@ -33,6 +33,12 @@ public record Time(LocalTime value) {
     return Logical.create(duration.compareTo(minutesDuration) > 0);
   }
 
+  public Logical hasMoreHoursThan(int hours) {
+    var duration = Duration.between(LocalTime.MIDNIGHT, value);
+    var hoursDuration = Duration.ofHours(hours);
+    return Logical.create(duration.compareTo(hoursDuration) > 0);
+  }
+
   public Logical isNull() {
     return Logical.create(value == null);
   }
