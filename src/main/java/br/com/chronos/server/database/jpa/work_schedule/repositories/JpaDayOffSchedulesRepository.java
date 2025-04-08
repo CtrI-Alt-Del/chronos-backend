@@ -21,7 +21,7 @@ import br.com.chronos.server.database.jpa.work_schedule.models.DayOffModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffScheduleModel;
 
 interface JpaDayOffScheduleModelsRepository extends JpaRepository<DayOffScheduleModel, UUID> {
-  Optional<DayOffScheduleModel> findByCollaborator(CollaboratorModel collaborator);
+  Optional<DayOffScheduleModel> findByCollaborator(CollaboratorModel collaboratorModel);
 }
 
 interface JpaDayOffModelsRepository extends JpaRepository<DayOffModel, UUID> {
@@ -95,9 +95,8 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
 
   @Override
   @Transactional
-  public void replace(DayOffSchedule dayOffSchedule, Id collaboratorId) {
-    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
-    var dayOffScheduleModel = dayOffScheduleModelsRepository.findByCollaborator(collaboratorModel);
+  public void replace(DayOffSchedule dayOffSchedule) {
+    var dayOffScheduleModel = dayOffScheduleModelsRepository.findById(dayOffSchedule.getId().value());
     dayOffModelsRepository.deleteManyByDayOffSchedule(dayOffScheduleModel.get().getId());
 
     var dayOffModels = dayOffSchedule.getDaysOff().map((dayOff) -> {
@@ -106,6 +105,19 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
       return dayOffModel;
     });
     dayOffModelsRepository.saveAll(dayOffModels.list());
+  }
+
+  @Override
+  public Array<DayOffSchedule> findAll() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+  }
+
+  @Override
+  public void replaceMany(Array<DayOffSchedule> dayOffSchedules) {
+    for (var dayOffSchedule : dayOffSchedules.list()) {
+      replace(dayOffSchedule);
+    }
   }
 
 }

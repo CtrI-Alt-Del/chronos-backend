@@ -7,9 +7,9 @@ import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 public class WorkdayLogDto {
   public String id;
   public LocalDate date;
-  public TimePunchDto timePunchSchedule;
-  public TimePunchDto timePunchLog;
+  public TimePunchDto timePunch;
   public String status;
+  public int workloadSchedule;
   public ResponsibleAggregateDto responsible;
 
   public WorkdayLogDto setId(String id) {
@@ -22,18 +22,18 @@ public class WorkdayLogDto {
     return this;
   }
 
-  public WorkdayLogDto setTimePunchSchedule(TimePunchDto timePunch) {
-    this.timePunchSchedule = timePunch;
-    return this;
-  }
-
-  public WorkdayLogDto setTimePunchLog(TimePunchDto timePunch) {
-    this.timePunchLog = timePunch;
+  public WorkdayLogDto setTimePunch(TimePunchDto timePunch) {
+    this.timePunch = timePunch;
     return this;
   }
 
   public WorkdayLogDto setStatus(String status) {
     this.status = status;
+    return this;
+  }
+
+  public WorkdayLogDto setWorkloadSchedule(int workload) {
+    this.workloadSchedule = workload;
     return this;
   }
 

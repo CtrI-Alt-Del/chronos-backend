@@ -19,8 +19,7 @@ public class WorkdayLogFaker {
     return new WorkdayLogDto()
         .setId(IdFaker.fakeDto())
         .setDate(DateFaker.fakeDto())
-        .setTimePunchLog(TimePunchFaker.fakeDto())
-        .setTimePunchSchedule(TimePunchFaker.fakeDto())
+        .setTimePunch(TimePunchFaker.fakeDto())
         .setStatus(WorkdayStatusFaker.fakeDto())
         .setResponsible(new ResponsibleAggregateDto(fakeResponsibleDto));
   }

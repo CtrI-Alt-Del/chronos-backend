@@ -8,6 +8,7 @@ public class DayOffScheduleDto {
   public int workdaysCount;
   public int daysOffCount;
   public List<LocalDate> daysOff;
+  public String collaboratorId;
 
   public DayOffScheduleDto setId(String id) {
     this.id = id;
@@ -26,6 +27,11 @@ public class DayOffScheduleDto {
 
   public DayOffScheduleDto setDaysOff(List<LocalDate> daysOff) {
     this.daysOff = daysOff;
+    return this;
+  }
+
+  public DayOffScheduleDto setCollaboratorId(String collaboratorId) {
+    this.collaboratorId = collaboratorId;
     return this;
   }
 }

@@ -2,7 +2,6 @@ package br.com.chronos.server.database.jpa.work_schedule.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
@@ -43,8 +42,7 @@ public class WorkdayLogMapper {
         .setId(model.getId().toString())
         .setDate(model.getDate())
         .setResponsible(new ResponsibleAggregateDto(responsibleDto))
-        .setTimePunchSchedule(TimePunchMapper.toDto(model.getTimePunchSchedule()))
-        .setTimePunchLog(TimePunchMapper.toDto(model.getTimePunchLog()))
+        .setTimePunch(TimePunchMapper.toDto(model.getTimePunch()))
         .setStatus(model.getStatus().toString());
 
     return new WorkdayLog(dto);

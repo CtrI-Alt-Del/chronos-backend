@@ -15,11 +15,8 @@ import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.work_schedule.domain.entities.fakers.CollaboratorScheduleFaker;
-import br.com.chronos.core.work_schedule.domain.records.CollaboratorSchedule;
+import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
-import br.com.chronos.core.work_schedule.use_cases.CreateCollaboratorScheduleUseCase;
 
 @Component
 public class DatabaseSeed implements CommandLineRunner {
@@ -28,9 +25,6 @@ public class DatabaseSeed implements CommandLineRunner {
 
   @Autowired
   private CollaboratorsRepository collaboratorsRepository;
-
-  @Autowired
-  private WeekdaySchedulesRepository weekdaySchedulesRepository;
 
   @Autowired
   private DayOffSchedulesRepository dayOffSchedulesRepository;
@@ -60,8 +54,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .add(employeeTest);
     collaboratorsRepository.addMany(collaborators);
 
-    var collaboratorSchedules = fakeCollaboratorSchedules(collaborators);
-    addManyCollaboratorSchedules(collaboratorSchedules);
+    addManyDayOffSchedules(collaborators);
 
     var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
     var managerAccountTest = fakeManagerAccountTest(managerTest.getId());
@@ -112,10 +105,11 @@ public class DatabaseSeed implements CommandLineRunner {
     });
   }
 
-  private Array<CollaboratorSchedule> fakeCollaboratorSchedules(Array<Collaborator> collaborators) {
-    return collaborators.map((collaborator) -> {
-      return CollaboratorScheduleFaker.fake(collaborator.getId().toString());
-    });
+  private void addManyDayOffSchedules(Array<Collaborator> collaborators) {
+    for (var collaborator : collaborators.list()) {
+      var dayOffSchedule = DayOffScheduleFaker.fake();
+      dayOffSchedulesRepository.add(dayOffSchedule, collaborator.getId());
+    }
   }
 
   private Account fakeEmployeeAccountTest(Id collaboratorId) {
@@ -142,13 +136,4 @@ public class DatabaseSeed implements CommandLineRunner {
     return new Account(dto);
   }
 
-  private void addManyCollaboratorSchedules(Array<CollaboratorSchedule> collaboratorSchedules) {
-    var useCase = new CreateCollaboratorScheduleUseCase(weekdaySchedulesRepository, dayOffSchedulesRepository);
-    for (var collaboratorSchedule : collaboratorSchedules.list()) {
-      useCase.execute(
-          collaboratorSchedule.collaboratorId().toString(),
-          collaboratorSchedule.weekSchedule().map((dayOff) -> dayOff.getDto()).list(),
-          collaboratorSchedule.daysOffSchedule().getDto());
-    }
-  }
 }

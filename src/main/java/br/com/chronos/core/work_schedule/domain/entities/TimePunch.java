@@ -2,6 +2,7 @@ package br.com.chronos.core.work_schedule.domain.entities;
 
 import br.com.chronos.core.global.domain.abstracts.Entity;
 import br.com.chronos.core.global.domain.records.Logical;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.work_schedule.domain.exceptions.TimePunchNotOpenException;
@@ -30,7 +31,6 @@ public final class TimePunch extends Entity {
   }
 
   public void punch(Time time) {
-    System.out.println("isClosed(): " + isClosed());
     if (isClosed().isTrue()) {
       throw new TimePunchNotOpenException();
     }
@@ -75,6 +75,12 @@ public final class TimePunch extends Entity {
         .andNot(firstClockOut.isNull())
         .andNot(secondClockIn.isNull())
         .andNot(secondClockOut.isNull());
+  }
+
+  public Time getTotalTime() {
+    var firstTime = firstClockOut.getDifferenceFrom(firstClockIn);
+    var secondTime = secondClockOut.getDifferenceFrom(secondClockIn);
+    return firstTime.plus(secondTime);
   }
 
   public Time getFirstClockIn() {

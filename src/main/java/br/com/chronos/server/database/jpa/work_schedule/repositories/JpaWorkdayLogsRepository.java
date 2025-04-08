@@ -89,15 +89,13 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Transactional
   public void add(WorkdayLog workdayLog) {
     var workdayLogModel = mapper.toModel(workdayLog);
-    var timePunchLogModel = timePunchMapper.toModel(workdayLog.getTimePunchLog());
-    var timePunchScheduleModel = timePunchMapper.toModel(workdayLog.getTimePunchSchedule());
+    var timePunchModel = timePunchMapper.toModel(workdayLog.getTimePunch());
     Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
 
-    timePunchModels.add(timePunchLogModel).add(timePunchScheduleModel);
+    timePunchModels.add(timePunchModel);
     timePunchModelsRepository.saveAll(timePunchModels.list());
 
-    workdayLogModel.setTimePunchLog(timePunchLogModel);
-    workdayLogModel.setTimePunchSchedule(timePunchScheduleModel);
+    workdayLogModel.setTimePunch(timePunchModel);
     repository.save(workdayLogModel);
   }
 
@@ -109,16 +107,14 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
 
     for (var workdayLog : workdayLogs.list()) {
       var workdayLogModel = mapper.toModel(workdayLog);
-      var timePunchLogModel = timePunchMapper.toModel(workdayLog.getTimePunchLog());
-      var timePunchScheduleModel = timePunchMapper.toModel(workdayLog.getTimePunchSchedule());
+      var timePunchModel = timePunchMapper.toModel(workdayLog.getTimePunch());
 
-      timePunchModels.add(timePunchLogModel);
-      if (timePunchModels.includes(timePunchScheduleModel).isFalse()) {
-        timePunchModels.add(timePunchScheduleModel);
+      timePunchModels.add(timePunchModel);
+      if (timePunchModels.includes(timePunchModel).isFalse()) {
+        timePunchModels.add(timePunchModel);
       }
 
-      workdayLogModel.setTimePunchLog(timePunchLogModel);
-      workdayLogModel.setTimePunchSchedule(timePunchScheduleModel);
+      workdayLogModel.setTimePunch(timePunchModel);
       workdayLogModels.add(workdayLogModel);
     }
     timePunchModelsRepository.saveAll(timePunchModels.list());
@@ -158,7 +154,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
-  public Logical hasTimePunchLog(TimePunch timePunch) {
+  public Logical hasTimePunch(TimePunch timePunch) {
     return Logical.create(repository.timePunchLogExists(timePunch.getId().value()));
   }
 

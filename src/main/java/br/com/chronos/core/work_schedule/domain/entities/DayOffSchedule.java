@@ -31,7 +31,7 @@ public class DayOffSchedule extends Entity {
     daysOff = Array.createFrom(dto.daysOff, Date::create);
   }
 
-  static Array<Date> scheduleDaysOff(int workdaysCountValue, int daysOffCountValue) {
+  public static Array<Date> scheduleDaysOff(int workdaysCountValue, int daysOffCountValue) {
     var workdaysCountInteger = PlusIntegerNumber.create(
         workdaysCountValue,
         "contagem de dias de trabalho");
@@ -87,6 +87,10 @@ public class DayOffSchedule extends Entity {
     }
 
     return Logical.createAsFalse();
+  }
+
+  public void resetDaysOffSchedule() {
+    daysOff = scheduleDaysOff(workdaysCount.integer().value(), daysOffCount.integer().value());
   }
 
   public Count getWorkdaysCount() {

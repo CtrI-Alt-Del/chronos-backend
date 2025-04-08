@@ -11,7 +11,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,12 +38,8 @@ public class WorkdayLogModel {
   private CollaboratorModel collaborator;
 
   @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "time_punch_schedule_id", nullable = false)
-  private TimePunchModel timePunchSchedule;
-
-  @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "time_punch_log_id", nullable = false)
-  private TimePunchModel timePunchLog;
+  @JoinColumn(name = "time_punch_id", nullable = false)
+  private TimePunchModel timePunch;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)
