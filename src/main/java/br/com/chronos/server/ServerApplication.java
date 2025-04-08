@@ -11,9 +11,10 @@ import br.com.chronos.server.providers.env.DotenvProvider;
 public class ServerApplication {
   public static void main(String[] args) {
     DotenvProvider dotenvProvider = new DotenvProvider();
-    System.setProperty("DATABASE_SOURCE_URL", dotenvProvider.get("DATABASE_SOURCE_URL"));
-    System.setProperty("DATABASE_USERNAME", dotenvProvider.get("DATABASE_USERNAME"));
-    System.setProperty("DATABASE_PASSWORD", dotenvProvider.get("DATABASE_PASSWORD"));
+    System.setProperty("MONGO_URL",dotenvProvider.get("MONGO_URL"));
+    System.setProperty("DATABASE_URL", dotenvProvider.get("DATABASE_URL"));
+    System.setProperty("POSTGRES_USER", dotenvProvider.get("POSTGRES_USER"));
+    System.setProperty("POSTGRES_PASSWORD", dotenvProvider.get("POSTGRES_PASSWORD"));
     SpringApplication.run(ServerApplication.class, args);
   }
 }
