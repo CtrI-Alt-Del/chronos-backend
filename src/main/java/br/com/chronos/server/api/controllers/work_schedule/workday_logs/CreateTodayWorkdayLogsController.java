@@ -10,7 +10,6 @@ import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRe
 import br.com.chronos.core.collaboration.use_cases.ListAllActiveCollaboratorsUseCase;
 import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.use_cases.CreateTodayWorkdayLogsUseCase;
 
@@ -20,9 +19,6 @@ public class CreateTodayWorkdayLogsController {
   private WorkdayLogsRepository workdayLogsRepository;
 
   @Autowired
-  private WeekdaySchedulesRepository weekdaySchedulesRepository;
-
-  @Autowired
   private DayOffSchedulesRepository dayOffSchedulesRepository;
 
   @Autowired
@@ -30,10 +26,7 @@ public class CreateTodayWorkdayLogsController {
 
   @PostMapping("/today")
   public ResponseEntity<WorkdayLogDto> handle() {
-    var useCase = new CreateTodayWorkdayLogsUseCase(
-        workdayLogsRepository,
-        weekdaySchedulesRepository,
-        dayOffSchedulesRepository);
+    var useCase = new CreateTodayWorkdayLogsUseCase(workdayLogsRepository, dayOffSchedulesRepository);
 
     useCase.execute(listCollaboratorIds());
     return ResponseEntity.noContent().build();

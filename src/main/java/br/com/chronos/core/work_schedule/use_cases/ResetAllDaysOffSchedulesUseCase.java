@@ -1,19 +1,19 @@
 package br.com.chronos.core.work_schedule.use_cases;
 
-import br.com.chronos.core.work_schedule.interfaces.repositories.WorkSchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 
 public class ResetAllDaysOffSchedulesUseCase {
-  private final WorkSchedulesRepository repository;
+  private final DayOffSchedulesRepository repository;
 
-  public ResetAllDaysOffSchedulesUseCase(WorkSchedulesRepository repository) {
+  public ResetAllDaysOffSchedulesUseCase(DayOffSchedulesRepository repository) {
     this.repository = repository;
   }
 
   public void execute() {
-    var workSchedules = repository.findAll();
-    for (var workSchedule : workSchedules.list()) {
-      workSchedule.resetDaysOffSchedule();
+    var dayOffSchedules = repository.findAll();
+    for (var dayOffSchedule : dayOffSchedules.list()) {
+      dayOffSchedule.resetDaysOffSchedule();
     }
-    repository.updateMany(workSchedules);
+    repository.replaceMany(dayOffSchedules);
   }
 }
