@@ -9,6 +9,7 @@ import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmailException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
@@ -27,7 +28,7 @@ public class CreateCollaboratorUseCase {
     this.authenticationProvider = authenticationProvider;
   }
 
-  public String execute(CollaboratorDto dto, Password password, String collaborationSector) {
+  public String execute(CollaboratorDto dto, Password password, CollaborationSector collaborationSector) {
     validateUniqueEmailAndCpf(dto);
 
     var collaborator = new Collaborator(dto);
@@ -36,7 +37,7 @@ public class CreateCollaboratorUseCase {
         .setEmail(dto.email)
         .setActive(collaborator.getIsActive().value())
         .setRole(collaborator.getRole().value().toString())
-        .setSector(collaborationSector)
+        .setSector(collaborationSector.value().toString())
         .setCollaboratorId(collaborator.getId().value().toString());
     var registeredAccount = authenticationProvider.register(accountDto);
     var account = new Account(registeredAccount);

@@ -24,7 +24,6 @@ import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWeekdayS
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkdayLogsRepository;
 
-
 @Configuration
 public class DatabaseConfiguration {
 

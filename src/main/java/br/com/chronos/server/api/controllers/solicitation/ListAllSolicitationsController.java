@@ -23,10 +23,11 @@ public class ListAllSolicitationsController {
   @GetMapping("/solicitations")
   public ResponseEntity<List<SolicitationDto>> handle() {
     var useCase = new ListAllSolicitationsUseCase(solicitationsRepository);
-    var sector = authenticationProvider.getAuthenticatedUser().getSector();
-    var role = authenticationProvider.getAuthenticatedUser().getRole();
-    var userId = authenticationProvider.getAuthenticatedUser().getCollaboratorId();
-    var response = useCase.execute(sector,role,userId);
+    var account = authenticationProvider.getAccount();
+    var sector = account.getSector();
+    var role = account.getRole();
+    var userId = account.getCollaboratorId();
+    var response = useCase.execute(sector, role, userId);
     return ResponseEntity.ok(response);
   }
 }
