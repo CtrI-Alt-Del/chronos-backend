@@ -20,12 +20,12 @@ public class ReportWorkdayHistoryUseCase {
   public PaginationResponse<WorkdayLogDto> execute(
       LocalDate date,
       String collaboratorName,
-      String collaborationSector,
+      CollaborationSector collaborationSector,
       int page) {
     var response = repository.findManyByDateAndCollaboratorNameAndCollaborationSector(
         Date.create(date),
         Text.create(collaboratorName, "Nome do colaborador"),
-        CollaborationSector.create(collaborationSector),
+        collaborationSector,
         PageNumber.create(page));
 
     var workdayLogs = response.getFirst().map(workdayLog -> workdayLog.getDto());

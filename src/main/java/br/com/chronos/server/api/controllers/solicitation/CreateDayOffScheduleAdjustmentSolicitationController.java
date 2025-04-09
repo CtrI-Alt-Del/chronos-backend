@@ -29,7 +29,7 @@ public class CreateDayOffScheduleAdjustmentSolicitationController {
       @RequestBody DayOffScheduleAdjustmentSolicitationDto body) {
     var useCase = new CreateDayOffScheduleAdjustmentSolicitationUseCase(solicitationsRepository,
         dayOffSchedulesRepository);
-    var responsible = authenticationProvider.getAuthenticatedUser();
+    var responsible = authenticationProvider.getAccount();
     var senderId = responsible.getCollaboratorId();
     var response = useCase.execute(body, senderId);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);

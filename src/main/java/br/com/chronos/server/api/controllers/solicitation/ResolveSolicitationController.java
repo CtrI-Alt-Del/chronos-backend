@@ -32,7 +32,7 @@ public class ResolveSolicitationController {
   @PatchMapping("/resolve/{id}")
   public ResponseEntity<SolicitationDto> handle(@PathVariable("id") String solicitationId, @RequestBody Body body) {
     var useCase = new ResolveSolicitationUseCase(solicitationsRepository);
-    var responsible = authenticationProvider.getAuthenticatedUser();
+    var responsible = authenticationProvider.getAccount();
     var collaboratorId = responsible.getCollaboratorId();
     var response = useCase.execute(solicitationId, collaboratorId, body.status,
         body.feedbackMessage, body.solicitationType);

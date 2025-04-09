@@ -13,7 +13,6 @@ import br.com.chronos.core.modules.work_schedule.interfaces.repositories.TimePun
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkSchedulesRepository;
 import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WorkdayLogsRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 import br.com.chronos.server.database.jpa.auth.repositories.JpaAccountsRepository;
 import br.com.chronos.server.database.jpa.collaborator.repositories.JpaCollaboratorsRepository;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaDayOffScheduleAdjustmentSolicitationsRepository;
@@ -24,7 +23,6 @@ import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaTimePunc
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWeekdaySchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkdayLogsRepository;
-import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaDayOffSchedulesRepository;
 
 @Configuration
 public class DatabaseConfiguration {

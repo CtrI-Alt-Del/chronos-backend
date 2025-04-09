@@ -1,18 +1,17 @@
 package br.com.chronos.core.modules.solicitation.use_cases;
 
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.modules.global.domain.aggregates.ResponsibleAggregate;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.modules.global.domain.exceptions.NotFoundException;
+import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.modules.global.domain.records.Id;
+import br.com.chronos.core.modules.global.domain.records.Text;
 import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.modules.solicitation.domain.dtos.SolicitationDto;
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus;
 import br.com.chronos.core.modules.solicitation.domain.records.SolicitationType;
 import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
-import br.com.chronos.core.modules.global.domain.records.Text;
-import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
 
 public class ResolveSolicitationUseCase {
   private final SolicitationsRepository solicitationsRepository;

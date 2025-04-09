@@ -26,7 +26,7 @@ public class ListCollaboratorsController {
       @RequestParam(defaultValue = "true", name = "active") boolean isActive) {
     var useCase = new ListCollaboratorsUseCase(repository);
     var account = authenticationProvider.getAccount();
-    var response = useCase.execute(page, account.role, account.sector, isActive);
+    var response = useCase.execute(page, account.getRole().value(), account.getSector().value(), isActive);
     return ResponseEntity.ok(response);
   }
 
