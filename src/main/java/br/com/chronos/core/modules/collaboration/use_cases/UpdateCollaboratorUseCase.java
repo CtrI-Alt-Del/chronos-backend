@@ -6,6 +6,7 @@ import br.com.chronos.core.modules.collaboration.domain.exceptions.CollaboratorN
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.modules.collaboration.domain.exceptions.ExistingEmailException;
 import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
 import br.com.chronos.core.modules.global.domain.records.Cpf;
 import br.com.chronos.core.modules.global.domain.records.Email;
 import br.com.chronos.core.modules.global.domain.records.Id;
@@ -17,11 +18,11 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, String collaborationSector) {
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, CollaborationSector collaborationSector) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
 
-    dto.setSector(collaborationSector);
+    dto.setSector(collaborationSector.value().toString());
     collaborator.update(dto);
     repository.update(collaborator);
     return collaborator.getDto();
