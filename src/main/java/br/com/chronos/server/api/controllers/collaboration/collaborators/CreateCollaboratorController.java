@@ -17,12 +17,11 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 
 @CollaboratorsController
 public class CreateCollaboratorController {
+  @Autowired
+  private AuthenticationProvider authenticationProvider;
 
   @Autowired
   private CollaboratorsRepository collaboratorsRepository;
-
-  @Autowired
-  private AuthenticationProvider authenticationProvider;
 
   @Autowired
   private AccountsRepository accountsRepository;
@@ -43,14 +42,8 @@ public class CreateCollaboratorController {
   public ResponseEntity<Response> handle(@RequestBody Request body) {
     var useCase = new CreateCollaboratorUseCase(accountsRepository, collaboratorsRepository, authenticationProvider);
     var password = Password.create(body.password);
-    var responsible = authenticationProvider.getAuthenticatedUser();
-    var responsibleSector = responsible.getSector().value();
-    var responsibleRole = responsible.getRole();
-    var collaboratorId = useCase.execute(
-        body.collaboratorDto,
-        password,
-        responsibleSector,
-        responsibleRole);
-    return ResponseEntity.status(HttpStatus.OK).body(new Response(collaboratorId));
+    var account = authenticationProvider.getAccount();
+    var collaboratorId = useCase.execute(body.collaboratorDto, password, account.getSector().toString());
+    return ResponseEntity.ok(new Response(collaboratorId));
   }
 }

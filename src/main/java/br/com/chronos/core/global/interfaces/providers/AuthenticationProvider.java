@@ -8,7 +8,7 @@ public interface AuthenticationProvider {
 
   AccountDto register(AccountDto dto);
 
-  Account getAuthenticatedUser();
+  Account getAccount();
 
   void logout();
 }

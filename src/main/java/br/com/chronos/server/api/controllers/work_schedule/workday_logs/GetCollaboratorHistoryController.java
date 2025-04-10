@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
-import br.com.chronos.core.work_schedule.use_cases.ReportCollaboratorHistoryUseCase;
+import br.com.chronos.core.work_schedule.use_cases.GetCollaboratorHistoryUseCase;
 
 @WorkdayLogsController
-public class ReportCollaboratorHistoryController {
+public class GetCollaboratorHistoryController {
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
@@ -25,7 +25,7 @@ public class ReportCollaboratorHistoryController {
       @RequestParam LocalDate startDate,
       @RequestParam LocalDate endDate,
       @RequestParam(defaultValue = "1") int page) {
-    var useCase = new ReportCollaboratorHistoryUseCase(workdayLogsRepository);
+    var useCase = new GetCollaboratorHistoryUseCase(workdayLogsRepository);
     var workdayLogs = useCase.execute(collaboratorId, startDate, endDate, page);
     return ResponseEntity.status(HttpStatus.OK).body(workdayLogs);
   }

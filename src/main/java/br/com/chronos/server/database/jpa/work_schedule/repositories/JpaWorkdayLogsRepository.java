@@ -5,9 +5,9 @@ import java.util.Optional;
 import java.util.UUID;
 import kotlin.Pair;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +21,7 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
@@ -45,10 +46,13 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
       @Param("endDate") LocalDate endDate,
       PageRequest pageRequest);
 
-  Optional<WorkdayLogModel> findByCollaboratorAndDate(CollaboratorModel collaborator, LocalDate Date);
+  Optional<WorkdayLogModel> findByCollaboratorAndDate(
+      CollaboratorModel collaborator, LocalDate Date);
 
-  Page<WorkdayLogModel> findManyByDate(
+  Page<WorkdayLogModel> findManyByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSectorContainingIgnoreCase(
       LocalDate date,
+      String collaboratorName,
+      CollaborationSector collaboratorionSector,
       PageRequest pageRequest);
 
   @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
@@ -75,9 +79,8 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
 
   @Override
   public Optional<WorkdayLog> findByCollaboratorAndDate(Id collaboratorId, Date date) {
-    var workdayLogModels = repository.findByCollaboratorAndDate(
-        CollaboratorModel.builder().id(collaboratorId.value()).build(), date.value());
-    date.value();
+    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
+    var workdayLogModels = repository.findByCollaboratorAndDate(collaboratorModel, date.value());
 
     if (workdayLogModels.isEmpty()) {
       return Optional.empty();
@@ -142,15 +145,18 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusIntegerNumber.create((int) itemsCount));
   }
 
-  @Override
   public Pair<Array<WorkdayLog>, PlusIntegerNumber> findManyByDateAndCollaborationSector(
       Date date,
-      CollaborationSector sector,
+      Text collaboratorName,
+      CollaborationSector collaborationSector,
       PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var workdayLogModels = repository.findManyByDate(
-        date.value(),
-        pageRequest);
+    var workdayLogModels = repository
+        .findManyByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSectorContainingIgnoreCase(
+            date.value(),
+            collaboratorName.value(),
+            collaborationSector,
+            pageRequest);
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
 

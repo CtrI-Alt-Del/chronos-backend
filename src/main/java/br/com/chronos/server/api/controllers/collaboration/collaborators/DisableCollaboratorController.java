@@ -15,16 +15,10 @@ public class DisableCollaboratorController {
   @Autowired
   private CollaboratorsRepository repository;
 
-  @Autowired
-  private AuthenticationProvider authenticationProvider;
-
   @PatchMapping("/{id}/disable")
   public ResponseEntity<Void> handle(@PathVariable("id") String collaboratorId) {
     var useCase = new DisableCollaboratorUseCase(repository);
-    var responsible = authenticationProvider.getAuthenticatedUser();
-    var sector = responsible.getSector().value();
-    var role = responsible.getRole();
-    useCase.execute(collaboratorId, sector, role);
+    useCase.execute(collaboratorId);
     return ResponseEntity.noContent().build();
   }
 }

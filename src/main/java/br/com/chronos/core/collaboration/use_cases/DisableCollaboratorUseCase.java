@@ -1,12 +1,9 @@
 package br.com.chronos.core.collaboration.use_cases;
 
-import br.com.chronos.core.auth.domain.exceptions.NotAuthorizedException;
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.collaboration.domain.exceptions.CollaboratorNotFoundException;
 import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.global.domain.records.Id;
-import br.com.chronos.core.global.domain.records.Role;
 
 public class DisableCollaboratorUseCase {
   private final CollaboratorsRepository repository;
@@ -15,12 +12,8 @@ public class DisableCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public void execute(String collaboratorId, Sector responsibleSector, Role responsibleRole) {
+  public void execute(String collaboratorId) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
-    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
-      throw new NotAuthorizedException();
-
-    }
     collaborator.disable();
     repository.disable(collaborator);
   }

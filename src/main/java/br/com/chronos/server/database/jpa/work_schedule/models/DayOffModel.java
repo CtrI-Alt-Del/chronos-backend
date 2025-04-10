@@ -3,6 +3,7 @@ package br.com.chronos.server.database.jpa.work_schedule.models;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import br.com.chronos.server.database.jpa.solicitation.models.DayOffScheduleAdjustmentSolicitationModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,6 +30,10 @@ public class DayOffModel {
   private LocalDate date;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "day_off_schedule_id", nullable = false)
+  @JoinColumn(name = "day_off_schedule_id", nullable = true)
   private DayOffScheduleModel dayOffSchedule;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "day_off_schedule_adjustment_id", nullable = true)
+  private DayOffScheduleAdjustmentSolicitationModel dayOffScheduleAdjustment;
 }

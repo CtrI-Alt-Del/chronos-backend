@@ -8,6 +8,7 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
@@ -24,6 +25,7 @@ public interface WorkdayLogsRepository {
 
   Pair<Array<WorkdayLog>, PlusIntegerNumber> findManyByDateAndCollaborationSector(
       Date date,
+      Text collaboratorName,
       CollaborationSector sector,
       PageNumber page);
 

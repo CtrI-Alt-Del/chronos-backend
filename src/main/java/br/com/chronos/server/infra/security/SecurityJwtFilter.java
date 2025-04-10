@@ -25,7 +25,7 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
   JwtProvider jwtProvider;
 
   @Autowired
-  AccountsRepository accountRepository;
+  AccountsRepository accountRepositor;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -38,6 +38,7 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
         var securityUser = new SecurityUser(account);
         var authentication = new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        request.setAttribute("account collaborator id", account.getCollaboratorId().toString());
       } catch (Exception e) {
 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -57,7 +58,7 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
   }
 
   private Account getAccount(String email) {
-    var useCase = new GetAccountUseCase(accountRepository);
+    var useCase = new GetAccountUseCase(accountRepositor);
     var accountDto = useCase.execute(email);
     if (accountDto == null) {
       throw new NotAuthenticatedException();

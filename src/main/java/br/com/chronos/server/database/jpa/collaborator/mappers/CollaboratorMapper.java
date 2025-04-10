@@ -18,7 +18,7 @@ public class CollaboratorMapper {
     return model;
   }
 
-  public Collaborator toEntity(CollaboratorModel model) {
+  public CollaboratorDto toDto(CollaboratorModel model) {
     var dto = new CollaboratorDto()
         .setId(model.getId().toString())
         .setName(model.getName().toString())
@@ -28,6 +28,9 @@ public class CollaboratorMapper {
         .setRole(model.getAccount().getRole().toString())
         .setActive(model.getAccount().getIsActive());
 
-    return new Collaborator(dto);
+    return dto;
+  }
+  public Collaborator toEntity(CollaboratorModel model) {
+    return new Collaborator(toDto(model));
   }
 }

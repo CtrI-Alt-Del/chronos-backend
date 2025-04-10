@@ -41,4 +41,8 @@ public record CollaborationSector(Sector value) {
   public Logical isFromHumanResources() {
     return Logical.create(value == Sector.HUMAN_RESOURCES);
   }
+
+  public Logical isEqual(CollaborationSector sector) {
+    return Logical.create(value.equals(sector.value()));
+  }
 }
