@@ -27,10 +27,20 @@ public record Time(LocalTime value) {
     return new Time(value.plusHours(hoursCount));
   }
 
+  public Time plusMinutes(int minutesCount) {
+    return new Time(value.plusMinutes(minutesCount));
+  }
+
   public Logical hasMoreMinutesThan(int minutes) {
     var duration = Duration.between(LocalTime.MIDNIGHT, value);
-    var minutesDuration = Duration.ofMinutes(10);
+    var minutesDuration = Duration.ofMinutes(minutes);
     return Logical.create(duration.compareTo(minutesDuration) > 0);
+  }
+
+  public Logical hasLessMinutesThan(int minutes) {
+    var duration = Duration.between(LocalTime.MIDNIGHT, value);
+    var minutesDuration = Duration.ofMinutes(minutes);
+    return Logical.create(duration.compareTo(minutesDuration) < 0);
   }
 
   public Logical hasMoreHoursThan(int hours) {

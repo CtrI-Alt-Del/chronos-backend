@@ -32,6 +32,7 @@ import br.com.chronos.server.database.jpa.work_schedule.models.TimePunchModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, UUID> {
+  Optional<WorkdayLogModel> findByTimePunch(TimePunchModel timePunch);
 
   @Query("""
       SELECT wl FROM WorkdayLogModel wl
@@ -162,5 +163,15 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Transactional
   public void removeManyByDate(Date date) {
     repository.deleteAllByDate(date.value());
+  }
+
+  @Override
+  public Optional<WorkdayLog> findByTimePunch(Id timePunchId) {
+    var timePunchModel = TimePunchModel.builder().id(timePunchId.value()).build();
+    var workdayLogModel = repository.findByTimePunch(timePunchModel);
+    if (workdayLogModel.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(mapper.toEntity(workdayLogModel.get()));
   }
 }

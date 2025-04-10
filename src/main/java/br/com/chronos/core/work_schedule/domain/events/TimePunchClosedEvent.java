@@ -2,7 +2,6 @@ package br.com.chronos.core.work_schedule.domain.events;
 
 import java.time.LocalTime;
 
-import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 
 public class TimePunchClosedEvent {
@@ -34,11 +33,11 @@ public class TimePunchClosedEvent {
 
   }
 
-  public TimePunchClosedEvent(WorkdayLog workdayLog, Id collaboratorId) {
+  public TimePunchClosedEvent(WorkdayLog workdayLog) {
     payload = new Payload(
         workdayLog.getOvertime().value(),
         workdayLog.getLatetime().value(),
-        collaboratorId.toString());
+        workdayLog.getResponsible().toString());
   }
 
   public Payload getPayload() {

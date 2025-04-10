@@ -13,6 +13,7 @@ public final class TimePunch extends Entity {
   private Time firstClockOut;
   private Time secondClockIn;
   private Time secondClockOut;
+  private static final int GRACE_PERIOD_IN_MINUTES = 10;
 
   public TimePunch(TimePunchDto dto) {
     super(dto.id);
@@ -81,6 +82,10 @@ public final class TimePunch extends Entity {
     var firstTime = firstClockOut.getDifferenceFrom(firstClockIn);
     var secondTime = secondClockOut.getDifferenceFrom(secondClockIn);
     return firstTime.plus(secondTime);
+  }
+
+  public Time getLunchTime() {
+    return secondClockIn.getDifferenceFrom(firstClockOut).plusMinutes(GRACE_PERIOD_IN_MINUTES);
   }
 
   public Time getFirstClockIn() {

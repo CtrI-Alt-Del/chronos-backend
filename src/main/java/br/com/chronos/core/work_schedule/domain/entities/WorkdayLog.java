@@ -14,6 +14,7 @@ public final class WorkdayLog extends Entity {
   private WorkdayStatus status;
   private Workload workloadSchedule;
   private ResponsibleAggregate responsible;
+  private static final int LUNCH_MINUTES = 60;
 
   public WorkdayLog(WorkdayLogDto dto) {
     super(dto.id);
@@ -31,6 +32,12 @@ public final class WorkdayLog extends Entity {
   }
 
   public Time getLatetime() {
+    var lunchTime = timePunch.getLunchTime();
+
+    if (lunchTime.hasLessMinutesThan(LUNCH_MINUTES).isTrue()) {
+
+    }
+
     return timePunch.getTotalTime();
   }
 
