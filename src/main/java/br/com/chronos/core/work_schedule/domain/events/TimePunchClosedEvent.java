@@ -9,35 +9,25 @@ public class TimePunchClosedEvent {
   private Payload payload;
 
   public static class Payload {
-    private final LocalTime overtime;
-    private final LocalTime latetime;
-    private final String collaboratorId;
+    public final LocalTime overtime;
+    public final LocalTime undertime;
+    public final LocalTime latetime;
+    public final String collaboratorId;
 
-    public Payload(LocalTime overtime, LocalTime latetime, String collaboratorId) {
+    public Payload(LocalTime overtime, LocalTime undertime, LocalTime latetime, String collaboratorId) {
       this.overtime = overtime;
+      this.undertime = undertime;
       this.latetime = latetime;
       this.collaboratorId = collaboratorId;
     }
-
-    public LocalTime getOvertime() {
-      return overtime;
-    }
-
-    public LocalTime getLatetime() {
-      return latetime;
-    }
-
-    public String getCollaboratorId() {
-      return collaboratorId;
-    }
-
   }
 
   public TimePunchClosedEvent(WorkdayLog workdayLog) {
     payload = new Payload(
         workdayLog.getOvertime().value(),
+        workdayLog.getUndertime().value(),
         workdayLog.getLatetime().value(),
-        workdayLog.getResponsible().toString());
+        workdayLog.getResponsible().getId().toString());
   }
 
   public Payload getPayload() {

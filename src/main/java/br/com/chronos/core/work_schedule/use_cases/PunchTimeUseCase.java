@@ -30,7 +30,8 @@ public class PunchTimeUseCase {
 
   public TimePunchDto execute(String timePunchId, LocalTime time) {
     var timePunch = findTimePunch(timePunchId);
-    timePunch.punch(Time.create(time));
+    timePunch.punch(Time.create(time, "tempo do ponto"));
+
     timePunchesRepository.update(timePunch);
 
     if (timePunch.isClosed().isTrue()) {

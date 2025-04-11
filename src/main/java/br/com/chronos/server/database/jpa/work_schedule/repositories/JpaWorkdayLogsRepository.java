@@ -87,6 +87,17 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
+  public Optional<WorkdayLog> findByTimePunch(Id timePunchId) {
+    var timePunchModel = TimePunchModel.builder().id(timePunchId.value()).build();
+    System.out.println(timePunchId.value());
+    var workdayLogModel = repository.findByTimePunch(timePunchModel);
+    if (workdayLogModel.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(mapper.toEntity(workdayLogModel.get()));
+  }
+
+  @Override
   @Transactional
   public void add(WorkdayLog workdayLog) {
     var workdayLogModel = mapper.toModel(workdayLog);
@@ -163,15 +174,5 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Transactional
   public void removeManyByDate(Date date) {
     repository.deleteAllByDate(date.value());
-  }
-
-  @Override
-  public Optional<WorkdayLog> findByTimePunch(Id timePunchId) {
-    var timePunchModel = TimePunchModel.builder().id(timePunchId.value()).build();
-    var workdayLogModel = repository.findByTimePunch(timePunchModel);
-    if (workdayLogModel.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(mapper.toEntity(workdayLogModel.get()));
   }
 }

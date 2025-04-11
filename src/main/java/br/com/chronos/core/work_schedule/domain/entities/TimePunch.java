@@ -2,7 +2,6 @@ package br.com.chronos.core.work_schedule.domain.entities;
 
 import br.com.chronos.core.global.domain.abstracts.Entity;
 import br.com.chronos.core.global.domain.records.Logical;
-import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.work_schedule.domain.exceptions.TimePunchNotOpenException;
@@ -13,7 +12,6 @@ public final class TimePunch extends Entity {
   private Time firstClockOut;
   private Time secondClockIn;
   private Time secondClockOut;
-  private static final int GRACE_PERIOD_IN_MINUTES = 10;
 
   public TimePunch(TimePunchDto dto) {
     super(dto.id);
@@ -85,7 +83,7 @@ public final class TimePunch extends Entity {
   }
 
   public Time getLunchTime() {
-    return secondClockIn.getDifferenceFrom(firstClockOut).plusMinutes(GRACE_PERIOD_IN_MINUTES);
+    return secondClockIn.getDifferenceFrom(firstClockOut);
   }
 
   public Time getFirstClockIn() {
