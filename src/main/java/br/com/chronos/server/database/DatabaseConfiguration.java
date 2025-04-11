@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
@@ -20,10 +21,6 @@ import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaDayOffSc
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaTimePunchesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkdayLogsRepository;
 import br.com.chronos.server.database.mongodb.hour_bank.repositories.MongoDbHourBankTransactionsRepository;
-import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaDayOffSchedulesRepository;
-import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWeekdaySchedulesRepository;
-import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkSchedulesRepository;
-import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkdayLogsRepository;
 
 @Configuration
 public class DatabaseConfiguration {
@@ -62,7 +59,7 @@ public class DatabaseConfiguration {
   HourBankTransactionsRepository hourBankTransactionsRepository() {
     return new MongoDbHourBankTransactionsRepository();
   }
-  
+
   @Bean
   TimePunchLogAdjustmentRepository timePunchAdjustmentRepository() {
     return new JpaTimePunchLogPunchAdjustmentSolicitationsRepository();

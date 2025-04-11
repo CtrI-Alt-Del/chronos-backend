@@ -44,10 +44,6 @@ public class CollaboratorModel {
 
   @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
   @Builder.Default
-  private List<WeekdayScheduleModel> weekdaySchedules = new ArrayList();
-
-  @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
-  @Builder.Default
   private List<DayOffScheduleModel> dayOffSchedules = new ArrayList();
 
   @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)

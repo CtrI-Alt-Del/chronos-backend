@@ -13,11 +13,6 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
   
-volumes:
-  rabbitmq_data:
-    driver: local
-
-services:
   postgres:
     image: postgres:16
     container_name: postgres
@@ -35,7 +30,7 @@ services:
     container_name: mongodb
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     ports:
       - "27017:27017"
@@ -45,3 +40,4 @@ services:
 volumes:
   postgres_data:
   mongo_data:
+  rabbitmq_data:

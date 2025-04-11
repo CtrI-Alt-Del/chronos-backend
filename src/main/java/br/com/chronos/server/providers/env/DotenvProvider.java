@@ -17,9 +17,11 @@ public class DotenvProvider implements EnvProvider {
 
   @Override
   public void loadEnv() {
-    System.setProperty("DATABASE_SOURCE_URL", get("DATABASE_SOURCE_URL"));
-    System.setProperty("DATABASE_USERNAME", get("DATABASE_USERNAME"));
-    System.setProperty("DATABASE_PASSWORD", get("DATABASE_PASSWORD"));
+    System.out.println("POSTGRES_URL: " + get("POSTGRES_URL"));
+    System.setProperty("MONGO_URI", get("MONGO_URI"));
+    System.setProperty("POSTGRES_USER", get("POSTGRES_USER"));
+    System.setProperty("POSTGRES_PASSWORD", get("POSTGRES_PASSWORD"));
+    System.setProperty("POSTGRES_URL", get("POSTGRES_URL"));
 
     System.setProperty("RABBITMQ_HOST", get("RABBITMQ_HOST"));
     System.setProperty("RABBITMQ_USER", get("RABBITMQ_USER"));
