@@ -103,6 +103,7 @@ public final class Collaborator extends Entity {
         .setEmail(getEmail().value().toString())
         .setCpf(getCpf().value().toString())
         .setRole(getRole().value().toString())
+        .setWorkload(getWorkload().value())
         .setSector(getSector().value().toString())
         .setActive(getIsActive().value());
     return dto;

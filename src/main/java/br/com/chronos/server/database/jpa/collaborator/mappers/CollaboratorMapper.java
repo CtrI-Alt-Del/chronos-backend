@@ -26,10 +26,12 @@ public class CollaboratorMapper {
         .setCpf(model.getCpf().toString())
         .setSector(model.getAccount().getSector().toString())
         .setRole(model.getAccount().getRole().toString())
-        .setActive(model.getAccount().getIsActive());
+        .setActive(model.getAccount().getIsActive())
+        .setWorkload((byte) 8);
 
     return dto;
   }
+
   public Collaborator toEntity(CollaboratorModel model) {
     return new Collaborator(toDto(model));
   }

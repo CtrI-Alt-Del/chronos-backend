@@ -25,6 +25,7 @@ public class CollaboratorFaker {
         .setCpf(faker.number().digits(11))
         .setActive(true)
         .setRole(RoleFaker.fakeDto())
+        .setWorkload((byte) 8)
         .setSector(CollaborationSectorFaker.fakeDto());
   }
 

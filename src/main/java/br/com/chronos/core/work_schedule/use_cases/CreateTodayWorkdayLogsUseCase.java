@@ -24,6 +24,7 @@ public class CreateTodayWorkdayLogsUseCase {
   }
 
   public void execute(List<String> collaboratorIds) {
+    System.out.println("se liga no AAA PENIS1!!");
     Array<WorkdayLog> workdayLogs = Array.createAsEmpty();
     // workdayLogsRepository.removeManyByDate(Date.createFromNow());
 
@@ -33,9 +34,10 @@ public class CreateTodayWorkdayLogsUseCase {
       var workdayLogDto = new WorkdayLogDto()
           .setDate(Date.createFromNow().value())
           .setTimePunch(new TimePunchDto())
+          .setWorkloadSchedule((byte) 8)
           .setStatus(workdayStatus.toString())
           .setResponsibleId(collaboratorId.toString());
-
+      System.out.println(workdayLogDto.workloadSchedule);
       workdayLogs.add(new WorkdayLog(workdayLogDto));
     }
     workdayLogsRepository.addMany(workdayLogs);
