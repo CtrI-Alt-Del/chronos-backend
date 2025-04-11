@@ -10,7 +10,6 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.solicitation.use_cases.CreateDayOffScheduleAdjustmentSolicitationUseCase;
-import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 
 @SolicitationsController
 public class CreateDayOffScheduleAdjustmentSolicitationController {
@@ -18,8 +17,6 @@ public class CreateDayOffScheduleAdjustmentSolicitationController {
   @Autowired
   private DayOffScheduleAdjustmentRepository solicitationsRepository;
 
-  @Autowired
-  private DayOffSchedulesRepository dayOffSchedulesRepository;
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
@@ -27,8 +24,7 @@ public class CreateDayOffScheduleAdjustmentSolicitationController {
   @PostMapping("/day-off-schedule-adjustment")
   public ResponseEntity<DayOffScheduleAdjustmentSolicitationDto> handle(
       @RequestBody DayOffScheduleAdjustmentSolicitationDto body) {
-    var useCase = new CreateDayOffScheduleAdjustmentSolicitationUseCase(solicitationsRepository,
-        dayOffSchedulesRepository);
+    var useCase = new CreateDayOffScheduleAdjustmentSolicitationUseCase(solicitationsRepository);
     var responsible = authenticationProvider.getAccount();
     var senderId = responsible.getCollaboratorId();
     var response = useCase.execute(body, senderId);

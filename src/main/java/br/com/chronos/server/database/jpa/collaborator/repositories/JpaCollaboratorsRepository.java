@@ -155,7 +155,17 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   @Override
   public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(CollaborationSector sector,
       Logical isActive, PageNumber page) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findManyByCollaborationSector'");
+    var pageRequest = PageRequest.of(page.number().value() - 1, 10);
+    Page<CollaboratorModel> collaboratorModels;
+    collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
+        RoleName.ADMIN,
+        sector.value(),
+        isActive.value(),
+        pageRequest);
+    var items = collaboratorModels.getContent().stream().toList();
+    var itemsCount = collaboratorModels.getTotalElements();
+    return new Pair<>(
+        Array.createFrom(items, mapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount, "contagem de colaboradores"));
   }
 }
