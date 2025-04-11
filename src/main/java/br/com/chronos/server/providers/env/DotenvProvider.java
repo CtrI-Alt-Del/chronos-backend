@@ -14,4 +14,15 @@ public class DotenvProvider implements EnvProvider {
   public String get(String key) {
     return dotenv.get(key);
   }
+
+  @Override
+  public void loadEnv() {
+    System.setProperty("DATABASE_SOURCE_URL", get("DATABASE_SOURCE_URL"));
+    System.setProperty("DATABASE_USERNAME", get("DATABASE_USERNAME"));
+    System.setProperty("DATABASE_PASSWORD", get("DATABASE_PASSWORD"));
+
+    System.setProperty("RABBITMQ_HOST", get("RABBITMQ_HOST"));
+    System.setProperty("RABBITMQ_USER", get("RABBITMQ_USER"));
+    System.setProperty("RABBITMQ_PASSWORD", get("RABBITMQ_PASSWORD"));
+  }
 }
