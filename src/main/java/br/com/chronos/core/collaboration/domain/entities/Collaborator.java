@@ -9,6 +9,7 @@ import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Role;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.work_schedule.domain.records.Workload;
 
 public final class Collaborator extends Entity {
   private Text name;
@@ -16,6 +17,7 @@ public final class Collaborator extends Entity {
   private Cpf cpf;
   private Role role;
   private CollaborationSector sector;
+  private Workload workload;
   private Logical isActive;
 
   public Collaborator(CollaboratorDto dto) {
@@ -25,6 +27,7 @@ public final class Collaborator extends Entity {
     cpf = Cpf.create(dto.cpf);
     role = Role.create(dto.role);
     sector = CollaborationSector.create(dto.sector);
+    workload = Workload.create(dto.workload);
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
   }
 
@@ -52,6 +55,10 @@ public final class Collaborator extends Entity {
 
   public Cpf getCpf() {
     return cpf;
+  }
+
+  public Workload getWorkload() {
+    return workload;
   }
 
   public Role getRole() {

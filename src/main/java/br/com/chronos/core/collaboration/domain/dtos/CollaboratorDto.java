@@ -6,6 +6,7 @@ public class CollaboratorDto {
   public String email;
   public String cpf;
   public Boolean isActive;
+  public byte workload;
   public String role;
   public String sector;
 
@@ -41,6 +42,11 @@ public class CollaboratorDto {
 
   public CollaboratorDto setSector(String sector) {
     this.sector = sector;
+    return this;
+  }
+
+  public CollaboratorDto setWorkload(byte workload) {
+    this.workload = workload;
     return this;
   }
 }
