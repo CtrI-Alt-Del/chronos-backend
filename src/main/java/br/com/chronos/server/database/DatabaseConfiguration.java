@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.solicitation.interfaces.repository.SolicitationsRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
@@ -14,6 +15,7 @@ import br.com.chronos.server.database.jpa.collaborator.repositories.JpaCollabora
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaSolicitationsRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaTimePunchesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkdayLogsRepository;
+import br.com.chronos.server.database.mongodb.hour_bank.repositories.MongoDbHourBankTransactionsRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaDayOffSchedulesRepository;
 
 @Configuration
@@ -47,6 +49,11 @@ public class DatabaseConfiguration {
   @Bean
   SolicitationsRepository solicitationsRepository() {
     return new JpaSolicitationsRepository();
+  }
+
+  @Bean
+  HourBankTransactionsRepository hourBankTransactionsRepository() {
+    return new MongoDbHourBankTransactionsRepository();
   }
 
 }
