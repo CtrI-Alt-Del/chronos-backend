@@ -1,6 +1,5 @@
 package br.com.chronos.core.collaboration.use_cases;
 
-import br.com.chronos.core.auth.domain.exceptions.NotAuthorizedException;
 import br.com.chronos.core.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.collaboration.domain.exceptions.CollaboratorNotFoundException;
@@ -10,8 +9,6 @@ import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRe
 import br.com.chronos.core.global.domain.records.Cpf;
 import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Id;
-import br.com.chronos.core.global.domain.records.Role;
-import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
 
 public class UpdateCollaboratorUseCase {
   private final CollaboratorsRepository repository;
@@ -20,21 +17,13 @@ public class UpdateCollaboratorUseCase {
     this.repository = repository;
   }
 
-  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto,
-      Sector responsibleSector, Role responsibleRole) {
-    if (dto == null) {
-      dto = new CollaboratorDto();
-    }
+  public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto, String collaborationSector) {
     var collaborator = findCollaborator(Id.create(collaboratorId));
-
-    if (collaborator.isFromSameSector(responsibleSector, responsibleRole).isFalse()) {
-      throw new NotAuthorizedException();
-    }
     validateUniqueEmailAndCpf(dto, Id.create(collaboratorId));
+
+    dto.setSector(collaborationSector);
     collaborator.update(dto);
-
     repository.update(collaborator);
-
     return collaborator.getDto();
   }
 

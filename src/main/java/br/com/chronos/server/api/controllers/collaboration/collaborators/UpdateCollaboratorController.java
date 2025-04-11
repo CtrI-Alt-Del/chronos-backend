@@ -26,8 +26,7 @@ public class UpdateCollaboratorController {
     var useCase = new UpdateCollaboratorUseCase(repository);
     var responsible = authenticationProvider.getAuthenticatedUser();
     var responsibleSector = responsible.getSector().value();
-    var responsibleRole = responsible.getRole();
-    var response = useCase.execute(collaboratorId, body, responsibleSector, responsibleRole);
+    var response = useCase.execute(collaboratorId, body, responsibleSector.toString());
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }
