@@ -88,6 +88,7 @@ public final class WorkdayLog extends Entity {
         .setDate(getDate().value())
         .setWorkloadSchedule(getWorkloadSchedule().value())
         .setTimePunch(getTimePunch().getDto())
+
         .setStatus(getStatus().toString().toLowerCase())
         .setResponsible(getResponsible().getDto());
   }

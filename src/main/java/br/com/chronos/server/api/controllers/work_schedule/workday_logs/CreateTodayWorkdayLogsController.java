@@ -26,7 +26,9 @@ public class CreateTodayWorkdayLogsController {
 
   @PostMapping("/today")
   public ResponseEntity<WorkdayLogDto> handle() {
-    var useCase = new CreateTodayWorkdayLogsUseCase(workdayLogsRepository, dayOffSchedulesRepository);
+    var useCase = new CreateTodayWorkdayLogsUseCase(
+        workdayLogsRepository,
+        dayOffSchedulesRepository);
 
     useCase.execute(listCollaboratorIds());
     return ResponseEntity.noContent().build();

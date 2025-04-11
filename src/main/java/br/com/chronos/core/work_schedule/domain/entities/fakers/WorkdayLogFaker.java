@@ -4,10 +4,10 @@ import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.entities.fakers.ResponsibleFaker;
 import br.com.chronos.core.global.domain.records.fakers.DateFaker;
 import br.com.chronos.core.global.domain.records.fakers.IdFaker;
-import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.work_schedule.domain.records.fakers.WorkdayStatusFaker;
+import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
 
 public class WorkdayLogFaker {
   public static WorkdayLog fake() {

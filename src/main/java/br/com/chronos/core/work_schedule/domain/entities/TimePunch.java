@@ -30,6 +30,7 @@ public final class TimePunch extends Entity {
   }
 
   public void punch(Time time) {
+    System.out.println("isClosed(): " + isClosed());
     if (isClosed().isTrue()) {
       throw new TimePunchNotOpenException();
     }

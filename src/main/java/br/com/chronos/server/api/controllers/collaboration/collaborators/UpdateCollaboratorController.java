@@ -24,9 +24,8 @@ public class UpdateCollaboratorController {
       @PathVariable String collaboratorId,
       @RequestBody CollaboratorDto body) {
     var useCase = new UpdateCollaboratorUseCase(repository);
-    var responsible = authenticationProvider.getAccount();
-    var responsibleSector = responsible.getSector().value();
-    var response = useCase.execute(collaboratorId, body, responsibleSector.toString());
+    var account = authenticationProvider.getAccount();
+    var response = useCase.execute(collaboratorId, body, account.getSector().toString());
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }

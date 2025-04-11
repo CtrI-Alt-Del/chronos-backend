@@ -15,7 +15,7 @@ public interface DayOffSchedulesRepository {
 
   void addMany(Array<DayOffSchedule> dayOffSchedules, Id collaborator);
 
-  void replace(DayOffSchedule dayOffSchedule);
+  void replace(DayOffSchedule dayOffSchedule, Id collaborator);
 
   void replaceMany(Array<DayOffSchedule> dayOffSchedule);
 }
