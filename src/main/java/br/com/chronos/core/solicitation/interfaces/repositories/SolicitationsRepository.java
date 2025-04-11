@@ -15,7 +15,6 @@ public interface SolicitationsRepository {
   Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector);
 
   void resolveSolicitation(Solicitation solicitation);
-
   Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type);
 
 }
