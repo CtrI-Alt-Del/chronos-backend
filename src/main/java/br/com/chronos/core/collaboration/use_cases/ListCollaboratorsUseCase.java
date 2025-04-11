@@ -28,14 +28,13 @@ public class ListCollaboratorsUseCase {
       response = repository.findMany(Logical.create(isCollaboratorActive), PageNumber.create(page));
     } else {
       var sector = CollaborationSector.create(requesterSector);
-      response = repository.findManyByCollaborationSector(PageNumber.create(page), sector,
-          Logical.create(isCollaboratorActive));
+      response = repository.findManyByCollaborationSector(sector,
+          Logical.create(isCollaboratorActive), PageNumber.create(page));
     }
 
     var dtos = response.getFirst().map(collaborator -> collaborator.getDto()).list();
     var itemsCount = response.getSecond();
     return new PaginationResponse<CollaboratorDto>(dtos, itemsCount.value());
-
   }
 
 }

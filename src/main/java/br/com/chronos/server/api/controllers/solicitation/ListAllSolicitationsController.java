@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.solicitation.domain.dtos.SolicitationDto;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.use_cases.ListAllSolicitationsUseCase;
-import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 
 @SolicitationsController
 public class ListAllSolicitationsController {
@@ -23,9 +23,10 @@ public class ListAllSolicitationsController {
   @GetMapping("/solicitations")
   public ResponseEntity<List<SolicitationDto>> handle() {
     var useCase = new ListAllSolicitationsUseCase(solicitationsRepository);
-    var sector = authenticationProvider.getAccount().getSector();
-    var role = authenticationProvider.getAccount().getRole();
-    var userId = authenticationProvider.getAccount().getCollaboratorId();
+    var account = authenticationProvider.getAccount();
+    var sector = account.getSector();
+    var role = account.getRole();
+    var userId = account.getCollaboratorId();
     var response = useCase.execute(sector, role, userId);
     return ResponseEntity.ok(response);
   }

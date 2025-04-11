@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
-import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.server.database.jpa.solicitation.mappers.DayOffScheduleAdjustmentSolicitationMapper;

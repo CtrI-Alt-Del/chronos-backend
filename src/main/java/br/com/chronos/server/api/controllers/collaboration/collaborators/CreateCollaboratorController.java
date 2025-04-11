@@ -1,6 +1,5 @@
 package br.com.chronos.server.api.controllers.collaboration.collaborators;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

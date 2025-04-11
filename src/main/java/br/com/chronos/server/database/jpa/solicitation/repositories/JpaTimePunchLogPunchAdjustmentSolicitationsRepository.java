@@ -9,9 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
-import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
 import br.com.chronos.server.database.jpa.solicitation.mappers.TimePunchLogAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
 
@@ -23,8 +24,7 @@ interface JpaTimePunchAdjustmentSolicitationRepository
       UUID userId);
 }
 
-public class JpaTimePunchLogPunchAdjustmentSolicitationsRepository
-    implements br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository {
+public class JpaTimePunchLogPunchAdjustmentSolicitationsRepository implements TimePunchLogAdjustmentRepository {
 
   @Autowired
   private JpaTimePunchAdjustmentSolicitationRepository solicitationRepository;
