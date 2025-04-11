@@ -2,19 +2,16 @@ package br.com.chronos.server.database.jpa.solicitation.models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 import br.com.chronos.core.solicitation.domain.records.SolicitationStatus.Status;
 import br.com.chronos.core.solicitation.domain.records.TimePunchAdjustmentReason.Reason;
 import br.com.chronos.core.work_schedule.domain.records.TimePunchPeriod.PeriodName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

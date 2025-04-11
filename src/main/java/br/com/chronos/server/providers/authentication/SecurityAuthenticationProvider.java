@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.auth.domain.dtos.AccountDto;
 import br.com.chronos.core.auth.domain.entities.Account;
@@ -17,8 +18,8 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.global.interfaces.providers.JwtProvider;
 import br.com.chronos.server.infra.security.SecurityUser;
 
+@Component
 public class SecurityAuthenticationProvider implements AuthenticationProvider {
-
   @Autowired
   private AuthenticationManager authenticationManager;
 
@@ -54,7 +55,7 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
   }
 
   @Override
-  public Account getAuthenticatedUser() {
+  public Account getAccount() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     if (authentication != null && authentication.getPrincipal() instanceof SecurityUser securityUser) {

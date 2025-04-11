@@ -13,13 +13,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.global.domain.records.Array;
-import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Cpf;
 import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.domain.records.Role;
 import br.com.chronos.core.global.domain.records.Role.RoleName;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -32,12 +33,15 @@ interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorMode
 
   public List<CollaboratorModel> findAllByAccountIsActiveTrue();
 
-  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountIsActive(RoleName role, Pageable pageable, Boolean isActive);
+  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountIsActive(
+      Role.RoleName role,
+      boolean isActive,
+      Pageable pageable);
 
   Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
-      RoleName role,
-      Sector sector,
-      Boolean isActive,
+      Role.RoleName role,
+      CollaborationSector.Sector sector,
+      boolean isActive,
       Pageable pageable);
 }
 
@@ -77,31 +81,46 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public void delete(Collaborator collaborator) {
-    var collaboratorModel = mapper.toModel(collaborator);
-    repository.delete(collaboratorModel);
-  }
-
-  @Override
-  public Pair<Array<Collaborator>, PlusIntegerNumber> findMany(PageNumber page, RoleName requesterRole,
-      Sector requesterSector, Logical isActive) {
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findMany(Logical isActive, PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, 10);
     Page<CollaboratorModel> collaboratorModels;
-    if (requesterRole == RoleName.ADMIN) {
-      collaboratorModels = repository.findAllByAccountRoleNotAndAccountIsActive(RoleName.ADMIN, pageRequest,
-          isActive.value());
-    } else {
-      collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(RoleName.ADMIN,
-          requesterSector,
-          isActive.value(), pageRequest);
-    }
-    System.out.println(collaboratorModels);
+
+    collaboratorModels = repository.findAllByAccountRoleNotAndAccountIsActive(
+        RoleName.ADMIN,
+        isActive.value(),
+        pageRequest);
+
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();
 
-    return new Pair<>(
-        Array.createFrom(items, mapper::toEntity),
+    return new Pair<>(Array.createFrom(items, mapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount, "contagem de colaboradores"));
+  }
+
+  @Override
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(
+      PageNumber page,
+      CollaborationSector requesterSector,
+      Logical isActive) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, 10);
+    Page<CollaboratorModel> collaboratorModels;
+
+    collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(RoleName.ADMIN,
+        requesterSector.value(),
+        isActive.value(),
+        pageRequest);
+
+    var items = collaboratorModels.getContent().stream().toList();
+    var itemsCount = collaboratorModels.getTotalElements();
+
+    return new Pair<>(Array.createFrom(items, mapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount, "contagem de colaboradores"));
+  }
+
+  @Override
+  public void delete(Collaborator collaborator) {
+    var collaboratorModel = mapper.toModel(collaborator);
+    repository.delete(collaboratorModel);
   }
 
   @Override

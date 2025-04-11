@@ -18,8 +18,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
+import br.com.chronos.server.database.jpa.solicitation.models.DayOffScheduleAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
-import br.com.chronos.server.database.jpa.solicitation.models.WorkScheduleAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
@@ -42,8 +42,13 @@ public class CollaboratorModel {
   @OneToOne(mappedBy = "collaborator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   private AccountModel account;
 
-  @OneToOne(mappedBy = "collaborator", fetch = FetchType.LAZY)
-  private DayOffScheduleModel dayOffSchedule;
+  @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<WeekdayScheduleModel> weekdaySchedules = new ArrayList();
+
+  @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<DayOffScheduleModel> dayOffSchedules = new ArrayList();
 
   @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
   @Builder.Default
@@ -59,9 +64,9 @@ public class CollaboratorModel {
 
   @OneToMany(mappedBy = "senderResponsible", fetch = FetchType.LAZY)
   @Builder.Default
-  private List<WorkScheduleAdjustmentSolicitationModel> sentWorkScheduleSolicitations = new ArrayList<>();
+  private List<DayOffScheduleAdjustmentSolicitationModel> sentWorkScheduleSolicitations = new ArrayList<>();
 
   @OneToMany(mappedBy = "replierResponsible", fetch = FetchType.LAZY)
   @Builder.Default
-  private List<TimePunchLogAdjustmentSolicitationModel> repliedWorkScheduleSolicitations = new ArrayList<>();
+  private List<DayOffScheduleAdjustmentSolicitationModel> repliedWorkScheduleSolicitations = new ArrayList<>();
 }

@@ -1,0 +1,43 @@
+name: Assign Reviewers
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  assign-reviewers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const author = context.payload.pull_request.user.login;
+            let reviewers = [];
+
+            function getRandom(arr) {
+              return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            if (author === 'kaufon') {
+              reviewers.push('johnpetros');
+              reviewers.push(getRandom(['EduardoKuwahara', '0thigs']));
+            } else if (author === 'johnpetros') {
+              reviewers.push('kaufon');
+              reviewers.push(getRandom(['EduardoKuwahara', '0thigs']));
+            } else if (author === 'EduardoKuwahara' || author === '0thigs') {
+              const others = ['kaufon', 'johnpetros', author === 'EduardoKuwahara' ? '0thigs' : 'EduardoKuwahara'];
+              const first = getRandom(others);
+              const second = getRandom(others.filter(x => x !== first));
+              reviewers = [first, second];
+            }
+
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              reviewers
+            });

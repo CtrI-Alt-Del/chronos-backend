@@ -7,13 +7,13 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.solicitation.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.records.SolicitationStatus.Status;
-import br.com.chronos.core.solicitation.interfaces.repository.SolicitationsRepository;
+import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
 
 public class CreateTimePunchLogAdjustmentSolicitationUseCase {
 
-  private final SolicitationsRepository solicitationsRepository;
+  private final TimePunchLogAdjustmentRepository solicitationsRepository;
 
-  public CreateTimePunchLogAdjustmentSolicitationUseCase(SolicitationsRepository solicitationsRepository) {
+  public CreateTimePunchLogAdjustmentSolicitationUseCase(TimePunchLogAdjustmentRepository solicitationsRepository) {
     this.solicitationsRepository = solicitationsRepository;
   }
 
@@ -25,7 +25,7 @@ public class CreateTimePunchLogAdjustmentSolicitationUseCase {
     if (solicitation.status.value() != Status.PENDING) {
       throw new ValidationException("status", "deve ser pendente");
     }
-    solicitationsRepository.addTimePunchLogAdjustmentSolicitation(solicitation);
+    solicitationsRepository.add(solicitation);
     return solicitation.getDto();
   }
 }

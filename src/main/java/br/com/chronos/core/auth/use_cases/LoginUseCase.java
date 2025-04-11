@@ -18,8 +18,6 @@ public class LoginUseCase {
   public String execute(String email, String password) {
     var account = findAccount(email);
     var accountDto = account.getDto();
-    // i Have to password both dto ans password,with i pass only dto the password is
-    // hashed and invalid :(
     var jwt = authenticationProvider.login(accountDto, password);
     return jwt;
   }

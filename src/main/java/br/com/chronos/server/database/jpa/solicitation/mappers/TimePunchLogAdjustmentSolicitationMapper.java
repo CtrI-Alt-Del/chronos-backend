@@ -33,7 +33,7 @@ public class TimePunchLogAdjustmentSolicitationMapper {
 
   }
 
-  public TimePunchLogAdjustmentSolicitation toEntity(TimePunchLogAdjustmentSolicitationModel model) {
+  public TimePunchLogAdjustmentSolicitationDto toDto(TimePunchLogAdjustmentSolicitationModel model) {
 
     var senderResponsibleDto = new ResponsibleDto()
         .setId(model.getSenderResponsible().getId().toString())
@@ -53,8 +53,10 @@ public class TimePunchLogAdjustmentSolicitationMapper {
 
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
+
     String description = model.getDescription() != null ? model.getDescription().toString() : null;
     String feedbackMessage = model.getFeedbackMessage() != null ? model.getFeedbackMessage().toString() : null;
+
     var dto = new TimePunchLogAdjustmentSolicitationDto()
         .setTime(model.getTime())
         .setPeriod(model.getTimePunchPeriod().toString())
@@ -68,6 +70,10 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .setWorkdayLogDate(model.getDate())
         .setReason(model.getReason().toString());
 
-    return new TimePunchLogAdjustmentSolicitation(dto);
+    return dto;
+  }
+
+  public TimePunchLogAdjustmentSolicitation toEntity(TimePunchLogAdjustmentSolicitationModel model) {
+    return new TimePunchLogAdjustmentSolicitation(toDto(model));
   }
 }

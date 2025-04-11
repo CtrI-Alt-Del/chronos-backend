@@ -34,7 +34,7 @@ public class WorkdayLogDto {
 
   public WorkdayLogDto setWorkloadSchedule(byte workload) {
     this.workloadSchedule = workload;
-    return this;
+
   }
 
   public WorkdayLogDto setResponsible(ResponsibleAggregateDto dto) {

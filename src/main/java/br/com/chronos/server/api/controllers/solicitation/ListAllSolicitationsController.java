@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import br.com.chronos.core.solicitation.domain.dtos.SolicitationDto;
-import br.com.chronos.core.solicitation.interfaces.repository.SolicitationsRepository;
+import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.use_cases.ListAllSolicitationsUseCase;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 
@@ -23,9 +23,9 @@ public class ListAllSolicitationsController {
   @GetMapping("/solicitations")
   public ResponseEntity<List<SolicitationDto>> handle() {
     var useCase = new ListAllSolicitationsUseCase(solicitationsRepository);
-    var sector = authenticationProvider.getAuthenticatedUser().getSector().value();
-    var role = authenticationProvider.getAuthenticatedUser().getRole();
-    var userId = authenticationProvider.getAuthenticatedUser().getCollaboratorId();
+    var sector = authenticationProvider.getAccount().getSector();
+    var role = authenticationProvider.getAccount().getRole();
+    var userId = authenticationProvider.getAccount().getCollaboratorId();
     var response = useCase.execute(sector, role, userId);
     return ResponseEntity.ok(response);
   }
