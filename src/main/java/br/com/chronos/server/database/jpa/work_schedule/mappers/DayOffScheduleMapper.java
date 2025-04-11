@@ -3,9 +3,9 @@ package br.com.chronos.server.database.jpa.work_schedule.mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.DayOffScheduleDto;
-import br.com.chronos.core.modules.work_schedule.domain.entities.DayOffSchedule;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
+import br.com.chronos.core.work_schedule.domain.entities.DayOffSchedule;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffScheduleModel;
 
 @Component

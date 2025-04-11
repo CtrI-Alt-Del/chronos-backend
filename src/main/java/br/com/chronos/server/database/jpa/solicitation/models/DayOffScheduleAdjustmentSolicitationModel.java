@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus.Status;
+import br.com.chronos.core.solicitation.domain.records.SolicitationStatus.Status;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffModel;
 import jakarta.persistence.CascadeType;
@@ -63,7 +63,7 @@ public class DayOffScheduleAdjustmentSolicitationModel {
   @Column(nullable = false)
   private int daysOffCount;
 
-  @OneToMany(mappedBy = "dayOffScheduleAdjustment",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "dayOffScheduleAdjustment", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
   @Default
   private List<DayOffModel> daysOff = new ArrayList<>();
 }

@@ -3,12 +3,12 @@ package br.com.chronos.server.database.jpa.solicitation.mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.solicitation.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
-import br.com.chronos.core.modules.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.DayOffScheduleDto;
+import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
+import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.solicitation.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
+import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
+import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.solicitation.models.DayOffScheduleAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;

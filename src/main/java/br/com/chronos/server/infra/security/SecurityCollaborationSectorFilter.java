@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.collaboration.use_cases.EnsureSameCollaboratorionSectorUseCase;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.use_cases.EnsureSameCollaboratorionSectorUseCase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -10,13 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
-import br.com.chronos.core.modules.auth.domain.entities.Account;
-import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.global.interfaces.providers.JwtProvider;
+import br.com.chronos.core.auth.domain.dtos.AccountDto;
+import br.com.chronos.core.auth.domain.entities.Account;
+import br.com.chronos.core.auth.domain.exceptions.DisabledAccountException;
+import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.global.interfaces.providers.JwtProvider;
 import br.com.chronos.server.infra.security.SecurityUser;
-import br.com.chronos.core.modules.auth.domain.exceptions.DisabledAccountException;
 
 @Component
 public class SecurityAuthenticationProvider implements AuthenticationProvider {

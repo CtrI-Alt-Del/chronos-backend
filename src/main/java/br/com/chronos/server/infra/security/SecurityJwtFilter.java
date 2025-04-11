@@ -8,11 +8,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.chronos.core.modules.auth.domain.entities.Account;
-import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
-import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
-import br.com.chronos.core.modules.auth.use_cases.GetAccountUseCase;
-import br.com.chronos.core.modules.global.interfaces.providers.JwtProvider;
+import br.com.chronos.core.auth.domain.entities.Account;
+import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
+import br.com.chronos.core.auth.use_cases.GetAccountUseCase;
+import br.com.chronos.core.global.interfaces.providers.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

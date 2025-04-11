@@ -6,11 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.solicitation.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
-import br.com.chronos.core.modules.solicitation.interfaces.repository.DayOffScheduleAdjustmentRepository;
-import br.com.chronos.core.modules.solicitation.use_cases.CreateDayOffScheduleAdjustmentSolicitationUseCase;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.solicitation.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
+import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
+import br.com.chronos.core.solicitation.use_cases.CreateDayOffScheduleAdjustmentSolicitationUseCase;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 
 @SolicitationsController
 public class CreateDayOffScheduleAdjustmentSolicitationController {

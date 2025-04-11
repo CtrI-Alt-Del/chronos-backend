@@ -10,17 +10,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector.Sector;
-import br.com.chronos.core.modules.global.domain.records.Cpf;
-import br.com.chronos.core.modules.global.domain.records.Email;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.global.domain.records.Logical;
-import br.com.chronos.core.modules.global.domain.records.PageNumber;
-import br.com.chronos.core.modules.global.domain.records.PlusInteger;
-import br.com.chronos.core.modules.global.domain.records.Role.RoleName;
+import br.com.chronos.core.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.global.domain.records.Cpf;
+import br.com.chronos.core.global.domain.records.Email;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Logical;
+import br.com.chronos.core.global.domain.records.PageNumber;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.global.domain.records.Role.RoleName;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import kotlin.Pair;
@@ -83,24 +84,17 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Pair<Array<Collaborator>, PlusInteger> findMany(PageNumber page, RoleName requesterRole,
-      Sector requesterSector, Logical isActive) {
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findMany(Logical isActive, PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, 10);
     Page<CollaboratorModel> collaboratorModels;
-    if (requesterRole == RoleName.ADMIN) {
-      collaboratorModels = repository.findAllByAccountRoleNotAndAccountIsActive(RoleName.ADMIN, pageRequest,
-          isActive.value());
-    } else {
-      collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(RoleName.ADMIN,
-          requesterSector,
-          isActive.value(), pageRequest);
-    }
+    collaboratorModels = repository.findAllByAccountRoleNotAndAccountIsActive(RoleName.ADMIN, pageRequest,
+        isActive.value());
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();
 
     return new Pair<>(
         Array.createFrom(items, mapper::toEntity),
-        PlusInteger.create((int) itemsCount, "contagem de colaboradores"));
+        PlusIntegerNumber.create((int) itemsCount, "contagem de colaboradores"));
   }
 
   @Override
@@ -156,5 +150,12 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   public Array<Collaborator> findAllActive() {
     var collaboratorModels = repository.findAllByAccountIsActiveTrue();
     return Array.createFrom(collaboratorModels, mapper::toEntity);
+  }
+
+  @Override
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(CollaborationSector sector,
+      Logical isActive, PageNumber page) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'findManyByCollaborationSector'");
   }
 }

@@ -1,0 +1,12 @@
+# Auth
+@RESOURCE = auth
+
+
+## Login
+POST {{BASE_URL}}/{{RESOURCE}}/login
+Content-Type: application/json
+
+{
+  "email": "chronos.employee@gmail.com",
+  "password": "123456"
+}

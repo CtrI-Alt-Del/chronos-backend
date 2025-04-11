@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.solicitation.domain.dtos.SolicitationDto;
-import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
-import br.com.chronos.core.modules.solicitation.use_cases.ResolveSolicitationUseCase;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.solicitation.domain.dtos.SolicitationDto;
+import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
+import br.com.chronos.core.solicitation.use_cases.ResolveSolicitationUseCase;
 import lombok.Data;
 
 @SolicitationsController

@@ -5,12 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
-import br.com.chronos.core.modules.global.domain.exceptions.AppException;
-import br.com.chronos.core.modules.global.domain.exceptions.ConflictException;
-import br.com.chronos.core.modules.global.domain.exceptions.NotFoundException;
-import br.com.chronos.core.modules.global.domain.exceptions.NotPermitException;
-import br.com.chronos.core.modules.global.domain.exceptions.ValidationException;
+import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.global.domain.exceptions.AppException;
+import br.com.chronos.core.global.domain.exceptions.ConflictException;
+import br.com.chronos.core.global.domain.exceptions.NotFoundException;
+import br.com.chronos.core.global.domain.exceptions.NotPermitException;
+import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
