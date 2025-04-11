@@ -33,6 +33,10 @@ public class WorkdayLogModel {
   @Column(name = "date", nullable = false)
   private LocalDate date;
 
+  @Column(name = "workload_schedule", nullable = false)
+  @Builder.Default
+  private byte workloadSchedule = 8;
+
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "collaborator_id", nullable = false)
   private CollaboratorModel collaborator;

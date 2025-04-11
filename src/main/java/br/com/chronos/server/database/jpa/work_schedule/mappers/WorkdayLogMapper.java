@@ -41,9 +41,10 @@ public class WorkdayLogMapper {
     var dto = new WorkdayLogDto()
         .setId(model.getId().toString())
         .setDate(model.getDate())
-        .setResponsible(new ResponsibleAggregateDto(responsibleDto))
         .setTimePunch(TimePunchMapper.toDto(model.getTimePunch()))
-        .setStatus(model.getStatus().toString());
+        .setStatus(model.getStatus().toString())
+        .setWorkloadSchedule(model.getWorkloadSchedule())
+        .setResponsible(new ResponsibleAggregateDto(responsibleDto));
 
     return new WorkdayLog(dto);
   }
