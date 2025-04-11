@@ -9,7 +9,7 @@ public class WorkdayLogDto {
   public LocalDate date;
   public TimePunchDto timePunch;
   public String status;
-  public int workloadSchedule;
+  public byte workloadSchedule;
   public ResponsibleAggregateDto responsible;
 
   public WorkdayLogDto setId(String id) {
@@ -32,7 +32,7 @@ public class WorkdayLogDto {
     return this;
   }
 
-  public WorkdayLogDto setWorkloadSchedule(int workload) {
+  public WorkdayLogDto setWorkloadSchedule(byte workload) {
     this.workloadSchedule = workload;
     return this;
   }

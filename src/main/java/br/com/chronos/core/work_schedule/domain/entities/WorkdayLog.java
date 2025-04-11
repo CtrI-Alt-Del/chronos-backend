@@ -14,7 +14,6 @@ public final class WorkdayLog extends Entity {
   private WorkdayStatus status;
   private Workload workloadSchedule;
   private ResponsibleAggregate responsible;
-  private static final int LUNCH_MINUTES = 60;
 
   public WorkdayLog(WorkdayLogDto dto) {
     super(dto.id);
@@ -27,18 +26,40 @@ public final class WorkdayLog extends Entity {
 
   public Time getOvertime() {
     var totalTime = timePunch.getTotalTime();
-    var overtime = totalTime.getDifferenceFrom(workloadSchedule.toTime());
-    return overtime;
+    var workloadScheduleTime = Time.create(workloadSchedule.value(), 0);
+
+    if (totalTime.isGreaterThan(workloadScheduleTime).isTrue()) {
+      var overtime = totalTime.minus(workloadScheduleTime);
+      if (overtime.hasMoreHoursThan(2).isTrue()) {
+        return Time.create(2, 0);
+      }
+      return overtime;
+    }
+
+    return Time.createAsZero();
+  }
+
+  public Time getUndertime() {
+    var totalTime = timePunch.getTotalTime();
+    var workloadScheduleTime = Time.create(workloadSchedule.value(), 0);
+
+    if (totalTime.isLessThan(workloadScheduleTime).isTrue()) {
+      return workloadScheduleTime.minus(totalTime);
+    }
+
+    System.out.println(Time.createAsZero());
+    return Time.createAsZero();
   }
 
   public Time getLatetime() {
+    var lunchTimeSchedule = Time.create(1, 10);
     var lunchTime = timePunch.getLunchTime();
 
-    if (lunchTime.hasLessMinutesThan(LUNCH_MINUTES).isTrue()) {
-
+    if (lunchTime.isGreaterThan(lunchTimeSchedule).isTrue()) {
+      return lunchTime.getDifferenceFrom(lunchTimeSchedule);
     }
 
-    return timePunch.getTotalTime();
+    return Time.createAsZero();
   }
 
   public Date getDate() {
@@ -65,7 +86,7 @@ public final class WorkdayLog extends Entity {
     return new WorkdayLogDto()
         .setId(getId().toString())
         .setDate(getDate().value())
-        .setWorkloadSchedule(getWorkloadSchedule().hours().value())
+        .setWorkloadSchedule(getWorkloadSchedule().value())
         .setTimePunch(getTimePunch().getDto())
         .setStatus(getStatus().toString().toLowerCase())
         .setResponsible(getResponsible().getDto());
