@@ -27,7 +27,7 @@ public class CreateCollaboratorController {
 
   @Data
   private static class Request {
-    private CollaboratorDto collaboratorDto;
+    private CollaboratorDto collaborator;
     private String password;
   }
 
@@ -42,7 +42,7 @@ public class CreateCollaboratorController {
     var useCase = new CreateCollaboratorUseCase(accountsRepository, collaboratorsRepository, authenticationProvider);
     var password = Password.create(body.password);
     var account = authenticationProvider.getAccount();
-    var collaboratorId = useCase.execute(body.collaboratorDto, password, account.getSector().toString());
+    var collaboratorId = useCase.execute(body.collaborator, password, account.getSector().toString());
     return ResponseEntity.ok(new Response(collaboratorId));
   }
 }

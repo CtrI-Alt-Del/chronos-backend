@@ -98,6 +98,26 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(
+      CollaborationSector sector,
+      Logical isActive,
+      PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, 10);
+    Page<CollaboratorModel> collaboratorModels;
+    collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
+        RoleName.ADMIN,
+        sector.value(),
+        isActive.value(),
+        pageRequest);
+    var items = collaboratorModels.getContent().stream().toList();
+    var itemsCount = collaboratorModels.getTotalElements();
+
+    return new Pair<>(
+        Array.createFrom(items, mapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount, "contagem de colaboradores"));
+  }
+
+  @Override
   public void disable(Collaborator collaborator) {
     CollaboratorModel collaboratorModel;
     collaboratorModel = repository.findById(collaborator.getId().value()).get();
@@ -150,12 +170,5 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   public Array<Collaborator> findAllActive() {
     var collaboratorModels = repository.findAllByAccountIsActiveTrue();
     return Array.createFrom(collaboratorModels, mapper::toEntity);
-  }
-
-  @Override
-  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(CollaborationSector sector,
-      Logical isActive, PageNumber page) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findManyByCollaborationSector'");
   }
 }

@@ -17,7 +17,6 @@ public class DotenvProvider implements EnvProvider {
 
   @Override
   public void loadEnv() {
-    System.out.println("POSTGRES_URL: " + get("POSTGRES_URL"));
     System.setProperty("MONGO_URI", get("MONGO_URI"));
     System.setProperty("POSTGRES_USER", get("POSTGRES_USER"));
     System.setProperty("POSTGRES_PASSWORD", get("POSTGRES_PASSWORD"));

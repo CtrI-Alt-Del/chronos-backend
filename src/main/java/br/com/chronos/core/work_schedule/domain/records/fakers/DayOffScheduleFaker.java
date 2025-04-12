@@ -3,6 +3,7 @@ package br.com.chronos.core.work_schedule.domain.records.fakers;
 import java.util.List;
 import com.github.javafaker.Faker;
 
+import br.com.chronos.core.global.domain.records.fakers.IdFaker;
 import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
 import br.com.chronos.core.work_schedule.domain.entities.DayOffSchedule;
 
@@ -25,10 +26,10 @@ public class DayOffScheduleFaker {
   public static DayOffScheduleDto fakeDto(int workdaysCount, int daysOffCount) {
     var daysOff = DayOffSchedule.scheduleDaysOff(workdaysCount, daysOffCount);
     return new DayOffScheduleDto()
+        .setId(IdFaker.fakeDto())
         .setWorkdaysCount(workdaysCount)
         .setDaysOffCount(daysOffCount)
         .setDaysOff(daysOff.map(dayOff -> dayOff.value()).list())
-        .setId(faker.idNumber().valid())
         .setCollaboratorId(faker.idNumber().valid());
   }
 }
