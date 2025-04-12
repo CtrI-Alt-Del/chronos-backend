@@ -12,19 +12,15 @@ import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedules
 public class CreateDayOffScheduleAdjustmentSolicitationUseCase {
 
   private final DayOffScheduleAdjustmentRepository solicitationsRepository;
-  private final DayOffSchedulesRepository dayOffSchedulesRepository;
 
   public CreateDayOffScheduleAdjustmentSolicitationUseCase(
-      DayOffScheduleAdjustmentRepository solicitationsRepository,
-      DayOffSchedulesRepository dayOffSchedulesRepository) {
-    this.dayOffSchedulesRepository = dayOffSchedulesRepository;
+      DayOffScheduleAdjustmentRepository solicitationsRepository) {
     this.solicitationsRepository = solicitationsRepository;
   }
 
   public DayOffScheduleAdjustmentSolicitationDto execute(DayOffScheduleAdjustmentSolicitationDto dto,
       Id collaboratorId) {
     DayOffSchedule dayOffSchedule = new DayOffSchedule(dto.dayOffScheduleDto);
-    dayOffSchedulesRepository.add(dayOffSchedule, collaboratorId);
     var senderResponsibleDto = new ResponsibleDto()
         .setId(collaboratorId.value().toString());
     dto.setSenderResponsible(new ResponsibleAggregateDto(senderResponsibleDto));

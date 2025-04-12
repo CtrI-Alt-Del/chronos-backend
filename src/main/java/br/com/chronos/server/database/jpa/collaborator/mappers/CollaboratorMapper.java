@@ -29,7 +29,6 @@ public class CollaboratorMapper {
         .setRole(model.getAccount().getRole().toString())
         .setActive(model.getAccount().getIsActive())
         .setWorkload(model.getWorkload());
-
     return dto;
   }
 
