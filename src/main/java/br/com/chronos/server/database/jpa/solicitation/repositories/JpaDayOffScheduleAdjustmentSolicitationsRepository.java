@@ -9,10 +9,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
-import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
+import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 import br.com.chronos.server.database.jpa.solicitation.mappers.DayOffScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.DayOffScheduleAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
@@ -42,6 +43,9 @@ public class JpaDayOffScheduleAdjustmentSolicitationsRepository implements DayOf
   private DayOffScheduleAdjustmentSolicitationMapper solicitationMapper;
 
   @Autowired
+  private DayOffSchedulesRepository dayOffSchedulesRepository;
+
+  @Autowired
   private DayOffMapper dayOffMapper;
 
   @Override
@@ -57,10 +61,17 @@ public class JpaDayOffScheduleAdjustmentSolicitationsRepository implements DayOf
 
   }
 
-  @Override
   public void resolveSolicitation(DayOffScheduleAdjustmentSolicitation solicitation) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'resolveSolicitation'");
+    var solicitationModel = solicitationMapper.toModel(solicitation);
+    solicitationModel.setSolicitationStatus(solicitation.getStatus().value());
+
+    if (solicitation.getStatus().isApproved().isTrue()) {
+      var collaboratorId = solicitation.getSenderResponsible().getId();
+      var newDayOffSchedule = solicitation.getDayOffSchedule();
+      dayOffSchedulesRepository.replace(newDayOffSchedule, collaboratorId);
+    }
+
+    solicitationRepository.save(solicitationModel);
   }
 
   @Override

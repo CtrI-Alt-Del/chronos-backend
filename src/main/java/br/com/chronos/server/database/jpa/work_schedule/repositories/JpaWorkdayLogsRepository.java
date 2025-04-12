@@ -112,7 +112,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     for (var workdayLog : workdayLogs.list()) {
       var workdayLogModel = mapper.toModel(workdayLog);
       var timePunchLogModel = timePunchMapper.toModel(workdayLog.getTimePunch());
-
+      timePunchModels.add(timePunchLogModel);
       workdayLogModel.setTimePunch(timePunchLogModel);
       workdayLogModels.add(workdayLogModel);
     }

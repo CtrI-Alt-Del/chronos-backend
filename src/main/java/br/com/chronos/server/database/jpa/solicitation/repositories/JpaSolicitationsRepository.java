@@ -27,14 +27,16 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Override
   public void resolveSolicitation(Solicitation solicitation) {
-    if (solicitation instanceof TimePunchLogAdjustmentSolicitation) {
-      TimePunchLogAdjustmentSolicitation timePunchSolicitation = (TimePunchLogAdjustmentSolicitation) solicitation;
+    if (solicitation.getType().isTimePunch().isTrue()) {
 
+      TimePunchLogAdjustmentSolicitation timePunchSolicitation = (TimePunchLogAdjustmentSolicitation) solicitation;
       timePunchLogAdjustmentSolicitationModelsRepository.resolveSolicitation(timePunchSolicitation);
 
-    } else if (solicitation instanceof DayOffScheduleAdjustmentSolicitation) {
+    } else if (solicitation.getType().isDayOffSchedule().isTrue()) {
+
       DayOffScheduleAdjustmentSolicitation dayOffScheduleSolicitation = (DayOffScheduleAdjustmentSolicitation) solicitation;
       dayOffScheduleAdjustmentSolcitationModelsRepository.resolveSolicitation(dayOffScheduleSolicitation);
+
     }
   }
 
