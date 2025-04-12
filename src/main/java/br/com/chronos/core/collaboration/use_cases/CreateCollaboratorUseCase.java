@@ -1,47 +1,36 @@
 package br.com.chronos.core.collaboration.use_cases;
 
-import br.com.chronos.core.auth.domain.dtos.AccountDto;
-import br.com.chronos.core.auth.domain.entities.Account;
-import br.com.chronos.core.auth.domain.records.Password;
-import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
 import br.com.chronos.core.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.collaboration.domain.exceptions.ExistingEmailException;
+import br.com.chronos.core.collaboration.interfaces.CollaborationBroker;
 import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.global.domain.records.Cpf;
 import br.com.chronos.core.global.domain.records.Email;
-import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.global.domain.records.Password;
 
 public class CreateCollaboratorUseCase {
-  private final AuthenticationProvider authenticationProvider;
   private final CollaboratorsRepository collaboratorsRepository;
-  private final AccountsRepository accountsRepository;
+  private final CollaborationBroker collaborationBroker;
 
   public CreateCollaboratorUseCase(
-      AccountsRepository accountsRepository,
       CollaboratorsRepository collaboratorsRepository,
-      AuthenticationProvider authenticationProvider) {
-    this.accountsRepository = accountsRepository;
+      CollaborationBroker collaborationBroker) {
     this.collaboratorsRepository = collaboratorsRepository;
-    this.authenticationProvider = authenticationProvider;
+    this.collaborationBroker = collaborationBroker;
   }
 
-  public String execute(CollaboratorDto dto, Password password, String collaborationSector) {
+  public String execute(CollaboratorDto dto, String password) {
+    var accountPassword = Password.create(password);
     validateUniqueEmailAndCpf(dto);
 
     var collaborator = new Collaborator(dto);
-    var accountDto = new AccountDto()
-        .setPassword(password.value().toString())
-        .setEmail(dto.email)
-        .setActive(collaborator.getIsActive().value())
-        .setRole(collaborator.getRole().value().toString())
-        .setSector(collaborationSector)
-        .setCollaboratorId(collaborator.getId().value().toString());
-    var registeredAccount = authenticationProvider.register(accountDto);
-    var account = new Account(registeredAccount);
     collaboratorsRepository.add(collaborator);
-    accountsRepository.add(account);
+
+    var event = new CollaboratorCreatedEvent(collaborator, accountPassword);
+    collaborationBroker.publish(event);
     return collaborator.getId().toString();
   }
 
