@@ -2,9 +2,9 @@ package br.com.chronos.core.auth.use_cases;
 
 import br.com.chronos.core.auth.domain.entities.Account;
 import br.com.chronos.core.auth.domain.exceptions.AccountNotFoundException;
-import br.com.chronos.core.auth.domain.records.Password;
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Password;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 
 public class UpdatePasswordUseCase {
