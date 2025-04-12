@@ -109,7 +109,7 @@ public class DatabaseSeed implements CommandLineRunner {
           .fakeDto()
           .setEmail(collaborator.getEmail().value())
           .setRole(collaborator.getRole().toString())
-          .setSector(collaborator.getSector().toString())
+          .setCollaborationSector(collaborator.getSector().toString())
           .setCollaboratorId(collaborator.getId().toString());
       authenticationProvider.register(accountDto);
       return new Account(accountDto);
@@ -129,7 +129,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .setEmail("chronos.employee@gmail.com")
         .setRole("employee")
         .setPassword("123456")
-        .setSector(CollaborationSector.Sector.COMERCIAL.toString())
+        .setCollaborationSector(CollaborationSector.Sector.COMERCIAL.toString())
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);
@@ -141,7 +141,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .setEmail("chronos.manager@gmail.com")
         .setRole("manager")
         .setPassword("123456")
-        .setSector(CollaborationSector.Sector.COMERCIAL.toString())
+        .setCollaborationSector(CollaborationSector.Sector.COMERCIAL.toString())
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);

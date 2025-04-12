@@ -23,6 +23,6 @@ public class AccountFaker {
         .setPassword(faker.internet().password())
         .setActive(true)
         .setRole(RoleFaker.fakeDto())
-        .setSector(CollaborationSectorFaker.fakeDto());
+        .setCollaborationSector(CollaborationSectorFaker.fakeDto());
   }
 }

@@ -1,13 +1,13 @@
 package br.com.chronos.core.auth.domain.entities;
 
 import br.com.chronos.core.auth.domain.dtos.AccountDto;
-import br.com.chronos.core.auth.domain.records.Password;
 import br.com.chronos.core.global.domain.abstracts.Entity;
 import br.com.chronos.core.global.domain.records.Role;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
+import br.com.chronos.core.global.domain.records.Password;
 
 public final class Account extends Entity {
   private Email email;
@@ -15,7 +15,7 @@ public final class Account extends Entity {
   private Logical isActive;
   private Role role;
   private Id collaboratorId;
-  private CollaborationSector sector;
+  private CollaborationSector collaborationSector;
 
   public Account(AccountDto dto) {
     super(dto.id);
@@ -23,9 +23,9 @@ public final class Account extends Entity {
     password = Password.create(dto.password);
     role = Role.create(dto.role);
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.createAsTrue();
-    sector = (dto.sector != null) ? CollaborationSector.create(dto.sector) : null;
+    collaborationSector = (dto.collaborationsector != null) ? CollaborationSector.create(dto.collaborationsector)
+        : null;
     collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
-    sector = (dto.sector != null) ? CollaborationSector.create(dto.sector) : null;
   }
 
   public Logical isFromCollaborator() {
@@ -40,8 +40,8 @@ public final class Account extends Entity {
     return password;
   }
 
-  public CollaborationSector getSector() {
-    return sector;
+  public CollaborationSector getCollaborationSector() {
+    return collaborationSector;
   }
 
   public Logical getIsActive() {
@@ -79,7 +79,7 @@ public final class Account extends Entity {
         .setPassword(getPassword().value().toString())
         .setActive(getIsActive().value())
         .setRole(getRole().toString())
-        .setSector(getSector().toString())
+        .setCollaborationSector(getCollaborationSector().toString())
         .setCollaboratorId(getCollaboratorId().value().toString());
     return dto;
   }

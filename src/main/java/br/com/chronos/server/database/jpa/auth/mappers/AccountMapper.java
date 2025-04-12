@@ -15,7 +15,7 @@ public class AccountMapper {
         .password(entity.getPassword().value())
         .isActive(entity.getIsActive().value())
         .role(entity.getRole().value())
-        .sector(entity.getSector().value())
+        .sector(entity.getCollaborationSector().value())
         .build();
 
     return model;
@@ -28,7 +28,7 @@ public class AccountMapper {
         .setPassword(model.getPassword().toString())
         .setActive(model.getIsActive())
         .setRole(model.getRole().toString())
-        .setSector(model.getSector().toString())
+        .setCollaborationSector(model.getSector().toString())
         .setCollaboratorId(model.getCollaborator().getId().toString());
 
     return new Account(dto);

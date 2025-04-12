@@ -6,7 +6,7 @@ public class AccountDto {
   public String password;
   public Boolean isActive;
   public String role;
-  public String sector;
+  public String collaborationsector;
   public String collaboratorId;
 
   public AccountDto setId(String id) {
@@ -34,8 +34,8 @@ public class AccountDto {
     return this;
   }
 
-  public AccountDto setSector(String sector) {
-    this.sector = sector;
+  public AccountDto setCollaborationSector(String collaborationsector) {
+    this.collaborationsector = collaborationsector;
     return this;
   }
 
