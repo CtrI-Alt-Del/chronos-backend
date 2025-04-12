@@ -1,9 +1,8 @@
-package br.com.chronos.core.auth.domain.records;
+package br.com.chronos.core.global.domain.records;
 
 import java.util.regex.Pattern;
 
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
-import br.com.chronos.core.global.domain.records.Text;
 
 public record Password(Text text) {
   private static final Pattern PASSWORD_PATTERN = Pattern
