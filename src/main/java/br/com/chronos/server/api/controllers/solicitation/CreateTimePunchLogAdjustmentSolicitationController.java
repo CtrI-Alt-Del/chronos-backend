@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.solicitation.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
-import br.com.chronos.core.modules.solicitation.interfaces.repository.TimePunchLogAdjustmentRepository;
-import br.com.chronos.core.modules.solicitation.use_cases.CreateTimePunchLogAdjustmentSolicitationUseCase;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.solicitation.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
+import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
+import br.com.chronos.core.solicitation.use_cases.CreateTimePunchLogAdjustmentSolicitationUseCase;
 
 @SolicitationsController
 public class CreateTimePunchLogAdjustmentSolicitationController {

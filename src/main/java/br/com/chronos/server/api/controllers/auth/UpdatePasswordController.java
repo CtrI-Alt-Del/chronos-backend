@@ -1,8 +1,8 @@
 package br.com.chronos.server.api.controllers.auth;
 
-import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
-import br.com.chronos.core.modules.auth.use_cases.UpdatePasswordUseCase;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
+import br.com.chronos.core.auth.use_cases.UpdatePasswordUseCase;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import lombok.Data;
 
 import org.springframework.http.ResponseEntity;

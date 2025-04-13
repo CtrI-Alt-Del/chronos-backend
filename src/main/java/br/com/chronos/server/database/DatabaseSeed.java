@@ -5,21 +5,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.CommandLineRunner;
 
-import br.com.chronos.core.modules.auth.domain.entities.Account;
-import br.com.chronos.core.modules.auth.domain.entities.fakers.AccountFaker;
-import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
-import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
-import br.com.chronos.core.modules.collaboration.domain.entities.fakers.CollaboratorFaker;
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.work_schedule.domain.entities.fakers.CollaboratorScheduleFaker;
-import br.com.chronos.core.modules.work_schedule.domain.records.CollaboratorSchedule;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.interfaces.repositories.WeekdaySchedulesRepository;
-import br.com.chronos.core.modules.work_schedule.use_cases.CreateCollaboratorScheduleUseCase;
+import br.com.chronos.core.auth.domain.entities.Account;
+import br.com.chronos.core.auth.domain.entities.fakers.AccountFaker;
+import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
+import br.com.chronos.core.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.collaboration.domain.entities.fakers.CollaboratorFaker;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
+import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 
 @Component
 public class DatabaseSeed implements CommandLineRunner {
@@ -28,9 +25,6 @@ public class DatabaseSeed implements CommandLineRunner {
 
   @Autowired
   private CollaboratorsRepository collaboratorsRepository;
-
-  @Autowired
-  private WeekdaySchedulesRepository weekdaySchedulesRepository;
 
   @Autowired
   private DayOffSchedulesRepository dayOffSchedulesRepository;
@@ -61,8 +55,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .add(employeeTest);
     collaboratorsRepository.addMany(collaborators);
 
-    var collaboratorSchedules = fakeCollaboratorSchedules(collaborators);
-    addManyCollaboratorSchedules(collaboratorSchedules);
+    addManyDayOffSchedules(collaborators);
 
     var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
     var adminAccountTest = fakeAdmin(adminTest.getId());
@@ -116,17 +109,18 @@ public class DatabaseSeed implements CommandLineRunner {
           .fakeDto()
           .setEmail(collaborator.getEmail().value())
           .setRole(collaborator.getRole().toString())
-          .setSector(collaborator.getSector().toString())
+          .setCollaborationSector(collaborator.getSector().toString())
           .setCollaboratorId(collaborator.getId().toString());
       authenticationProvider.register(accountDto);
       return new Account(accountDto);
     });
   }
 
-  private Array<CollaboratorSchedule> fakeCollaboratorSchedules(Array<Collaborator> collaborators) {
-    return collaborators.map((collaborator) -> {
-      return CollaboratorScheduleFaker.fake(collaborator.getId().toString());
-    });
+  private void addManyDayOffSchedules(Array<Collaborator> collaborators) {
+    for (var collaborator : collaborators.list()) {
+      var dayOffSchedule = DayOffScheduleFaker.fake();
+      dayOffSchedulesRepository.add(dayOffSchedule, collaborator.getId());
+    }
   }
 
   private Account fakeEmployeeAccountTest(Id collaboratorId) {
@@ -135,7 +129,7 @@ public class DatabaseSeed implements CommandLineRunner {
         .setEmail("chronos.employee@gmail.com")
         .setRole("employee")
         .setPassword("123456")
-        .setSector(CollaborationSector.Sector.COMERCIAL.toString())
+        .setCollaborationSector(CollaborationSector.Sector.COMERCIAL.toString())
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);
@@ -147,19 +141,10 @@ public class DatabaseSeed implements CommandLineRunner {
         .setEmail("chronos.manager@gmail.com")
         .setRole("manager")
         .setPassword("123456")
-        .setSector(CollaborationSector.Sector.COMERCIAL.toString())
+        .setCollaborationSector(CollaborationSector.Sector.COMERCIAL.toString())
         .setCollaboratorId(collaboratorId.toString());
     authenticationProvider.register(dto);
     return new Account(dto);
   }
 
-  private void addManyCollaboratorSchedules(Array<CollaboratorSchedule> collaboratorSchedules) {
-    var useCase = new CreateCollaboratorScheduleUseCase(weekdaySchedulesRepository, dayOffSchedulesRepository);
-    for (var collaboratorSchedule : collaboratorSchedules.list()) {
-      useCase.execute(
-          collaboratorSchedule.collaboratorId().toString(),
-          collaboratorSchedule.weekSchedule().map((dayOff) -> dayOff.getDto()).list(),
-          collaboratorSchedule.daysOffSchedule().getDto());
-    }
-  }
 }

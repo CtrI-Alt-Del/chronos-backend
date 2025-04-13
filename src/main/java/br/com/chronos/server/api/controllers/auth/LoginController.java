@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.auth.interfaces.repositories.AccountsRepository;
-import br.com.chronos.core.modules.auth.use_cases.LoginUseCase;
+import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
+import br.com.chronos.core.auth.use_cases.LoginUseCase;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

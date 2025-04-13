@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import br.com.chronos.core.modules.global.interfaces.providers.EnvProvider;
+import br.com.chronos.core.global.interfaces.providers.EnvProvider;
 
 @Configuration
 public class CorsConfiguration implements WebMvcConfigurer {

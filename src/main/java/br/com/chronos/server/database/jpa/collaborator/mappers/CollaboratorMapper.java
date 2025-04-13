@@ -2,8 +2,8 @@ package br.com.chronos.server.database.jpa.collaborator.mappers;
 
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.collaboration.domain.dtos.CollaboratorDto;
-import br.com.chronos.core.modules.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.collaboration.domain.dtos.CollaboratorDto;
+import br.com.chronos.core.collaboration.domain.entities.Collaborator;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 @Component
@@ -13,6 +13,7 @@ public class CollaboratorMapper {
         .id(entity.getId().value())
         .name(entity.getName().value())
         .cpf(entity.getCpf().value())
+        .workload(entity.getWorkload().value())
         .build();
 
     return model;
@@ -26,10 +27,12 @@ public class CollaboratorMapper {
         .setCpf(model.getCpf().toString())
         .setSector(model.getAccount().getSector().toString())
         .setRole(model.getAccount().getRole().toString())
-        .setActive(model.getAccount().getIsActive());
+        .setActive(model.getAccount().getIsActive())
+        .setWorkload(model.getWorkload());
 
     return dto;
   }
+
   public Collaborator toEntity(CollaboratorModel model) {
     return new Collaborator(toDto(model));
   }

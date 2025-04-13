@@ -17,8 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import br.com.chronos.core.modules.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
+import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 @Entity
@@ -38,13 +37,9 @@ public class WorkdayLogModel {
   @JoinColumn(name = "collaborator_id", nullable = false)
   private CollaboratorModel collaborator;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "time_punch_schedule_id", nullable = false)
-  private TimePunchModel timePunchSchedule;
-
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "time_punch_log_id", nullable = false)
-  private TimePunchModel timePunchLog;
+  @JoinColumn(name = "time_punch_id", nullable = false)
+  private TimePunchModel timePunch;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)

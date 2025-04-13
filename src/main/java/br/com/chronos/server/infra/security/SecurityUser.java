@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.chronos.core.modules.auth.domain.entities.Account;
+import br.com.chronos.core.auth.domain.entities.Account;
 
 public class SecurityUser implements UserDetails {
   private final Account account;

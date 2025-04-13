@@ -6,16 +6,16 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.chronos.core.modules.global.domain.records.Array;
-import br.com.chronos.core.modules.global.domain.records.CollaborationSector;
-import br.com.chronos.core.modules.global.domain.records.Id;
-import br.com.chronos.core.modules.solicitation.domain.abstracts.Solicitation;
-import br.com.chronos.core.modules.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
-import br.com.chronos.core.modules.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
-import br.com.chronos.core.modules.solicitation.domain.records.SolicitationType;
-import br.com.chronos.core.modules.solicitation.interfaces.repository.DayOffScheduleAdjustmentRepository;
-import br.com.chronos.core.modules.solicitation.interfaces.repository.SolicitationsRepository;
-import br.com.chronos.core.modules.solicitation.interfaces.repository.TimePunchLogAdjustmentRepository;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
+import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.solicitation.domain.records.SolicitationType;
+import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
+import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
+import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
 
@@ -27,14 +27,16 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Override
   public void resolveSolicitation(Solicitation solicitation) {
-    if (solicitation instanceof TimePunchLogAdjustmentSolicitation) {
-      TimePunchLogAdjustmentSolicitation timePunchSolicitation = (TimePunchLogAdjustmentSolicitation) solicitation;
+    if (solicitation.getType().isTimePunch().isTrue()) {
 
+      TimePunchLogAdjustmentSolicitation timePunchSolicitation = (TimePunchLogAdjustmentSolicitation) solicitation;
       timePunchLogAdjustmentSolicitationModelsRepository.resolveSolicitation(timePunchSolicitation);
 
-    } else if (solicitation instanceof DayOffScheduleAdjustmentSolicitation) {
+    } else if (solicitation.getType().isDayOffSchedule().isTrue()) {
+
       DayOffScheduleAdjustmentSolicitation dayOffScheduleSolicitation = (DayOffScheduleAdjustmentSolicitation) solicitation;
       dayOffScheduleAdjustmentSolcitationModelsRepository.resolveSolicitation(dayOffScheduleSolicitation);
+
     }
   }
 

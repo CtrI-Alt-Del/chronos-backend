@@ -9,11 +9,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.chronos.core.modules.auth.domain.dtos.AccountDto;
-import br.com.chronos.core.modules.auth.domain.exceptions.NotAuthenticatedException;
-import br.com.chronos.core.modules.global.domain.records.DateTime;
-import br.com.chronos.core.modules.global.interfaces.providers.EnvProvider;
-import br.com.chronos.core.modules.global.interfaces.providers.JwtProvider;
+import br.com.chronos.core.auth.domain.dtos.AccountDto;
+import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.global.domain.records.DateTime;
+import br.com.chronos.core.global.interfaces.providers.EnvProvider;
+import br.com.chronos.core.global.interfaces.providers.JwtProvider;
 
 public class Auth0JwtProvider implements JwtProvider {
   private final String secret;
@@ -54,7 +54,8 @@ public class Auth0JwtProvider implements JwtProvider {
     try {
       var subject = JWT.require(algorithm).withIssuer(issuer).build().verify(token);
       var subjectJson = subject.getSubject();
-      Map<String, Object> subjectMap = objectMapper.readValue(subjectJson, new TypeReference<Map<String, Object>>() {});
+      Map<String, Object> subjectMap = objectMapper.readValue(subjectJson, new TypeReference<Map<String, Object>>() {
+      });
       return (String) subjectMap.get("email");
     } catch (Exception exception) {
       throw new NotAuthenticatedException();

@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import br.com.chronos.core.modules.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.modules.collaboration.use_cases.EnsureSameCollaboratorionSectorUseCase;
+import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.use_cases.EnsureSameCollaboratorionSectorUseCase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,11 +45,9 @@ public class SecurityCollaborationSectorFilter extends OncePerRequestFilter {
     var path = request.getRequestURI();
     var matcher = UUID_PATTERN.matcher(path);
 
-    System.out.println("path: " + path);
     if (matcher.matches()) {
       String collaboratorId = matcher.group(1); // Extracted UUID
       var accountCollaboratorId = (String) request.getAttribute("account collaborator id");
-      System.out.println("accountCollaboratorId: " + accountCollaboratorId);
       ensureSameCollaboratorionSector(collaboratorId, accountCollaboratorId);
     }
 

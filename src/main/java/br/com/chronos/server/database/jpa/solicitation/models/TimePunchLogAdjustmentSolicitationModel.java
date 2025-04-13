@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import br.com.chronos.core.modules.solicitation.domain.records.SolicitationStatus.Status;
-import br.com.chronos.core.modules.solicitation.domain.records.TimePunchAdjustmentReason.Reason;
-import br.com.chronos.core.modules.work_schedule.domain.records.TimePunchPeriod.PeriodName;
+import br.com.chronos.core.solicitation.domain.records.SolicitationStatus.Status;
+import br.com.chronos.core.solicitation.domain.records.TimePunchAdjustmentReason.Reason;
+import br.com.chronos.core.work_schedule.domain.records.TimePunchPeriod.PeriodName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +42,7 @@ public class TimePunchLogAdjustmentSolicitationModel {
 
   @ManyToOne
   @JoinColumn(name = "sender_responsible_id", nullable = false)
-  private CollaboratorModel senderResponsible; 
+  private CollaboratorModel senderResponsible;
 
   @ManyToOne
   @JoinColumn(name = "replier_responsible_id")
@@ -63,6 +63,6 @@ public class TimePunchLogAdjustmentSolicitationModel {
   private PeriodName timePunchPeriod;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "reason",nullable = false)
+  @Column(name = "reason", nullable = false)
   private Reason reason;
 }

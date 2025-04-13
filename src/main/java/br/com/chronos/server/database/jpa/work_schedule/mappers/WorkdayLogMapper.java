@@ -3,10 +3,10 @@ package br.com.chronos.server.database.jpa.work_schedule.mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleAggregateDto;
-import br.com.chronos.core.modules.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.modules.work_schedule.domain.dtos.WorkdayLogDto;
-import br.com.chronos.core.modules.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
+import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
+import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
+import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
@@ -25,6 +25,7 @@ public class WorkdayLogMapper {
         .id(entity.getId().value())
         .date(entity.getDate().value())
         .status(entity.getStatus().name())
+        .workloadSchedule(entity.getWorkloadSchedule().value())
         .collaborator(collaboratorModel)
         .build();
 
@@ -41,10 +42,10 @@ public class WorkdayLogMapper {
     var dto = new WorkdayLogDto()
         .setId(model.getId().toString())
         .setDate(model.getDate())
-        .setResponsible(new ResponsibleAggregateDto(responsibleDto))
-        .setTimePunchSchedule(TimePunchMapper.toDto(model.getTimePunchSchedule()))
-        .setTimePunchLog(TimePunchMapper.toDto(model.getTimePunchLog()))
-        .setStatus(model.getStatus().toString());
+        .setTimePunch(TimePunchMapper.toDto(model.getTimePunch()))
+        .setStatus(model.getStatus().toString())
+        .setWorkloadSchedule(model.getWorkloadSchedule())
+        .setResponsible(new ResponsibleAggregateDto(responsibleDto));
 
     return new WorkdayLog(dto);
   }

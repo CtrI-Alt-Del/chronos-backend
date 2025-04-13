@@ -3,9 +3,9 @@ package br.com.chronos.server.providers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.chronos.core.modules.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.modules.global.interfaces.providers.EnvProvider;
-import br.com.chronos.core.modules.global.interfaces.providers.JwtProvider;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.global.interfaces.providers.EnvProvider;
+import br.com.chronos.core.global.interfaces.providers.JwtProvider;
 import br.com.chronos.server.providers.authentication.SecurityAuthenticationProvider;
 import br.com.chronos.server.providers.env.DotenvProvider;
 import br.com.chronos.server.providers.jwt.Auth0JwtProvider;
@@ -14,7 +14,7 @@ import br.com.chronos.server.providers.jwt.Auth0JwtProvider;
 public class ProvidersConfiguration {
 
   @Bean
-  EnvProvider envProvider(){
+  EnvProvider envProvider() {
     return new DotenvProvider();
   }
 

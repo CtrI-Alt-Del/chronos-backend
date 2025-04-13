@@ -1,0 +1,43 @@
+package br.com.chronos.core.collaboration.domain.events;
+
+import br.com.chronos.core.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.global.domain.records.Password;
+
+public class CollaboratorCreatedEvent {
+  public static final String KEY = "collaboration/collaborator.created";
+  private final Payload payload;
+
+  public static class Payload {
+    public final String password;
+    public final String email;
+    public final String role;
+    public final String collaborationSector;
+    public final String collaboratorId;
+
+    public Payload(
+        String password,
+        String email,
+        String role,
+        String collaborationSector,
+        String collaboratorId) {
+      this.password = password;
+      this.email = email;
+      this.role = role;
+      this.collaborationSector = collaborationSector;
+      this.collaboratorId = collaboratorId;
+    }
+  }
+
+  public CollaboratorCreatedEvent(Collaborator collaborator, Password password) {
+    payload = new Payload(
+        password.toString(),
+        collaborator.getEmail().value(),
+        collaborator.getRole().toString(),
+        collaborator.getSector().toString(),
+        collaborator.getId().toString());
+  }
+
+  public Payload getPayload() {
+    return payload;
+  }
+}
