@@ -40,7 +40,7 @@ public class CreateWorkdayLogsUseCase {
           .setTimePunch(new TimePunchDto().setId(Id.random().toString()))
           .setStatus(workdayStatus.toString())
           .setResponsibleId(collaboratorId.toString());
-
+      System.out.println(workdayLogDto.workloadSchedule);
       workdayLogs.add(new WorkdayLog(workdayLogDto));
     }
     System.out.println(workdayLogs.list());

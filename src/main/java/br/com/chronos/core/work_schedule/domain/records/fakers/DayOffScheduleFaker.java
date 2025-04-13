@@ -1,6 +1,8 @@
 package br.com.chronos.core.work_schedule.domain.records.fakers;
 
 import java.util.List;
+import java.util.UUID;
+
 import com.github.javafaker.Faker;
 
 import br.com.chronos.core.global.domain.records.fakers.IdFaker;
@@ -14,8 +16,8 @@ public class DayOffScheduleFaker {
     var schedules = List.of(
         List.of(5, 2),
         List.of(6, 1),
-        List.of(4, 2),
-        List.of(6, 2));
+        List.of(4, 3),
+        List.of(2, 5));
     var schedule = faker.options().nextElement(schedules);
     var workdaysCount = schedule.get(0);
     var daysOffCount = schedule.get(1);

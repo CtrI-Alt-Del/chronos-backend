@@ -33,7 +33,10 @@ jobs:
               const first = getRandom(others);
               const second = getRandom(others.filter(x => x !== first));
               reviewers = [first, second];
+            }else {
+              reviewers = ['kaufon','johnpetros'];
             }
+
 
             await github.rest.pulls.requestReviewers({
               owner: context.repo.owner,
