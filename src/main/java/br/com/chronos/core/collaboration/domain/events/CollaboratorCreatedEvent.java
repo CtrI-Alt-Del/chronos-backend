@@ -1,11 +1,11 @@
 package br.com.chronos.core.collaboration.domain.events;
 
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
+import br.com.chronos.core.global.domain.abstracts.Event;
 import br.com.chronos.core.global.domain.records.Password;
 
-public class CollaboratorCreatedEvent {
+public class CollaboratorCreatedEvent extends Event<CollaboratorCreatedEvent.Payload> {
   public static final String KEY = "collaboration/collaborator.created";
-  private final Payload payload;
 
   public static class Payload {
     public final String password;
@@ -29,15 +29,11 @@ public class CollaboratorCreatedEvent {
   }
 
   public CollaboratorCreatedEvent(Collaborator collaborator, Password password) {
-    payload = new Payload(
+    super(new Payload(
         password.toString(),
         collaborator.getEmail().value(),
         collaborator.getRole().toString(),
         collaborator.getSector().toString(),
-        collaborator.getId().toString());
-  }
-
-  public Payload getPayload() {
-    return payload;
+        collaborator.getId().toString()));
   }
 }
