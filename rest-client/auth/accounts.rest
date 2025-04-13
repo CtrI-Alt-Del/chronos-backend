@@ -1,6 +1,7 @@
 # Auth - Accounts
 @RESOURCE = auth/accounts
 @ACCOUNT_ID = 5d8ea73e-0360-4b9e-a26b-5e94e167033e
+@COLLABORATOR_ID = 5d8ea73e-0360-4b9e-a26b-5e94e167033e
 
 ## Get account
 GET {{HOST}}/{{RESOURCE}}/{{ACCOUNT_ID}}
@@ -10,21 +11,21 @@ Authorization: Bearer {{JWT}}
 ###
 
 ## Enable account
-PATCH {{HOST}}/{{RESOURCE}}/{{ACCOUNT_ID}}/enable
+PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/enable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ###
 
 ## Disable account
-PATCH {{HOST}}/{{RESOURCE}}/{{ACCOUNT_ID}}/disable
+PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/disable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ###
 
 ## Update password
-PATCH {{HOST}}/{{RESOURCE}}/{{ACCOUNT_ID}}/password
+PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/password
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

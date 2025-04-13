@@ -56,13 +56,20 @@ Authorization: Bearer {{JWT}}
 ###
 
 ## Enable collaborator
-POST {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/enable
+PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/enable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ###
 
 ## Disable collaborator
-POST {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/disable
+PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/disable
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+###
+
+## Prepare collaborators for work
+POST {{HOST}}/{{RESOURCE}}/work?date=2024-04-12
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
