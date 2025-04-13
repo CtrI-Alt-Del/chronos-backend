@@ -1,5 +1,6 @@
 package br.com.chronos.core.collaboration.domain.entities.fakers;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.github.javafaker.Faker;
@@ -18,6 +19,7 @@ public class CollaboratorFaker {
   }
 
   public static CollaboratorDto fakeDto() {
+    var workload = faker.options().nextElement(List.of(4, 6, 8));
     return new CollaboratorDto()
         .setId(UUID.randomUUID().toString())
         .setName(faker.name().fullName())
@@ -25,7 +27,7 @@ public class CollaboratorFaker {
         .setCpf(faker.number().digits(11))
         .setActive(true)
         .setRole(RoleFaker.fakeDto())
-        .setWorkload((byte) 8)
+        .setWorkload((byte) (int) workload)
         .setSector(CollaborationSectorFaker.fakeDto());
   }
 

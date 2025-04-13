@@ -6,7 +6,7 @@ import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 
 public class TimePunchClosedEvent {
   public static final String KEY = "work.schedule/time.punch.closed";
-  private Payload payload;
+  private final Payload payload;
 
   public static class Payload {
     public final LocalTime overtime;

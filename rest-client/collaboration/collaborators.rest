@@ -1,0 +1,68 @@
+# Collaboration - Collaborators
+
+@RESOURCE = collaboration/collaborators
+@COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
+
+
+## Create collaborator
+POST {{HOST}}/{{RESOURCE}}
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "collaborator": {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "cpf": "12345678900",
+    "isActive": true,
+    "workload": 8,
+    "role": "employee",
+    "sector": "comercial"
+  },
+  "accountPassword": "123456"
+}
+
+###
+
+## Get collaborator
+GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+###
+
+## List collaborators
+GET {{HOST}}/{{RESOURCE}}
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+###
+
+## Update collaborator
+PUT {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "cpf": "12345678900",
+  "isActive": true,
+  "workload": 8,
+  "role": "employee",
+  "sector": "comercial"
+}
+
+###
+
+## Enable collaborator
+POST {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/enable
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+###
+
+## Disable collaborator
+POST {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/disable
+Content-Type: application/json
+Authorization: Bearer {{JWT}}

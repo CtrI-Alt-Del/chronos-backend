@@ -8,7 +8,6 @@ import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Role;
 import br.com.chronos.core.global.domain.records.Text;
-import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.work_schedule.domain.records.Workload;
 
 public final class Collaborator extends Entity {

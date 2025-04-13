@@ -4,6 +4,6 @@ import br.com.chronos.core.global.domain.exceptions.NotFoundException;
 
 public class CollaboratorNotFoundException extends NotFoundException {
   public CollaboratorNotFoundException() {
-    super("Colaborador nao encontrado");
+    super("Colaborador não encontrado");
   }
 }

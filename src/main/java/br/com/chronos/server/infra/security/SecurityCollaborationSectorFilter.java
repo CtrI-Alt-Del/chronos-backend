@@ -45,11 +45,9 @@ public class SecurityCollaborationSectorFilter extends OncePerRequestFilter {
     var path = request.getRequestURI();
     var matcher = UUID_PATTERN.matcher(path);
 
-    System.out.println("path: " + path);
     if (matcher.matches()) {
       String collaboratorId = matcher.group(1); // Extracted UUID
       var accountCollaboratorId = (String) request.getAttribute("account collaborator id");
-      System.out.println("accountCollaboratorId: " + accountCollaboratorId);
       ensureSameCollaboratorionSector(collaboratorId, accountCollaboratorId);
     }
 

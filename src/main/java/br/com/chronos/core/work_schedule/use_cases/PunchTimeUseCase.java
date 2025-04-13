@@ -10,7 +10,7 @@ import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.work_schedule.domain.events.TimePunchClosedEvent;
 import br.com.chronos.core.work_schedule.domain.exceptions.TimePunchNotFoundException;
 import br.com.chronos.core.work_schedule.domain.exceptions.WorkdayLogNotFoundException;
-import br.com.chronos.core.work_schedule.interfaces.brokers.WorkScheduleBroker;
+import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 

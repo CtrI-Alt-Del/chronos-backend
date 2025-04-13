@@ -11,7 +11,7 @@ import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedules
 import br.com.chronos.core.work_schedule.use_cases.UpdateDaysOffScheduleUseCase;
 
 @DayOffSchedulesController
-public class UpdateDaysOffScheduleController {
+public class UpdateDayOffScheduleController {
   @Autowired
   private DayOffSchedulesRepository dayOffSchedulesRepository;
 

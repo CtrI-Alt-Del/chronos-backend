@@ -6,9 +6,9 @@ public class CollaboratorDto {
   public String email;
   public String cpf;
   public Boolean isActive;
-  public byte workload;
   public String role;
   public String sector;
+  public byte workload;
 
   public CollaboratorDto setId(String id) {
     this.id = id;

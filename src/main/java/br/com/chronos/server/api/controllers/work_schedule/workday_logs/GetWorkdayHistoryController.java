@@ -28,7 +28,11 @@ public class GetWorkdayHistoryController {
       @RequestParam(defaultValue = "1") int page) {
     var account = authenticationProvider.getAccount();
     var useCase = new GetCollaborationSectorHistoryUseCase(workdayLogsRepository);
-    var workdayHistory = useCase.execute(date, collaboratorName, account.getSector().toString(), page);
+    var workdayHistory = useCase.execute(
+        date,
+        collaboratorName,
+        account.getCollaborationSector().toString(),
+        page);
     return ResponseEntity.ok(workdayHistory);
   }
 }

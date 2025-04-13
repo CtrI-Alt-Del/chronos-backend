@@ -42,6 +42,9 @@ public class CollaboratorModel {
   @OneToOne(mappedBy = "collaborator", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   private AccountModel account;
 
+  @Column(nullable = false)
+  private byte workload;
+
   @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
   @Builder.Default
   private List<DayOffScheduleModel> dayOffSchedules = new ArrayList();

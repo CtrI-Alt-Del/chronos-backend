@@ -27,9 +27,10 @@ public class ListCollaboratorsUseCase {
     if (role.isAdmin().isTrue()) {
       response = repository.findMany(Logical.create(isCollaboratorActive), PageNumber.create(page));
     } else {
-      var sector = CollaborationSector.create(requesterSector);
-      response = repository.findManyByCollaborationSector(sector,
-          Logical.create(isCollaboratorActive), PageNumber.create(page));
+      response = repository.findManyByCollaborationSector(
+          CollaborationSector.create(requesterSector),
+          Logical.create(isCollaboratorActive),
+          PageNumber.create(page));
     }
 
     var dtos = response.getFirst().map(collaborator -> collaborator.getDto()).list();

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import lombok.Data;
 import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
-import br.com.chronos.core.work_schedule.interfaces.brokers.WorkScheduleBroker;
+import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.use_cases.PunchTimeUseCase;

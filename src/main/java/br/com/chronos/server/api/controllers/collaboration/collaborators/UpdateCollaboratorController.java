@@ -25,7 +25,10 @@ public class UpdateCollaboratorController {
       @RequestBody CollaboratorDto body) {
     var useCase = new UpdateCollaboratorUseCase(repository);
     var account = authenticationProvider.getAccount();
-    var response = useCase.execute(collaboratorId, body, account.getSector().toString());
+    var response = useCase.execute(
+        collaboratorId,
+        body,
+        account.getCollaborationSector().toString());
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }

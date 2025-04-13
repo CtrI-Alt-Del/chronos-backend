@@ -24,7 +24,7 @@ public class ListAllSolicitationsController {
   public ResponseEntity<List<SolicitationDto>> handle() {
     var useCase = new ListAllSolicitationsUseCase(solicitationsRepository);
     var account = authenticationProvider.getAccount();
-    var sector = account.getSector();
+    var sector = account.getCollaborationSector();
     var role = account.getRole();
     var userId = account.getCollaboratorId();
     var response = useCase.execute(sector, role, userId);

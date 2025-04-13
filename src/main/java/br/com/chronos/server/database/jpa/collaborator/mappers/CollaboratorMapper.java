@@ -13,6 +13,7 @@ public class CollaboratorMapper {
         .id(entity.getId().value())
         .name(entity.getName().value())
         .cpf(entity.getCpf().value())
+        .workload(entity.getWorkload().value())
         .build();
 
     return model;
@@ -27,7 +28,7 @@ public class CollaboratorMapper {
         .setSector(model.getAccount().getSector().toString())
         .setRole(model.getAccount().getRole().toString())
         .setActive(model.getAccount().getIsActive())
-        .setWorkload((byte) 8);
+        .setWorkload(model.getWorkload());
 
     return dto;
   }
