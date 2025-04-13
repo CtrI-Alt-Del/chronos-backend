@@ -25,6 +25,7 @@ public class WorkdayLogMapper {
         .id(entity.getId().value())
         .date(entity.getDate().value())
         .status(entity.getStatus().name())
+        .workloadSchedule(entity.getWorkloadSchedule().value())
         .collaborator(collaboratorModel)
         .build();
 
