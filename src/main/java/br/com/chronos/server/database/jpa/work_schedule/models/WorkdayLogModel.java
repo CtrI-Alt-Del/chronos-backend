@@ -45,7 +45,7 @@ public class WorkdayLogModel {
   @Column(name = "status", nullable = false)
   private WorkdayStatusName status;
 
-  @Column(name = "workload_scheduçe", nullable = false)
+  @Column(name = "workload_schedule", nullable = false)
   private byte workloadSchedule;
 
   // @OneToMany(mappedBy = "workdayLog", fetch = FetchType.LAZY)
