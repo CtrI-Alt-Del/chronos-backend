@@ -50,7 +50,7 @@ public class ApiExceptionHandler {
   @ExceptionHandler(ConflictException.class)
   private ResponseEntity<ExceptionMessage> handleConflictException(ConflictException exception) {
     var message = new ExceptionMessage(exception.getTitle(), exception.getMessage());
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
   }
 
   @ExceptionHandler(NotPermitException.class)

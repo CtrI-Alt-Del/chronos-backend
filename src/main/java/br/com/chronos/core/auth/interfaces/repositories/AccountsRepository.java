@@ -8,13 +8,15 @@ import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Id;
 
 public interface AccountsRepository {
-  void add(Account account);
-
-  void addMany(Array<Account> accounts);
+  Optional<Account> findById(Id accountId);
 
   Optional<Account> findByCollaborator(Id CollaborationId);
 
   Optional<Account> findByEmail(Email email);
 
-  void update(Account account);
+  void add(Account account);
+
+  void addMany(Array<Account> accounts);
+
+  void replace(Account account);
 }

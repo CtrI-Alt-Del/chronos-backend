@@ -20,8 +20,7 @@ public class UpdatePasswordUseCase {
     var account = findAccount(collaboratorId);
     account.updatePassword(Password.create(password));
     var accountDto = authenticationProvider.register(account.getDto());
-    System.out.println(new Account(accountDto));
-    repository.update(new Account(accountDto));
+    repository.replace(new Account(accountDto));
   }
 
   public Account findAccount(String collaboratorId) {

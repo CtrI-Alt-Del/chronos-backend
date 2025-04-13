@@ -28,8 +28,31 @@ public final class Account extends Entity {
     collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
   }
 
+  public Logical canUpdateOtherAccount(Account account) {
+    if (this.getRole().isAdmin().isTrue()) {
+      return Logical.createAsTrue();
+    }
+
+    var hasSameCollaborationSector = this
+        .getRole()
+        .isManager()
+        .and(this.getCollaborationSector().isEqual(account.getCollaborationSector()));
+
+    var canUpdate = this.getRole().isAdmin().or(hasSameCollaborationSector);
+
+    return canUpdate;
+  }
+
   public Logical isFromCollaborator() {
     return Logical.create(collaboratorId != null);
+  }
+
+  public void disable() {
+    this.isActive = Logical.create(false);
+  }
+
+  public void enable() {
+    this.isActive = Logical.create(true);
   }
 
   public Email getEmail() {
@@ -58,14 +81,6 @@ public final class Account extends Entity {
 
   public void updatePassword(Password password) {
     this.password = password;
-  }
-
-  public void disable() {
-    this.isActive = Logical.create(false);
-  }
-
-  public void enable() {
-    this.isActive = Logical.create(true);
   }
 
   public Role getRole() {

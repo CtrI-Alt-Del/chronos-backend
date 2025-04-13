@@ -87,14 +87,6 @@ public final class Collaborator extends Entity {
     }
   }
 
-  public void disable() {
-    this.isActive = Logical.create(false);
-  }
-
-  public void enable() {
-    this.isActive = Logical.create(true);
-  }
-
   public CollaboratorDto getDto() {
     var dto = new CollaboratorDto()
         .setId(getId().value().toString())
