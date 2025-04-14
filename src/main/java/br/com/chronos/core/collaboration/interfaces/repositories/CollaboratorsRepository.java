@@ -29,17 +29,14 @@ public interface CollaboratorsRepository {
 
   Optional<Collaborator> findByCpf(Cpf cpf);
 
-  void update(Collaborator collaborator);
+  Optional<Collaborator> findByEmailOrCpf(String email, String cpf);
 
   void add(Collaborator collaborator);
 
   void addMany(Array<Collaborator> collaborators);
 
-  void delete(Collaborator collaborator);
+  void replace(Collaborator collaborator);
 
-  void disable(Collaborator collaborator);
+  void remove(Collaborator collaborator);
 
-  void enable(Collaborator collaborator);
-
-  Optional<Collaborator> findByEmailOrCpf(String email, String cpf);
 }

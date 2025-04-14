@@ -61,8 +61,7 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
 
   @Modifying
   @Query(value = "DELETE FROM workday_logs WHERE date = :date", nativeQuery = true)
-  void deleteAllByDate(@Param("date") LocalDate date);
-
+  void deleteAllByDate(LocalDate date);
 }
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
@@ -111,10 +110,11 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
 
     for (var workdayLog : workdayLogs.list()) {
       var workdayLogModel = mapper.toModel(workdayLog);
-      var timePunchLogModel = timePunchMapper.toModel(workdayLog.getTimePunch());
-      timePunchModels.add(timePunchLogModel);
-      workdayLogModel.setTimePunch(timePunchLogModel);
+      var timePunchModel = timePunchMapper.toModel(workdayLog.getTimePunch());
+
+      workdayLogModel.setTimePunch(timePunchModel);
       workdayLogModels.add(workdayLogModel);
+      timePunchModels.add(timePunchModel);
     }
     timePunchModelsRepository.saveAll(timePunchModels.list());
     repository.saveAll(workdayLogModels.list());
@@ -165,6 +165,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Transactional
   public void removeManyByDate(Date date) {
     repository.deleteAllByDate(date.value());
+    timePunchModelsRepository.deleteAllByWorkdayLogDate(date.value());
   }
 
   @Override

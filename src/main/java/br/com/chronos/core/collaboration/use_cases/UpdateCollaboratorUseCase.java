@@ -23,7 +23,7 @@ public class UpdateCollaboratorUseCase {
 
     dto.setSector(collaborationSector);
     collaborator.update(dto);
-    repository.update(collaborator);
+    repository.replace(collaborator);
     return collaborator.getDto();
   }
 

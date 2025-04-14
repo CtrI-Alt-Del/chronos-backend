@@ -6,6 +6,6 @@ POST {{HOST}}/{{RESOURCE}}/login
 Content-Type: application/json
 
 {
-  "email": "chronos.manager@gmail.com",
+  "email": "chronos.admin@gmail.com",
   "password": "123456"
 }

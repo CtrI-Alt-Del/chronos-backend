@@ -15,9 +15,9 @@ public class DisableAccountUseCase {
     this.repository = repository;
   }
 
-  public void execute(AccountDto requesterAccountDto, String accountId) {
+  public void execute(AccountDto requesterAccountDto, String collaboratorId) {
     var requesterAccount = new Account(requesterAccountDto);
-    var account = findAccount(Id.create(accountId));
+    var account = findAccount(Id.create(collaboratorId));
 
     System.out.println("equals: " + requesterAccount.equals(account));
     if (requesterAccount.equals(account)) {
@@ -32,8 +32,8 @@ public class DisableAccountUseCase {
     repository.replace(account);
   }
 
-  private Account findAccount(Id accountId) {
-    var account = repository.findById(accountId);
+  private Account findAccount(Id collaboratorId) {
+    var account = repository.findByCollaborator(collaboratorId);
     if (account.isEmpty()) {
       throw new AccountNotFoundException();
     }
