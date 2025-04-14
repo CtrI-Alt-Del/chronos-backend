@@ -56,7 +56,7 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
       CollaborationSector.Sector collaborationSector,
       PageRequest pageRequest);
 
-  @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
+  @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_id = :timePunchId)", nativeQuery = true)
   boolean timePunchLogExists(@Param("timePunchId") UUID timePunchId);
 
   @Modifying
