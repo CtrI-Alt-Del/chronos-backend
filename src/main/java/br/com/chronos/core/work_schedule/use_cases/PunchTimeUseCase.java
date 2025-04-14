@@ -32,7 +32,7 @@ public class PunchTimeUseCase {
     var timePunch = findTimePunch(timePunchId);
     timePunch.punch(Time.create(time, "tempo do ponto"));
 
-    timePunchesRepository.update(timePunch);
+    timePunchesRepository.replace(timePunch);
 
     if (timePunch.isClosed().isTrue()) {
       var workdayLog = findWorkdayLog(timePunch);

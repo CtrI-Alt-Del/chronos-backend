@@ -17,6 +17,6 @@ Authorization: Bearer {{JWT}}
 ###
 
 ## Get collaboration sector history
-GET {{HOST}}/{{RESOURCE}}/history
+GET {{HOST}}/{{RESOURCE}}/history?date=2024-04-14&page=1&collaboratorName=tam
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
