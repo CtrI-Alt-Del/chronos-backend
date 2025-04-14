@@ -14,7 +14,7 @@ import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepo
 import br.com.chronos.core.work_schedule.use_cases.GetCollaborationSectorHistoryUseCase;
 
 @WorkdayLogsController
-public class GetWorkdayHistoryController {
+public class GetCollaborationSectorHistoryController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
@@ -24,7 +24,7 @@ public class GetWorkdayHistoryController {
   @GetMapping("/history")
   public ResponseEntity<PaginationResponse<WorkdayLogDto>> execute(
       @RequestParam LocalDate date,
-      @RequestParam String collaboratorName,
+      @RequestParam(defaultValue = "") String collaboratorName,
       @RequestParam(defaultValue = "1") int page) {
     var account = authenticationProvider.getAccount();
     var useCase = new GetCollaborationSectorHistoryUseCase(workdayLogsRepository);
