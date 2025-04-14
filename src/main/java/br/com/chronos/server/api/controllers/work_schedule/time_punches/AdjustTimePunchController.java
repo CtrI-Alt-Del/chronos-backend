@@ -31,7 +31,8 @@ public class AdjustTimePunchController {
   @PatchMapping("/{timePunchId}/adjust")
   public ResponseEntity<TimePunchDto> handle(@PathVariable String timePunchId, @RequestBody Request body) {
     var useCase = new AdjustTimePunchUseCase(timePunchesRepository, workdayLogsRepository);
-    var timePunchDto = useCase.execute(timePunchId, body.getTime(), body.getPeriod());
+    var timePunchDto = useCase.execute(timePunchId, body.getTime(),
+        body.getPeriod());
     return ResponseEntity.ok(timePunchDto);
   }
 }

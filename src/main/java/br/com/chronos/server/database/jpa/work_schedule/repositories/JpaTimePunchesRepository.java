@@ -49,14 +49,14 @@ public class JpaTimePunchesRepository implements TimePunchesRepository {
   }
 
   @Override
-  public void update(TimePunch timePunch) {
+  public void replace(TimePunch timePunch) {
     var timePunchModel = mapper.toModel(timePunch);
     repository.save(timePunchModel);
   }
 
   @Override
   @Transactional
-  public void updateMany(Array<TimePunch> timePunches) {
+  public void replaceMany(Array<TimePunch> timePunches) {
     var timePunchModels = timePunches.map(mapper::toModel);
     repository.saveAll(timePunchModels.list());
   }

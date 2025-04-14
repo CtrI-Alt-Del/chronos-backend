@@ -9,7 +9,7 @@ import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 public interface TimePunchesRepository {
   Optional<TimePunch> findById(Id timePunchId);
 
-  void update(TimePunch timePunch);
+  void replace(TimePunch timePunch);
 
-  void updateMany(Array<TimePunch> timePunches);
+  void replaceMany(Array<TimePunch> timePunches);
 }
