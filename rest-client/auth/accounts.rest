@@ -1,7 +1,7 @@
 # Auth - Accounts
 @RESOURCE = auth/accounts
-@ACCOUNT_ID = 5d8ea73e-0360-4b9e-a26b-5e94e167033e
 @COLLABORATOR_ID = 5d8ea73e-0360-4b9e-a26b-5e94e167033e
+
 
 ## Get account
 GET {{HOST}}/{{RESOURCE}}/{{ACCOUNT_ID}}

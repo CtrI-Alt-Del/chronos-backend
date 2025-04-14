@@ -15,6 +15,7 @@ public class EnableAccountUseCase {
     this.repository = repository;
   }
 
+
   public void execute(AccountDto requesterAccountDto, String collaboratorId) {
     var requesterAccount = new Account(requesterAccountDto);
     var account = findAccount(Id.create(collaboratorId));
