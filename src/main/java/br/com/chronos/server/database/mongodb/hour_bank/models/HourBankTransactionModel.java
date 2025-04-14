@@ -5,10 +5,10 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import br.com.chronos.core.hour_bank.domain.records.HourBankReason;
-import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,11 +16,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Document(collection = "hour_bank_transactions")
+@Builder
 public class HourBankTransactionModel {
     @Id
     private UUID id;
-    private HourBankTransaction operation;
-    private HourBankReason reason;
+    @Field("operation")
+    private String operation;
+    @Field("reason")
+    private String reason; // tipar com string ou o record do reason?
+    @Field("operated_at")
     private LocalDate operated_at;
     // possívelmente um relacionamenro com hour_bank
 }
