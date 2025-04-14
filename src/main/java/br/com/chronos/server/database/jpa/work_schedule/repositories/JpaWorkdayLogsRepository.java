@@ -50,10 +50,10 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
   Optional<WorkdayLogModel> findByCollaboratorAndDate(
       CollaboratorModel collaborator, LocalDate Date);
 
-  Page<WorkdayLogModel> findManyByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSectorContainingIgnoreCase(
+  Page<WorkdayLogModel> findAllByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSector(
       LocalDate date,
       String collaboratorName,
-      CollaborationSector collaboratorionSector,
+      CollaborationSector.Sector collaborationSector,
       PageRequest pageRequest);
 
   @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
@@ -143,12 +143,15 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       Text collaboratorName,
       CollaborationSector collaborationSector,
       PageNumber page) {
+    System.out.println("collaboratorName: " + collaboratorName.value());
+    System.out.println("collaborationSector: " + collaborationSector.value());
+    System.out.println("date: " + date.value());
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var workdayLogModels = repository
-        .findManyByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSectorContainingIgnoreCase(
+        .findAllByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSector(
             date.value(),
             collaboratorName.value(),
-            collaborationSector,
+            collaborationSector.value(),
             pageRequest);
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
