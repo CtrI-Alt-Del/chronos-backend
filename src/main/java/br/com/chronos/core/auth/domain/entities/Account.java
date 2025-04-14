@@ -23,7 +23,7 @@ public final class Account extends Entity {
     password = Password.create(dto.password);
     role = Role.create(dto.role);
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.createAsTrue();
-    collaborationSector = (dto.collaborationsector != null) ? CollaborationSector.create(dto.collaborationsector)
+    collaborationSector = (dto.collaborationSector != null) ? CollaborationSector.create(dto.collaborationSector)
         : null;
     collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
   }
@@ -93,9 +93,15 @@ public final class Account extends Entity {
         .setEmail(getEmail().value().toString())
         .setPassword(getPassword().value().toString())
         .setActive(getIsActive().value())
-        .setRole(getRole().toString())
-        .setCollaborationSector(getCollaborationSector().toString())
-        .setCollaboratorId(getCollaboratorId().value().toString());
+        .setRole(getRole().toString());
+
+    if (getCollaborationSector() != null) {
+      dto.setCollaborationSector(getCollaborationSector().toString());
+    }
+
+    if (getCollaboratorId() != null) {
+      dto.setCollaboratorId(getCollaboratorId().toString());
+    }
     return dto;
   }
 }
