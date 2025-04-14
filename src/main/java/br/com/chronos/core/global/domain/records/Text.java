@@ -7,7 +7,7 @@ public record Text(String value, String key) {
     if (value instanceof String) {
       return new Text(value, key);
     }
-    throw new ValidationException(key, "is required");
+    throw new ValidationException(key, "é obrigatório");
   }
 
   public Text update(String value) {

@@ -27,9 +27,15 @@ public class AccountMapper {
         .setEmail(model.getEmail().toString())
         .setPassword(model.getPassword().toString())
         .setActive(model.getIsActive())
-        .setRole(model.getRole().toString())
-        .setCollaborationSector(model.getSector().toString())
-        .setCollaboratorId(model.getCollaborator().getId().toString());
+        .setRole(model.getRole().toString());
+
+    if (model.getSector() != null) {
+      dto.setCollaborationSector(model.getSector().toString());
+    }
+
+    if (model.getCollaborator() != null) {
+      dto.setCollaboratorId(model.getCollaborator().getId().toString());
+    }
 
     return new Account(dto);
   }
