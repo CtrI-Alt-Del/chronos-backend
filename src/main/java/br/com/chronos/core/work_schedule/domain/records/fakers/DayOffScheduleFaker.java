@@ -31,7 +31,7 @@ public class DayOffScheduleFaker {
         .setWorkdaysCount(workdaysCount)
         .setDaysOffCount(daysOffCount)
         .setDaysOff(daysOff.map(dayOff -> dayOff.value()).list())
-        .setId(UUID.randomUUID().toString())
+        .setId(IdFaker.fakeDto())
         .setCollaboratorId(faker.idNumber().valid());
   }
 }
