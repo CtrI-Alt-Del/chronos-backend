@@ -6,6 +6,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
+import br.com.chronos.core.collaboration.domain.events.CollaboratorUpdatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.work_schedule.domain.events.TimePunchClosedEvent;
 
@@ -19,6 +20,10 @@ public class RabbitMqConfiguration {
   @Bean
   Queue collaboratorCreatedEventQueue() {
     return new Queue(CollaboratorCreatedEvent.KEY, true);
+  }
+  @Bean
+  Queue collaboratorUpdatedEventQueue() {
+    return new Queue(CollaboratorUpdatedEvent.KEY, true);
   }
 
   @Bean
