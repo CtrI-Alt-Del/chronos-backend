@@ -5,6 +5,6 @@ public record HourBankReason(String reason) {
         ABSENCE,
         OVERTIME,
         LATETIME,
-        MANUAL
+        SYSTEM_ADJUSTMENT,
     }
 }
