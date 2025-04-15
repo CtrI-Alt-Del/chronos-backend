@@ -7,17 +7,24 @@ import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.domain.records.Time;
 
-public record HourBankTransaction(Time time, Operation operation) {
+public record HourBankTransaction(Time time, Operation operation, Reason reason) {
   public enum Operation {
     CREDIT,
     DEBIT
   }
 
-  public static HourBankTransaction create(LocalTime time, String operation) {
+  public enum Reason {
+    ABSENCE,
+    OVERTIME,
+    LATETIME,
+    SYSTEM_ADJUSTMENT,
+  }
+
+  public static HourBankTransaction create(LocalTime time, String operation, String reason) {
     var transactionTime = Time.create(time);
     var transactionOperation = getOperation(operation);
-
-    return new HourBankTransaction(transactionTime, transactionOperation);
+    var transactionReason = Reason.SYSTEM_ADJUSTMENT;
+    return new HourBankTransaction(transactionTime, transactionOperation, transactionReason);
   }
 
   private static Operation getOperation(String operation) {
