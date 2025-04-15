@@ -2,7 +2,7 @@ package br.com.chronos.server.database.mongodb.hour_bank.models;
 
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.time.LocalTime;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -29,6 +29,8 @@ public class HourBankTransactionModel {
     private HourBankTransaction.Reason reason;
     @Field("date")
     private LocalDate date;
+    @Field("time")
+    private LocalTime time;
     @Field("collaborator_id")
     private ObjectId collaboratorId;
 }
