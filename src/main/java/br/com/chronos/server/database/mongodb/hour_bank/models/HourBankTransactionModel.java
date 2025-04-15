@@ -4,6 +4,7 @@ package br.com.chronos.server.database.mongodb.hour_bank.models;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -21,12 +22,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class HourBankTransactionModel {
     @Id
-    private UUID id;
+    private ObjectId id;
     @Field("operation")
-    private HourBankTransaction operation;
+    private HourBankTransaction.Operation operation;
     @Field("reason")
-    private String reason; // tipar com string ou o record do reason?
+    private String reason;
     @Field("operated_at")
     private LocalDate operated_at;
-    // possívelmente um relacionamenro com hour_bank
+    @Field("collaborator_id")
+    private ObjectId collaboratorId;
 }
