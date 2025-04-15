@@ -26,9 +26,9 @@ public class HourBankTransactionModel {
     @Field("operation")
     private HourBankTransaction.Operation operation;
     @Field("reason")
-    private String reason;
-    @Field("operated_at")
-    private LocalDate operated_at;
+    private HourBankTransaction.Reason reason;
+    @Field("date")
+    private LocalDate date;
     @Field("collaborator_id")
     private ObjectId collaboratorId;
 }
