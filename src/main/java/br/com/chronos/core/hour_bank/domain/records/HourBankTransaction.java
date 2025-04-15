@@ -1,13 +1,15 @@
 package br.com.chronos.core.hour_bank.domain.records;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
+import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.domain.records.Time;
 
-public record HourBankTransaction(Time time, Operation operation, Reason reason) {
+public record HourBankTransaction(Time time, Operation operation, Reason reason, Date date) {
   public enum Operation {
     CREDIT,
     DEBIT
@@ -20,11 +22,12 @@ public record HourBankTransaction(Time time, Operation operation, Reason reason)
     SYSTEM_ADJUSTMENT,
   }
 
-  public static HourBankTransaction create(LocalTime time, String operation, String reason) {
+  public static HourBankTransaction create(LocalTime time, String operation, String reason, LocalDate date) {
     var transactionTime = Time.create(time);
+    var transactionDate = Date.create(date);
     var transactionOperation = getOperation(operation);
     var transactionReason = Reason.SYSTEM_ADJUSTMENT;
-    return new HourBankTransaction(transactionTime, transactionOperation, transactionReason);
+    return new HourBankTransaction(transactionTime, transactionOperation, transactionReason, transactionDate);
   }
 
   private static Operation getOperation(String operation) {
