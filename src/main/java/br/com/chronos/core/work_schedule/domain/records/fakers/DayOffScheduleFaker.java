@@ -1,6 +1,7 @@
 package br.com.chronos.core.work_schedule.domain.records.fakers;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.github.javafaker.Faker;
 
