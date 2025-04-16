@@ -1,12 +1,14 @@
 package br.com.chronos.server.database.mongodb.hour_bank.mappers;
 
 
+import org.springframework.stereotype.Component;
+
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.server.database.mongodb.hour_bank.models.HourBankTransactionModel;
 
-
+@Component
 public class HourBankTransactionMapper {
     public HourBankTransactionModel toModel(HourBankTransaction record) {
       var model = HourBankTransactionModel.builder()
