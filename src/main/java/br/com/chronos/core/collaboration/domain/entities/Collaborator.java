@@ -67,32 +67,24 @@ public final class Collaborator extends Entity {
   }
 
   public void update(CollaboratorDto dto) {
-    if (dto.name != null) {
+    if (dto.name != null && dto.name != this.getName().value()) {
       this.name = Text.create(dto.name, "Collaborator name");
     }
-    if (dto.email != null) {
+    if (dto.email != null && dto.email != this.getEmail().value()) {
       this.email = Email.create(dto.email);
     }
-    if (dto.cpf != null) {
+    if (dto.cpf != null && dto.cpf != this.getCpf().value()) {
       this.cpf = Cpf.create(dto.cpf);
     }
-    if (dto.role != null) {
+    if (dto.role != null && dto.role != this.getRole().value().toString()) {
       this.role = Role.create(dto.role);
     }
-    if (dto.sector != null) {
+    if (dto.sector != null && dto.sector != this.getSector().value().toString()) {
       this.sector = CollaborationSector.create(dto.sector);
     }
-    if (dto.isActive != null) {
+    if (dto.isActive != null && dto.isActive != this.getIsActive().value()) {
       this.isActive = Logical.create(dto.isActive);
     }
-  }
-
-  public void disable() {
-    this.isActive = Logical.create(false);
-  }
-
-  public void enable() {
-    this.isActive = Logical.create(true);
   }
 
   public CollaboratorDto getDto() {

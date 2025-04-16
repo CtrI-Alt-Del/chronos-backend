@@ -8,6 +8,7 @@ import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.domain.records.Time;
+import br.com.chronos.core.hour_bank.domain.dtos.HourBankTransactionDto;
 
 public record HourBankTransaction(Time time, Operation operation, Reason reason, Date date) {
   public enum Operation {
@@ -45,6 +46,12 @@ public record HourBankTransaction(Time time, Operation operation, Reason reason,
 
   public Logical isDebitOperation() {
     return Logical.create(operation.equals(Operation.DEBIT));
+  }
+
+  public HourBankTransactionDto getDto() {
+    return new HourBankTransactionDto()
+        .setValue(time.value())
+        .setOperation(operation.name());
   }
 
 }

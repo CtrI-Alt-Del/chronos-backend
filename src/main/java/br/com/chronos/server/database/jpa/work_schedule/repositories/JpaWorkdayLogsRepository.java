@@ -50,19 +50,18 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
   Optional<WorkdayLogModel> findByCollaboratorAndDate(
       CollaboratorModel collaborator, LocalDate Date);
 
-  Page<WorkdayLogModel> findManyByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSectorContainingIgnoreCase(
+  Page<WorkdayLogModel> findAllByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSector(
       LocalDate date,
       String collaboratorName,
-      CollaborationSector collaboratorionSector,
+      CollaborationSector.Sector collaborationSector,
       PageRequest pageRequest);
 
-  @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_log_id = :timePunchId)", nativeQuery = true)
+  @Query(value = "SELECT EXISTS (SELECT 1 FROM workday_logs WHERE time_punch_id = :timePunchId)", nativeQuery = true)
   boolean timePunchLogExists(@Param("timePunchId") UUID timePunchId);
 
   @Modifying
   @Query(value = "DELETE FROM workday_logs WHERE date = :date", nativeQuery = true)
-  void deleteAllByDate(@Param("date") LocalDate date);
-
+  void deleteAllByDate(LocalDate date);
 }
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
@@ -111,10 +110,11 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
 
     for (var workdayLog : workdayLogs.list()) {
       var workdayLogModel = mapper.toModel(workdayLog);
-      var timePunchLogModel = timePunchMapper.toModel(workdayLog.getTimePunch());
-      timePunchModels.add(timePunchLogModel);
-      workdayLogModel.setTimePunch(timePunchLogModel);
+      var timePunchModel = timePunchMapper.toModel(workdayLog.getTimePunch());
+
+      workdayLogModel.setTimePunch(timePunchModel);
       workdayLogModels.add(workdayLogModel);
+      timePunchModels.add(timePunchModel);
     }
     timePunchModelsRepository.saveAll(timePunchModels.list());
     repository.saveAll(workdayLogModels.list());
@@ -143,12 +143,15 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       Text collaboratorName,
       CollaborationSector collaborationSector,
       PageNumber page) {
+    System.out.println("collaboratorName: " + collaboratorName.value());
+    System.out.println("collaborationSector: " + collaborationSector.value());
+    System.out.println("date: " + date.value());
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var workdayLogModels = repository
-        .findManyByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSectorContainingIgnoreCase(
+        .findAllByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSector(
             date.value(),
             collaboratorName.value(),
-            collaborationSector,
+            collaborationSector.value(),
             pageRequest);
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
@@ -165,6 +168,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Transactional
   public void removeManyByDate(Date date) {
     repository.deleteAllByDate(date.value());
+    timePunchModelsRepository.deleteAllByWorkdayLogDate(date.value());
   }
 
   @Override

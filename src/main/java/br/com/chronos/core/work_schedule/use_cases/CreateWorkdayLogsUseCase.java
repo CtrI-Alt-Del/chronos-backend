@@ -1,5 +1,6 @@
 package br.com.chronos.core.work_schedule.use_cases;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import br.com.chronos.core.global.domain.records.Array;
@@ -12,34 +13,37 @@ import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
-public class CreateTodayWorkdayLogsUseCase {
+public class CreateWorkdayLogsUseCase {
   private final WorkdayLogsRepository workdayLogsRepository;
   private final DayOffSchedulesRepository dayOffSchedulesRepository;
 
-  public CreateTodayWorkdayLogsUseCase(
+  public CreateWorkdayLogsUseCase(
       WorkdayLogsRepository workdayLogsRepository,
       DayOffSchedulesRepository dayOffSchedulesRepository) {
     this.workdayLogsRepository = workdayLogsRepository;
     this.dayOffSchedulesRepository = dayOffSchedulesRepository;
   }
 
-  public void execute(List<String> collaboratorIds) {
-    System.out.println("se liga no AAA PENIS1!!");
+  public void execute(List<String> collaboratorIds, List<Integer> collaboratorWorkloads, LocalDate date) {
     Array<WorkdayLog> workdayLogs = Array.createAsEmpty();
-    // workdayLogsRepository.removeManyByDate(Date.createFromNow());
+    var workday = Date.create(date);
+    workdayLogsRepository.removeManyByDate(workday);
 
-    for (var id : collaboratorIds) {
+    for (var index = 0; index < collaboratorIds.size(); index++) {
+      var id = collaboratorIds.get(index);
+      var workload = collaboratorWorkloads.get(index);
       var collaboratorId = Id.create(id);
       var workdayStatus = getWorkdayStatus(collaboratorId);
       var workdayLogDto = new WorkdayLogDto()
-          .setDate(Date.createFromNow().value())
-          .setTimePunch(new TimePunchDto())
-          .setWorkloadSchedule((byte) 8)
+          .setDate(workday.value())
+          .setWorkloadSchedule((byte) (int) workload)
+          .setTimePunch(new TimePunchDto().setId(Id.random().toString()))
           .setStatus(workdayStatus.toString())
           .setResponsibleId(collaboratorId.toString());
       System.out.println(workdayLogDto.workloadSchedule);
       workdayLogs.add(new WorkdayLog(workdayLogDto));
     }
+    System.out.println(workdayLogs.list());
     workdayLogsRepository.addMany(workdayLogs);
   }
 

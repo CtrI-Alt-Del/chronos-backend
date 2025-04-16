@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.auth;
+package br.com.chronos.server.api.controllers.auth.accounts;
 
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.auth.use_cases.UpdatePasswordUseCase;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@AuthController
+@AccountsController
 public class UpdatePasswordController {
   @Autowired
   private AuthenticationProvider authenticationProvider;

@@ -23,13 +23,36 @@ public final class Account extends Entity {
     password = Password.create(dto.password);
     role = Role.create(dto.role);
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.createAsTrue();
-    collaborationSector = (dto.collaborationsector != null) ? CollaborationSector.create(dto.collaborationsector)
+    collaborationSector = (dto.collaborationSector != null) ? CollaborationSector.create(dto.collaborationSector)
         : null;
     collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
   }
 
+  public Logical canUpdateOtherAccount(Account account) {
+    if (this.getRole().isAdmin().isTrue()) {
+      return Logical.createAsTrue();
+    }
+
+    var hasSameCollaborationSector = this
+        .getRole()
+        .isManager()
+        .and(this.getCollaborationSector().isEqual(account.getCollaborationSector()));
+
+    var canUpdate = this.getRole().isAdmin().or(hasSameCollaborationSector);
+
+    return canUpdate;
+  }
+
   public Logical isFromCollaborator() {
     return Logical.create(collaboratorId != null);
+  }
+
+  public void disable() {
+    this.isActive = Logical.create(false);
+  }
+
+  public void enable() {
+    this.isActive = Logical.create(true);
   }
 
   public Email getEmail() {
@@ -59,15 +82,12 @@ public final class Account extends Entity {
   public void updatePassword(Password password) {
     this.password = password;
   }
-
-  public void disable() {
-    this.isActive = Logical.create(false);
+  public void updateRole(Role role) {
+    this.role = role;
   }
-
-  public void enable() {
-    this.isActive = Logical.create(true);
+  public void updateCollaborationSector(CollaborationSector collaborationSector) {
+    this.collaborationSector = collaborationSector;
   }
-
   public Role getRole() {
     return role;
   }
@@ -78,9 +98,15 @@ public final class Account extends Entity {
         .setEmail(getEmail().value().toString())
         .setPassword(getPassword().value().toString())
         .setActive(getIsActive().value())
-        .setRole(getRole().toString())
-        .setCollaborationSector(getCollaborationSector().toString())
-        .setCollaboratorId(getCollaboratorId().value().toString());
+        .setRole(getRole().toString());
+
+    if (getCollaborationSector() != null) {
+      dto.setCollaborationSector(getCollaborationSector().toString());
+    }
+
+    if (getCollaboratorId() != null) {
+      dto.setCollaboratorId(getCollaboratorId().toString());
+    }
     return dto;
   }
 }

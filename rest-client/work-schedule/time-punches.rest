@@ -3,10 +3,22 @@
 @RESOURCE = work-schedule/time-punches
 
 ## Punch time
-PATCH {{BASE_URL}}/{{RESOURCE}}/f6a4ab89-42b6-4d03-a204-cb9402bc86c4
+PATCH {{HOST}}/{{RESOURCE}}/f6a4ab89-42b6-4d03-a204-cb9402bc86c4
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
   "time": "16:00:00"
+}
+
+### 
+
+## Adjust time punch log
+PATCH {{HOST}}/{{RESOURCE}}/f6a4ab89-42b6-4d03-a204-cb9402bc86c4
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "punch": "10:50:00",
+  "punchPeriod": "first_clock_in"
 }

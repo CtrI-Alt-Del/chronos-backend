@@ -26,7 +26,7 @@ public class AdjustTimePunchUseCase {
   public TimePunchDto execute(String timePunchId, LocalTime time, String period) {
     var timePunch = findTimePunch(Id.create(timePunchId));
     timePunch.adjust(Time.create(time), TimePunchPeriod.create(period));
-    timePunchesRepository.update(timePunch);
+    timePunchesRepository.replace(timePunch);
     return timePunch.getDto();
   }
 

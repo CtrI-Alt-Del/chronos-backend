@@ -9,7 +9,8 @@ import br.com.chronos.server.database.jpa.work_schedule.models.TimePunchModel;
 @Component
 public class TimePunchMapper {
   public TimePunchModel toModel(TimePunch entity) {
-    var model = TimePunchModel.builder()
+    var model = TimePunchModel
+        .builder()
         .id(entity.getId().value())
         .firstClockIn(entity.getFirstClockIn().value())
         .firstClockOut(entity.getFirstClockOut().value())

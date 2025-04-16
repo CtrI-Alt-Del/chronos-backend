@@ -47,6 +47,7 @@ public final class TimePunch extends Entity {
   }
 
   public void adjust(Time time, TimePunchPeriod period) {
+    System.out.println("period: " + period.name());
     switch (period.name()) {
       case TimePunchPeriod.PeriodName.FIRST_CLOCK_IN:
         firstClockIn = time;

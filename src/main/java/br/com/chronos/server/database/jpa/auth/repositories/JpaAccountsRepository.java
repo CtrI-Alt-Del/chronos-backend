@@ -30,6 +30,16 @@ public class JpaAccountsRepository implements AccountsRepository {
   AccountMapper mapper;
 
   @Override
+  public Optional<Account> findById(Id id) {
+    var accountModel = repository.findById(id.value());
+    if (accountModel.isEmpty()) {
+      return Optional.empty();
+    }
+    var account = mapper.toEntity(accountModel.get());
+    return Optional.of(account);
+  }
+
+  @Override
   public void add(Account account) {
     var accountModel = toModel(account);
     repository.save(accountModel);
@@ -56,10 +66,7 @@ public class JpaAccountsRepository implements AccountsRepository {
   private AccountModel toModel(Account account) {
     var accountModel = mapper.toModel(account);
     if (account.isFromCollaborator().isTrue()) {
-      var collaboratorModel = CollaboratorModel
-          .builder()
-          .id(account.getCollaboratorId().value())
-          .build();
+      var collaboratorModel = CollaboratorModel.builder().id(account.getCollaboratorId().value()).build();
       accountModel.setCollaborator(collaboratorModel);
     }
     return accountModel;
@@ -81,7 +88,7 @@ public class JpaAccountsRepository implements AccountsRepository {
   }
 
   @Override
-  public void update(Account account) {
+  public void replace(Account account) {
     var accountModel = mapper.toModel(account);
     var collaboratorModel = CollaboratorModel
         .builder()

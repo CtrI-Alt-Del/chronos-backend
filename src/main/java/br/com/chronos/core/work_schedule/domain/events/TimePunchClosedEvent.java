@@ -2,11 +2,11 @@ package br.com.chronos.core.work_schedule.domain.events;
 
 import java.time.LocalTime;
 
+import br.com.chronos.core.global.domain.abstracts.Event;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 
-public class TimePunchClosedEvent {
+public class TimePunchClosedEvent extends Event<TimePunchClosedEvent.Payload> {
   public static final String KEY = "work.schedule/time.punch.closed";
-  private final Payload payload;
 
   public static class Payload {
     public final LocalTime overtime;
@@ -23,14 +23,10 @@ public class TimePunchClosedEvent {
   }
 
   public TimePunchClosedEvent(WorkdayLog workdayLog) {
-    payload = new Payload(
+    super(new Payload(
         workdayLog.getOvertime().value(),
         workdayLog.getUndertime().value(),
         workdayLog.getLatetime().value(),
-        workdayLog.getResponsible().getId().toString());
-  }
-
-  public Payload getPayload() {
-    return payload;
+        workdayLog.getResponsible().getId().toString()));
   }
 }
