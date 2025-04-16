@@ -1,10 +1,12 @@
 package br.com.chronos.core.hour_bank.domain.dtos;
 
+import java.time.LocalTime;
+
 public class HourBankTransactionDto {
-  public int value;
+  public LocalTime value;
   public String operation;
 
-  public HourBankTransactionDto setValue(int value) {
+  public HourBankTransactionDto setValue(LocalTime value) {
     this.value = value;
     return this;
   }
