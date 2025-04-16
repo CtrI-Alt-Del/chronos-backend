@@ -3,7 +3,6 @@ package br.com.chronos.server.database.mongodb.hour_bank.repositories;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.DateRange;
@@ -24,8 +23,6 @@ interface SpringDataHourBankRepositoy extends MongoRepository<HourBankTransactio
 
 }
 
-
-@Repository
 public class MongoDbHourBankTransactionsRepository implements HourBankTransactionsRepository {
 
 @Autowired
