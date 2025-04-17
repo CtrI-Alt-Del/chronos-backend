@@ -11,6 +11,19 @@ Authorization: Bearer {{JWT}}
 
 ###
 
+## Create transaction adjustment
+POST {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/transactions/adjustment
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "date": "2025-04-17",
+  "operation": "credit",
+  "time": "00:30"
+}
+
+###
+
 ## Calculate balance
 GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/balance
 Content-Type: application/json
