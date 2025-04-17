@@ -16,7 +16,7 @@ public class CreateHourBankTransactionAdjustmentController {
   @Autowired
   private HourBankTransactionsRepository hourBankTransactionsRepository;
 
-  @PostMapping("/{collaboratorId}")
+  @PostMapping("/{collaboratorId}/transactions/adjustment")
   public ResponseEntity<Void> handle(
       @PathVariable String collaboratorId,
       @RequestBody HourBankTransactionDto hourBankTransactionDto) {
