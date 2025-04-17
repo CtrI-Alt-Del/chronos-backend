@@ -14,7 +14,7 @@ public class VerifyWorkdayAbsencesJob {
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
-  @Scheduled(cron = "0 0 0 * * ?")
+  @Scheduled(cron = "0 59 23 * * ?")
   public void handle() {
     var useCase = new VerifyWorkdayAbsencesUseCase(workdayLogsRepository);
     useCase.execute(LocalDate.now());
