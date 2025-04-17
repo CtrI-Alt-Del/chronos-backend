@@ -82,7 +82,12 @@ public final class Account extends Entity {
   public void updatePassword(Password password) {
     this.password = password;
   }
-
+  public void updateRole(Role role) {
+    this.role = role;
+  }
+  public void updateCollaborationSector(CollaborationSector collaborationSector) {
+    this.collaborationSector = collaborationSector;
+  }
   public Role getRole() {
     return role;
   }

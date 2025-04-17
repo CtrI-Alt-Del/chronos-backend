@@ -11,7 +11,9 @@ import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransactionOperation;
 
 public interface HourBankTransactionsRepository {
-  Pair<Array<HourBankTransaction>, PlusIntegerNumber> findManyByCollaborator(
+  Array<HourBankTransaction> findAllByCollaborator(Id collaboratorId);
+
+  Pair<Array<HourBankTransaction>, PlusIntegerNumber> findManyByCollaboratorDateRageAndOperation(
       Id collaboratorId,
       DateRange dateRange,
       HourBankTransactionOperation operation,
