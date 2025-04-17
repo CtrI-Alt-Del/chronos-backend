@@ -27,6 +27,6 @@ public class ListHourBankTransactionsController {
       @RequestParam(defaultValue = "1") int page) {
     var useCase = new ListHourBankTransactionsUseCase(hourBankTransactionsRepository);
     var response = useCase.execute(collaboratorId, startDate, endDate, operation, page);
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    return ResponseEntity.ok(response);
   }
 }

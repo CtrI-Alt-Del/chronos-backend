@@ -16,7 +16,7 @@ public record HourBankTransactionOperation(OperationName name) {
       var name = OperationName.valueOf(text.value());
       return new HourBankTransactionOperation(name);
     } catch (Exception e) {
-      throw new ValidationException(text.key(), "deve ser admin, gestor ou funcionário");
+      throw new ValidationException(text.key(), "deve ser crédito ou débito");
     }
   }
 
