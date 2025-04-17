@@ -1,6 +1,5 @@
 package br.com.chronos.server.api.controllers.hour_bank;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class ListHourBankTransactionsController {
       @PathVariable String collaboratorId,
       @RequestParam LocalDate startDate,
       @RequestParam LocalDate endDate,
-      @RequestParam String operation,
+      @RequestParam(defaultValue = "all") String operation,
       @RequestParam(defaultValue = "1") int page) {
     var useCase = new ListHourBankTransactionsUseCase(hourBankTransactionsRepository);
     var response = useCase.execute(collaboratorId, startDate, endDate, operation, page);
