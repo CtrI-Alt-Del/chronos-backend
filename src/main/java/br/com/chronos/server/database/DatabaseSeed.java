@@ -1,5 +1,7 @@
 package br.com.chronos.server.database;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,9 @@ import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
+import br.com.chronos.core.hour_bank.domain.records.fakers.HourBankTransactionFaker;
+import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 
@@ -25,6 +30,9 @@ public class DatabaseSeed implements CommandLineRunner {
 
   @Autowired
   private CollaboratorsRepository collaboratorsRepository;
+
+  @Autowired
+  private HourBankTransactionsRepository hourBankTransactionsRepository;
 
   @Autowired
   private DayOffSchedulesRepository dayOffSchedulesRepository;
@@ -56,6 +64,9 @@ public class DatabaseSeed implements CommandLineRunner {
     collaboratorsRepository.addMany(collaborators);
 
     addManyDayOffSchedules(collaborators);
+
+    var hourBankTransactions = fakeHourBankTransactions();
+    hourBankTransactionsRepository.addMany(hourBankTransactions, employeeTest.getId());
 
     var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
     var adminAccountTest = fakeAdmin(adminTest.getId());
@@ -114,6 +125,17 @@ public class DatabaseSeed implements CommandLineRunner {
       authenticationProvider.register(accountDto);
       return new Account(accountDto);
     });
+  }
+
+  private Array<HourBankTransaction> fakeHourBankTransactions() {
+    return Array.create(
+        List.of(
+            HourBankTransactionFaker.fakeDto(),
+            HourBankTransactionFaker.fakeDto(),
+            HourBankTransactionFaker.fakeDto(),
+            HourBankTransactionFaker.fakeDto(),
+            HourBankTransactionFaker.fakeDto()))
+        .map(HourBankTransaction::create);
   }
 
   private void addManyDayOffSchedules(Array<Collaborator> collaborators) {

@@ -23,7 +23,7 @@ public class ListHourBankTransactionsUseCase {
       LocalDate endDate,
       String operation,
       int page) {
-    var response = repository.findManyByCollaborator(
+    var response = repository.findManyByCollaboratorDateRageAndOperation(
         Id.create(collaboratorId),
         DateRange.create(startDate, endDate),
         HourBankTransactionOperation.create(operation),

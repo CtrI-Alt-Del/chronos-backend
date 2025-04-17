@@ -1,8 +1,7 @@
 package br.com.chronos.server.database.mongodb.hour_bank.repositories;
 
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.MongoRepository;
+
+import kotlin.Pair;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.DateRange;
@@ -12,7 +11,6 @@ import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransactionOperation;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
-import kotlin.Pair;
 
 import br.com.chronos.server.database.mongodb.hour_bank.mappers.HourBankTransactionMapper;
 import br.com.chronos.server.database.mongodb.hour_bank.models.HourBankTransactionModel;
@@ -45,9 +43,14 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
   }
 
   @Override
-  public Pair<Array<HourBankTransaction>, PlusIntegerNumber> findManyByCollaborator(Id collaboratorId,
-      DateRange dateRange, HourBankTransactionOperation operation, PageNumber pageNumber) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findManyByCollaborator'");
+  public Array<HourBankTransaction> findAllByCollaborator(Id collaboratorId) {
+    throw new UnsupportedOperationException("Unimplemented method 'findAllByCollaborator'");
   }
+
+  @Override
+  public Pair<Array<HourBankTransaction>, PlusIntegerNumber> findManyByCollaboratorDateRageAndOperation(
+      Id collaboratorId, DateRange dateRange, HourBankTransactionOperation operation, PageNumber pageNumber) {
+    throw new UnsupportedOperationException("Unimplemented method 'findManyByCollaboratorDateRageAndOperation'");
+  }
+
 }

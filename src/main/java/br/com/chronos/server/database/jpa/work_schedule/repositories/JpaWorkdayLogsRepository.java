@@ -143,9 +143,6 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       Text collaboratorName,
       CollaborationSector collaborationSector,
       PageNumber page) {
-    System.out.println("collaboratorName: " + collaboratorName.value());
-    System.out.println("collaborationSector: " + collaborationSector.value());
-    System.out.println("date: " + date.value());
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var workdayLogModels = repository
         .findAllByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSector(

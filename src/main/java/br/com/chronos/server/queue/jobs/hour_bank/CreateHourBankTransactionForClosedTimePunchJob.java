@@ -14,6 +14,6 @@ public class CreateHourBankTransactionForClosedTimePunchJob {
 
   public void handle(TimePunchClosedEvent.Payload payload) {
     var useCase = new CreateHourBankTransactionForClosedTimePunchUseCase(hourBankTransactionRepository);
-    useCase.execute(payload.overtime, payload.latetime, payload.collaboratorId);
+    useCase.execute(payload.overtime, payload.latetime, payload.date, payload.collaboratorId);
   }
 }
