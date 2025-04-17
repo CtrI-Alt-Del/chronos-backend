@@ -18,7 +18,7 @@ public class PrepareCollaboratorsForWorkJob {
   @Autowired
   private CollaborationBroker collaborationBroker;
 
-  @Scheduled(cron = "0 0 0 * * ?")
+  @Scheduled(cron = "0 5 0 * * ?")
   public void handle() {
     var useCase = new PrepareCollaboratorsForWorkUseCase(collaboratorsRepository, collaborationBroker);
     useCase.execute(LocalDate.now());

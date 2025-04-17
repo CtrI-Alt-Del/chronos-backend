@@ -30,7 +30,6 @@ public final class TimePunch extends Entity {
   }
 
   public void punch(Time time) {
-    System.out.println("isClosed(): " + isClosed());
     if (isClosed().isTrue()) {
       throw new TimePunchNotOpenException();
     }
@@ -47,7 +46,6 @@ public final class TimePunch extends Entity {
   }
 
   public void adjust(Time time, TimePunchPeriod period) {
-    System.out.println("period: " + period.name());
     switch (period.name()) {
       case TimePunchPeriod.PeriodName.FIRST_CLOCK_IN:
         firstClockIn = time;
@@ -76,6 +74,13 @@ public final class TimePunch extends Entity {
         .andNot(firstClockOut.isNull())
         .andNot(secondClockIn.isNull())
         .andNot(secondClockOut.isNull());
+  }
+
+  public Logical isEmpty() {
+    return firstClockIn.isNull()
+        .and(firstClockOut.isNull())
+        .and(secondClockIn.isNull())
+        .and(secondClockOut.isNull());
   }
 
   public Time getTotalTime() {
