@@ -19,7 +19,6 @@ public class VerifyWorkdayAbsencesUseCase {
       var isAbsence = workdayLog.verifyAbsense();
       return isAbsence.isTrue();
     });
-
     repository.replaceMany(workdayLogs);
   }
 }

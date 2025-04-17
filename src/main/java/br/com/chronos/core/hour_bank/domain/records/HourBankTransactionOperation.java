@@ -29,6 +29,6 @@ public record HourBankTransactionOperation(OperationName name) {
   }
 
   public String toString() {
-    return name.toString();
+    return name.toString().toLowerCase();
   }
 }

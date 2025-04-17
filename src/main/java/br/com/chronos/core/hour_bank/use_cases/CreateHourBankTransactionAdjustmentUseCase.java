@@ -1,5 +1,6 @@
 package br.com.chronos.core.hour_bank.use_cases;
 
+import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.hour_bank.domain.dtos.HourBankTransactionDto;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransactionReason;
@@ -15,6 +16,6 @@ public class CreateHourBankTransactionAdjustmentUseCase {
   public void execute(HourBankTransactionDto hourBankTransactionDto, String collaboratorId) {
     hourBankTransactionDto.setReason(HourBankTransactionReason.createAsAdjustment().toString());
     var hourBankTransaction = HourBankTransaction.create(hourBankTransactionDto);
-    repository.add(hourBankTransaction);
+    repository.add(hourBankTransaction, Id.create(collaboratorId));
   }
 }
