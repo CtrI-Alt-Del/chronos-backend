@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.solicitation;
+package br.com.chronos.server.api.controllers.solicitation.solicitations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

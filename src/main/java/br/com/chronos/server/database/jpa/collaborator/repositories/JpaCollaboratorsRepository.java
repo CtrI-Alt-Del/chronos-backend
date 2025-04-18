@@ -132,7 +132,6 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
     var collaboratorModel = mapper.toModel(collaborator);
     repository.delete(collaboratorModel);
   }
-
   @Override
   public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(CollaborationSector sector,
       Logical isActive, PageNumber page) {

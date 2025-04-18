@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.solicitation;
+package br.com.chronos.server.api.controllers.solicitation.solicitations;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class ListAllSolicitationsController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @GetMapping("/solicitations")
+  @GetMapping("/")
   public ResponseEntity<List<SolicitationDto>> handle() {
     var useCase = new ListAllSolicitationsUseCase(solicitationsRepository);
     var account = authenticationProvider.getAccount();
