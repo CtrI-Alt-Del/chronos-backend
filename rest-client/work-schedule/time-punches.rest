@@ -2,23 +2,25 @@
 
 @RESOURCE = work-schedule/time-punches
 
+@TIME_PUNCH_ID = 99f14036-c26a-4f00-ae1b-9f8cce440a4e
+
 ## Punch time
-PATCH {{HOST}}/{{RESOURCE}}/f6a4ab89-42b6-4d03-a204-cb9402bc86c4
+PATCH {{HOST}}/{{RESOURCE}}/{{TIME_PUNCH_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "time": "16:00:00"
+  "time": "22:00"
 }
 
 ### 
 
 ## Adjust time punch log
-PATCH {{HOST}}/{{RESOURCE}}/f6a4ab89-42b6-4d03-a204-cb9402bc86c4
+PATCH {{HOST}}/{{RESOURCE}}/{{TIME_PUNCH_ID}}/adjust
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "punch": "10:50:00",
-  "punchPeriod": "first_clock_in"
+  "time": "10:00",
+  "period": "first_clock_in"
 }

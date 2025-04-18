@@ -15,6 +15,7 @@ public final class WorkdayLog extends Entity {
   private WorkdayStatus status;
   private Workload workloadSchedule;
   private ResponsibleAggregate responsible;
+  private static final Time LUNCH_TIME_SCHEDULE = Time.create(1, 0);
 
   public WorkdayLog(WorkdayLogDto dto) {
     super(dto.id);
@@ -28,16 +29,23 @@ public final class WorkdayLog extends Entity {
   public Time getOvertime() {
     var totalTime = timePunch.getTotalTime();
     var workloadScheduleTime = Time.create(workloadSchedule.value(), 0);
+    var lunchTime = timePunch.getLunchTime();
+    var totalOvertime = Time.createAsZero();
 
     if (totalTime.isGreaterThan(workloadScheduleTime).isTrue()) {
       var overtime = totalTime.minus(workloadScheduleTime);
       if (overtime.hasMoreHoursThan(2).isTrue()) {
         return Time.create(2, 0);
       }
-      return overtime;
+      totalOvertime = totalOvertime.plus(overtime);
     }
 
-    return Time.createAsZero();
+    if (lunchTime.isLessThan(LUNCH_TIME_SCHEDULE).isTrue()) {
+      var overtime = LUNCH_TIME_SCHEDULE.getDifferenceFrom(lunchTime);
+      totalOvertime = totalOvertime.plus(overtime);
+    }
+
+    return totalOvertime;
   }
 
   public Time getUndertime() {
@@ -48,13 +56,13 @@ public final class WorkdayLog extends Entity {
       return workloadScheduleTime.minus(totalTime);
     }
 
-    System.out.println(Time.createAsZero());
     return Time.createAsZero();
   }
 
   public Time getLatetime() {
-    var lunchTimeSchedule = Time.create(1, 10);
     var lunchTime = timePunch.getLunchTime();
+    var latetimeGrace = Time.create(0, 10);
+    var lunchTimeSchedule = LUNCH_TIME_SCHEDULE.plus(latetimeGrace);
 
     if (lunchTime.isGreaterThan(lunchTimeSchedule).isTrue()) {
       return lunchTime.getDifferenceFrom(lunchTimeSchedule);

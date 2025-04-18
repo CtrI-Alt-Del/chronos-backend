@@ -100,4 +100,8 @@ public record Time(LocalTime value) {
   public Logical isNull() {
     return Logical.create(value == null);
   }
+
+  public Logical isNotNull() {
+    return Logical.create(value != null);
+  }
 }
