@@ -4,41 +4,43 @@ import java.time.LocalTime;
 
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Time;
-import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
-import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
-import br.com.chronos.core.work_schedule.domain.exceptions.TimePunchNotFoundException;
-import br.com.chronos.core.work_schedule.domain.exceptions.TimePunchNotLoggedException;
+import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayDoneEvent;
+import br.com.chronos.core.work_schedule.domain.exceptions.WorkdayLogNotFoundException;
 import br.com.chronos.core.work_schedule.domain.records.TimePunchPeriod;
+import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
 public class AdjustTimePunchUseCase {
   private final WorkdayLogsRepository workdayLogsRepository;
   private final TimePunchesRepository timePunchesRepository;
+  private final WorkScheduleBroker broker;
 
   public AdjustTimePunchUseCase(
       TimePunchesRepository timePunchesRepository,
-      WorkdayLogsRepository workdayLogsRepository) {
+      WorkdayLogsRepository workdayLogsRepository,
+      WorkScheduleBroker broker) {
     this.timePunchesRepository = timePunchesRepository;
     this.workdayLogsRepository = workdayLogsRepository;
+    this.broker = broker;
   }
 
-  public TimePunchDto execute(String timePunchId, LocalTime time, String period) {
-    var timePunch = findTimePunch(Id.create(timePunchId));
+  public void execute(String timePunchId, LocalTime time, String period) {
+    var workdayLog = findWorkdayLog(Id.create(timePunchId));
+    var timePunch = workdayLog.getTimePunch();
     timePunch.adjust(Time.create(time), TimePunchPeriod.create(period));
     timePunchesRepository.replace(timePunch);
-    return timePunch.getDto();
+
+    var event = new WorkdayDoneEvent(workdayLog);
+    broker.publish(event);
   }
 
-  private TimePunch findTimePunch(Id id) {
-    var timePunch = timePunchesRepository.findById(id);
-    if (timePunch.isEmpty()) {
-      throw new TimePunchNotFoundException();
+  private WorkdayLog findWorkdayLog(Id timePunchId) {
+    var workdayLog = workdayLogsRepository.findByTimePunch(timePunchId);
+    if (workdayLog.isEmpty()) {
+      throw new WorkdayLogNotFoundException();
     }
-    var isTimePunch = workdayLogsRepository.hasTimePunch(timePunch.get());
-    if (isTimePunch.isFalse()) {
-      throw new TimePunchNotLoggedException();
-    }
-    return timePunch.get();
+    return workdayLog.get();
   }
 }
