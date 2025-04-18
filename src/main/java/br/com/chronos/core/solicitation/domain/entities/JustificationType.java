@@ -19,6 +19,14 @@ public class JustificationType extends Entity {
   public Logical getShouldHaveAttachment() {
     return shouldHaveAttachment;
   }
+  public JustificationType updateName(Text name) {
+    this.name = name;
+    return this;
+  }
+  public JustificationType updateShouldHaveAttachment(Logical shouldHaveAttachment) {
+    this.shouldHaveAttachment = shouldHaveAttachment;
+    return this;
+  }
   public Logical NeedsAttachment() {
     return Logical.create(shouldHaveAttachment.isTrue());
   }
