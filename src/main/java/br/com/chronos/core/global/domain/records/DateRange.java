@@ -1,6 +1,7 @@
 package br.com.chronos.core.global.domain.records;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 
 public record DateRange(Date startDate, Date endDate) {
   public static DateRange create(LocalDate startDate, LocalDate endDate) {
@@ -13,5 +14,13 @@ public record DateRange(Date startDate, Date endDate) {
     }
 
     return new DateRange(dateRangeStart, dateRangeEnd);
+  }
+
+  public static DateRange createAsCurrentMonthRange() {
+    var today = LocalDate.now();
+    var firstDayOfMonth = today.withDayOfMonth(1);
+    var currentYearMonth = YearMonth.from(today);
+    var lastDayOfMonth = currentYearMonth.atEndOfMonth();
+    return new DateRange(Date.create(firstDayOfMonth), Date.create(lastDayOfMonth));
   }
 }
