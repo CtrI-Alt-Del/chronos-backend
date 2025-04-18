@@ -15,8 +15,8 @@ public class UpdateJustificationTypeUseCase {
     this.justificationTypeRepository = justificationTypeRepository;
   }
 
-  public void execute(String id, JustificationTypeDto justificationTypeDto) {
-    var justificationType = findById(Id.create(id));
+  public void execute(String justificationTypeId, JustificationTypeDto justificationTypeDto) {
+    var justificationType = findById(Id.create(justificationTypeId));
     if (justificationTypeDto.name != null) {
       justificationType.updateName(Text.create(justificationTypeDto.name, justificationTypeDto.name));
     }
