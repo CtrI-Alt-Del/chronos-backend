@@ -40,16 +40,19 @@ public class JpaAccountsRepository implements AccountsRepository {
   }
 
   @Override
-  public void add(Account account) {
-    var accountModel = toModel(account);
-    repository.save(accountModel);
-  }
+  public Optional<Account> findByCollaborator(Id collaborationId) {
+    var collaboratorModel = CollaboratorModel
+        .builder()
+        .id(collaborationId.value())
+        .build();
 
-  @Override
-  @Transactional
-  public void addMany(Array<Account> accounts) {
-    var accountModels = accounts.map(this::toModel);
-    repository.saveAll(accountModels.list());
+    System.out.println(collaborationId.value());
+    var account = repository.findByCollaborator(collaboratorModel);
+    if (account.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(mapper.toEntity(account.get()));
   }
 
   @Override
@@ -63,6 +66,19 @@ public class JpaAccountsRepository implements AccountsRepository {
     return Optional.of(account);
   }
 
+  @Override
+  public void add(Account account) {
+    var accountModel = toModel(account);
+    repository.save(accountModel);
+  }
+
+  @Override
+  @Transactional
+  public void addMany(Array<Account> accounts) {
+    var accountModels = accounts.map(this::toModel);
+    repository.saveAll(accountModels.list());
+  }
+
   private AccountModel toModel(Account account) {
     var accountModel = mapper.toModel(account);
     if (account.isFromCollaborator().isTrue()) {
@@ -70,21 +86,6 @@ public class JpaAccountsRepository implements AccountsRepository {
       accountModel.setCollaborator(collaboratorModel);
     }
     return accountModel;
-  }
-
-  @Override
-  public Optional<Account> findByCollaborator(Id collaborationId) {
-    var collaboratorModel = CollaboratorModel
-        .builder()
-        .id(collaborationId.value())
-        .build();
-
-    var account = repository.findByCollaborator(collaboratorModel);
-    if (account.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return Optional.of(mapper.toEntity(account.get()));
   }
 
   @Override
