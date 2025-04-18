@@ -50,8 +50,12 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
       @Param("endDate") LocalDate endDate,
       PageRequest pageRequest);
 
-  Optional<WorkdayLogModel> findByCollaboratorAndDate(
-      CollaboratorModel collaborator, LocalDate Date);
+  Optional<WorkdayLogModel> findByCollaboratorAndDate(CollaboratorModel collaborator, LocalDate Date);
+
+  List<WorkdayLogModel> findAllByCollaboratorAndDateBetween(
+      CollaboratorModel collaborator,
+      LocalDate starDate,
+      LocalDate endDate);
 
   Page<WorkdayLogModel> findAllByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSector(
       LocalDate date,
@@ -106,6 +110,17 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       return Optional.empty();
     }
     return Optional.of(workdayLogMapper.toEntity(workdayLogModels.get()));
+  }
+
+  @Override
+  public Array<WorkdayLog> findAllByCollaboratorAndDateRange(Id collaboratorId, DateRange dateRange) {
+    var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
+    var workdayLogModels = workdayLogsRepository.findAllByCollaboratorAndDateBetween(
+        collaboratorModel,
+        dateRange.startDate().value(),
+        dateRange.endDate().value());
+
+    return Array.createFrom(workdayLogModels, workdayLogMapper::toEntity);
   }
 
   @Override
