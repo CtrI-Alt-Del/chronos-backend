@@ -22,16 +22,11 @@ public class UpdateCollaboratorUseCase {
   }
 
   public CollaboratorDto execute(String collaboratorId, CollaboratorDto dto,String responsibleId) {
-    System.out.println("UpdateCollaboratorUseCase.execute");
-    System.out.println("collaboratorId: " + collaboratorId);
     var collaborator = findCollaborator(Id.create(collaboratorId));
     validateUniqueEmailAndCpf(dto,collaboratorId);
 
     collaborator.update(dto);
-    System.out.println("collaborato sofreu update com sucesso: " + collaborator);
     repository.replace(collaborator);
-
-    System.out.println("responsibleId: " + responsibleId);
     var event = new CollaboratorUpdatedEvent(collaborator,Id.create(responsibleId));
     collaborationBroker.publish(event);
 
