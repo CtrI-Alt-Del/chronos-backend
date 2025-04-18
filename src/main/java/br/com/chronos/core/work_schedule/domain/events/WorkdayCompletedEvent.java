@@ -6,8 +6,8 @@ import java.time.LocalTime;
 import br.com.chronos.core.global.domain.abstracts.Event;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 
-public class WorkdayDoneEvent extends Event<WorkdayDoneEvent.Payload> {
-  public static final String KEY = "work.schedule/workday.done";
+public class WorkdayCompletedEvent extends Event<WorkdayCompletedEvent.Payload> {
+  public static final String KEY = "work.schedule/workday.completed";
 
   public static class Payload {
     public final LocalTime overtime;
@@ -25,7 +25,7 @@ public class WorkdayDoneEvent extends Event<WorkdayDoneEvent.Payload> {
     }
   }
 
-  public WorkdayDoneEvent(WorkdayLog workdayLog) {
+  public WorkdayCompletedEvent(WorkdayLog workdayLog) {
     super(new Payload(
         workdayLog.getOvertime().value(),
         workdayLog.getUndertime().value(),
