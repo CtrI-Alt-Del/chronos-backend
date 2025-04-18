@@ -1,6 +1,7 @@
 package br.com.chronos.core.work_schedule.domain.entities;
 
 import br.com.chronos.core.global.domain.abstracts.Entity;
+import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
@@ -46,6 +47,7 @@ public final class TimePunch extends Entity {
   }
 
   public void adjust(Time time, TimePunchPeriod period) {
+    System.out.println("PERIOD: " + period.name());
     switch (period.name()) {
       case TimePunchPeriod.PeriodName.FIRST_CLOCK_IN:
         firstClockIn = time;
@@ -60,6 +62,7 @@ public final class TimePunch extends Entity {
         secondClockOut = time;
         break;
     }
+    validate();
   }
 
   public void replaceWith(TimePunch timePunch) {
@@ -83,13 +86,53 @@ public final class TimePunch extends Entity {
         .and(secondClockOut.isNull());
   }
 
+  public void validate() {
+    if (firstClockIn.isNotNull().and(firstClockOut.isNotNull()).isTrue() &&
+        firstClockIn.isGreaterThan(firstClockOut).isTrue()) {
+      throw new ValidationException("primeira entrada", "não pode ser maior que a primeira saída");
+    }
+    if (firstClockIn.isNotNull().and(secondClockIn.isNotNull()).isTrue() &&
+        firstClockIn.isGreaterThan(secondClockIn).isTrue()) {
+      throw new ValidationException("primeira entrada", "não pode ser maior que a segunda entrada");
+    }
+    if (firstClockIn.isNotNull().and(secondClockOut.isNotNull()).isTrue() &&
+        firstClockIn.isGreaterThan(secondClockOut).isTrue()) {
+      throw new ValidationException("primeira entrada", "não pode ser maior que a segunda saída");
+    }
+    if (firstClockOut.isNotNull().and(secondClockIn.isNotNull()).isTrue() &&
+        firstClockOut.isGreaterThan(secondClockIn).isTrue()) {
+      throw new ValidationException("primeira saída", "não pode ser maior que a segunda entrada");
+    }
+    if (firstClockOut.isNotNull().and(secondClockOut.isNotNull()).isTrue() &&
+        firstClockOut.isGreaterThan(secondClockOut).isTrue()) {
+      throw new ValidationException("primeira saída", "não pode ser maior que a segunda saída");
+    }
+    if (secondClockIn.isNotNull().and(secondClockOut.isNotNull()).isTrue() &&
+        secondClockIn.isGreaterThan(secondClockOut).isTrue()) {
+      throw new ValidationException("segunda entrada", "não pode ser maior que a segunda saída");
+    }
+  }
+
   public Time getTotalTime() {
-    var firstTime = firstClockOut.getDifferenceFrom(firstClockIn);
-    var secondTime = secondClockOut.getDifferenceFrom(secondClockIn);
-    return firstTime.plus(secondTime);
+    if (firstClockIn.isNull().or(firstClockOut.isNull()).isTrue()) {
+      return Time.createAsZero();
+    }
+
+    var firstBlockTime = firstClockOut.getDifferenceFrom(firstClockIn);
+
+    if (secondClockIn.isNull().or(secondClockOut.isNull()).isTrue()) {
+      return firstBlockTime;
+    }
+
+    var secondBlockTime = secondClockOut.getDifferenceFrom(secondClockIn);
+    return firstBlockTime.plus(secondBlockTime);
   }
 
   public Time getLunchTime() {
+    if (firstClockOut.isNull().or(secondClockIn.isNull()).isTrue()) {
+      return Time.createAsZero();
+    }
+
     return secondClockIn.getDifferenceFrom(firstClockOut);
   }
 
