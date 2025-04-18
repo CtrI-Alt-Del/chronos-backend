@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.solicitation;
+package br.com.chronos.server.api.controllers.solicitation.justification_type;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import br.com.chronos.core.solicitation.interfaces.repositories.JustificationTypeRepository;
 import br.com.chronos.core.solicitation.use_cases.DeleteJustificationTypeUseCase;
 
-@SolicitationsController
+@JustificationTypeController
 public class DeleteJustificationTypeController {
 
   @Autowired
