@@ -13,7 +13,7 @@ public class HourBankListener {
   @Autowired
   CreateHourBankTransactionForClosedTimePunchJob createHourBankTransactionForClosedTimePunchJob;
 
-  @RabbitListener(queues = TimePunchClosedEvent.KEY)
+  @RabbitListener(queues = TimePunchClosedEvent.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenToTimePunchClosedEvent(@Payload TimePunchClosedEvent.Payload payload) {
     createHourBankTransactionForClosedTimePunchJob.handle(payload);
   }

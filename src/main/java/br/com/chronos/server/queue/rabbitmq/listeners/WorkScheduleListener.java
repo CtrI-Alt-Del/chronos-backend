@@ -13,7 +13,7 @@ public class WorkScheduleListener {
   @Autowired
   CreateWorkdayLogsJob createWorkdayLogsJob;
 
-  @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.KEY)
+  @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenToCollaboratorsPreparedForWorkEvent(
       @Payload CollaboratorsPreparedForWorkEvent.Payload payload) {
     createWorkdayLogsJob.handle(payload);
