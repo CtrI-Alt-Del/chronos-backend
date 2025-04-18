@@ -1,8 +1,0 @@
-# Hour Bank - Transactions
-
-@RESOURCE = hour-bank/transactions
-
-## List transactions
-GET {{HOST}}/{{RESOURCE}}
-Content-Type: application/json
-Authorization: Bearer {{JWT}}

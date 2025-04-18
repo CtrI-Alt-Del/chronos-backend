@@ -21,7 +21,7 @@
 | Arquivos estáticos              | assets    | 🎴     |
 | Merge de branches               | merge     | 🔀     |
 | Reset de histórico de commits   | revert    | ⏪     |
-| Estruturação de pastas/arquivos | file tree | 🗃️     |
+| Estruturação de pastas/arquivos | ftree     | 🗃️     |
 | Certificados e licenças         | cert      | 📜     |
 | Trabalho em andamento           | wip       | 🚧     |
 | Conserto de erro de emergencia  | hotfix    | 🚑     |

@@ -3,6 +3,7 @@ package br.com.chronos.core.work_schedule.domain.entities;
 import br.com.chronos.core.global.domain.abstracts.Entity;
 import br.com.chronos.core.global.domain.aggregates.ResponsibleAggregate;
 import br.com.chronos.core.global.domain.records.Date;
+import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
 import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus;
@@ -60,6 +61,13 @@ public final class WorkdayLog extends Entity {
     }
 
     return Time.createAsZero();
+  }
+
+  public Logical verifyAbsense() {
+    if (status.isNormalDay().and(timePunch.isEmpty()).isTrue()) {
+      status = WorkdayStatus.createAsAbsence();
+    }
+    return status.isAbsence();
   }
 
   public Date getDate() {

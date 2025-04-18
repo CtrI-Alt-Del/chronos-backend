@@ -1,6 +1,7 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import kotlin.Pair;
@@ -33,6 +34,8 @@ import br.com.chronos.server.database.jpa.work_schedule.models.TimePunchModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, UUID> {
+  List<WorkdayLogModel> findAllByDate(LocalDate date);
+
   Optional<WorkdayLogModel> findByTimePunch(TimePunchModel timePunchModel);
 
   @Query("""
@@ -66,10 +69,10 @@ interface JpaWorkdayLogsModelsRepository extends JpaRepository<WorkdayLogModel, 
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Autowired
-  JpaWorkdayLogsModelsRepository repository;
+  JpaWorkdayLogsModelsRepository workdayLogsRepository;
 
   @Autowired
-  WorkdayLogMapper mapper;
+  WorkdayLogMapper workdayLogMapper;
 
   @Autowired
   JpaTimePunchModelsRepository timePunchModelsRepository;
@@ -78,20 +81,37 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   private TimePunchMapper timePunchMapper;
 
   @Override
+  public Optional<WorkdayLog> findByTimePunch(Id timePunchId) {
+    var timePunchModel = TimePunchModel.builder().id(timePunchId.value()).build();
+    var workdayLogModel = workdayLogsRepository.findByTimePunch(timePunchModel);
+    if (workdayLogModel.isEmpty()) {
+      return Optional.empty();
+    }
+    var workdayLog = workdayLogMapper.toEntity(workdayLogModel.get());
+    return Optional.of(workdayLog);
+  }
+
+  @Override
+  public Array<WorkdayLog> findAllByDate(Date date) {
+    var workdayLogModels = workdayLogsRepository.findAllByDate(date.value());
+    return Array.createFrom(workdayLogModels, workdayLogMapper::toEntity);
+  }
+
+  @Override
   public Optional<WorkdayLog> findByCollaboratorAndDate(Id collaboratorId, Date date) {
     var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
-    var workdayLogModels = repository.findByCollaboratorAndDate(collaboratorModel, date.value());
+    var workdayLogModels = workdayLogsRepository.findByCollaboratorAndDate(collaboratorModel, date.value());
 
     if (workdayLogModels.isEmpty()) {
       return Optional.empty();
     }
-    return Optional.of(mapper.toEntity(workdayLogModels.get()));
+    return Optional.of(workdayLogMapper.toEntity(workdayLogModels.get()));
   }
 
   @Override
   @Transactional
   public void add(WorkdayLog workdayLog) {
-    var workdayLogModel = mapper.toModel(workdayLog);
+    var workdayLogModel = workdayLogMapper.toModel(workdayLog);
     var timePunchModel = timePunchMapper.toModel(workdayLog.getTimePunch());
     Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
 
@@ -99,7 +119,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     timePunchModelsRepository.saveAll(timePunchModels.list());
 
     workdayLogModel.setTimePunch(timePunchModel);
-    repository.save(workdayLogModel);
+    workdayLogsRepository.save(workdayLogModel);
   }
 
   @Override
@@ -109,7 +129,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     Array<TimePunchModel> timePunchModels = Array.createAsEmpty();
 
     for (var workdayLog : workdayLogs.list()) {
-      var workdayLogModel = mapper.toModel(workdayLog);
+      var workdayLogModel = workdayLogMapper.toModel(workdayLog);
       var timePunchModel = timePunchMapper.toModel(workdayLog.getTimePunch());
 
       workdayLogModel.setTimePunch(timePunchModel);
@@ -117,7 +137,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       timePunchModels.add(timePunchModel);
     }
     timePunchModelsRepository.saveAll(timePunchModels.list());
-    repository.saveAll(workdayLogModels.list());
+    workdayLogsRepository.saveAll(workdayLogModels.list());
   }
 
   @Override
@@ -126,7 +146,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       DateRange dateRange,
       PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var workdayLogModels = repository.findAllByCollaboratorAndDateBetween(
+    var workdayLogModels = workdayLogsRepository.findAllByCollaboratorAndDateBetween(
         collaboratorId.value(),
         dateRange.startDate().value(),
         dateRange.endDate().value(),
@@ -134,7 +154,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
 
-    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusIntegerNumber.create((int) itemsCount));
+    return new Pair<>(Array.createFrom(items, workdayLogMapper::toEntity), PlusIntegerNumber.create((int) itemsCount));
   }
 
   @Override
@@ -143,11 +163,8 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       Text collaboratorName,
       CollaborationSector collaborationSector,
       PageNumber page) {
-    System.out.println("collaboratorName: " + collaboratorName.value());
-    System.out.println("collaborationSector: " + collaborationSector.value());
-    System.out.println("date: " + date.value());
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var workdayLogModels = repository
+    var workdayLogModels = workdayLogsRepository
         .findAllByDateAndCollaboratorNameContainingIgnoreCaseAndCollaboratorAccountSector(
             date.value(),
             collaboratorName.value(),
@@ -156,24 +173,29 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     var items = workdayLogModels.stream().toList();
     var itemsCount = workdayLogModels.getTotalElements();
 
-    return new Pair<>(Array.createFrom(items, mapper::toEntity), PlusIntegerNumber.create((int) itemsCount));
+    return new Pair<>(Array.createFrom(items, workdayLogMapper::toEntity), PlusIntegerNumber.create((int) itemsCount));
   }
 
   @Override
   public Logical hasTimePunch(TimePunch timePunch) {
-    return Logical.create(repository.timePunchLogExists(timePunch.getId().value()));
+    return Logical.create(workdayLogsRepository.timePunchLogExists(timePunch.getId().value()));
   }
 
   @Override
   @Transactional
   public void removeManyByDate(Date date) {
-    repository.deleteAllByDate(date.value());
+    workdayLogsRepository.deleteAllByDate(date.value());
     timePunchModelsRepository.deleteAllByWorkdayLogDate(date.value());
   }
 
   @Override
-  public Optional<WorkdayLog> findByTimePunch(Id timePunchId) {
-    throw new UnsupportedOperationException("Unimplemented method 'findByTimePunch'");
+  public void replaceMany(Array<WorkdayLog> workdayLogs) {
+    var workdayLogModels = workdayLogs.map((workdayLog) -> {
+      var workdayLogModel = workdayLogMapper.toModel(workdayLog);
+      workdayLogModel.setTimePunch(timePunchMapper.toModel(workdayLog.getTimePunch()));
+      return workdayLogModel;
+    });
+    workdayLogsRepository.saveAll(workdayLogModels.list());
   }
 
 }

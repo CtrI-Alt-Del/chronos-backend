@@ -20,3 +20,10 @@ Authorization: Bearer {{JWT}}
 GET {{HOST}}/{{RESOURCE}}/history?date=2024-04-14&page=1&collaboratorName=tam
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
+
+###
+
+## Verify workday absences
+PUT {{HOST}}/{{RESOURCE}}/absences
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
