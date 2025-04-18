@@ -7,7 +7,7 @@ import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
-import br.com.chronos.core.work_schedule.domain.events.TimePunchClosedEvent;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayDoneEvent;
 import br.com.chronos.core.work_schedule.domain.exceptions.TimePunchNotFoundException;
 import br.com.chronos.core.work_schedule.domain.exceptions.WorkdayLogNotFoundException;
 import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
@@ -31,12 +31,11 @@ public class PunchTimeUseCase {
   public TimePunchDto execute(String timePunchId, LocalTime time) {
     var timePunch = findTimePunch(timePunchId);
     timePunch.punch(Time.create(time, "tempo do ponto"));
-
     timePunchesRepository.replace(timePunch);
 
     if (timePunch.isClosed().isTrue()) {
       var workdayLog = findWorkdayLog(timePunch);
-      var event = new TimePunchClosedEvent(workdayLog);
+      var event = new WorkdayDoneEvent(workdayLog);
       broker.publish(event);
     }
 
