@@ -16,9 +16,11 @@ import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import kotlin.Pair;
 
 public interface WorkdayLogsRepository {
+  Array<WorkdayLog> findAllByDate(Date date);
+
   Optional<WorkdayLog> findByCollaboratorAndDate(Id collaboratorId, Date date);
 
-  Array<WorkdayLog> findAllByDate(Date date);
+  Array<WorkdayLog> findAllByCollaboratorAndDateRange(Id collaboratorId, DateRange dateRange);
 
   Optional<WorkdayLog> findByTimePunch(Id timePunchId);
 
