@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import br.com.chronos.core.hour_bank.domain.dtos.HourBankTransactionDto;
+import br.com.chronos.core.hour_bank.interfaces.HourBankBroker;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.hour_bank.use_cases.CreateHourBankTransactionAdjustmentUseCase;
 
@@ -16,11 +17,17 @@ public class CreateHourBankTransactionAdjustmentController {
   @Autowired
   private HourBankTransactionsRepository hourBankTransactionsRepository;
 
+  @Autowired
+  private HourBankBroker hourBankBroker;
+
   @PostMapping("/{collaboratorId}/transactions/adjustment")
   public ResponseEntity<Void> handle(
       @PathVariable String collaboratorId,
       @RequestBody HourBankTransactionDto hourBankTransactionDto) {
-    var useCase = new CreateHourBankTransactionAdjustmentUseCase(hourBankTransactionsRepository);
+    var useCase = new CreateHourBankTransactionAdjustmentUseCase(
+        hourBankTransactionsRepository,
+        hourBankBroker);
+
     useCase.execute(hourBankTransactionDto, collaboratorId);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
