@@ -16,13 +16,13 @@ import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import kotlin.Pair;
 
 public interface WorkdayLogsRepository {
+  Optional<WorkdayLog> findById(Id workdayLogId);
+
   Array<WorkdayLog> findAllByDate(Date date);
 
   Optional<WorkdayLog> findByCollaboratorAndDate(Id collaboratorId, Date date);
 
   Array<WorkdayLog> findAllByCollaboratorAndDateRange(Id collaboratorId, DateRange dateRange);
-
-  Optional<WorkdayLog> findByTimePunch(Id timePunchId);
 
   Pair<Array<WorkdayLog>, PlusIntegerNumber> findManyByCollaboratorAndDateRange(
       Id collaboratorId,
@@ -38,6 +38,8 @@ public interface WorkdayLogsRepository {
   void add(WorkdayLog workdayLogs);
 
   void addMany(Array<WorkdayLog> workdayLogs);
+
+  void replace(WorkdayLog workdayLog);
 
   void replaceMany(Array<WorkdayLog> workdayLogs);
 

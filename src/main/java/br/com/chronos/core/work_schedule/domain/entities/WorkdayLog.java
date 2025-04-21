@@ -15,14 +15,22 @@ public final class WorkdayLog extends Entity {
   private WorkdayStatus status;
   private Workload workloadSchedule;
   private ResponsibleAggregate responsible;
+  private Time hourBankCredit;
+  private Time hourBankDebit;
   private static final Time LUNCH_TIME_SCHEDULE = Time.create(1, 0);
 
   public WorkdayLog(WorkdayLogDto dto) {
     super(dto.id);
     date = (dto.date != null) ? Date.create(dto.date) : Date.createFromNow();
-    timePunch = (dto.timePunch != null) ? new TimePunch(dto.timePunch) : new TimePunch();
+    timePunch = new TimePunch(dto.timePunch);
     status = WorkdayStatus.create(dto.status);
     workloadSchedule = Workload.create(dto.workloadSchedule);
+    hourBankCredit = (dto.hourBankCredit != null)
+        ? Time.create(dto.hourBankCredit)
+        : Time.createAsZero();
+    hourBankDebit = (dto.hourBankDebit != null)
+        ? Time.create(dto.hourBankDebit)
+        : Time.createAsZero();
     responsible = new ResponsibleAggregate(dto.responsible);
   }
 
@@ -82,6 +90,15 @@ public final class WorkdayLog extends Entity {
     return date;
   }
 
+  public void updateHourBank(Time time, Logical isCreditOperation) {
+    if (isCreditOperation.isTrue()) {
+      hourBankCredit = hourBankCredit.plus(time);
+      return;
+    }
+
+    hourBankDebit = hourBankDebit.plus(time);
+  }
+
   public Workload getWorkloadSchedule() {
     return workloadSchedule;
   }
@@ -94,6 +111,14 @@ public final class WorkdayLog extends Entity {
     return status;
   }
 
+  public Time getHourBankCredit() {
+    return hourBankCredit;
+  }
+
+  public Time getHourBankDebit() {
+    return hourBankDebit;
+  }
+
   public ResponsibleAggregate getResponsible() {
     return responsible;
   }
@@ -104,7 +129,8 @@ public final class WorkdayLog extends Entity {
         .setDate(getDate().value())
         .setWorkloadSchedule(getWorkloadSchedule().value())
         .setTimePunch(getTimePunch().getDto())
-
+        .setHourBankCredit(getHourBankCredit().value())
+        .setHourBankDebit(getHourBankDebit().value())
         .setStatus(getStatus().toString().toLowerCase())
         .setResponsible(getResponsible().getDto());
   }
