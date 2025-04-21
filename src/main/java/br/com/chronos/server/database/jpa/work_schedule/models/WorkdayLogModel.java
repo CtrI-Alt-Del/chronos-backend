@@ -1,6 +1,7 @@
 package br.com.chronos.server.database.jpa.work_schedule.models;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import jakarta.persistence.EnumType;
@@ -37,9 +38,17 @@ public class WorkdayLogModel {
   @JoinColumn(name = "collaborator_id", nullable = false)
   private CollaboratorModel collaborator;
 
-  @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "time_punch_id", nullable = false)
-  private TimePunchModel timePunch;
+  @Column(name = "first_clock_in", nullable = true)
+  private LocalTime firstClockIn;
+
+  @Column(name = "first_clock_out", nullable = true)
+  private LocalTime firstClockOut;
+
+  @Column(name = "second_clock_in", nullable = true)
+  private LocalTime secondClockIn;
+
+  @Column(name = "second_clock_out", nullable = true)
+  private LocalTime secondClockOut;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false)
@@ -47,6 +56,12 @@ public class WorkdayLogModel {
 
   @Column(name = "workload_schedule", nullable = false)
   private byte workloadSchedule;
+
+  @Column(name = "hour_bank_credit", nullable = false)
+  private LocalTime hourBankCredit;
+
+  @Column(name = "hour_bank_debit", nullable = false)
+  private LocalTime hourBankDebit;
 
   // @OneToMany(mappedBy = "workdayLog", fetch = FetchType.LAZY)
   // private List<WorkdayLogAdjustmentSolicitationModel>

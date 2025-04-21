@@ -9,35 +9,30 @@ import br.com.chronos.core.work_schedule.domain.events.WorkdayCompletedEvent;
 import br.com.chronos.core.work_schedule.domain.exceptions.WorkdayLogNotFoundException;
 import br.com.chronos.core.work_schedule.domain.records.TimePunchPeriod;
 import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
-import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
 public class AdjustTimePunchUseCase {
-  private final WorkdayLogsRepository workdayLogsRepository;
-  private final TimePunchesRepository timePunchesRepository;
+  private final WorkdayLogsRepository repository;
   private final WorkScheduleBroker broker;
 
   public AdjustTimePunchUseCase(
-      TimePunchesRepository timePunchesRepository,
-      WorkdayLogsRepository workdayLogsRepository,
+      WorkdayLogsRepository repository,
       WorkScheduleBroker broker) {
-    this.timePunchesRepository = timePunchesRepository;
-    this.workdayLogsRepository = workdayLogsRepository;
+    this.repository = repository;
     this.broker = broker;
   }
 
   public void execute(String timePunchId, LocalTime time, String period) {
     var workdayLog = findWorkdayLog(Id.create(timePunchId));
-    var timePunch = workdayLog.getTimePunch();
-    timePunch.adjust(Time.create(time), TimePunchPeriod.create(period));
-    timePunchesRepository.replace(timePunch);
+    workdayLog.getTimePunch().adjust(Time.create(time), TimePunchPeriod.create(period));
+    repository.replace(workdayLog);
 
     var event = new WorkdayCompletedEvent(workdayLog);
     broker.publish(event);
   }
 
-  private WorkdayLog findWorkdayLog(Id timePunchId) {
-    var workdayLog = workdayLogsRepository.findByTimePunch(timePunchId);
+  private WorkdayLog findWorkdayLog(Id workdayLogId) {
+    var workdayLog = repository.findById(workdayLogId);
     if (workdayLog.isEmpty()) {
       throw new WorkdayLogNotFoundException();
     }

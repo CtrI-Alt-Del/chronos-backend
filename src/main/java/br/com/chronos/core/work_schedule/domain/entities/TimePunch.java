@@ -15,19 +15,11 @@ public final class TimePunch extends Entity {
   private Time secondClockOut;
 
   public TimePunch(TimePunchDto dto) {
-    super(dto.id);
+    super();
     firstClockIn = Time.create(dto.firstClockIn);
     firstClockOut = Time.create(dto.firstClockOut);
     secondClockIn = Time.create(dto.secondClockIn);
     secondClockOut = Time.create(dto.secondClockOut);
-  }
-
-  public TimePunch() {
-    super();
-    firstClockIn = null;
-    firstClockOut = null;
-    secondClockIn = null;
-    secondClockOut = null;
   }
 
   public void punch(Time time) {
@@ -47,7 +39,6 @@ public final class TimePunch extends Entity {
   }
 
   public void adjust(Time time, TimePunchPeriod period) {
-    System.out.println("PERIOD: " + period.name());
     switch (period.name()) {
       case TimePunchPeriod.PeriodName.FIRST_CLOCK_IN:
         firstClockIn = time;
@@ -154,11 +145,9 @@ public final class TimePunch extends Entity {
 
   public TimePunchDto getDto() {
     return new TimePunchDto()
-        .setId(getId().toString())
         .setFirstClockIn(getFirstClockIn().value())
         .setFirstClockOut(getFirstClockOut().value())
         .setSecondClockIn(getSecondClockIn().value())
         .setSecondClockOut(getSecondClockOut().value());
   }
-
 }
