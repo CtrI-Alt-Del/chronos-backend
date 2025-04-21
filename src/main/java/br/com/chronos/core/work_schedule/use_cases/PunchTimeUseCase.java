@@ -6,7 +6,7 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
-import br.com.chronos.core.work_schedule.domain.events.WorkdayCompletedEvent;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 import br.com.chronos.core.work_schedule.domain.exceptions.WorkdayLogNotFoundException;
 import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
@@ -26,7 +26,7 @@ public class PunchTimeUseCase {
     repository.replace(workdayLog);
 
     if (workdayLog.getTimePunch().isClosed().isTrue()) {
-      var event = new WorkdayCompletedEvent(workdayLog);
+      var event = new WorkdayClosedEvent(workdayLog);
       broker.publish(event);
     }
 

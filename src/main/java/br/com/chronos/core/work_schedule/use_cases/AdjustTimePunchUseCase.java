@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
-import br.com.chronos.core.work_schedule.domain.events.WorkdayCompletedEvent;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 import br.com.chronos.core.work_schedule.domain.exceptions.WorkdayLogNotFoundException;
 import br.com.chronos.core.work_schedule.domain.records.TimePunchPeriod;
 import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
@@ -27,7 +27,7 @@ public class AdjustTimePunchUseCase {
     workdayLog.getTimePunch().adjust(Time.create(time), TimePunchPeriod.create(period));
     repository.replace(workdayLog);
 
-    var event = new WorkdayCompletedEvent(workdayLog);
+    var event = new WorkdayClosedEvent(workdayLog);
     broker.publish(event);
   }
 

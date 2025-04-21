@@ -1,4 +1,4 @@
-package br.com.chronos.server.queue.jobs.collaboration;
+package br.com.chronos.server.queue.jobs.work_schedule;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -7,19 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.collaboration.interfaces.CollaborationBroker;
-import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
-import br.com.chronos.core.collaboration.use_cases.PrepareCollaboratorsForWorkUseCase;
+import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
+import br.com.chronos.core.work_schedule.use_cases.CloseWorkdayUseCase;
 
 @Component
-public class PrepareCollaboratorsForWorkJob {
+public class CloseWorkdayJob {
   @Autowired
-  private CollaboratorsRepository collaboratorsRepository;
+  private WorkdayLogsRepository workdayLogsRepository;
 
   @Autowired
-  private CollaborationBroker collaborationBroker;
+  private WorkScheduleBroker workScheduleBroker;
 
-  private static final String CRON_EXPRESSION = "0 5 0 * * ?";
+  private static final String CRON_EXPRESSION = "0 59 23 * * ?";
   private static final String AMERICA_SAO_PAULO_ZONE_ID = "America/Sao_Paulo";
   private static final String ASIA_TOKYO_ZONE_ID = "Asia/Tokyo";
 
@@ -34,7 +34,7 @@ public class PrepareCollaboratorsForWorkJob {
   }
 
   private void executeUseCase(ZoneId zoneId) {
-    var useCase = new PrepareCollaboratorsForWorkUseCase(collaboratorsRepository, collaborationBroker);
-    useCase.execute(LocalDate.now());
+    var useCase = new CloseWorkdayUseCase(workdayLogsRepository, workScheduleBroker);
+    useCase.execute(LocalDate.now(zoneId));
   }
 }

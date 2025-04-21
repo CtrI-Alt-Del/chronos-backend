@@ -9,13 +9,13 @@ import br.com.chronos.core.auth.domain.events.AccountUpdatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
-import br.com.chronos.core.work_schedule.domain.events.WorkdayCompletedEvent;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 
 @Configuration
 public class RabbitMqConfiguration {
   @Bean
-  Queue workdayDoneEventEventQueue() {
-    return new Queue(WorkdayCompletedEvent.KEY, true);
+  Queue WorkdayClosedEventQueue() {
+    return new Queue(WorkdayClosedEvent.KEY, true);
   }
 
   @Bean
