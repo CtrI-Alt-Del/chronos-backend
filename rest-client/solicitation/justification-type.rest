@@ -1,0 +1,37 @@
+@RESOURCE = solicitation/justification-type
+@URL = {{HOST}}/{{RESOURCE}}
+
+
+### Create Justification Type
+# @name create-type
+POST {{URL}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "name": "Tipo justificativa 1",
+  "shouldHaveAttachment": true
+}
+
+### List All Justification Types
+# @name get-types
+GET {{URL}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+
+### Delete Justification Type 
+# @name delete-type
+DELETE {{URL}}/123 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Update Justification Type 
+# @name update-type 
+PUT {{URL}}/123 HTTP/1.1
+rontent-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{ 
+  "shouldHaveAttachment": true
+}
