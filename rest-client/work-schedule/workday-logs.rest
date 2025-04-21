@@ -1,6 +1,6 @@
 @RESOURCE = work-schedule/workday-logs
 @WORKDAY_LOG_ID = 5e7b3d7c-bf22-48ef-9383-fca04a7c2d58
-@COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
+@COLLABORATOR_Id = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 ## Get today workday log
 GET {{HOST}}/{{RESOURCE}}/{{WORKDAY_LOG_ID}}/today
@@ -48,8 +48,8 @@ Authorization: Bearer {{JWT}}
 
 ### 
 
-## Adjust time punch log
-PATCH {{HOST}}/{{RESOURCE}}/{{WORKDAY_LOG_ID}}/adjust-time-punch
+## Adjust time punch
+PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}/adjust-time
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -57,3 +57,10 @@ Authorization: Bearer {{JWT}}
   "time": "12:00",
   "period": "first_clock_in"
 }
+
+### 
+
+## Get time card
+GET {{HOST}}/{{RESOURCE}}/time-card/{{COLLABORATOR_Id}}
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
