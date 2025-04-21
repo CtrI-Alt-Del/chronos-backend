@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
-import br.com.chronos.server.queue.jobs.work_schedule.UpdateWorkdayLogHourBankJob;
+import br.com.chronos.server.queue.jobs.work_schedule.UpdateWorkdayHourBankJob;
 
 @Component
 public class WorkScheduleListener {
@@ -16,7 +16,7 @@ public class WorkScheduleListener {
   private CreateWorkdayLogsJob createWorkdayLogsJob;
 
   @Autowired
-  private UpdateWorkdayLogHourBankJob updateWorkdayLogHourBankJob;
+  private UpdateWorkdayHourBankJob updateWorkdayHourBankJob;
 
   @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenToCollaboratorsPreparedForWorkEvent(
@@ -27,6 +27,6 @@ public class WorkScheduleListener {
   @RabbitListener(queues = HourBankTransactionCreatedEvent.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenToHourBankTransactionCreatedEvent(
       @Payload HourBankTransactionCreatedEvent.Payload payload) {
-    updateWorkdayLogHourBankJob.handle(payload);
+    updateWorkdayHourBankJob.handle(payload);
   }
 }
