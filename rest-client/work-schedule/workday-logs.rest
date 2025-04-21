@@ -30,8 +30,8 @@ Authorization: Bearer {{JWT}}
 
 ###
 
-## Verify workday absences
-PUT {{HOST}}/{{RESOURCE}}/absences
+## Close workday
+PUT {{HOST}}/{{RESOURCE}}/close
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
