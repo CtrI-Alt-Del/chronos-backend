@@ -27,6 +27,7 @@ public class CreateWorkdayLogsUseCase {
   public void execute(List<String> collaboratorIds, List<Integer> collaboratorWorkloads, LocalDate date) {
     Array<WorkdayLog> workdayLogs = Array.createAsEmpty();
     var workday = Date.create(date);
+    workdayLogsRepository.removeManyByDate(workday);
 
     for (var index = 0; index < collaboratorIds.size(); index++) {
       var id = collaboratorIds.get(index);
