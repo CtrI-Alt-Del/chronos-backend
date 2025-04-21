@@ -8,6 +8,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import br.com.chronos.core.auth.domain.events.AccountUpdatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
+import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayCompletedEvent;
 
 @Configuration
@@ -30,6 +31,11 @@ public class RabbitMqConfiguration {
   @Bean
   Queue collaboratorsPreparedForWorkEventQueue() {
     return new Queue(CollaboratorsPreparedForWorkEvent.KEY, true);
+  }
+
+  @Bean
+  Queue HourBankTransactionCreatedEventQueue() {
+    return new Queue(HourBankTransactionCreatedEvent.KEY, true);
   }
 
   @Bean
