@@ -18,8 +18,17 @@ public class PrepareCollaboratorsForWorkJob {
   @Autowired
   private CollaborationBroker collaborationBroker;
 
-  @Scheduled(cron = "0 5 0 * * ?")
-  public void handle() {
+  @Scheduled(cron = "0 5 0 * * ?", zone = "America/Sao_Paulo")
+  public void handleInAmericaSaoPaulo() {
+    executeUseCase();
+  }
+
+  @Scheduled(cron = "0 5 0 * * ?", zone = "Asia/Tokyo")
+  public void handleInAsiaTokyo() {
+    executeUseCase();
+  }
+
+  private void executeUseCase() {
     var useCase = new PrepareCollaboratorsForWorkUseCase(collaboratorsRepository, collaborationBroker);
     useCase.execute(LocalDate.now());
   }
