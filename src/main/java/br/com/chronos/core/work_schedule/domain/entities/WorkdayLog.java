@@ -79,6 +79,10 @@ public final class WorkdayLog extends Entity {
     return Time.createAsZero();
   }
 
+  public Time getWorkedTime() {
+    return timePunch.getTotalTime();
+  }
+
   public Logical verifyAbsense() {
     if (status.isNormalDay().and(timePunch.isEmpty()).isTrue()) {
       status = WorkdayStatus.createAsAbsence();
