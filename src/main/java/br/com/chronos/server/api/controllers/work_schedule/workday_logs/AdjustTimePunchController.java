@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.work_schedule.time_punches;
+package br.com.chronos.server.api.controllers.work_schedule.workday_logs;
 
 import java.time.LocalTime;
 import org.springframework.http.HttpStatus;
@@ -11,15 +11,11 @@ import lombok.Data;
 
 import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
-import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.use_cases.AdjustTimePunchUseCase;
 
-@TimePunchesController
+@WorkdayLogsController
 public class AdjustTimePunchController {
-  @Autowired
-  private TimePunchesRepository timePunchesRepository;
-
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
@@ -32,10 +28,10 @@ public class AdjustTimePunchController {
     private String period;
   }
 
-  @PatchMapping("/{timePunchId}/adjust")
-  public ResponseEntity<TimePunchDto> handle(@PathVariable String timePunchId, @RequestBody Request body) {
-    var useCase = new AdjustTimePunchUseCase(timePunchesRepository, workdayLogsRepository, workScheduleBroker);
-    useCase.execute(timePunchId, body.getTime(), body.getPeriod());
+  @PatchMapping("/{workdayLogId}/adjust-time-punch")
+  public ResponseEntity<TimePunchDto> handle(@PathVariable String workdayLogId, @RequestBody Request body) {
+    var useCase = new AdjustTimePunchUseCase(workdayLogsRepository, workScheduleBroker);
+    useCase.execute(workdayLogId, body.getTime(), body.getPeriod());
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 }
