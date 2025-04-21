@@ -17,7 +17,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "date": "2025-04-17",
+  "date": "2025-04-21",
   "operation": "credit",
   "time": "00:30"
 }
