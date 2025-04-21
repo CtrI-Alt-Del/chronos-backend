@@ -20,7 +20,6 @@ import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
-import br.com.chronos.core.hour_bank.domain.records.HourBankTransactionOperation;
 import br.com.chronos.core.hour_bank.domain.records.fakers.HourBankTransactionFaker;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
