@@ -8,7 +8,7 @@ import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepo
 import br.com.chronos.core.work_schedule.use_cases.UpdateWorkdayLogHourBankUseCase;
 
 @Component
-public class UpdateWorkdayLogHourBankJob {
+public class UpdateWorkdayHourBankJob {
   @Autowired
   private WorkdayLogsRepository repository;
 

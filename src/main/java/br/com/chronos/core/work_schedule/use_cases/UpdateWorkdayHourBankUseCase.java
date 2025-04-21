@@ -11,10 +11,10 @@ import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.work_schedule.domain.exceptions.WorkdayLogNotFoundException;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 
-public class UpdateWorkdayLogHourBankUseCase {
+public class UpdateWorkdayHourBankUseCase {
   private final WorkdayLogsRepository repository;
 
-  public UpdateWorkdayLogHourBankUseCase(WorkdayLogsRepository repository) {
+  public UpdateWorkdayHourBankUseCase(WorkdayLogsRepository repository) {
     this.repository = repository;
   }
 
