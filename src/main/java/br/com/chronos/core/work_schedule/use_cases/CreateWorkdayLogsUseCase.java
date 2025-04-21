@@ -27,7 +27,6 @@ public class CreateWorkdayLogsUseCase {
   public void execute(List<String> collaboratorIds, List<Integer> collaboratorWorkloads, LocalDate date) {
     Array<WorkdayLog> workdayLogs = Array.createAsEmpty();
     var workday = Date.create(date);
-    workdayLogsRepository.removeManyByDate(workday);
 
     for (var index = 0; index < collaboratorIds.size(); index++) {
       var id = collaboratorIds.get(index);
@@ -37,13 +36,12 @@ public class CreateWorkdayLogsUseCase {
       var workdayLogDto = new WorkdayLogDto()
           .setDate(workday.value())
           .setWorkloadSchedule((byte) (int) workload)
-          .setTimePunch(new TimePunchDto().setId(Id.random().toString()))
           .setStatus(workdayStatus.toString())
+          .setTimePunch(new TimePunchDto())
           .setResponsibleId(collaboratorId.toString());
-      System.out.println(workdayLogDto.workloadSchedule);
       workdayLogs.add(new WorkdayLog(workdayLogDto));
     }
-    System.out.println(workdayLogs.list());
+    System.out.println(workdayLogs);
     workdayLogsRepository.addMany(workdayLogs);
   }
 
