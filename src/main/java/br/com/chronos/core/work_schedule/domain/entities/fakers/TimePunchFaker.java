@@ -1,6 +1,5 @@
 package br.com.chronos.core.work_schedule.domain.entities.fakers;
 
-import br.com.chronos.core.global.domain.records.fakers.IdFaker;
 import br.com.chronos.core.global.domain.records.fakers.TimeFaker;
 import br.com.chronos.core.work_schedule.domain.dtos.TimePunchDto;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
@@ -17,7 +16,6 @@ public class TimePunchFaker {
     var secondClockOut = secondClockIn.plusHours(2);
 
     return new TimePunchDto()
-        .setId(IdFaker.fakeDto())
         .setFirstClockIn(firstClockIn.value())
         .setFirstClockOut(firstClockOut.value())
         .setSecondClockIn(secondClockIn.value())
