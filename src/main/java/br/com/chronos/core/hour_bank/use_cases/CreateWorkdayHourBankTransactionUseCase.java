@@ -6,14 +6,20 @@ import java.time.LocalTime;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.hour_bank.domain.dtos.HourBankTransactionDto;
+import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
+import br.com.chronos.core.hour_bank.interfaces.HourBankBroker;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 
 public class CreateWorkdayHourBankTransactionUseCase {
   private final HourBankTransactionsRepository repository;
+  private final HourBankBroker broker;
 
-  public CreateWorkdayHourBankTransactionUseCase(HourBankTransactionsRepository repository) {
+  public CreateWorkdayHourBankTransactionUseCase(
+      HourBankTransactionsRepository repository,
+      HourBankBroker broker) {
     this.repository = repository;
+    this.broker = broker;
   }
 
   public void execute(
@@ -21,9 +27,10 @@ public class CreateWorkdayHourBankTransactionUseCase {
       LocalTime undertime,
       LocalTime latetime,
       LocalDate date,
-      String collaboratorId) {
+      String collaboratorIdValue) {
     var creditTime = Time.create(overtime);
     var debitTime = Time.create(undertime).plus(Time.create(latetime));
+    var collaboratorId = Id.create(collaboratorIdValue);
 
     if (creditTime.isGreaterThan(debitTime).isTrue()) {
       var dto = new HourBankTransactionDto()
@@ -33,7 +40,7 @@ public class CreateWorkdayHourBankTransactionUseCase {
           .setReason("OVERTIME");
 
       var transaction = HourBankTransaction.create(dto);
-      repository.add(transaction, Id.create(collaboratorId));
+      repository.add(transaction, collaboratorId);
       return;
     }
 
@@ -45,7 +52,10 @@ public class CreateWorkdayHourBankTransactionUseCase {
           .setReason("LATETIME");
 
       var transaction = HourBankTransaction.create(dto);
-      repository.add(transaction, Id.create(collaboratorId));
+      repository.add(transaction, collaboratorId);
+
+      var event = new HourBankTransactionCreatedEvent(transaction, collaboratorId);
+      broker.publish(event);
     }
   }
 }
