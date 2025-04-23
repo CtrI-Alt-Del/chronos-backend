@@ -9,8 +9,9 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "name": "Tipo justificativa 1",
-  "shouldHaveAttachment": true
+  "id": "{{JUSTIFICATION_TYPE_ID}}",
+  "name": "Tipo justificativa 2(anexo!!)",
+  "shouldHaveAttachment": false
 }
 
 ### List All Justification Types
