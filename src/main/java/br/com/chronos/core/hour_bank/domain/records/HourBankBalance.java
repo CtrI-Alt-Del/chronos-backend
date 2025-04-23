@@ -1,5 +1,6 @@
 package br.com.chronos.core.hour_bank.domain.records;
 
+import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Time;
@@ -36,4 +37,17 @@ public record HourBankBalance(Time value, Logical isNegative) {
         .setNegative(isNegative.value());
   }
 
+  public HourBankBalance deduct(int workloadHours) {
+    Time workload = Time.create(workloadHours, 0);
+    if (this.isNegative.isTrue()) {
+      throw new ValidationException("Banco de horas", "O saldo já está negativo. Não é possível deduzir horas.");
+    }
+
+    if (this.value.isLessThan(workload).isTrue()) {
+      throw new ValidationException("Banco de horas", "Saldo insuficiente no banco de horas.");
+    }
+
+    Time newBalance = this.value.minus(workload);
+    return new HourBankBalance(newBalance, Logical.createAsFalse());
+  }
 }

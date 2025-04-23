@@ -12,6 +12,7 @@ public class DayOffSolicitation extends Solicitation {
     super(dto);
     this.type = SolicitationType.createAsDayOff();
     dayOff = Date.create(dto.dayOff);
+    justification = new Justification(dto.justification);
   }
   public DayOffSolicitationDto getDto(){
     DayOffSolicitationDto dto = new DayOffSolicitationDto();
