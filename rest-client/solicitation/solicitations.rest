@@ -1,0 +1,36 @@
+@RESOURCE = solicitation/solicitations
+@URL = {{HOST}}/{{RESOURCE}}
+
+
+
+### Get all solicitations 
+GET {{URL}} HTTP/1.1
+Content-Type: application/json 
+Authorization: Bearer {{JWT}}
+
+
+### Create Day Off Schedule Adjustment Solicitation
+POST {{URL}}/day-off-schedule-adjustment HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+    "dayOffSchedule":{
+    "workdaysCount": 20,
+    "daysOffCount": 10,
+    "daysOff": ["2025-04-05", "2025-04-10", "2025-04-15"]
+}
+}
+
+### Create Time Punch Adjustment Solicitation
+POST {{URL}}/time-punch-adjustment HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "time": "23:00",
+  "period": "FIRST_CLOCK_IN",
+  "workdayLogDate": "2025-04-05",
+  "reason": "FORGOTTEN"
+}
+

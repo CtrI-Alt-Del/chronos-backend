@@ -7,7 +7,6 @@ import br.com.chronos.core.solicitation.domain.dtos.DayOffScheduleAdjustmentSoli
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.work_schedule.domain.entities.DayOffSchedule;
-import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 
 public class CreateDayOffScheduleAdjustmentSolicitationUseCase {
 
@@ -20,7 +19,7 @@ public class CreateDayOffScheduleAdjustmentSolicitationUseCase {
 
   public DayOffScheduleAdjustmentSolicitationDto execute(DayOffScheduleAdjustmentSolicitationDto dto,
       Id collaboratorId) {
-    DayOffSchedule dayOffSchedule = new DayOffSchedule(dto.dayOffScheduleDto);
+    DayOffSchedule dayOffSchedule = new DayOffSchedule(dto.dayOffSchedule);
     var senderResponsibleDto = new ResponsibleDto()
         .setId(collaboratorId.value().toString());
     dto.setSenderResponsible(new ResponsibleAggregateDto(senderResponsibleDto));
