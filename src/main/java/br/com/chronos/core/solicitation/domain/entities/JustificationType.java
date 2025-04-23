@@ -11,8 +11,7 @@ public class JustificationType extends Entity {
 
   public JustificationType(JustificationTypeDto dto) {
     super(dto.id);
-    name = dto.name != null ? Text.create(dto.name, "Jusitification type name") : null;
-    shouldHaveAttachment = dto.shouldHaveAttachment != null ? Logical.create(dto.shouldHaveAttachment) : null;
+    name = dto.name != null ? Text.create(dto.name, "Justification type name") : null;
   }
 
   public Text getName() {
