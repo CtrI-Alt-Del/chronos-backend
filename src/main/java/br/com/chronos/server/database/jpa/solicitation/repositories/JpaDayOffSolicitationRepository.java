@@ -33,6 +33,7 @@ public class JpaDayOffSolicitationRepository implements DayOffSolicitationReposi
     var solicitationModel = mapper.toModel(solicitation);
     solicitationModel.setSolicitationStatus(solicitation.getStatus().value());
     solicitationRepository.save(solicitationModel);
+    return;
 	}
 
 	@Override
