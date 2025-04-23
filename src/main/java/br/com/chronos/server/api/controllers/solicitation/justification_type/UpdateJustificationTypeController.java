@@ -16,7 +16,7 @@ public class UpdateJustificationTypeController {
   @Autowired
   private JustificationTypeRepository justificationTypeRepository;
 
-  @PutMapping("/justification-type/{justificationTypeId}")
+  @PutMapping("/{justificationTypeId}")
   public ResponseEntity<Void> handle(@PathVariable String justificationTypeId,@RequestBody JustificationTypeDto body) {
     var useCase = new UpdateJustificationTypeUseCase(justificationTypeRepository);
     useCase.execute(justificationTypeId,body);

@@ -15,7 +15,7 @@ public class CreateJustificationTypeController{
   @Autowired
   private JustificationTypeRepository justificationTypeRepository;
 
-  @PostMapping("/justification-type")
+  @PostMapping
   public ResponseEntity<JustificationTypeDto> handle(@RequestBody JustificationTypeDto body) {
     var useCase = new CreateJustificationTypeUseCase(justificationTypeRepository);
     var response = useCase.execute(body);

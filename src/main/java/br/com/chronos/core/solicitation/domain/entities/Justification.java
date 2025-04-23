@@ -20,19 +20,23 @@ public class Justification extends Entity {
         dto.attachment.key,
         dto.attachment.contentType) : null;
     if (justificationType.NeedsAttachment().isTrue() && attachment == null) {
-      throw new ValidationException("justificativa","essa justificativa precisa de anexo!");
-      
+      throw new ValidationException("justificativa", "essa justificativa precisa de anexo!");
+
     }
   }
+
   public JustificationType getJustificationType() {
     return justificationType;
   }
+
   public Attachment getAttachment() {
     return attachment;
   }
+
   public Text getDescription() {
     return description;
   }
+
   public JustificationDto getDto() {
     var dto = new JustificationDto()
         .setId(getId().value().toString())

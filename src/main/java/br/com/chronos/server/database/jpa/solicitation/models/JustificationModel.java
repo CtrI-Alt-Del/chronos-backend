@@ -1,13 +1,15 @@
 package br.com.chronos.server.database.jpa.solicitation.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -16,11 +18,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "justifications")
+@Builder
 public class JustificationModel {
 
   @Id
@@ -32,6 +34,10 @@ public class JustificationModel {
   @ManyToOne
   @JoinColumn(name = "justification_type_id", nullable = false)
   private JustificationTypeModel justificationType;
+
+  @OneToMany(mappedBy = "justification")
+  @Builder.Default
+  private List<DayOffSolicitationModel> dayOffSolicitations = new ArrayList<>();
 
   @OneToOne
   @JoinColumn(name = "attachment_id", nullable = true)

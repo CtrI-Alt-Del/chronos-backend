@@ -16,6 +16,7 @@ import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedules
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.server.database.jpa.auth.repositories.JpaAccountsRepository;
 import br.com.chronos.server.database.jpa.collaborator.repositories.JpaCollaboratorsRepository;
+import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaDayOffScheduleAdjustmentSolicitationsRepository;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaDayOffSolicitationRepository;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaJustificationRepository;

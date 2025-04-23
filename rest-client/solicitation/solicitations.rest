@@ -15,7 +15,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-    "dayOffScheduleDto":{
+    "dayOffSchedule":{
     "workdaysCount": 20,
     "daysOffCount": 10,
     "daysOff": ["2025-04-05", "2025-04-10", "2025-04-15"]

@@ -16,7 +16,7 @@ public class ListAllJustificationTypeController {
   @Autowired
   private JustificationTypeRepository justificationTypeRepository;
 
-  @GetMapping("/justification-type")
+  @GetMapping
   public ResponseEntity<List<JustificationTypeDto>> handle() {
     var useCase = new ListAllJustificationTypesUseCase(justificationTypeRepository);
     var response = useCase.execute();
