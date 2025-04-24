@@ -75,19 +75,22 @@ public final class Account extends Entity {
     return collaboratorId;
   }
 
-  public void updateEmail(Email email) {
-    this.email = email;
+  public void update(AccountDto dto) {
+    if (dto.email != null && dto.email != getEmail().value()) {
+      email = Email.create(dto.email);
+    }
+    if (dto.role != null && dto.role != getRole().value().toString()) {
+      role = Role.create(dto.role);
+    }
+    if (dto.collaborationSector != null && !getCollaborationSector().toString().equals(dto.collaborationSector)) {
+      collaborationSector = CollaborationSector.create(dto.collaborationSector);
+    }
   }
 
   public void updatePassword(Password password) {
     this.password = password;
   }
-  public void updateRole(Role role) {
-    this.role = role;
-  }
-  public void updateCollaborationSector(CollaborationSector collaborationSector) {
-    this.collaborationSector = collaborationSector;
-  }
+
   public Role getRole() {
     return role;
   }

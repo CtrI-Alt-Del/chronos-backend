@@ -5,30 +5,37 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 
+import br.com.chronos.core.auth.domain.events.AccountUpdatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
-import br.com.chronos.core.collaboration.domain.events.CollaboratorUpdatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
-import br.com.chronos.core.work_schedule.domain.events.TimePunchClosedEvent;
+import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 
 @Configuration
 public class RabbitMqConfiguration {
   @Bean
-  Queue timePunchClosedEventQueue() {
-    return new Queue(TimePunchClosedEvent.KEY, true);
+  Queue WorkdayClosedEventQueue() {
+    return new Queue(WorkdayClosedEvent.KEY, true);
   }
 
   @Bean
   Queue collaboratorCreatedEventQueue() {
     return new Queue(CollaboratorCreatedEvent.KEY, true);
   }
+
   @Bean
-  Queue collaboratorUpdatedEventQueue() {
-    return new Queue(CollaboratorUpdatedEvent.KEY, true);
+  Queue accountUpdatedEventQueue() {
+    return new Queue(AccountUpdatedEvent.KEY, true);
   }
 
   @Bean
   Queue collaboratorsPreparedForWorkEventQueue() {
     return new Queue(CollaboratorsPreparedForWorkEvent.KEY, true);
+  }
+
+  @Bean
+  Queue HourBankTransactionCreatedEventQueue() {
+    return new Queue(HourBankTransactionCreatedEvent.KEY, true);
   }
 
   @Bean

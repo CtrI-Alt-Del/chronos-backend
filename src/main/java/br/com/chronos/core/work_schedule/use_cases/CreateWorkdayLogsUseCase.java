@@ -37,13 +37,12 @@ public class CreateWorkdayLogsUseCase {
       var workdayLogDto = new WorkdayLogDto()
           .setDate(workday.value())
           .setWorkloadSchedule((byte) (int) workload)
-          .setTimePunch(new TimePunchDto().setId(Id.random().toString()))
           .setStatus(workdayStatus.toString())
+          .setTimePunch(new TimePunchDto())
           .setResponsibleId(collaboratorId.toString());
-      System.out.println(workdayLogDto.workloadSchedule);
       workdayLogs.add(new WorkdayLog(workdayLogDto));
     }
-    System.out.println(workdayLogs.list());
+    System.out.println(workdayLogs);
     workdayLogsRepository.addMany(workdayLogs);
   }
 

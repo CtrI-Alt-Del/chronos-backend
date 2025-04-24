@@ -70,20 +70,11 @@ public final class Collaborator extends Entity {
     if (dto.name != null && dto.name != this.getName().value()) {
       this.name = Text.create(dto.name, "Collaborator name");
     }
-    if (dto.email != null && dto.email != this.getEmail().value()) {
-      this.email = Email.create(dto.email);
-    }
     if (dto.cpf != null && dto.cpf != this.getCpf().value()) {
       this.cpf = Cpf.create(dto.cpf);
     }
-    if (dto.role != null && dto.role != this.getRole().value().toString()) {
-      this.role = Role.create(dto.role);
-    }
-    if (dto.sector != null && dto.sector != this.getSector().value().toString()) {
-      this.sector = CollaborationSector.create(dto.sector);
-    }
-    if (dto.isActive != null && dto.isActive != this.getIsActive().value()) {
-      this.isActive = Logical.create(dto.isActive);
+    if (dto.workload != 0 && dto.workload != this.getWorkload().value()) {
+      this.workload = Workload.create(dto.workload);
     }
   }
 

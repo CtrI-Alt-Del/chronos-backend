@@ -1,4 +1,5 @@
 HELP.md
+http-client.env.json
 .env
 target/
 !.mvn/wrapper/maven-wrapper.jar

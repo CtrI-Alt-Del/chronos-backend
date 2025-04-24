@@ -132,12 +132,9 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
     var collaboratorModel = mapper.toModel(collaborator);
     repository.delete(collaboratorModel);
   }
-
   @Override
-  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(
-      CollaborationSector sector,
-      Logical isActive,
-      PageNumber page) {
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(CollaborationSector sector,
+      Logical isActive, PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, 10);
     Page<CollaboratorModel> collaboratorModels;
     collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
@@ -147,6 +144,7 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
         pageRequest);
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();
+
     return new Pair<>(
         Array.createFrom(items, mapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount, "contagem de colaboradores"));

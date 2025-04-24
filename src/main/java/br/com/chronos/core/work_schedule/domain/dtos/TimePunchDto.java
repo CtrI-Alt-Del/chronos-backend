@@ -3,16 +3,10 @@ package br.com.chronos.core.work_schedule.domain.dtos;
 import java.time.LocalTime;
 
 public class TimePunchDto {
-  public String id;
   public LocalTime firstClockIn;
   public LocalTime firstClockOut;
   public LocalTime secondClockIn;
   public LocalTime secondClockOut;
-
-  public TimePunchDto setId(String id) {
-    this.id = id;
-    return this;
-  }
 
   public TimePunchDto setFirstClockIn(LocalTime firstClockIn) {
     this.firstClockIn = firstClockIn;

@@ -7,7 +7,8 @@ import br.com.chronos.core.global.domain.records.Text;
 public record SolicitationType(Type value) {
   public enum Type {
     TIME_PUNCH,
-    DAY_OFF_SCHEDULE
+    DAY_OFF_SCHEDULE,
+    DAY_OFF,
   }
 
   public static SolicitationType create(String value) {
@@ -29,12 +30,17 @@ public record SolicitationType(Type value) {
   public static SolicitationType createAsDayOffSchedule() {
     return new SolicitationType(Type.DAY_OFF_SCHEDULE);
   }
-
+  public static SolicitationType createAsDayOff() {
+    return new SolicitationType(Type.DAY_OFF);
+  }
   public Logical isTimePunch() {
     return Logical.create(value == Type.TIME_PUNCH);
   }
 
   public Logical isDayOffSchedule() {
     return Logical.create(value == Type.DAY_OFF_SCHEDULE);
+  }
+  public Logical isDayOff() {
+    return Logical.create(value == Type.DAY_OFF);
   }
 }

@@ -11,7 +11,7 @@ public record Workload(PlusIntegerNumber hours) {
     var hours = PlusIntegerNumber.create(value, "Carga horária");
 
     if (hours.value() != 8 && hours.value() != 6 && hours.value() != 4) {
-      throw new ValidationException("horas horiudas","Carga horária deve ser 8, 6 ou 4 horas");
+      throw new ValidationException("horas horiudas", "Carga horária deve ser 8, 6 ou 4 horas");
     }
 
     return new Workload(hours);

@@ -9,11 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
-import br.com.chronos.core.work_schedule.interfaces.repositories.TimePunchesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.server.database.jpa.solicitation.mappers.TimePunchLogAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
 
@@ -34,11 +35,18 @@ public class JpaTimePunchLogPunchAdjustmentSolicitationsRepository implements Ti
   private TimePunchLogAdjustmentSolicitationMapper mapper;
 
   @Autowired
-  private TimePunchesRepository timePunchesRepository;
+  private WorkdayLogsRepository workdayLogsRepository;
 
   @Override
   public void add(TimePunchLogAdjustmentSolicitation solicitation) {
     var solicitationModel = mapper.toModel(solicitation);
+    solicitationModel.setSolicitationStatus(solicitation.getStatus().value());
+    if (solicitation.getStatus().isApproved().isTrue()) {
+      var wordaylog = workdayLogsRepository.findByCollaboratorAndDate(
+          solicitation.getSenderResponsible().getId(), Date.create(solicitation.getDate().value())).get();
+      wordaylog.getTimePunch().adjust(solicitation.getTime(), solicitation.getPeriod());
+      workdayLogsRepository.replace(wordaylog);
+    }
     solicitationRepository.save(solicitationModel);
   }
 

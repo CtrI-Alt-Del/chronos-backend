@@ -6,10 +6,10 @@ import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
 
 public class DayOffScheduleAdjustmentSolicitationDto extends SolicitationDto {
-  public DayOffScheduleDto dayOffScheduleDto;
+  public DayOffScheduleDto dayOffSchedule;
 
   public DayOffScheduleAdjustmentSolicitationDto setDayOffSchedule(DayOffScheduleDto dayOffScheduleDto) {
-    this.dayOffScheduleDto = dayOffScheduleDto;
+    this.dayOffSchedule = dayOffScheduleDto;
     return this;
   }
 

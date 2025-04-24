@@ -3,8 +3,10 @@ package br.com.chronos.server.database.jpa.solicitation.repositories;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
@@ -16,6 +18,15 @@ import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
+import br.com.chronos.server.database.jpa.solicitation.mappers.SolicitationMapper;
+import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
+
+interface JpaSolicitationsModelRepository extends JpaRepository<SolicitationModel,UUID>{
+  List<SolicitationModel> findAllBySenderResponsibleAccountSector(CollaborationSector.Sector sector);
+  Optional<SolicitationModel> findById(UUID id);
+
+  List<SolicitationModel> findAllBySenderResponsibleId(UUID userId);
+}
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
 
@@ -24,6 +35,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   DayOffScheduleAdjustmentRepository dayOffScheduleAdjustmentSolcitationModelsRepository;
+
+  @Autowired
+  JpaSolicitationsModelRepository solicitationsRepository;
+
+  @Autowired
+  SolicitationMapper mapper;
 
   @Override
   public void resolveSolicitation(Solicitation solicitation) {
@@ -42,49 +59,26 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Override
   public Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type) {
-    if (type.isTimePunch().isTrue()) {
-      var solicitation = timePunchLogAdjustmentSolicitationModelsRepository
-          .findSolicitationById(solicitationId);
-      return Optional.of(solicitation.get());
-    } else {
-      var solicitation = dayOffScheduleAdjustmentSolcitationModelsRepository
-          .findSolicitationById(solicitationId);
-      return Optional.of(solicitation.get());
+    var solicitationModel = solicitationsRepository.findById(solicitationId.value());
+    if (solicitationModel.isEmpty()) {
+      return Optional.empty();
     }
+    return Optional.of(mapper.toEntity(solicitationModel.get()));
   }
 
   @Override
   public Array<Solicitation> findAllByCollaboratorId(Id collaboratorId) {
-    List<TimePunchLogAdjustmentSolicitation> timePunchSolicitations;
-    List<DayOffScheduleAdjustmentSolicitation> dayOffScheduleSolicitations;
-    timePunchSolicitations = timePunchLogAdjustmentSolicitationModelsRepository
-        .findAllByCollaboratorId(collaboratorId).list();
-
-    dayOffScheduleSolicitations = dayOffScheduleAdjustmentSolcitationModelsRepository
-        .findAllByCollaboratorId(collaboratorId).list();
-    var allSolicitations = new ArrayList<Solicitation>();
-    allSolicitations.addAll(timePunchSolicitations);
-    allSolicitations.addAll(dayOffScheduleSolicitations);
-
-    return new Array<>(allSolicitations);
+    var solicitationModels = solicitationsRepository.findAllBySenderResponsibleId(collaboratorId.value());
+    var solicitations = Array.createFrom(solicitationModels, mapper::toEntity);
+      
+    return solicitations;
 
   }
 
   @Override
   public Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector) {
-    List<TimePunchLogAdjustmentSolicitation> timePunchSolicitations;
-    List<DayOffScheduleAdjustmentSolicitation> dayOffScheduleSolicitations;
-
-    timePunchSolicitations = timePunchLogAdjustmentSolicitationModelsRepository
-        .findAllByCollaboratorSector(sector).list();
-
-    dayOffScheduleSolicitations = dayOffScheduleAdjustmentSolcitationModelsRepository
-        .findAllByCollaboratorSector(sector).list();
-
-    var allSolicitations = new ArrayList<Solicitation>();
-    allSolicitations.addAll(timePunchSolicitations);
-    allSolicitations.addAll(dayOffScheduleSolicitations);
-
-    return new Array<>(allSolicitations);
+    var solicitationModels = solicitationsRepository.findAllBySenderResponsibleAccountSector(sector.value());
+    var solicitations = Array.createFrom(solicitationModels, mapper::toEntity);
+    return solicitations;
   }
 }
