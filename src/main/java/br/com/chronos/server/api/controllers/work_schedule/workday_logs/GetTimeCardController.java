@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.chronos.core.work_schedule.domain.dtos.TimeCardRowDto;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
@@ -17,9 +18,12 @@ public class GetTimeCardController {
   private WorkdayLogsRepository workdayLogsRepository;
 
   @GetMapping("/time-card/{collaboratorId}")
-  ResponseEntity<List<TimeCardRowDto>> handle(@PathVariable String collaboratorId) {
+  ResponseEntity<List<TimeCardRowDto>> handle(
+      @PathVariable String collaboratorId,
+      @RequestParam int month,
+      @RequestParam int year) {
     var useCase = new GetTimeCardUseCase(workdayLogsRepository);
-    var workdayLogs = useCase.execute(collaboratorId);
+    var workdayLogs = useCase.execute(collaboratorId, month, year);
     return ResponseEntity.ok(workdayLogs);
   }
 }

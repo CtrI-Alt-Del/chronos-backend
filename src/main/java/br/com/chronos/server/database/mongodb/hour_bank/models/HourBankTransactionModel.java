@@ -2,7 +2,6 @@ package br.com.chronos.server.database.mongodb.hour_bank.models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
