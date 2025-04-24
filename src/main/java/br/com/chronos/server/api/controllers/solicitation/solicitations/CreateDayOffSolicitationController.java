@@ -1,6 +1,5 @@
 package br.com.chronos.server.api.controllers.solicitation.solicitations;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +9,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.chronos.core.global.domain.dtos.AttachmentDto;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.global.interfaces.providers.StorageProvider;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
 import br.com.chronos.core.solicitation.domain.dtos.JustificationDto;
 import br.com.chronos.core.solicitation.domain.dtos.JustificationTypeDto;
-import br.com.chronos.core.solicitation.interfaces.repositories.AttachmentRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.JustificationRepository;
 import br.com.chronos.core.solicitation.use_cases.CreateDayOffSolicitationUseCase;
-import br.com.chronos.core.solicitation.use_cases.UploadJustificationAttachmentUseCase;
+import br.com.chronos.server.api.aspects.annotations.global.HandleAttachmentUpload;
+import br.com.chronos.server.api.aspects.contexts.global.AttachmentContextHolder;
 
 @SolicitationsController
+@HandleAttachmentUpload
 public class CreateDayOffSolicitationController {
 
   @Autowired
@@ -30,12 +28,6 @@ public class CreateDayOffSolicitationController {
 
   @Autowired
   private JustificationRepository justificationRepository;
-
-  @Autowired
-  private StorageProvider storageProvider;
-
-  @Autowired
-  private AttachmentRepository attachmentRepository;
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
@@ -47,15 +39,9 @@ public class CreateDayOffSolicitationController {
       @RequestParam("justificationTypeId") String justificationTypeId,
       @RequestParam("justificationTypeName") String justificationTypeName,
       @RequestParam("justificationTypeShouldHaveAttachment") String justificationTypeShouldHaveAttachment,
-      @RequestParam(value = "attachment", required = false) MultipartFile attachment) throws IOException {
+      @RequestParam(value = "attachment", required = false) MultipartFile attachment){
 
-    AttachmentDto attachmentDto = null;
-
-    if (attachment != null) {
-      var useCase = new UploadJustificationAttachmentUseCase(storageProvider, attachmentRepository);
-      attachmentDto = useCase.execute(attachment.getOriginalFilename(), attachment.getContentType(),
-          attachment.getBytes());
-    }
+    var attachmentDto = AttachmentContextHolder.get();
 
     var justificationDto = new JustificationDto()
         .setJustificationType(new JustificationTypeDto()

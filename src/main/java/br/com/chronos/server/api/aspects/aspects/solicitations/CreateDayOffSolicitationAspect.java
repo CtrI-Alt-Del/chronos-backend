@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.aspects.solicitations;
+package br.com.chronos.server.api.aspects.aspects.solicitations;
 
 
 import org.aspectj.lang.annotation.Aspect;
