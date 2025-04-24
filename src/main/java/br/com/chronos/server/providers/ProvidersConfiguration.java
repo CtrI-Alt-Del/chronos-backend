@@ -9,7 +9,7 @@ import br.com.chronos.core.global.interfaces.providers.JwtProvider;
 import br.com.chronos.server.providers.authentication.SecurityAuthenticationProvider;
 import br.com.chronos.server.providers.env.DotenvProvider;
 import br.com.chronos.server.providers.jwt.Auth0JwtProvider;
-// import br.com.chronos.server.providers.storage.S3StorageProvider;
+import br.com.chronos.server.providers.storage.S3StorageProvider;
 
 @Configuration
 public class ProvidersConfiguration {
@@ -28,8 +28,8 @@ public class ProvidersConfiguration {
   AuthenticationProvider authenticationProvider() {
     return new SecurityAuthenticationProvider();
   }
-  // @Bean
-  // S3StorageProvider storageProvider(){
-  //   return new S3StorageProvider(new DotenvProvider());
-  // }
+  @Bean
+  S3StorageProvider storageProvider(){
+    return new S3StorageProvider(new DotenvProvider());
+  }
 }

@@ -1,16 +1,26 @@
 package br.com.chronos.server.api.controllers.solicitation.solicitations;
 
+import java.io.IOException;
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import br.com.chronos.core.global.domain.dtos.AttachmentDto;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.global.interfaces.providers.StorageProvider;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
+import br.com.chronos.core.solicitation.domain.dtos.JustificationDto;
+import br.com.chronos.core.solicitation.domain.dtos.JustificationTypeDto;
+import br.com.chronos.core.solicitation.interfaces.repositories.AttachmentRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.JustificationRepository;
 import br.com.chronos.core.solicitation.use_cases.CreateDayOffSolicitationUseCase;
+import br.com.chronos.core.solicitation.use_cases.UploadJustificationAttachmentUseCase;
 
 @SolicitationsController
 public class CreateDayOffSolicitationController {
@@ -21,17 +31,50 @@ public class CreateDayOffSolicitationController {
   @Autowired
   private JustificationRepository justificationRepository;
 
+  @Autowired
+  private StorageProvider storageProvider;
+
+  @Autowired
+  private AttachmentRepository attachmentRepository;
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @PostMapping("/day-off")
+  @PostMapping(value = "/day-off", consumes = { "multipart/form-data" })
   public ResponseEntity<DayOffSolicitationDto> handle(
-      @RequestBody DayOffSolicitationDto body) {
-    var useCase = new CreateDayOffSolicitationUseCase(solicitationsRepository,justificationRepository);
+      @RequestParam("dayOff") LocalDate dayOff,
+      @RequestParam("description") String justificationDescription,
+      @RequestParam("justificationTypeId") String justificationTypeId,
+      @RequestParam("justificationTypeName") String justificationTypeName,
+      @RequestParam("justificationTypeShouldHaveAttachment") String justificationTypeShouldHaveAttachment,
+      @RequestParam(value = "attachment", required = false) MultipartFile attachment) throws IOException {
+
+    AttachmentDto attachmentDto = null;
+
+    if (attachment != null) {
+      var useCase = new UploadJustificationAttachmentUseCase(storageProvider, attachmentRepository);
+      attachmentDto = useCase.execute(attachment.getOriginalFilename(), attachment.getContentType(),
+          attachment.getBytes());
+    }
+
+    var justificationDto = new JustificationDto()
+        .setJustificationType(new JustificationTypeDto()
+            .setId(justificationTypeId)
+            .setName(justificationTypeName)
+            .setShouldHaveAttachment(Boolean.parseBoolean(justificationTypeShouldHaveAttachment)))
+        .setDescription(justificationDescription)
+        .setAttachment(attachmentDto != null ? attachmentDto : null);
+
+
+    var body = new DayOffSolicitationDto()
+        .setDayOff(dayOff)
+        .setJustification(justificationDto);
+
+    var useCase = new CreateDayOffSolicitationUseCase(solicitationsRepository, justificationRepository);
     var responsible = authenticationProvider.getAccount();
     var senderId = responsible.getCollaboratorId();
     var response = useCase.execute(body, senderId);
+
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

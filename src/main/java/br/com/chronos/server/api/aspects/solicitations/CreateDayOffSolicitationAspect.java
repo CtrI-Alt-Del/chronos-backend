@@ -1,6 +1,5 @@
 package br.com.chronos.server.api.aspects.solicitations;
 
-import java.util.logging.Logger;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

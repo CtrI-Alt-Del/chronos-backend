@@ -3,6 +3,8 @@ package br.com.chronos.server.providers.storage;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import br.com.chronos.core.global.domain.exceptions.AppException;
 import br.com.chronos.core.global.interfaces.providers.EnvProvider;
 import br.com.chronos.core.global.interfaces.providers.StorageProvider;
@@ -18,6 +20,8 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 public class S3StorageProvider implements StorageProvider {
   private final S3Client s3Client;
 
+
+  @Value("${s3.bucket.name}")
   private String bucketName;
 
   public static class S3Config {
@@ -45,10 +49,10 @@ public class S3StorageProvider implements StorageProvider {
   }
 
   public S3StorageProvider(EnvProvider envProvider) {
-    var acessKey = envProvider.get("AWS_ACCESS_KEY_ID");
-    var secretKey = envProvider.get("AWS_SECRET_ACCESS_KEY");
-    var region = envProvider.get("AWS_REGION");
-
+    var acessKey = envProvider.get("S3_ACCESS_KEY");
+    var secretKey = envProvider.get("S3_SECRET_ACCESS_KEY");
+    var region = envProvider.get("S3_REGION");
+    
     if (acessKey == null || secretKey == null || region == null) {
       throw new IllegalArgumentException("AWS credentials and region must be provided");
     }
