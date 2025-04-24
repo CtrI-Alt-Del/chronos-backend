@@ -1,0 +1,7 @@
+@RESOURCE = work-schedule/workday-logs
+@COLLABORATOR_Id = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
+
+## Get time card
+GET {{HOST}}/{{RESOURCE}}/time-card/{{COLLABORATOR_Id}}?month=4&year=2025
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
