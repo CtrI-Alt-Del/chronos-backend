@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.work_schedule.workday_logs;
+package br.com.chronos.server.api.controllers.work_schedule.time_card;
 
 import java.util.List;
 
@@ -12,12 +12,12 @@ import br.com.chronos.core.work_schedule.domain.dtos.TimeCardRowDto;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.use_cases.GetTimeCardUseCase;
 
-@WorkdayLogsController
+@TimeCardController
 public class GetTimeCardController {
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
-  @GetMapping("/time-card/{collaboratorId}")
+  @GetMapping("/{collaboratorId}")
   ResponseEntity<List<TimeCardRowDto>> handle(
       @PathVariable String collaboratorId,
       @RequestParam int month,

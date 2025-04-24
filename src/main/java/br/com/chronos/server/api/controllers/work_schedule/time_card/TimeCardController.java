@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.work_schedule.time_punches;
+package br.com.chronos.server.api.controllers.work_schedule.time_card;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @RestController
-@RequestMapping("work-schedule/time-punches")
-public @interface TimePunchesController {
+@RequestMapping("work-schedule/time-card")
+public @interface TimeCardController {
 
 }
