@@ -1,13 +1,11 @@
 package br.com.chronos.core.global.domain.records;
 
-import java.util.UUID;
 
 import br.com.chronos.core.global.domain.dtos.AttachmentDto;
 
-public record Attachment(Id id,Text name, Text key, Text contentType) {
+public record Attachment(Text name, Text key, Text contentType) {
   public static Attachment create(String name, String key, String contentType) {
     return new Attachment(
-        Id.create(UUID.randomUUID().toString()),
         Text.create(name, "attachment.name"),
         Text.create(key, "attachment.key"),
         Text.create(contentType, "attachment.contentType"));
