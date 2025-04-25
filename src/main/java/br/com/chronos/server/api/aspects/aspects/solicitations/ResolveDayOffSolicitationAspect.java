@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.aspects.solicitations;
+package br.com.chronos.server.api.aspects.aspects.solicitations;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

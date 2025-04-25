@@ -18,11 +18,12 @@ public class AttachmentMapper {
 
   public Attachment toRecord(AttachmentModel model) {
     var record = Attachment.create(
-      model.getName(),
-      model.getContentType(), 
-      model.getKey());
+        model.getName(),
+        model.getContentType(),
+        model.getKey());
     return record;
   }
+
   public AttachmentDto toDto(AttachmentModel model) {
     return new AttachmentDto()
         .setName(model.getName())
