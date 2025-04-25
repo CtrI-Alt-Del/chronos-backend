@@ -26,7 +26,7 @@ public class UploadAttachmentAspect {
     @Autowired
     private AttachmentRepository attachmentRepository;
 
-    @Around("execution(* br.com.chronos.server.api.controllers.solicitation.solicitations.*(..))")
+    @Around("execution(* br.com.chronos.server.api.controllers.solicitation..*(..))")
     public Object handleAttachment(ProceedingJoinPoint joinPoint) throws Throwable {
         var method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         var targetClass = joinPoint.getTarget().getClass();

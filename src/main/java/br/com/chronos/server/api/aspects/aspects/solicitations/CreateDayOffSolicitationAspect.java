@@ -1,11 +1,14 @@
 package br.com.chronos.server.api.aspects.aspects.solicitations;
 
+import java.time.LocalDate;
+import java.util.logging.Logger;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
@@ -15,7 +18,6 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.hour_bank.use_cases.CalculateHourBankBalanceUseCase;
-import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
 
 @Component
 @Aspect
@@ -34,8 +36,11 @@ public class CreateDayOffSolicitationAspect {
   public void handleCreateDayOffSolicitation() {
   }
 
-  @Before("handleCreateDayOffSolicitation() && args(body,..)")
-  private void validateHourBankBeforeCreate(DayOffSolicitationDto body) {
+  @Before("handleCreateDayOffSolicitation() && args(dayOff, justificationDescription, justificationTypeId, justificationTypeName, justificationTypeShouldHaveAttachment, attachment, ..)")
+  private void validateHourBankBeforeCreate(LocalDate dayOff, String justificationDescription,
+      String justificationTypeId, String justificationTypeName, String justificationTypeShouldHaveAttachment,
+      MultipartFile attachment) {
+
     var collaboratorId = authenticationProvider.getAccount().getCollaboratorId();
     var collaborator = getCollaborator(collaboratorId);
     var hourBankBalance = getHourBankBalance(collaboratorId);
