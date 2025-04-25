@@ -1,5 +1,6 @@
 package br.com.chronos.core.global.domain.records;
 
+
 import br.com.chronos.core.global.domain.dtos.AttachmentDto;
 
 public record Attachment(Text name, Text key, Text contentType) {
