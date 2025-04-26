@@ -13,9 +13,6 @@ import br.com.chronos.server.database.jpa.solicitation.models.DayOffSolicitation
 @Component
 public class DayOffSolicitationMapper {
 
-  @Autowired
-  private JustificationMapper justificationMapper;
-
   public DayOffSolicitationModel toModel(DayOffSolicitation entity) {
     var senderResponse = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();
     var replierResponse = (entity.getReplierResponsible() != null)
@@ -30,7 +27,6 @@ public class DayOffSolicitationMapper {
         .senderResponsible(senderResponse)
         .replierResponsible(replierResponse)
         .dayOff(entity.getDayOff().value())
-        .justification(justificationMapper.toModel(entity.getJustification()))
         .build();
     return solicitationModel;
   }
@@ -63,8 +59,7 @@ public class DayOffSolicitationMapper {
         .setStatus(model.getSolicitationStatus().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
         .setReplierResponsible(replierResponsibleAggregateDto)
-        .setDayOff(model.getDayOff())
-        .setJustification(justificationMapper.toDto(model.getJustification()));
+        .setDayOff(model.getDayOff());
   }
 
   public DayOffSolicitation toEntity(DayOffSolicitationModel model) {

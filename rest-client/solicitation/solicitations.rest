@@ -42,25 +42,24 @@ Authorization: Bearer {{JWT}}
 
 ### Create Day Off Solicitation
 
-# POST {{URL}}/day-off
-# Content-Type: multipart/form-data; boundary=----WebKitFormBoundary{{$timestamp}}
-# Authorization: Bearer {{JWT}}
+POST {{URL}}/day-off
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
 
-# ------WebKitFormBoundary{{$timestamp}}
-# Content-Disposition: form-data; name="dayOff"
-# 2025-02-01
-# ------WebKitFormBoundary{{$timestamp}}
-# Content-Disposition: form-data; name="description"
-# justifiatica AAA MANSO!
-# ------WebKitFormBoundary{{$timestamp}}
-# Content-Disposition: form-data; name="justificationTypeId"
-# {{JUSTIFICATION_TYPE_ID}}
-# ------WebKitFormBoundary{{$timestamp}}
-# Content-Disposition: form-data; name="justificationTypeName"
-# Tipo Justificativa 1
-# ------WebKitFormBoundary{{$timestamp}}
-# Content-Disposition: form-data; name="justificationTypeShouldHaveAttachment"
-# false
+{
+  "dayOff": "2025-02-02"
+}
+
+### Create Excuse Absence Solicitation 
+
+POST {{URL}}/excuse-absence
+Content-Type: application/json 
+Authorization: Bearer {{JWT}}
+
+{
+  "excuseAbsenceDate": "2025-02-02"
+}
+
 
 ### Resolve Solicitation 
 PATCH {{URL}}/resolve/b187861a-d331-4935-9cf1-2cdd078abc91
