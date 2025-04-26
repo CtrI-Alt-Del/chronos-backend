@@ -14,16 +14,19 @@ import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.ExcuseAbsenceSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.Justification;
 import br.com.chronos.core.solicitation.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitationRepository;
+import br.com.chronos.core.solicitation.interfaces.repositories.JustificationRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
 import br.com.chronos.server.database.jpa.solicitation.daos.ExcuseAbsenceSolicitationDao;
 import br.com.chronos.server.database.jpa.solicitation.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.solicitation.mappers.ExcuseAbsenceSolicitationMapper;
+import br.com.chronos.server.database.jpa.solicitation.mappers.JustificationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
@@ -57,10 +60,16 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
 
   @Autowired
-  ExcuseAbsenceSolicitationDao ExcuseAbsenceSolicitationDao;
+  ExcuseAbsenceSolicitationDao excuseAbsenceSolicitationDao;
 
   @Autowired
   ExcuseAbsenceSolicitationMapper excuseAbsenceSolicitationMapper;
+
+  @Autowired
+  JustificationRepository justificationRepository;
+
+  @Autowired
+  JustificationMapper justificationMapper;
 
   @Autowired
   SolicitationMapper mapper;
@@ -126,6 +135,14 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Override
   public void add(ExcuseAbsenceSolicitation solicitation) {
     var solicitationModel = excuseAbsenceSolicitationMapper.toModel(solicitation);
-    ExcuseAbsenceSolicitationDao.save(solicitationModel);
+    excuseAbsenceSolicitationDao.save(solicitationModel);
+  }
+
+@Override
+public void addJustificationToSolicitation(ExcuseAbsenceSolicitation solicitation, Justification justification) {
+    var justificationModel = justificationMapper.toModel(justification);
+    var solicitationModel = excuseAbsenceSolicitationMapper.toModel(solicitation);
+    solicitationModel.setJustification(justificationModel);
+    excuseAbsenceSolicitationDao.save(solicitationModel);
   }
 }
