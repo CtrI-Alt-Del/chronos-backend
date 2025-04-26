@@ -9,13 +9,13 @@ import br.com.chronos.core.solicitation.domain.records.SolicitationStatus;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 
 public abstract class Solicitation extends Entity {
-  public Text description;
-  public Date date;
-  public Text feedbackMessage;
-  public SolicitationStatus status;
-  public ResponsibleAggregate senderResponsible;
-  public ResponsibleAggregate replierResponsible;
-  public SolicitationType type;
+  protected Text description;
+  protected Date date;
+  protected Text feedbackMessage;
+  protected SolicitationStatus status;
+  protected ResponsibleAggregate senderResponsible;
+  protected ResponsibleAggregate replierResponsible;
+  protected SolicitationType type;
 
   public Solicitation(SolicitationDto dto) {
     super(dto.id);
@@ -37,6 +37,10 @@ public abstract class Solicitation extends Entity {
     return status;
   }
 
+  public void setStatus(SolicitationStatus status) {
+    this.status = status;
+  }
+
   public Date getDate() {
     return date;
   }
@@ -45,12 +49,20 @@ public abstract class Solicitation extends Entity {
     return feedbackMessage;
   }
 
+  public void setFeedbackMessage(Text feedbackMessage) {
+    this.feedbackMessage = feedbackMessage;
+  }
+
   public ResponsibleAggregate getSenderResponsible() {
     return senderResponsible;
   }
 
   public ResponsibleAggregate getReplierResponsible() {
     return replierResponsible;
+  }
+
+  public void setReplierResponsible(ResponsibleAggregate replierResponsible) {
+    this.replierResponsible = replierResponsible;
   }
 
   public SolicitationType getType() {

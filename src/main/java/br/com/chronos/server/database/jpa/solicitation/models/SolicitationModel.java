@@ -30,7 +30,6 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 public abstract class SolicitationModel {
-
   @Id
   private UUID id;
 
@@ -45,7 +44,7 @@ public abstract class SolicitationModel {
   private CollaboratorModel senderResponsible;
 
   @ManyToOne
-  @JoinColumn(name = "replier_responsible_id",nullable = true)
+  @JoinColumn(name = "replier_responsible_id", nullable = true)
   private CollaboratorModel replierResponsible;
 
   @Enumerated(EnumType.STRING)
