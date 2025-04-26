@@ -19,6 +19,8 @@ public class ResponsibleFaker {
         .setId(IdFaker.fakeDto())
         .setName(faker.name().fullName())
         .setEmail(faker.internet().emailAddress())
+        .setCpf(faker.idNumber().valid())
+        .setSector(faker.company().industry())
         .setRole(RoleFaker.fakeDto());
   }
 }

@@ -1,10 +1,11 @@
 package br.com.chronos.core.hour_bank.domain.records;
 
-import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.hour_bank.domain.dtos.HourBankBalanceDto;
+import br.com.chronos.core.hour_bank.domain.exceptions.InsufficientHourBankBalanceException;
+import br.com.chronos.core.hour_bank.domain.exceptions.NegativeHourBankException;
 
 public record HourBankBalance(Time value, Logical isNegative) {
 
@@ -31,23 +32,29 @@ public record HourBankBalance(Time value, Logical isNegative) {
         Logical.createAsFalse());
   }
 
+  public Logical hasSufficient(Time time) {
+    if (this.isNegative.isTrue()) {
+      throw new NegativeHourBankException();
+    }
+
+    if (this.value.isLessThan(time).isTrue()) {
+      throw new InsufficientHourBankBalanceException();
+    }
+
+    return Logical.createAsTrue();
+  }
+
+  public HourBankBalance deduct(Time time) {
+    hasSufficient(time);
+
+    Time newBalance = this.value.minus(time);
+    return new HourBankBalance(newBalance, Logical.createAsFalse());
+  }
+
   public HourBankBalanceDto getDto() {
     return new HourBankBalanceDto()
         .setValue(value.value())
         .setNegative(isNegative.value());
   }
 
-  public HourBankBalance deduct(int workloadHours) {
-    Time workload = Time.create(workloadHours, 0);
-    if (this.isNegative.isTrue()) {
-      throw new ValidationException("Banco de horas", "O saldo já está negativo. Não é possível deduzir horas.");
-    }
-
-    if (this.value.isLessThan(workload).isTrue()) {
-      throw new ValidationException("Banco de horas", "Saldo insuficiente no banco de horas.");
-    }
-
-    Time newBalance = this.value.minus(workload);
-    return new HourBankBalance(newBalance, Logical.createAsFalse());
-  }
 }
