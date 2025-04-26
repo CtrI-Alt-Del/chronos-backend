@@ -6,6 +6,7 @@ import br.com.chronos.core.global.domain.records.Text;
 
 public record SolicitationType(Type value) {
   public enum Type {
+    EXCUSE_ABSENCE,
     TIME_PUNCH,
     DAY_OFF_SCHEDULE,
     DAY_OFF,
@@ -22,6 +23,9 @@ public record SolicitationType(Type value) {
     } catch (Exception e) {
       throw new ValidationException(text.key(), "deve ser de ponto ou de jornada");
     }
+  }
+  public static SolicitationType createAsExcuseAbsence() {
+    return new SolicitationType(Type.EXCUSE_ABSENCE);
   }
 
   public static SolicitationType createAsTimePunch() {
