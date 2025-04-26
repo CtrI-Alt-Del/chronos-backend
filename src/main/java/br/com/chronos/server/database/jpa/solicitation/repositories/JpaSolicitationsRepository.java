@@ -13,12 +13,15 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
+import br.com.chronos.server.database.jpa.solicitation.daos.PaidOvertimeSolicitationDao;
+import br.com.chronos.server.database.jpa.solicitation.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
 
@@ -43,6 +46,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   DayOffSolicitationRepository dayOffSolicitationRepository;
+
+  @Autowired
+  PaidOvertimeSolicitationMapper paidOvertimeSolicitationMapper;
+
+  @Autowired
+  PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
 
   @Autowired
   SolicitationMapper mapper;
@@ -97,5 +106,11 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
       return Optional.empty();
     }
     return Optional.of(mapper.toEntity(solicitationModel.get()));
+  }
+
+  @Override
+  public void add(PaidOvertimeSolicitation solicitation) {
+    var solicitationModel = paidOvertimeSolicitationMapper.toModel(solicitation);
+    paidOvertimeSolicitationDao.save(solicitationModel);
   }
 }
