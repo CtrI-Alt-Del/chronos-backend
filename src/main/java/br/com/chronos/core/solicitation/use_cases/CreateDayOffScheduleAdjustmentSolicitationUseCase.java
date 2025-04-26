@@ -20,8 +20,7 @@ public class CreateDayOffScheduleAdjustmentSolicitationUseCase {
   public DayOffScheduleAdjustmentSolicitationDto execute(DayOffScheduleAdjustmentSolicitationDto dto,
       Id collaboratorId) {
     DayOffSchedule dayOffSchedule = new DayOffSchedule(dto.dayOffSchedule);
-    var senderResponsibleDto = new ResponsibleDto()
-        .setId(collaboratorId.value().toString());
+    var senderResponsibleDto = new ResponsibleDto().setId(collaboratorId.value().toString());
     dto.setSenderResponsible(new ResponsibleAggregateDto(senderResponsibleDto));
     dto.setDayOffSchedule(dayOffSchedule.getDto());
     var solicitation = new DayOffScheduleAdjustmentSolicitation(dto);
