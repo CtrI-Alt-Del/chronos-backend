@@ -19,8 +19,8 @@ public class AttachmentMapper {
   public Attachment toRecord(AttachmentModel model) {
     var record = Attachment.create(
         model.getName(),
-        model.getContentType(),
-        model.getKey());
+        model.getKey(),
+        model.getContentType());
     return record;
   }
 

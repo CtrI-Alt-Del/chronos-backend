@@ -34,10 +34,11 @@ interface JpaCollaboratorModelsRepository extends JpaRepository<CollaboratorMode
 
   Page<CollaboratorModel> findAllByAccountRoleNotAndAccountIsActive(RoleName role, Pageable pageable, Boolean isActive);
 
-  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
+  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSectorAndAccountIsActiveAndIdNot(
       RoleName role,
       Sector sector,
       Boolean isActive,
+      UUID id,
       Pageable pageable);
 }
 
@@ -132,15 +133,17 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
     var collaboratorModel = mapper.toModel(collaborator);
     repository.delete(collaboratorModel);
   }
+
   @Override
-  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(CollaborationSector sector,
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(Id id, CollaborationSector sector,
       Logical isActive, PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, 10);
     Page<CollaboratorModel> collaboratorModels;
-    collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActive(
+    collaboratorModels = repository.findAllByAccountRoleNotAndAccountSectorAndAccountIsActiveAndIdNot(
         RoleName.ADMIN,
         sector.value(),
         isActive.value(),
+        id.value(),
         pageRequest);
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();

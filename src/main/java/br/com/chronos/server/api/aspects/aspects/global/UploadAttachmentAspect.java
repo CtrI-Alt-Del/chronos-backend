@@ -1,7 +1,5 @@
 package br.com.chronos.server.api.aspects.aspects.global;
 
-import java.util.logging.Logger;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,38 +18,43 @@ import br.com.chronos.server.api.aspects.contexts.global.AttachmentContextHolder
 @Component
 public class UploadAttachmentAspect {
 
-    @Autowired
-    private StorageProvider storageProvider;
+  @Autowired
+  private StorageProvider storageProvider;
 
-    @Autowired
-    private AttachmentRepository attachmentRepository;
+  @Autowired
+  private AttachmentRepository attachmentRepository;
 
-    @Around("execution(* br.com.chronos.server.api.controllers.solicitation..*(..))")
-    public Object handleAttachment(ProceedingJoinPoint joinPoint) throws Throwable {
-        var method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        var targetClass = joinPoint.getTarget().getClass();
+  @Around("execution(* br.com.chronos.server.api.controllers.solicitation..*(..))")
+  public Object handleAttachment(ProceedingJoinPoint joinPoint) throws Throwable {
+    var method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+    var targetClass = joinPoint.getTarget().getClass();
 
-        boolean hasAnnotationOnMethod = method.isAnnotationPresent(HandleAttachmentUpload.class);
-        boolean hasAnnotationOnClass = targetClass.isAnnotationPresent(HandleAttachmentUpload.class);
+    boolean hasAnnotationOnMethod = method.isAnnotationPresent(HandleAttachmentUpload.class);
+    boolean hasAnnotationOnClass = targetClass.isAnnotationPresent(HandleAttachmentUpload.class);
 
-        if (!hasAnnotationOnMethod && !hasAnnotationOnClass) {
-            return joinPoint.proceed(); 
-        }
-
-        try {
-
-            for (Object arg : joinPoint.getArgs()) {
-                if (arg instanceof MultipartFile file && !file.isEmpty()) {
-                    var useCase = new UploadJustificationAttachmentUseCase(storageProvider, attachmentRepository);
-                    var attachmentDto = useCase.execute(file.getOriginalFilename(), file.getContentType(), file.getBytes());
-                    AttachmentContextHolder.set(attachmentDto);
-                    break;
-                }
-            }
-
-            return joinPoint.proceed();
-        } finally {
-            AttachmentContextHolder.clear();
-        }
+    if (!hasAnnotationOnMethod && !hasAnnotationOnClass) {
+      return joinPoint.proceed();
     }
+
+    try {
+
+      for (Object arg : joinPoint.getArgs()) {
+        if (arg instanceof MultipartFile file && !file.isEmpty()) {
+          var useCase = new UploadJustificationAttachmentUseCase(storageProvider, attachmentRepository);
+          String contentType = file.getContentType();
+          if (contentType == null || !contentType.contains("/")) {
+            contentType = "application/octet-stream"; // fallback seguro
+          }
+
+          var attachmentDto = useCase.execute(file.getOriginalFilename(), contentType, file.getBytes());
+          AttachmentContextHolder.set(attachmentDto);
+          break;
+        }
+      }
+
+      return joinPoint.proceed();
+    } finally {
+      AttachmentContextHolder.clear();
+    }
+  }
 }

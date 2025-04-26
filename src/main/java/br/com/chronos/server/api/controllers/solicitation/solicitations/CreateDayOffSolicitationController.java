@@ -31,7 +31,6 @@ public class CreateDayOffSolicitationController {
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
-
   @PostMapping(value = "/day-off", consumes = { "multipart/form-data" })
   public ResponseEntity<DayOffSolicitationDto> handle(
       @RequestParam("dayOff") LocalDate dayOff,

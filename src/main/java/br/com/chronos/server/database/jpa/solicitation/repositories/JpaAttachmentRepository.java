@@ -1,6 +1,6 @@
 package br.com.chronos.server.database.jpa.solicitation.repositories;
 
-import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +10,9 @@ import br.com.chronos.core.solicitation.interfaces.repositories.AttachmentReposi
 import br.com.chronos.server.database.jpa.solicitation.mappers.AttachmentMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.AttachmentModel;
 
-interface JpaAttachmentModelRepository extends JpaRepository<AttachmentModel,UUID>{}
+interface JpaAttachmentModelRepository extends JpaRepository<AttachmentModel,String>{
+  Optional<AttachmentModel> findByKey(String key);
+}
 
 public class JpaAttachmentRepository implements AttachmentRepository{
 
@@ -29,6 +31,15 @@ public class JpaAttachmentRepository implements AttachmentRepository{
 	public void remove(Attachment attachment) {
     var model = mapper.toModel(attachment);
     repository.delete(model);
+	}
+
+	@Override
+	public Attachment findAttachmentByKey(String attachmentKey) {
+    var model = repository.findByKey(attachmentKey);
+    if(model.isEmpty()){
+      return null;
+    }
+    return mapper.toRecord(model.get());
 	}
 
 }
