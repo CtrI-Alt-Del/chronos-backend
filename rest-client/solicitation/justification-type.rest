@@ -10,6 +10,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
+  "id": "{{JUSTIFICATION_TYPE_ID}}",
   "name": "Tipo justificativa 2(anexo!!)",
   "shouldHaveAttachment": false
 }

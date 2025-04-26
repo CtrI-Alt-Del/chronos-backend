@@ -16,7 +16,7 @@ public class UploadJustificationAttachmentUseCase {
   }
   public AttachmentDto execute(String attachmentName,String attachmentType,byte[] fileContent){
     var attachmentKey = storageProvider.uploadFile(attachmentName, attachmentType, fileContent);
-    var attachment = Attachment.create(attachmentName, attachmentKey, attachmentType);
+    var attachment = Attachment.create(attachmentKey, attachmentName, attachmentType);
     attachmentRepository.add(attachment);
     return attachment.getDto();
   }

@@ -16,8 +16,8 @@ public class Justification extends Entity {
     description = Text.create(dto.description, "Justification description");
     justificationType = new JustificationType(dto.justificationType);
     attachment = dto.attachment != null ? Attachment.create(
-        dto.attachment.name,
         dto.attachment.key,
+        dto.attachment.name,
         dto.attachment.contentType) : null;
     if (justificationType.NeedsAttachment().isTrue() && attachment == null) {
       throw new ValidationException("justificativa", "essa justificativa precisa de anexo!");
