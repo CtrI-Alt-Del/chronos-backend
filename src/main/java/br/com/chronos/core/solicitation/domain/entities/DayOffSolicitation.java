@@ -5,16 +5,18 @@ import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 
-public class DayOffSolicitation extends Solicitation {
+public final class DayOffSolicitation extends Solicitation {
   private Justification justification;
   private Date dayOff;
-  public DayOffSolicitation(DayOffSolicitationDto dto){
+
+  public DayOffSolicitation(DayOffSolicitationDto dto) {
     super(dto);
-    this.type = SolicitationType.createAsDayOff();
+    type = SolicitationType.createAsDayOff();
     dayOff = Date.create(dto.dayOff);
     justification = new Justification(dto.justification);
   }
-  public DayOffSolicitationDto getDto(){
+
+  public DayOffSolicitationDto getDto() {
     DayOffSolicitationDto dto = new DayOffSolicitationDto();
     dto.setJustification(getJustification().getDto());
     dto.setId(getId().toString());
@@ -28,9 +30,11 @@ public class DayOffSolicitation extends Solicitation {
     dto.setType(getType().value().toString());
     return dto;
   }
+
   public Justification getJustification() {
     return justification;
   }
+
   public Date getDayOff() {
     return dayOff;
   }

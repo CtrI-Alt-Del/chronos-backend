@@ -9,6 +9,7 @@ public record SolicitationType(Type value) {
     TIME_PUNCH,
     DAY_OFF_SCHEDULE,
     DAY_OFF,
+    PAID_OVERTIME
   }
 
   public static SolicitationType create(String value) {
@@ -30,9 +31,11 @@ public record SolicitationType(Type value) {
   public static SolicitationType createAsDayOffSchedule() {
     return new SolicitationType(Type.DAY_OFF_SCHEDULE);
   }
+
   public static SolicitationType createAsDayOff() {
     return new SolicitationType(Type.DAY_OFF);
   }
+
   public Logical isTimePunch() {
     return Logical.create(value == Type.TIME_PUNCH);
   }
@@ -40,7 +43,12 @@ public record SolicitationType(Type value) {
   public Logical isDayOffSchedule() {
     return Logical.create(value == Type.DAY_OFF_SCHEDULE);
   }
+
   public Logical isDayOff() {
     return Logical.create(value == Type.DAY_OFF);
+  }
+
+  public Logical isPaidOvertime() {
+    return Logical.create(value == Type.PAID_OVERTIME);
   }
 }

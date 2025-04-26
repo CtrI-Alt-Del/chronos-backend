@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
@@ -32,6 +34,15 @@ public class CreateDayOffSolicitationController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
+  @Data
+  @EqualsAndHashCode(callSuper = false)
+  public static class Request extends DayOffSolicitationDto {
+    private int workload;
+  }
+
+  // I suggests create a controller for creating a justification. This controller
+  // will upload the justification's attchment too and be
+  // executed after CreateDayOffSolicitationController.
   @PostMapping(value = "/day-off", consumes = { "multipart/form-data" })
   public ResponseEntity<DayOffSolicitationDto> handle(
       @RequestParam("dayOff") LocalDate dayOff,
@@ -39,7 +50,7 @@ public class CreateDayOffSolicitationController {
       @RequestParam("justificationTypeId") String justificationTypeId,
       @RequestParam("justificationTypeName") String justificationTypeName,
       @RequestParam("justificationTypeShouldHaveAttachment") String justificationTypeShouldHaveAttachment,
-      @RequestParam(value = "attachment", required = false) MultipartFile attachment){
+      @RequestParam(value = "attachment", required = false) MultipartFile attachment) {
 
     var attachmentDto = AttachmentContextHolder.get();
 
@@ -50,7 +61,6 @@ public class CreateDayOffSolicitationController {
             .setShouldHaveAttachment(Boolean.parseBoolean(justificationTypeShouldHaveAttachment)))
         .setDescription(justificationDescription)
         .setAttachment(attachmentDto != null ? attachmentDto : null);
-
 
     var body = new DayOffSolicitationDto()
         .setDayOff(dayOff)

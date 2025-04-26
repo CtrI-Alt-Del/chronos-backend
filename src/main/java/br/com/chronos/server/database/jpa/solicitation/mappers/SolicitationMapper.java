@@ -40,11 +40,11 @@ public class SolicitationMapper {
   }
 
   public SolicitationModel toModel(Solicitation entity) {
-    if (entity.type.isTimePunch().isTrue()) {
+    if (entity.getType().isTimePunch().isTrue()) {
       return dayOffScheduleAdjustmentSolicitationMapper.toModel((DayOffScheduleAdjustmentSolicitation) entity);
-    } else if (entity.type.isDayOffSchedule().isTrue()) {
+    } else if (entity.getType().isDayOffSchedule().isTrue()) {
       return timePunchLogAdjustmentSolicitationMapper.toModel((TimePunchLogAdjustmentSolicitation) entity);
-    } else if (entity.type.isDayOff().isTrue()) {
+    } else if (entity.getType().isDayOff().isTrue()) {
       return dayOffSolicitationMapper.toModel((DayOffSolicitation) entity);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + entity.getClass());

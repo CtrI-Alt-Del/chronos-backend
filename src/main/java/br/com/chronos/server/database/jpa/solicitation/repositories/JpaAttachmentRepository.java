@@ -10,25 +10,28 @@ import br.com.chronos.core.solicitation.interfaces.repositories.AttachmentReposi
 import br.com.chronos.server.database.jpa.solicitation.mappers.AttachmentMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.AttachmentModel;
 
-interface JpaAttachmentModelRepository extends JpaRepository<AttachmentModel,UUID>{}
+interface JpaAttachmentModelRepository extends JpaRepository<AttachmentModel, UUID> {
 
-public class JpaAttachmentRepository implements AttachmentRepository{
+}
+
+public class JpaAttachmentRepository implements AttachmentRepository {
 
   @Autowired
   private AttachmentMapper mapper;
 
   @Autowired
   private JpaAttachmentModelRepository repository;
-	@Override
-	public void add(Attachment attachment) {
+
+  @Override
+  public void add(Attachment attachment) {
     var model = mapper.toModel(attachment);
     repository.save(model);
-	}
+  }
 
-	@Override
-	public void remove(Attachment attachment) {
+  @Override
+  public void remove(Attachment attachment) {
     var model = mapper.toModel(attachment);
     repository.delete(model);
-	}
+  }
 
 }

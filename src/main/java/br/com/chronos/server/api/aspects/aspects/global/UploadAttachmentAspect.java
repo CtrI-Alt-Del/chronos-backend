@@ -1,7 +1,5 @@
 package br.com.chronos.server.api.aspects.aspects.global;
 
-import java.util.logging.Logger;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -35,7 +33,7 @@ public class UploadAttachmentAspect {
         boolean hasAnnotationOnClass = targetClass.isAnnotationPresent(HandleAttachmentUpload.class);
 
         if (!hasAnnotationOnMethod && !hasAnnotationOnClass) {
-            return joinPoint.proceed(); 
+            return joinPoint.proceed();
         }
 
         try {
@@ -43,7 +41,8 @@ public class UploadAttachmentAspect {
             for (Object arg : joinPoint.getArgs()) {
                 if (arg instanceof MultipartFile file && !file.isEmpty()) {
                     var useCase = new UploadJustificationAttachmentUseCase(storageProvider, attachmentRepository);
-                    var attachmentDto = useCase.execute(file.getOriginalFilename(), file.getContentType(), file.getBytes());
+                    var attachmentDto = useCase.execute(file.getOriginalFilename(), file.getContentType(),
+                            file.getBytes());
                     AttachmentContextHolder.set(attachmentDto);
                     break;
                 }
