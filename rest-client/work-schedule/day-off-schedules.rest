@@ -1,21 +1,19 @@
 @RESOURCE = work-schedule/day-off-schedules
 @COLLABORATOR_ID = 94f83dca-78ec-413e-8dc5-613288d3db94
 
-## Get day off schedule
+### Get day off schedule
 GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
 
-## Schedule days off 
+### Schedule days off 
 GET {{HOST}}/{{RESOURCE}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
 
-## Update day off schedule
+### Update day off schedule
 PUT {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -23,6 +21,5 @@ Authorization: Bearer {{JWT}}
 {
   "workdaysCount": 5,
   "daysOffCount": 2,
-  "daysOff": ["2023-10-01", "2023-10-01"],
-  "collaboratorId": {{COLLABORATOR_ID}}
+  "daysOff": ["2023-10-01", "2023-10-01"]
 }
