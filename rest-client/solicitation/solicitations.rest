@@ -66,3 +66,7 @@ Authorization: Bearer {{JWT}}
   "status": "APPROVED",
   "solicitationType": "DAY_OFF"
 }
+
+### Get JustificationAttachmentUrl 
+GET {{URL}}/attachments/809cba83-dbc4-4bbb-8cd6-9f19f4387f97-shrek.jpg
+Authorization: Bearer {{JWT}}
