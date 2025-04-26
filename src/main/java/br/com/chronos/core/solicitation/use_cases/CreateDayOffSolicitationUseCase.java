@@ -15,14 +15,11 @@ public class CreateDayOffSolicitationUseCase {
   }
 
   public DayOffSolicitationDto execute(DayOffSolicitationDto dto, Id collaboratorId) {
-    // var justification = new Justification(dto.justification);
     var senderResponsibleDto = new ResponsibleDto()
         .setId(collaboratorId.value().toString());
 
     dto.setSenderResponsible(new ResponsibleAggregateDto(senderResponsibleDto));
-    // dto.setJustification(justification.getDto());
     var solicitation = new DayOffSolicitation(dto);
-    // justificationRepository.add(justification);
     solicitationRepository.add(solicitation);
     return solicitation.getDto();
   }
