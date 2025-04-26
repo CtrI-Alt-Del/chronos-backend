@@ -1,6 +1,6 @@
 package br.com.chronos.core.hour_bank.domain.events;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import br.com.chronos.core.global.domain.abstracts.Event;
@@ -12,7 +12,7 @@ public class HourBankTransactionCreatedEvent extends Event<HourBankTransactionCr
 
   public static record Payload(
       LocalTime time,
-      LocalDate date,
+      LocalDateTime date,
       boolean isCreditOperation,
       String collaboratorId) {
   }
@@ -20,7 +20,7 @@ public class HourBankTransactionCreatedEvent extends Event<HourBankTransactionCr
   public HourBankTransactionCreatedEvent(HourBankTransaction transaction, Id collaboratorId) {
     super(new Payload(
         transaction.time().value(),
-        transaction.date().value(),
+        transaction.dateTime().value(),
         transaction.operation().isCreditOperation().value(),
         collaboratorId.toString()));
   }

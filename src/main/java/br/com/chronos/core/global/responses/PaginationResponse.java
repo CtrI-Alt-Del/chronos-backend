@@ -6,7 +6,7 @@ public class PaginationResponse<Item> {
   private final List<Item> items;
   private final int itemsCount;
   private final int pagesCount;
-  public final static int ITEMS_PER_PAGE = 10;
+  public final static double ITEMS_PER_PAGE = 10;
 
   public PaginationResponse(List<Item> items, int itemsCount) {
     this.items = items;

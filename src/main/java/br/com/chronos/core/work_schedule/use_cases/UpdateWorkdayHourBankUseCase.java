@@ -1,6 +1,6 @@
 package br.com.chronos.core.work_schedule.use_cases;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import br.com.chronos.core.global.domain.records.Date;
@@ -18,8 +18,10 @@ public class UpdateWorkdayHourBankUseCase {
     this.repository = repository;
   }
 
-  public void execute(String collaboratorId, LocalDate date, LocalTime time, boolean isCreditOperation) {
-    var workdayLog = findWorkdayLog(Id.create(collaboratorId), Date.create(date));
+  public void execute(String collaboratorId, LocalDateTime dateTime, LocalTime time, boolean isCreditOperation) {
+    var workdayLog = findWorkdayLog(
+        Id.create(collaboratorId),
+        Date.create(dateTime.toLocalDate()));
     workdayLog.updateHourBank(Time.create(time), Logical.create(isCreditOperation));
     repository.replace(workdayLog);
   }

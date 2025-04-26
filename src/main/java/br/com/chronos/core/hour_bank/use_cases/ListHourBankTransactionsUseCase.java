@@ -36,6 +36,9 @@ public class ListHourBankTransactionsUseCase {
       return getPaginationResponse(response);
     }
 
+    System.out.println(startDate);
+    System.out.println(endDate);
+
     var response = repository.findManyByCollaboratorDateRageAndOperation(
         Id.create(collaboratorId),
         DateRange.create(startDate, endDate),

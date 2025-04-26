@@ -10,7 +10,7 @@ public record WorkTimeLog(Time workdayTime, Time workMonthTime) {
   public static WorkTimeLog create(Array<WorkdayLog> workdayLogs) {
     var workdayTime = Time.createAsZero();
     var workMonthTime = Time.createAsZero();
-    var today = Date.now();
+    var today = Date.createFromNow();
 
     for (var workdayLog : workdayLogs.list()) {
       workMonthTime = workMonthTime.plus(workdayLog.getTimePunch().getTotalTime());

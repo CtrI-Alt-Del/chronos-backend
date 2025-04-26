@@ -1,6 +1,6 @@
 package br.com.chronos.core.hour_bank.use_cases;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import br.com.chronos.core.global.domain.records.Id;
@@ -26,7 +26,7 @@ public class CreateWorkdayHourBankTransactionUseCase {
       LocalTime overtime,
       LocalTime undertime,
       LocalTime latetime,
-      LocalDate date,
+      LocalDateTime dateTime,
       String collaboratorIdValue) {
     var creditTime = Time.create(overtime);
     var debitTime = Time.create(undertime).plus(Time.create(latetime));
@@ -35,7 +35,7 @@ public class CreateWorkdayHourBankTransactionUseCase {
     if (creditTime.isGreaterThan(debitTime).isTrue()) {
       var dto = new HourBankTransactionDto()
           .setTime(creditTime.minus(debitTime).value())
-          .setDate(date)
+          .setDateTime(dateTime)
           .setOperation("CREDIT")
           .setReason("OVERTIME");
 
@@ -47,7 +47,7 @@ public class CreateWorkdayHourBankTransactionUseCase {
     if (debitTime.isGreaterThan(creditTime).isTrue()) {
       var dto = new HourBankTransactionDto()
           .setTime(debitTime.getDifferenceFrom(creditTime).value())
-          .setDate(date)
+          .setDateTime(dateTime)
           .setOperation("DEBIT")
           .setReason("LATETIME");
 

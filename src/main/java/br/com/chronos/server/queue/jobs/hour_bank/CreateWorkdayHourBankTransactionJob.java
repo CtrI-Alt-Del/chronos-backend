@@ -22,10 +22,10 @@ public class CreateWorkdayHourBankTransactionJob {
         hourBankBroker);
 
     useCase.execute(
-        payload.overtime,
-        payload.undertime,
-        payload.latetime,
-        payload.date,
-        payload.collaboratorId);
+        payload.overtime(),
+        payload.undertime(),
+        payload.latetime(),
+        payload.date(),
+        payload.collaboratorId());
   }
 }

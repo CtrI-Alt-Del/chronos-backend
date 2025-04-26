@@ -14,7 +14,7 @@ public class HourBankTransactionMapper {
         .operation(record.operation().name())
         .reason(record.reason().name())
         .time(record.time().value())
-        .date(record.date().value())
+        .dateTime(record.dateTime().value())
         .build();
     return model;
   }
@@ -23,7 +23,7 @@ public class HourBankTransactionMapper {
     var dto = new HourBankTransactionDto()
         .setOperation(model.getOperation().toString())
         .setReason(model.getReason().toString())
-        .setDate(model.getDate())
+        .setDateTime(model.getDateTime())
         .setTime(model.getTime());
     var record = HourBankTransaction.create(dto);
     return record;
