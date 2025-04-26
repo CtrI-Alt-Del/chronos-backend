@@ -1,0 +1,86 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="time-card" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ecae0574-3267-4e67-9357-fc8a3d8c6e3a">
+	<parameter name="workload" class="java.lang.Integer"/>
+	<parameter name="overtime" class="java.lang.String"/>
+	<parameter name="latetime" class="java.lang.String"/>
+	<parameter name="undertime" class="java.lang.String"/>
+	<parameter name="hourbankCredit" class="java.lang.String"/>
+	<parameter name="hourBankDebit" class="java.lang.String"/>
+	<parameter name="workedTime" class="java.lang.String"/>
+	<parameter name="collaboratorName" class="java.lang.String"/>
+	<parameter name="collaboratorCpf" class="java.lang.String"/>
+	<parameter name="collaboratorSector" class="java.lang.String"/>
+	<parameter name="expeditionDate" class="java.time.LocalDateTime"/>
+	<parameter name="collaboratorRole" class="java.lang.String"/>
+	<parameter name="collaboratorEmail" class="java.lang.String"/>
+	<parameter name="startDate" class="java.time.LocalDate"/>
+	<parameter name="endDate" class="java.time.LocalDate"/>
+	<parameter name="chronosLogo" class="java.lang.Object"/>
+	<query language="sql"><![CDATA[]]></query>
+	<background splitType="Stretch"/>
+	<title height="27" splitType="Stretch">
+		<element kind="staticText" uuid="8014ec1c-c4e2-4f4f-b930-a04ca37ca9f7" x="40" y="4" width="60" height="18" fontName="Bahnschrift" fontSize="14.0" removeLineWhenBlank="true" vTextAlign="Middle">
+			<text><![CDATA[Chronos]]></text>
+		</element>
+		<element kind="image" uuid="f1d75c33-ed9b-4b6e-8ac8-14531151766f" x="10" y="1" width="25" height="25">
+			<expression><![CDATA[$P{chronosLogo}]]></expression>
+			<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="b6348914-3927-4e7b-9f7e-1afe8a131497" x="174" y="1" width="214" height="24" fontSize="16.0">
+			<text><![CDATA[Relatório de espelho ponto]]></text>
+		</element>
+	</title>
+	<pageHeader height="63" splitType="Stretch">
+		<element kind="textField" uuid="c6044a39-8f4b-4860-b587-a8c6204b22dd" x="0" y="4" width="200" height="16" bold="true">
+			<expression><![CDATA["Colaborador: " + $P{collaboratorName}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="5cbbe53b-b402-49d6-8c4b-c4ee7f25998e" x="204" y="5" width="150" height="16">
+			<expression><![CDATA["CPF: " + $P{collaboratorCpf}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="7eadff3f-0043-48ae-9896-a591733fea6c" x="0" y="27" width="160" height="16">
+			<expression><![CDATA["Setor: " + $P{collaboratorSector}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="32d8b2d6-5390-432e-8d8d-26be3ce105dc" x="204" y="26" width="150" height="16">
+			<expression><![CDATA["Cargo: " + $P{collaboratorRole}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="2ba15db6-61c4-4a81-a760-42373c272f87" x="363" y="5" width="90" height="16">
+			<text><![CDATA[Data de expedição:]]></text>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="b84cf90d-61ad-4412-834f-41cb5fa446b5" x="461" y="6" width="94" height="16" pattern="dd/MM/yyyy">
+			<expression><![CDATA[$P{expeditionDate}]]></expression>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="a676592f-11a7-4276-b08b-7d1abfe69977" x="365" y="30" width="40" height="16">
+			<text><![CDATA[Período: ]]></text>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="983fefce-bad6-4876-afea-05695dd49674" x="413" y="30" width="64" height="16" pattern="dd/MM/yyyy">
+			<expression><![CDATA[$P{startDate}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="9980422b-38cf-4c65-978d-a9a0e3b350b7" x="501" y="32" width="64" height="16" pattern="dd/MM/yyyy">
+			<expression><![CDATA[$P{endDate}]]></expression>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+	</pageHeader>
+	<columnHeader height="78" splitType="Stretch">
+		<element kind="staticText" uuid="b5998240-b6a2-40dd-9d16-4c8135866901" x="482" y="-32" width="12" height="16">
+			<text><![CDATA[a]]></text>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+</jasperReport>

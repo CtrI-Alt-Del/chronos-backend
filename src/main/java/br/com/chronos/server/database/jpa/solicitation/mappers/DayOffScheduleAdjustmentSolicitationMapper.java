@@ -53,6 +53,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
       var replierResponsibleDto = new ResponsibleDto()
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
+          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
 

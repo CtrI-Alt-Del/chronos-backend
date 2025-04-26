@@ -84,7 +84,6 @@ public class JpaDayOffScheduleAdjustmentSolicitationsRepository implements DayOf
   public Array<DayOffScheduleAdjustmentSolicitation> findAllByCollaboratorId(Id userId) {
     var solicitationModels = solicitationRepository.findAllBySenderResponsibleId(userId.value());
     return Array.createFrom(solicitationModels, solicitationMapper::toEntity);
-
   }
 
   @Override

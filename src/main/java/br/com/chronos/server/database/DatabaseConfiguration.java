@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
+import br.com.chronos.core.solicitation.interfaces.repositories.AttachmentRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.JustificationRepository;
@@ -17,6 +18,7 @@ import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepo
 import br.com.chronos.server.database.jpa.auth.repositories.JpaAccountsRepository;
 import br.com.chronos.server.database.jpa.collaborator.repositories.JpaCollaboratorsRepository;
 import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
+import br.com.chronos.server.database.jpa.solicitation.repositories.JpaAttachmentRepository;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaDayOffScheduleAdjustmentSolicitationsRepository;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaDayOffSolicitationRepository;
 import br.com.chronos.server.database.jpa.solicitation.repositories.JpaJustificationRepository;
@@ -80,5 +82,9 @@ public class DatabaseConfiguration {
   @Bean
   DayOffSolicitationRepository dayOffSolicitationRepository(){
     return new JpaDayOffSolicitationRepository();
+  }
+  @Bean
+  AttachmentRepository attachmentRepository(){
+    return new JpaAttachmentRepository();
   }
 }

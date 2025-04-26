@@ -1,9 +1,9 @@
 package br.com.chronos.server.database.jpa.solicitation.models;
 
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -20,14 +20,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "attachments")
 public class AttachmentModel {
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  @Column(nullable = false)
+  private UUID id;
 
   @Column(nullable = false)
   private String name;
-
-  @Column(nullable = false)
-  private String key;
 
   @Column(nullable = false)
   private String contentType;

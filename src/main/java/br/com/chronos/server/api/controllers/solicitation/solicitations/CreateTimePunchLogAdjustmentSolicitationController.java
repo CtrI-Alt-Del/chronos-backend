@@ -12,9 +12,9 @@ import br.com.chronos.core.solicitation.use_cases.CreateTimePunchLogAdjustmentSo
 
 @SolicitationsController
 public class CreateTimePunchLogAdjustmentSolicitationController {
-
   @Autowired
   private TimePunchLogAdjustmentRepository solicitationsRepository;
+
   @Autowired
   private AuthenticationProvider authenticationProvider;
 

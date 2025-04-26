@@ -2,12 +2,12 @@ package br.com.chronos.core.global.domain.records;
 
 import br.com.chronos.core.global.domain.dtos.AttachmentDto;
 
-public record Attachment(Text name, Text key, Text contentType) {
-  public static Attachment create(String name, String key, String contentType) {
+public record Attachment(Text key, Text name, Text contentType) {
+  public static Attachment create(String key, String name, String contentType) {
     return new Attachment(
-        Text.create(name, "attachment.name"),
-        Text.create(key, "attachment.key"),
-        Text.create(contentType, "attachment.contentType"));
+        Text.create(key, "Chave do anexo"),
+        Text.create(name, "Nome do anexo"),
+        Text.create(contentType, "contentType do anexo"));
   }
 
   public AttachmentDto getDto() {

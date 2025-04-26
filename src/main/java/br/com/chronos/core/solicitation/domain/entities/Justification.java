@@ -32,6 +32,9 @@ public class Justification extends Entity {
   public Attachment getAttachment() {
     return attachment;
   }
+  public void setAttachment(Attachment attachment){
+    this.attachment = attachment;
+  }
 
   public Text getDescription() {
     return description;

@@ -1,6 +1,5 @@
 package br.com.chronos.core.solicitation.use_cases;
 
-import java.util.logging.Logger;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
@@ -25,6 +24,7 @@ public class CreateDayOffSolicitationUseCase {
     var justification = new Justification(dto.justification);
     var senderResponsibleDto = new ResponsibleDto()
         .setId(collaboratorId.value().toString());
+
     dto.setSenderResponsible(new ResponsibleAggregateDto(senderResponsibleDto));
     dto.setJustification(justification.getDto());
     var solicitation = new DayOffSolicitation(dto);

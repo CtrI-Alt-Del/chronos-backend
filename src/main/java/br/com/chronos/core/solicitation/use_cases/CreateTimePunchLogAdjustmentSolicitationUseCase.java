@@ -17,12 +17,14 @@ public class CreateTimePunchLogAdjustmentSolicitationUseCase {
     this.solicitationsRepository = solicitationsRepository;
   }
 
-  public TimePunchLogAdjustmentSolicitationDto execute(TimePunchLogAdjustmentSolicitationDto dto, Id collaboratorId) {
-    var senderResponsibleDto = new ResponsibleDto()
-        .setId(collaboratorId.value().toString());
-    dto.setSenderResponsible(new ResponsibleAggregateDto(senderResponsibleDto));
+  public TimePunchLogAdjustmentSolicitationDto execute(
+      TimePunchLogAdjustmentSolicitationDto dto,
+      Id collaboratorId) {
+    var senderResponsibleDto = new ResponsibleAggregateDto().setId(collaboratorId.value().toString());
+    dto.setSenderResponsible(senderResponsibleDto);
+
     var solicitation = new TimePunchLogAdjustmentSolicitation(dto);
-    if (solicitation.status.value() != Status.PENDING) {
+    if (solicitation.getStatus().value() != Status.PENDING) {
       throw new ValidationException("status", "deve ser pendente");
     }
     solicitationsRepository.add(solicitation);

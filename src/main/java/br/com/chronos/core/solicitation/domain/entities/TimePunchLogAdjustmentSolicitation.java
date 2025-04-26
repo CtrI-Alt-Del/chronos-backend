@@ -24,7 +24,7 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
     workdayLogDate = new Date(dto.workdayLogDate);
     reason = TimePunchAdjustmentReason.create(dto.reason);
     if (reason.value() == Reason.OTHER && dto.description == null) {
-      throw new ValidationException("Razao", "Se o tipo for OUTRO e necessario descricao");
+      throw new ValidationException("Razão", "Se o tipo for OUTRO e necessário descrição");
 
     }
   }

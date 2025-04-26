@@ -4,16 +4,19 @@
 
 
 ### Get all solicitations 
-
-GET {{URL}} HTTP/1.1
+GET {{URL}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
+### Create paid overtime solicitation
+POST {{URL}}/paid-overtime
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
 
+{}
 
 ### Create Day Off Schedule Adjustment Solicitation
-
-POST {{URL}}/day-off-schedule-adjustment HTTP/1.1
+POST {{URL}}/day-off-schedule-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -26,8 +29,7 @@ Authorization: Bearer {{JWT}}
 }
 
 ### Create Time Punch Adjustment Solicitation
-
-POST {{URL}}/time-punch-adjustment HTTP/1.1
+POST {{URL}}/time-punch-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -40,26 +42,29 @@ Authorization: Bearer {{JWT}}
 
 ### Create Day Off Solicitation
 
-POST {{URL}}/day-off HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{JWT}}
+# POST {{URL}}/day-off
+# Content-Type: multipart/form-data; boundary=----WebKitFormBoundary{{$timestamp}}
+# Authorization: Bearer {{JWT}}
 
-{
-  "dayOff": "2025-02-01",
-  "justification": {
-    "description": "justificativa AAAA MANSO !",
-    "justificationType": {
-      "id": "{{JUSTIFICATION_TYPE_ID}}",
-      "name": "Tipo justificativa 1",
-      "shouldHaveAttachment": false
-    }
-  }
-}
+# ------WebKitFormBoundary{{$timestamp}}
+# Content-Disposition: form-data; name="dayOff"
+# 2025-02-01
+# ------WebKitFormBoundary{{$timestamp}}
+# Content-Disposition: form-data; name="description"
+# justifiatica AAA MANSO!
+# ------WebKitFormBoundary{{$timestamp}}
+# Content-Disposition: form-data; name="justificationTypeId"
+# {{JUSTIFICATION_TYPE_ID}}
+# ------WebKitFormBoundary{{$timestamp}}
+# Content-Disposition: form-data; name="justificationTypeName"
+# Tipo Justificativa 1
+# ------WebKitFormBoundary{{$timestamp}}
+# Content-Disposition: form-data; name="justificationTypeShouldHaveAttachment"
+# false
 
 ### Resolve Solicitation 
-
-PATCH {{URL}}/resolve/b187861a-d331-4935-9cf1-2cdd078abc91 HTTP/1.1
-Content-Type: application/json
+PATCH {{URL}}/resolve/b187861a-d331-4935-9cf1-2cdd078abc91
+Content-Type: multipart/form-data
 Authorization: Bearer {{JWT}}
 
 {

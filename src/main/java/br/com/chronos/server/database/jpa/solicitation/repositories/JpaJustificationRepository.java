@@ -51,4 +51,5 @@ public class JpaJustificationRepository implements JustificationRepository{
     var justifications = Array.createFrom(justificationModels, mapper::toEntity);
     return justifications;
 	}
+
 }
