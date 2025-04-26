@@ -1,11 +1,13 @@
 package br.com.chronos.server.database.jpa.solicitation.repositories;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.global.domain.records.Attachment;
+import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.solicitation.interfaces.repositories.AttachmentRepository;
 import br.com.chronos.server.database.jpa.solicitation.mappers.AttachmentMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.AttachmentModel;
@@ -35,8 +37,8 @@ public class JpaAttachmentRepository implements AttachmentRepository {
   }
 
 	@Override
-	public Attachment findAttachmentByKey(String attachmentKey) {
-    var model = repository.findByKey(attachmentKey);
+	public Attachment findAttachmentByKey(Id attachmentKey) {
+    var model = repository.findById(attachmentKey.value());
     if(model.isEmpty()){
       return null;
     }

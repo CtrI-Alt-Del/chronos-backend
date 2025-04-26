@@ -52,27 +52,5 @@ public class UploadAttachmentAspect {
         } finally {
             AttachmentContextHolder.clear();
         }
-    }
-
-    try {
-
-      for (Object arg : joinPoint.getArgs()) {
-        if (arg instanceof MultipartFile file && !file.isEmpty()) {
-          var useCase = new UploadJustificationAttachmentUseCase(storageProvider, attachmentRepository);
-          String contentType = file.getContentType();
-          if (contentType == null || !contentType.contains("/")) {
-            contentType = "application/octet-stream"; // fallback seguro
-          }
-
-          var attachmentDto = useCase.execute(file.getOriginalFilename(), contentType, file.getBytes());
-          AttachmentContextHolder.set(attachmentDto);
-          break;
-        }
-      }
-
-      return joinPoint.proceed();
-    } finally {
-      AttachmentContextHolder.clear();
-    }
   }
 }
