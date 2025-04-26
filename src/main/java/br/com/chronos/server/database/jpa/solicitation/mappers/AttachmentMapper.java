@@ -1,5 +1,7 @@
 package br.com.chronos.server.database.jpa.solicitation.mappers;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.global.domain.dtos.AttachmentDto;
@@ -12,14 +14,14 @@ public class AttachmentMapper {
     return AttachmentModel.builder()
         .name(record.name().value())
         .contentType(record.contentType().value())
-        .key(record.key().value())
+        .id(UUID.fromString(record.key().value()))
         .build();
   }
 
   public Attachment toRecord(AttachmentModel model) {
     var record = Attachment.create(
+        model.getId().toString(),
         model.getName(),
-        model.getKey(),
         model.getContentType());
     return record;
   }
@@ -28,6 +30,6 @@ public class AttachmentMapper {
     return new AttachmentDto()
         .setName(model.getName())
         .setContentType(model.getContentType())
-        .setKey(model.getKey());
+        .setKey(model.getId().toString());
   }
 }

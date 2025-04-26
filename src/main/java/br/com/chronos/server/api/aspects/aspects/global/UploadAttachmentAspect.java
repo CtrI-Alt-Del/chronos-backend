@@ -32,8 +32,26 @@ public class UploadAttachmentAspect {
     boolean hasAnnotationOnMethod = method.isAnnotationPresent(HandleAttachmentUpload.class);
     boolean hasAnnotationOnClass = targetClass.isAnnotationPresent(HandleAttachmentUpload.class);
 
-    if (!hasAnnotationOnMethod && !hasAnnotationOnClass) {
-      return joinPoint.proceed();
+        if (!hasAnnotationOnMethod && !hasAnnotationOnClass) {
+            return joinPoint.proceed();
+        }
+
+        try {
+
+            for (Object arg : joinPoint.getArgs()) {
+                if (arg instanceof MultipartFile file && !file.isEmpty()) {
+                    var useCase = new UploadJustificationAttachmentUseCase(storageProvider, attachmentRepository);
+                    var attachmentDto = useCase.execute(file.getOriginalFilename(), file.getContentType(),
+                            file.getBytes());
+                    AttachmentContextHolder.set(attachmentDto);
+                    break;
+                }
+            }
+
+            return joinPoint.proceed();
+        } finally {
+            AttachmentContextHolder.clear();
+        }
     }
 
     try {

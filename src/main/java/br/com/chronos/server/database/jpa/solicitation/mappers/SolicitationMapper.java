@@ -33,24 +33,23 @@ public class SolicitationMapper {
       return dayOffScheduleAdjustmentSolicitationMapper.toEntity((DayOffScheduleAdjustmentSolicitationModel) model);
     } else if (model instanceof TimePunchLogAdjustmentSolicitationModel) {
       return timePunchLogAdjustmentSolicitationMapper.toEntity((TimePunchLogAdjustmentSolicitationModel) model);
-    }else if (model instanceof DayOffSolicitationModel){
+    } else if (model instanceof DayOffSolicitationModel) {
       return dayOffSolicitationMapper.toEntity((DayOffSolicitationModel) model);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + model.getClass());
   }
 
   public SolicitationModel toModel(Solicitation entity) {
-    if (entity.type.isTimePunch().isTrue()) {
+    if (entity.getType().isTimePunch().isTrue()) {
       return dayOffScheduleAdjustmentSolicitationMapper.toModel((DayOffScheduleAdjustmentSolicitation) entity);
-    } else if (entity.type.isDayOffSchedule().isTrue()) {
+    } else if (entity.getType().isDayOffSchedule().isTrue()) {
       return timePunchLogAdjustmentSolicitationMapper.toModel((TimePunchLogAdjustmentSolicitation) entity);
-    }else if  (entity.type.isDayOff().isTrue()){
+    } else if (entity.getType().isDayOff().isTrue()) {
       return dayOffSolicitationMapper.toModel((DayOffSolicitation) entity);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + entity.getClass());
   }
 
-  // Common logic for mapping the common fields
   protected void mapCommonFields(SolicitationModel model, Solicitation entity) {
     var senderResponsible = CollaboratorModel.builder()
         .id(entity.getSenderResponsible().getId().value()).build();
@@ -73,6 +72,8 @@ public class SolicitationMapper {
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
         .setEmail(model.getSenderResponsible().getAccount().getEmail())
+        .setCpf(model.getSenderResponsible().getCpf())
+        .setSector(model.getSenderResponsible().getAccount().getSector().toString())
         .setRole(model.getSenderResponsible().getAccount().getRole().toString());
 
     ResponsibleAggregateDto senderResponsibleAggregateDto = new ResponsibleAggregateDto(senderResponsibleDto);
@@ -83,11 +84,12 @@ public class SolicitationMapper {
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
+          .setCpf(model.getReplierResponsible().getCpf())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
 
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
-    
+
     return new SolicitationDto()
         .setId(model.getId().toString())
         .setDescription(model.getDescription())
@@ -96,7 +98,6 @@ public class SolicitationMapper {
         .setFeedbackMessage(model.getFeedbackMessage())
         .setSenderResponsible(senderResponsibleAggregateDto)
         .setReplierResponsible(replierResponsibleAggregateDto);
-    
-    
+
   }
 }

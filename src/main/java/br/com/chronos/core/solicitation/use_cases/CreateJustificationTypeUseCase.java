@@ -12,7 +12,7 @@ public class CreateJustificationTypeUseCase {
   }
 
   public JustificationTypeDto execute(JustificationTypeDto dto) {
-    JustificationType justificationType = new JustificationType(dto);
+    var justificationType = new JustificationType(dto);
     justificationTypeRepository.add(justificationType);
     return justificationType.getDto();
   }

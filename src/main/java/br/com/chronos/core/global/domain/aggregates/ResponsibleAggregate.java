@@ -28,6 +28,8 @@ public class ResponsibleAggregate extends Aggregate<Responsible> {
                 .setId(responsibleDto.id)
                 .setName(responsibleDto.name)
                 .setEmail(responsibleDto.email)
+                .setCpf(responsibleDto.cpf)
+                .setSector(responsibleDto.sector)
                 .setRole(responsibleDto.role));
   }
 }
