@@ -5,8 +5,7 @@ import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,11 +19,8 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @DiscriminatorValue("DAY_OFF")
 @EqualsAndHashCode(callSuper = false)
+@Table(name = "day_off_solicitations")
 public class DayOffSolicitationModel extends SolicitationModel {
   @Column(nullable = false)
   private LocalDate dayOff;
-
-  @ManyToOne
-  @JoinColumn(name = "justification_id", nullable = false)
-  private JustificationModel justification;
 }

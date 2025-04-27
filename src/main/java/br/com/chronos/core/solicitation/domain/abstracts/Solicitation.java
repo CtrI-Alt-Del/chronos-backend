@@ -24,7 +24,6 @@ public abstract class Solicitation extends Entity {
   public Solicitation(SolicitationDto dto) {
     super(dto.id);
     description = dto.description != null ? Text.create(dto.description, "Descrição da solicitação") : null;
-    type = SolicitationType.create(dto.type);
     feedbackMessage = dto.feedbackMessage != null
         ? Text.create(dto.feedbackMessage, "Mensagem de feedback da solicitação")
         : null;
@@ -35,6 +34,7 @@ public abstract class Solicitation extends Entity {
   }
 
   public void approve(ResponsibleAggregate replierResponsible, Text feedbackMessage) {
+    System.out.println(senderResponsible.getEntity());
     reply(replierResponsible, feedbackMessage);
     this.status = status.approve();
   }
@@ -107,7 +107,7 @@ public abstract class Solicitation extends Entity {
         .setId(getId().toString())
         .setStatus(getStatus().toString())
         .setDate(getDate().value())
-        .setStatus(getStatus().value().toString())
+        .setStatus(getStatus().toString())
         .setSenderResponsible(getSenderResponsible().getDto())
         .setType(getType().toString());
 
@@ -120,7 +120,6 @@ public abstract class Solicitation extends Entity {
     if (getReplierResponsible() != null) {
       dto.setReplierResponsible(getReplierResponsible().getDto());
     }
-
     return dto;
   }
 }

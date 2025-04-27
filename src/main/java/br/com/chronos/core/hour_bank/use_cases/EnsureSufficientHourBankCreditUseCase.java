@@ -24,6 +24,7 @@ public class EnsureSufficientHourBankCreditUseCase {
       throw new NegativeHourBankException();
     }
 
+    System.out.println(balance.value());
     if (balance.value().isLessThan(Time.create(time)).isTrue()) {
       throw new InsufficientHourBankBalanceException();
     }

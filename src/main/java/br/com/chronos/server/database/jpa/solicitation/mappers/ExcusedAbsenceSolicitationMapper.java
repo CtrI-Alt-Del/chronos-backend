@@ -5,26 +5,30 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.solicitation.domain.dtos.ExcuseAbsenceSolicitationDto;
-import br.com.chronos.core.solicitation.domain.entities.ExcuseAbsenceSolicitation;
+import br.com.chronos.core.solicitation.domain.dtos.ExcusedAbsenceSolicitationDto;
+import br.com.chronos.core.solicitation.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.solicitation.models.ExcuseAbsenceSolicitationModel;
+import br.com.chronos.server.database.jpa.solicitation.models.ExcusedAbsenceSolicitationModel;
 
 @Component
-public class ExcuseAbsenceSolicitationMapper {
+public class ExcusedAbsenceSolicitationMapper {
 
   @Autowired
   private JustificationMapper justificationMapper;
 
-  public ExcuseAbsenceSolicitationModel toModel(ExcuseAbsenceSolicitation entity) {
-    var senderResponse = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();
+  public ExcusedAbsenceSolicitationModel toModel(ExcusedAbsenceSolicitation entity) {
+    var senderResponse = CollaboratorModel
+        .builder()
+        .id(entity.getSenderResponsible().getId().value())
+        .build();
+
     var replierResponse = (entity.getReplierResponsible() != null)
         ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
     var justification = entity.getJustification() != null
         ? justificationMapper.toModel(entity.getJustification())
         : null;
-    var solicitationModel = ExcuseAbsenceSolicitationModel.builder()
+    var solicitationModel = ExcusedAbsenceSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription() != null ? entity.getDescription().value() : null)
         .date(entity.getDate().value())
@@ -32,32 +36,38 @@ public class ExcuseAbsenceSolicitationMapper {
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponse)
         .replierResponsible(replierResponse)
-        .excuseAbsenceDate(entity.getExcuseAbsenceDate().value())
+        .absenceDate(entity.getAbsenceDate().value())
         .justification(justification)
         .build();
     return solicitationModel;
   }
 
-  public ExcuseAbsenceSolicitationDto toDto(ExcuseAbsenceSolicitationModel model) {
+  public ExcusedAbsenceSolicitationDto toDto(ExcusedAbsenceSolicitationModel model) {
     var senderResponsibleDto = new ResponsibleDto()
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
         .setEmail(model.getSenderResponsible().getAccount().getEmail())
+        .setCpf(model.getSenderResponsible().getCpf())
+        .setSector(model.getSenderResponsible().getAccount().getSector().toString())
         .setRole(model.getSenderResponsible().getAccount().getRole().toString());
     var senderResponsibleAggregateDto = new ResponsibleAggregateDto(senderResponsibleDto);
+
     ResponsibleAggregateDto replierResponsibleAggregateDto = null;
     if (model.getReplierResponsible() != null) {
       var replierResponsibleDto = new ResponsibleDto()
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
+          .setCpf(model.getSenderResponsible().getCpf())
+          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
+
     var justificationDto = model.getJustification() != null
         ? justificationMapper.toDto(model.getJustification())
         : null;
-    return new ExcuseAbsenceSolicitationDto()
+    return new ExcusedAbsenceSolicitationDto()
         .setId(model.getId().toString())
         .setDescription(model.getDescription())
         .setDate(model.getDate())
@@ -65,12 +75,12 @@ public class ExcuseAbsenceSolicitationMapper {
         .setStatus(model.getSolicitationStatus().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
         .setReplierResponsible(replierResponsibleAggregateDto)
-        .setExcuseAbsenceDate(model.getExcuseAbsenceDate())
+        .setAbsenceDate(model.getAbsenceDate())
         .setJustification(justificationDto);
   }
 
-  public ExcuseAbsenceSolicitation toEntity(ExcuseAbsenceSolicitationModel model) {
-    return new ExcuseAbsenceSolicitation(toDto(model));
+  public ExcusedAbsenceSolicitation toEntity(ExcusedAbsenceSolicitationModel model) {
+    return new ExcusedAbsenceSolicitation(toDto(model));
   }
 
 }

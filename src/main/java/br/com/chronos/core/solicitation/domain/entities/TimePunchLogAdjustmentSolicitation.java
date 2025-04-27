@@ -18,7 +18,7 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
 
   public TimePunchLogAdjustmentSolicitation(TimePunchLogAdjustmentSolicitationDto dto) {
     super(dto);
-    this.type = SolicitationType.createAsTimePunch();
+    this.type = SolicitationType.createAsTimePunchAdjusment();
     time = new Time(dto.time);
     period = TimePunchPeriod.create(dto.period);
     workdayLogDate = new Date(dto.workdayLogDate);

@@ -1,4 +1,4 @@
-package br.com.chronos.server.api.controllers.solicitation.solicitations;
+package br.com.chronos.core.solicitation.use_cases;
 
 import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.global.domain.records.CollaborationSector;

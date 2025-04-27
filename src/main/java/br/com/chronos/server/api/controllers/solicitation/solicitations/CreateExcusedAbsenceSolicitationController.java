@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.solicitation.domain.dtos.ExcuseAbsenceSolicitationDto;
+import br.com.chronos.core.solicitation.domain.dtos.ExcusedAbsenceSolicitationDto;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
-import br.com.chronos.core.solicitation.use_cases.CreateExcuseAbsenceSolicitationUseCase;
+import br.com.chronos.core.solicitation.use_cases.CreateExcusedAbsenceSolicitationUseCase;
 
 @SolicitationsController
-public class CreateExcuseAbsenceSolicitationController {
+public class CreateExcusedAbsenceSolicitationController {
 
   @Autowired
   private SolicitationsRepository solicitationsRepository;
@@ -22,13 +22,12 @@ public class CreateExcuseAbsenceSolicitationController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @PostMapping("/excuse-absence")
-  public ResponseEntity<ExcuseAbsenceSolicitationDto> handle(@RequestBody ExcuseAbsenceSolicitationDto body) {
-    var useCase = new CreateExcuseAbsenceSolicitationUseCase(solicitationsRepository);
-    var responsible = authenticationProvider.getAccount();
-    var senderId = responsible.getCollaboratorId();
-    var response = useCase.execute(body, senderId);
-
+  @PostMapping("/excused-absence")
+  public ResponseEntity<ExcusedAbsenceSolicitationDto> handle(@RequestBody ExcusedAbsenceSolicitationDto body) {
+    var useCase = new CreateExcusedAbsenceSolicitationUseCase(solicitationsRepository);
+    var account = authenticationProvider.getAccount();
+    var senderResponsibleId = account.getCollaboratorId().toString();
+    var response = useCase.execute(body, senderResponsibleId);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

@@ -22,6 +22,5 @@ public final class PaidOvertimeSolicitation extends Solicitation {
         .setSenderResponsible(solicitationDto.senderResponsible)
         .setReplierResponsible(solicitationDto.replierResponsible);
     return dto;
-
   }
 }

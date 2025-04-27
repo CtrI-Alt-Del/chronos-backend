@@ -3,7 +3,7 @@ package br.com.chronos.server.queue.rabbitmq.brokers;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
+import br.com.chronos.core.solicitation.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.core.solicitation.domain.events.PaidOvertimeSolicitationApprovedEvent;
 import br.com.chronos.core.solicitation.interfaces.PortalBroker;
 
@@ -17,7 +17,12 @@ public class RabbitMqPortalBroker implements PortalBroker {
 
   @Override
   public void publish(PaidOvertimeSolicitationApprovedEvent event) {
-    rabbit.convertAndSend("", HourBankTransactionCreatedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend("", PaidOvertimeSolicitationApprovedEvent.NAME, event.getPayload());
+  }
+
+  @Override
+  public void publish(ExcusedAbsenceSolicitationApprovedEvent event) {
+    rabbit.convertAndSend("", ExcusedAbsenceSolicitationApprovedEvent.NAME, event.getPayload());
   }
 
 }

@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "justification_types")
 public class JustificationTypeModel {
-
   @Id
   private UUID id;
 

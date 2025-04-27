@@ -1,6 +1,5 @@
 package br.com.chronos.server.database.jpa.solicitation.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
@@ -12,7 +11,6 @@ import br.com.chronos.server.database.jpa.solicitation.models.DayOffSolicitation
 
 @Component
 public class DayOffSolicitationMapper {
-
   public DayOffSolicitationModel toModel(DayOffSolicitation entity) {
     var senderResponse = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();
     var replierResponse = (entity.getReplierResponsible() != null)
@@ -36,8 +34,9 @@ public class DayOffSolicitationMapper {
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
         .setEmail(model.getSenderResponsible().getAccount().getEmail())
+        .setCpf(model.getSenderResponsible().getCpf())
+        .setSector(model.getSenderResponsible().getAccount().getSector().toString())
         .setRole(model.getSenderResponsible().getAccount().getRole().toString());
-
     var senderResponsibleAggregateDto = new ResponsibleAggregateDto(senderResponsibleDto);
 
     ResponsibleAggregateDto replierResponsibleAggregateDto = null;
@@ -46,8 +45,9 @@ public class DayOffSolicitationMapper {
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
+          .setCpf(model.getSenderResponsible().getCpf())
+          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
-
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
 

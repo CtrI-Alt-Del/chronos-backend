@@ -5,19 +5,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
-import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitationRepository;
+import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.use_cases.CreateDayOffSolicitationUseCase;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @SolicitationsController
 public class CreateDayOffSolicitationController {
 
   @Autowired
-  private DayOffSolicitationRepository solicitationsRepository;
+  private SolicitationsRepository solicitationsRepository;
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
@@ -30,12 +30,10 @@ public class CreateDayOffSolicitationController {
 
   @PostMapping("/day-off")
   public ResponseEntity<DayOffSolicitationDto> handle(@RequestBody DayOffSolicitationDto body) {
-
     var useCase = new CreateDayOffSolicitationUseCase(solicitationsRepository);
-    var responsible = authenticationProvider.getAccount();
-    var senderId = responsible.getCollaboratorId();
-    var response = useCase.execute(body, senderId);
-
+    var account = authenticationProvider.getAccount();
+    var senderResponsibleId = account.getCollaboratorId().toString();
+    var response = useCase.execute(body, senderResponsibleId);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

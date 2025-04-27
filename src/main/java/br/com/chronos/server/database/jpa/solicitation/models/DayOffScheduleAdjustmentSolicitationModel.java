@@ -10,6 +10,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder.Default;
 import lombok.experimental.SuperBuilder;
@@ -24,6 +25,7 @@ import lombok.NoArgsConstructor;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Table(name = "day_off_schedule_change_solicitations")
 public class DayOffScheduleAdjustmentSolicitationModel extends SolicitationModel {
   @Column(nullable = false)
   private int workDaysCount;
