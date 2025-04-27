@@ -5,12 +5,7 @@ import java.time.LocalDate;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 
 public class DayOffSolicitationDto extends SolicitationDto{
-  public JustificationDto justification;
   public LocalDate dayOff;
-  public DayOffSolicitationDto setJustification(JustificationDto justification) {
-    this.justification = justification;
-    return this;
-  }
   public DayOffSolicitationDto setDayOff(LocalDate dayOff) {
     this.dayOff = dayOff;
     return this;

@@ -10,5 +10,6 @@ import br.com.chronos.core.solicitation.domain.entities.JustificationType;
 public interface AttachmentRepository {
 
   void add(Attachment attachment );
+  Attachment findAttachmentByKey(Id attachmentKey);
   void remove(Attachment justificationType);
 }

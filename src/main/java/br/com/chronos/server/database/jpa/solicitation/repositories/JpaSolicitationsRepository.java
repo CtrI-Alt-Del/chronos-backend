@@ -15,6 +15,7 @@ import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.ExcuseAbsenceSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
@@ -22,8 +23,10 @@ import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAd
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
+import br.com.chronos.server.database.jpa.solicitation.daos.ExcuseAbsenceSolicitationDao;
 import br.com.chronos.server.database.jpa.solicitation.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.solicitation.daos.SolicitationDao;
+import br.com.chronos.server.database.jpa.solicitation.mappers.ExcuseAbsenceSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.SolicitationMapper;
 
@@ -35,6 +38,15 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   private PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
 
   @Autowired
+  private PaidOvertimeSolicitationMapper paidOvertimeSolicitationMapper;
+
+  @Autowired
+  ExcuseAbsenceSolicitationDao ExcuseAbsenceSolicitationDao;
+
+  @Autowired
+  ExcuseAbsenceSolicitationMapper excuseAbsenceSolicitationMapper;
+
+  @Autowired
   private TimePunchLogAdjustmentRepository timePunchLogAdjustmentSolicitationModelsRepository;
 
   @Autowired
@@ -42,9 +54,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   private DayOffSolicitationRepository dayOffSolicitationRepository;
-
-  @Autowired
-  private PaidOvertimeSolicitationMapper paidOvertimeSolicitationMapper;
 
   @Autowired
   private SolicitationMapper solicitationMapper;
@@ -127,6 +136,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   public void add(PaidOvertimeSolicitation solicitation) {
     var solicitationModel = paidOvertimeSolicitationMapper.toModel(solicitation);
     paidOvertimeSolicitationDao.save(solicitationModel);
+  }
+
+  @Override
+  public void add(ExcuseAbsenceSolicitation solicitation) {
+    var solicitationModel = excuseAbsenceSolicitationMapper.toModel(solicitation);
+    ExcuseAbsenceSolicitationDao.save(solicitationModel);
   }
 
   @Override

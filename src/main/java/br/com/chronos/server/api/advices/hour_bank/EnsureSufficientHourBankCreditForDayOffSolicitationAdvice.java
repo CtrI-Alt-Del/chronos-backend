@@ -10,7 +10,6 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.hour_bank.use_cases.EnsureSufficientHourBankCreditUseCase;
 import br.com.chronos.server.api.advices.Advice;
-import br.com.chronos.server.api.controllers.solicitation.solicitations.CreateDayOffScheduleAdjustmentSolicitationController;
 import br.com.chronos.server.api.controllers.solicitation.solicitations.CreateDayOffSolicitationController;
 
 @ControllerAdvice
@@ -23,7 +22,7 @@ public class EnsureSufficientHourBankCreditForDayOffSolicitationAdvice extends A
   private HourBankTransactionsRepository hourBankTransactionsRepository;
 
   public EnsureSufficientHourBankCreditForDayOffSolicitationAdvice() {
-    super(CreateDayOffScheduleAdjustmentSolicitationController.class);
+    super(CreateDayOffSolicitationController.class);
   }
 
   @Override

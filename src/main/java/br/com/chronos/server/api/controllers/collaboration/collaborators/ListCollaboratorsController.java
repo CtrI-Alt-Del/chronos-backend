@@ -29,7 +29,8 @@ public class ListCollaboratorsController {
         page,
         account.getRole().toString(),
         account.getCollaborationSector().toString(),
-        isActive);
+        isActive,
+        account.getCollaboratorId().value().toString());
     return ResponseEntity.ok(response);
   }
 

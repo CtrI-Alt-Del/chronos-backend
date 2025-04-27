@@ -18,19 +18,19 @@ import br.com.chronos.server.api.aspects.contexts.global.AttachmentContextHolder
 @Component
 public class UploadAttachmentAspect {
 
-    @Autowired
-    private StorageProvider storageProvider;
+  @Autowired
+  private StorageProvider storageProvider;
 
-    @Autowired
-    private AttachmentRepository attachmentRepository;
+  @Autowired
+  private AttachmentRepository attachmentRepository;
 
-    @Around("execution(* br.com.chronos.server.api.controllers.solicitation..*(..))")
-    public Object handleAttachment(ProceedingJoinPoint joinPoint) throws Throwable {
-        var method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        var targetClass = joinPoint.getTarget().getClass();
+  @Around("execution(* br.com.chronos.server.api.controllers.solicitation..*(..))")
+  public Object handleAttachment(ProceedingJoinPoint joinPoint) throws Throwable {
+    var method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+    var targetClass = joinPoint.getTarget().getClass();
 
-        boolean hasAnnotationOnMethod = method.isAnnotationPresent(HandleAttachmentUpload.class);
-        boolean hasAnnotationOnClass = targetClass.isAnnotationPresent(HandleAttachmentUpload.class);
+    boolean hasAnnotationOnMethod = method.isAnnotationPresent(HandleAttachmentUpload.class);
+    boolean hasAnnotationOnClass = targetClass.isAnnotationPresent(HandleAttachmentUpload.class);
 
         if (!hasAnnotationOnMethod && !hasAnnotationOnClass) {
             return joinPoint.proceed();
@@ -52,5 +52,5 @@ public class UploadAttachmentAspect {
         } finally {
             AttachmentContextHolder.clear();
         }
-    }
+  }
 }

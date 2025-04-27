@@ -8,6 +8,7 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
+import br.com.chronos.core.solicitation.domain.entities.ExcuseAbsenceSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import kotlin.Pair;
@@ -30,6 +31,8 @@ public interface SolicitationsRepository {
   Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type);
 
   void add(PaidOvertimeSolicitation solicitation);
+
+  void add(ExcuseAbsenceSolicitation solicitation);
 
   void replace(Solicitation solicitation);
 
