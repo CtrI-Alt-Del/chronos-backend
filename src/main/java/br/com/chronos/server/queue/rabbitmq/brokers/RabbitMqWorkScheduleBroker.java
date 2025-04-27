@@ -15,6 +15,6 @@ public class RabbitMqWorkScheduleBroker implements WorkScheduleBroker {
   }
 
   public void publish(WorkdayClosedEvent event) {
-    rabbit.convertAndSend("", WorkdayClosedEvent.KEY, event.getPayload());
+    rabbit.convertAndSend("", WorkdayClosedEvent.NAME, event.getPayload());
   }
 }

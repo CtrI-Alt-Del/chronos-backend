@@ -37,7 +37,7 @@ public abstract class SolicitationModel {
   private String description;
 
   @Column(nullable = false)
-  private LocalDate requestedAt;
+  private LocalDate date;
 
   @ManyToOne
   @JoinColumn(name = "sender_responsible_id", nullable = false)

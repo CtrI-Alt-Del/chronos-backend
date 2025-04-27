@@ -2,9 +2,13 @@ package br.com.chronos.core.solicitation.domain.abstracts;
 
 import br.com.chronos.core.global.domain.abstracts.Entity;
 import br.com.chronos.core.global.domain.aggregates.ResponsibleAggregate;
+import br.com.chronos.core.global.domain.exceptions.NotManagerException;
+import br.com.chronos.core.global.domain.exceptions.NotSameCollaborationSector;
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.solicitation.domain.dtos.SolicitationDto;
+import br.com.chronos.core.solicitation.domain.exceptions.SolicitationAlreadyApprovedException;
+import br.com.chronos.core.solicitation.domain.exceptions.SolicitationAlreadyDeniedException;
 import br.com.chronos.core.solicitation.domain.records.SolicitationStatus;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 
@@ -20,13 +24,42 @@ public abstract class Solicitation extends Entity {
   public Solicitation(SolicitationDto dto) {
     super(dto.id);
     description = dto.description != null ? Text.create(dto.description, "Descrição da solicitação") : null;
+    type = SolicitationType.create(dto.type);
     feedbackMessage = dto.feedbackMessage != null
         ? Text.create(dto.feedbackMessage, "Mensagem de feedback da solicitação")
         : null;
     status = SolicitationStatus.create(dto.status);
-    date = dto.date != null ? Date.create(dto.date) : Date.now();
+    date = dto.date != null ? Date.create(dto.date) : Date.createFromNow();
     senderResponsible = new ResponsibleAggregate(dto.senderResponsible);
     replierResponsible = dto.replierResponsible != null ? new ResponsibleAggregate(dto.replierResponsible) : null;
+  }
+
+  public void approve(ResponsibleAggregate replierResponsible, Text feedbackMessage) {
+    reply(replierResponsible, feedbackMessage);
+    this.status = status.approve();
+  }
+
+  public void deny(ResponsibleAggregate replierResponsible, Text feedbackMessage) {
+    reply(replierResponsible, feedbackMessage);
+    this.status = status.deny();
+  }
+
+  private void reply(ResponsibleAggregate replierResponsible, Text feedbackMessage) {
+    if (replierResponsible.getEntity().getRole().isManager().isFalse()) {
+      throw new NotManagerException();
+    }
+    if (replierResponsible.getEntity().getSector()
+        .isEqual(senderResponsible.getEntity().getSector()).isFalse()) {
+      throw new NotSameCollaborationSector();
+    }
+    if (status.isApproved().isTrue()) {
+      throw new SolicitationAlreadyApprovedException();
+    }
+    if (status.isDenied().isTrue()) {
+      throw new SolicitationAlreadyDeniedException();
+    }
+    this.replierResponsible = replierResponsible;
+    this.feedbackMessage = feedbackMessage;
   }
 
   public Text getDescription() {
@@ -70,15 +103,24 @@ public abstract class Solicitation extends Entity {
   }
 
   public SolicitationDto getDto() {
-    return new SolicitationDto()
+    var dto = new SolicitationDto()
         .setId(getId().toString())
-        .setDescription(getDescription().value())
         .setStatus(getStatus().toString())
-        .setFeedbackMessage(getFeedbackMessage().value())
         .setDate(getDate().value())
         .setStatus(getStatus().value().toString())
-        .setReplierResponsible(getReplierResponsible().getDto())
         .setSenderResponsible(getSenderResponsible().getDto())
         .setType(getType().toString());
+
+    if (getDescription() != null) {
+      dto.setDescription(getDescription().value());
+    }
+    if (getFeedbackMessage() != null) {
+      dto.setFeedbackMessage(getFeedbackMessage().value());
+    }
+    if (getReplierResponsible() != null) {
+      dto.setReplierResponsible(getReplierResponsible().getDto());
+    }
+
+    return dto;
   }
 }

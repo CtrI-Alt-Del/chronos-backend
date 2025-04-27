@@ -13,7 +13,7 @@ public class AuthListener {
   @Autowired
   private UpdateCollaboratorJob updateCollaboratorJob;
 
-  @RabbitListener(queues = AccountUpdatedEvent.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = AccountUpdatedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listenToCollaboratorUpdated(@Payload AccountUpdatedEvent.Payload payload) {
     updateCollaboratorJob.handle(payload);
   }

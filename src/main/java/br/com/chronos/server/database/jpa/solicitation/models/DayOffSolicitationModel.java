@@ -24,4 +24,7 @@ public class DayOffSolicitationModel extends SolicitationModel {
   @Column(nullable = false)
   private LocalDate dayOff;
 
+  @ManyToOne
+  @JoinColumn(name = "justification_id", nullable = false)
+  private JustificationModel justification;
 }

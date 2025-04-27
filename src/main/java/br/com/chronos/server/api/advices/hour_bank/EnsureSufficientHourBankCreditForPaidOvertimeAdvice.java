@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
-import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.hour_bank.use_cases.EnsureSufficientHourBankCreditUseCase;

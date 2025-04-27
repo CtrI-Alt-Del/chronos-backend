@@ -17,11 +17,11 @@ public class RabbitMqCollaborationBroker implements CollaborationBroker {
 
   @Override
   public void publish(CollaboratorCreatedEvent event) {
-    rabbit.convertAndSend("", CollaboratorCreatedEvent.KEY, event.getPayload());
+    rabbit.convertAndSend("", CollaboratorCreatedEvent.NAME, event.getPayload());
   }
 
   @Override
   public void publish(CollaboratorsPreparedForWorkEvent event) {
-    rabbit.convertAndSend("", CollaboratorsPreparedForWorkEvent.KEY, event.getPayload());
+    rabbit.convertAndSend("", CollaboratorsPreparedForWorkEvent.NAME, event.getPayload());
   }
 }

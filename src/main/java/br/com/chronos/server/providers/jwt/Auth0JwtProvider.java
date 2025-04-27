@@ -34,7 +34,7 @@ public class Auth0JwtProvider implements JwtProvider {
 
   @Override
   public String generateToken(AccountDto accountDto) {
-    var expirationDate = DateTime.createFromNow().addDays(7);
+    var expirationDate = DateTime.createFromNow().plusDays(7);
     String accountJson;
     try {
       accountJson = objectMapper.writeValueAsString(accountDto);

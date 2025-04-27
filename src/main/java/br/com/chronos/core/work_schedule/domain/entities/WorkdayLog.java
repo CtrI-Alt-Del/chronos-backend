@@ -1,8 +1,12 @@
 package br.com.chronos.core.work_schedule.domain.entities;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import br.com.chronos.core.global.domain.abstracts.Entity;
 import br.com.chronos.core.global.domain.aggregates.ResponsibleAggregate;
 import br.com.chronos.core.global.domain.records.Date;
+import br.com.chronos.core.global.domain.records.DateTime;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
@@ -90,10 +94,6 @@ public final class WorkdayLog extends Entity {
     return status.isAbsence();
   }
 
-  public Date getDate() {
-    return date;
-  }
-
   public void updateHourBank(Time time, Logical isCreditOperation) {
     if (isCreditOperation.isTrue()) {
       hourBankCredit = hourBankCredit.plus(time);
@@ -113,6 +113,10 @@ public final class WorkdayLog extends Entity {
 
   public WorkdayStatus getStatus() {
     return status;
+  }
+
+  public Date getDate() {
+    return date;
   }
 
   public Time getHourBankCredit() {

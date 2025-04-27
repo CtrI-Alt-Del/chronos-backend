@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.server.database.jpa.solicitation.models.ExcuseAbsenceSolicitationModel;
 
-public interface ExcuseAbsenceSolicitationDao extends JpaRepository<ExcuseAbsenceSolicitationModel, UUID> {
+public interface ExcuseAbsenceSolicitationDao
+    extends JpaRepository<ExcuseAbsenceSolicitationModel, UUID> {
 
 }

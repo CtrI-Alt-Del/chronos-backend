@@ -59,7 +59,7 @@ public class SolicitationMapper {
 
     model.setId(entity.getId().value());
     model.setDescription(entity.getDescription() != null ? entity.getDescription().value() : null);
-    model.setRequestedAt(entity.getDate().value());
+    model.setDate(entity.getDate().value());
     model.setSolicitationStatus(entity.getStatus().value());
     model.setSenderResponsible(senderResponsible);
     model.setReplierResponsible(replierResponsible);
@@ -93,7 +93,7 @@ public class SolicitationMapper {
     return new SolicitationDto()
         .setId(model.getId().toString())
         .setDescription(model.getDescription())
-        .setDate(model.getRequestedAt())
+        .setDate(model.getDate())
         .setStatus(model.getSolicitationStatus().toString())
         .setFeedbackMessage(model.getFeedbackMessage())
         .setSenderResponsible(senderResponsibleAggregateDto)

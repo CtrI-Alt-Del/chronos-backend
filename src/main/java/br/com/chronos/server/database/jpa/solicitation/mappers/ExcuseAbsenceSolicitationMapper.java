@@ -27,7 +27,7 @@ public class ExcuseAbsenceSolicitationMapper {
     var solicitationModel = ExcuseAbsenceSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription() != null ? entity.getDescription().value() : null)
-        .requestedAt(entity.getDate().value())
+        .date(entity.getDate().value())
         .feedbackMessage(entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponse)
@@ -60,7 +60,7 @@ public class ExcuseAbsenceSolicitationMapper {
     return new ExcuseAbsenceSolicitationDto()
         .setId(model.getId().toString())
         .setDescription(model.getDescription())
-        .setDate(model.getRequestedAt())
+        .setDate(model.getDate())
         .setFeedbackMessage(model.getFeedbackMessage())
         .setStatus(model.getSolicitationStatus().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
@@ -68,7 +68,8 @@ public class ExcuseAbsenceSolicitationMapper {
         .setExcuseAbsenceDate(model.getExcuseAbsenceDate())
         .setJustification(justificationDto);
   }
-  public ExcuseAbsenceSolicitation toEntity(ExcuseAbsenceSolicitationModel model){
+
+  public ExcuseAbsenceSolicitation toEntity(ExcuseAbsenceSolicitationModel model) {
     return new ExcuseAbsenceSolicitation(toDto(model));
   }
 

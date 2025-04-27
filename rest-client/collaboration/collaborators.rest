@@ -1,10 +1,10 @@
-# Collaboration - Collaborators
+## Collaboration - Collaborators
 
 @RESOURCE = collaboration/collaborators
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 
-## Create collaborator
+### Create collaborator
 POST {{HOST}}/{{RESOURCE}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -22,23 +22,17 @@ Authorization: Bearer {{JWT}}
   "accountPassword": "123456"
 }
 
-###
-
-## Get collaborator
+### Get collaborator
 GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## List collaborators
+### List collaborators
 GET {{HOST}}/{{RESOURCE}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Update collaborator
+### Update collaborator
 PUT {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -53,23 +47,18 @@ Authorization: Bearer {{JWT}}
   "sector": "comercial"
 }
 
-###
-
-## Enable collaborator
+### Enable collaborator
 PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/enable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Disable collaborator
+### Disable collaborator
 PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/disable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
 
-## Prepare collaborators for work
-POST {{HOST}}/{{RESOURCE}}/work?date=2025-04-24
+### Prepare collaborators for work
+POST {{HOST}}/{{RESOURCE}}/work?date=2025-04-26
 Content-Type: application/json
 Authorization: Bearer {{JWT}}

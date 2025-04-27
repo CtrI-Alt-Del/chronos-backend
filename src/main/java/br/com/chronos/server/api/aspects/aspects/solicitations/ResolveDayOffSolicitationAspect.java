@@ -1,6 +1,6 @@
 package br.com.chronos.server.api.aspects.aspects.solicitations;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.aspectj.lang.annotation.Aspect;
@@ -26,7 +26,6 @@ import br.com.chronos.server.api.controllers.solicitation.solicitations.ResolveS
 @Aspect
 public class ResolveDayOffSolicitationAspect {
 
-
   @Autowired
   private SolicitationsRepository solicitationsRepository;
 
@@ -46,7 +45,7 @@ public class ResolveDayOffSolicitationAspect {
     boolean isApproved = "APPROVED".equalsIgnoreCase(body.getStatus());
 
     if (!isDayOff || !isApproved) {
-      return; 
+      return;
     }
 
     var solicitation = getSolicitation(Id.create(solicitationId));
@@ -63,7 +62,7 @@ public class ResolveDayOffSolicitationAspect {
   }
 
   private Solicitation getSolicitation(Id solicitationId) {
-    var solicitation = solicitationsRepository.findSolicitationById(solicitationId);
+    var solicitation = solicitationsRepository.findById(solicitationId);
     if (solicitation.isEmpty()) {
       throw new NotFoundException("Solicitação não encontrada");
     }
@@ -88,7 +87,7 @@ public class ResolveDayOffSolicitationAspect {
         .setReason("ADJUSTMENT")
         .setOperation("DEBIT")
         .setTime(LocalTime.of(hours, 0))
-        .setDate(LocalDate.now());
+        .setDateTime(LocalDateTime.now());
 
     var hourBankTranscation = HourBankTransaction.create(hourBankTransactionDto);
 

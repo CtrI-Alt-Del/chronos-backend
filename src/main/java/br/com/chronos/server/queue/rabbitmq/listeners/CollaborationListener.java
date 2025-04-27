@@ -13,7 +13,7 @@ public class CollaborationListener {
   @Autowired
   CreateAccountJob createAccountJob;
 
-  @RabbitListener(queues = CollaboratorCreatedEvent.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = CollaboratorCreatedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listenToCollaboratorCreated(@Payload CollaboratorCreatedEvent.Payload payload) {
     createAccountJob.handle(payload);
   }

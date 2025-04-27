@@ -1,6 +1,6 @@
 package br.com.chronos.server.database.mongodb.hour_bank.models;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.bson.types.ObjectId;
@@ -28,7 +28,7 @@ public class HourBankTransactionModel {
     @Field
     private HourBankTransactionReason.ReasonName reason;
     @Field
-    private LocalDate date;
+    private LocalDateTime dateTime;
     @Field
     private LocalTime time;
     @Field

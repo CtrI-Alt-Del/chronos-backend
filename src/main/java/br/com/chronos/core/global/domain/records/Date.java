@@ -1,6 +1,7 @@
 package br.com.chronos.core.global.domain.records;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import br.com.chronos.core.work_schedule.domain.records.Weekday;
 
@@ -13,12 +14,13 @@ public record Date(LocalDate value) {
     return new Date(value);
   }
 
-  public static Date now() {
+  public static Date createFromNow() {
     return new Date(LocalDate.now());
   }
 
-  public static Date createFromNow() {
-    return new Date(LocalDate.now());
+  public DateTime toDatetime() {
+    var localTime = LocalTime.now();
+    return DateTime.create(value.atTime(localTime));
   }
 
   public Date plusDays(int daysCount) {

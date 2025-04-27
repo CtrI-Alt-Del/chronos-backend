@@ -18,13 +18,13 @@ public class WorkScheduleListener {
   @Autowired
   private UpdateWorkdayHourBankJob updateWorkdayHourBankJob;
 
-  @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listenToCollaboratorsPreparedForWorkEvent(
       @Payload CollaboratorsPreparedForWorkEvent.Payload payload) {
     createWorkdayLogsJob.handle(payload);
   }
 
-  @RabbitListener(queues = HourBankTransactionCreatedEvent.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = HourBankTransactionCreatedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listenToHourBankTransactionCreatedEvent(
       @Payload HourBankTransactionCreatedEvent.Payload payload) {
     updateWorkdayHourBankJob.handle(payload);

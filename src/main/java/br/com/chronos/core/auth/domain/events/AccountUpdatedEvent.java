@@ -3,7 +3,7 @@ package br.com.chronos.core.auth.domain.events;
 import br.com.chronos.core.global.domain.abstracts.Event;
 
 public class AccountUpdatedEvent extends Event<AccountUpdatedEvent.Payload> {
-  public static final String KEY = "auth/account.updated";
+  public static final String NAME = "auth/account.updated";
 
   public static class Payload {
     public final String collaboratorId;

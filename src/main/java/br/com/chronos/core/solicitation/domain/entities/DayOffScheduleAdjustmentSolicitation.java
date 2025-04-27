@@ -5,7 +5,7 @@ import br.com.chronos.core.solicitation.domain.dtos.DayOffScheduleAdjustmentSoli
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import br.com.chronos.core.work_schedule.domain.entities.DayOffSchedule;
 
-public class DayOffScheduleAdjustmentSolicitation extends Solicitation {
+public final class DayOffScheduleAdjustmentSolicitation extends Solicitation {
   private DayOffSchedule dayOffSchedule;
 
   public DayOffScheduleAdjustmentSolicitation(DayOffScheduleAdjustmentSolicitationDto dto) {
