@@ -4,18 +4,20 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
-import br.com.chronos.core.hour_bank.interfaces.HourBankBroker;
+import br.com.chronos.core.solicitation.domain.events.PaidOvertimeSolicitationApprovedEvent;
+import br.com.chronos.core.solicitation.interfaces.PortalBroker;
 
 @Component
-public class RabbitMqHourBankBroker implements HourBankBroker {
+public class RabbitMqPortalBroker implements PortalBroker {
   private final RabbitTemplate rabbit;
 
-  public RabbitMqHourBankBroker(RabbitTemplate rabbit) {
+  public RabbitMqPortalBroker(RabbitTemplate rabbit) {
     this.rabbit = rabbit;
   }
 
   @Override
-  public void publish(HourBankTransactionCreatedEvent event) {
+  public void publish(PaidOvertimeSolicitationApprovedEvent event) {
     rabbit.convertAndSend("", HourBankTransactionCreatedEvent.NAME, event.getPayload());
   }
+
 }

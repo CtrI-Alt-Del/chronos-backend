@@ -28,11 +28,23 @@ public record SolicitationStatus(Status value) {
     return Logical.create(value == Status.APPROVED);
   }
 
+  public Logical isDenied() {
+    return Logical.create(value == Status.DENIED);
+  }
+
   public Logical isPending() {
     return Logical.create(value == Status.PENDING);
   }
 
   public String toString() {
     return value.toString().toLowerCase();
+  }
+
+  public SolicitationStatus approve() {
+    return new SolicitationStatus(Status.APPROVED);
+  }
+
+  public SolicitationStatus deny() {
+    return new SolicitationStatus(Status.DENIED);
   }
 }

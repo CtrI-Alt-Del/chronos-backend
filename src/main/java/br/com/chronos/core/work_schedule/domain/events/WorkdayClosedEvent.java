@@ -7,7 +7,7 @@ import br.com.chronos.core.global.domain.abstracts.Event;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 
 public class WorkdayClosedEvent extends Event<WorkdayClosedEvent.Payload> {
-  public static final String KEY = "work.schedule/workday.closed";
+  public static final String NAME = "work.schedule/workday.closed";
 
   public static record Payload(
       LocalTime overtime,

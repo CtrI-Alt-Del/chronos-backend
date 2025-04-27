@@ -1,12 +1,10 @@
 package br.com.chronos.server.database.jpa.solicitation.repositories;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.JpaRepository;
+import kotlin.Pair;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
@@ -25,41 +23,49 @@ import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitati
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
 import br.com.chronos.server.database.jpa.solicitation.daos.PaidOvertimeSolicitationDao;
+import br.com.chronos.server.database.jpa.solicitation.daos.SolicitationDao;
 import br.com.chronos.server.database.jpa.solicitation.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.SolicitationMapper;
-import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
-import kotlin.Pair;
-
-interface JpaSolicitationsModelRepository extends JpaRepository<SolicitationModel, UUID> {
-  List<SolicitationModel> findAllBySenderResponsibleAccountSector(CollaborationSector.Sector sector);
-
-  Optional<SolicitationModel> findById(UUID id);
-
-  List<SolicitationModel> findAllBySenderResponsibleId(UUID userId);
-}
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
+  @Autowired
+  private SolicitationDao solicitationDao;
 
   @Autowired
-  TimePunchLogAdjustmentRepository timePunchLogAdjustmentSolicitationModelsRepository;
+  private PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
 
   @Autowired
-  DayOffScheduleAdjustmentRepository dayOffScheduleAdjustmentSolcitationModelsRepository;
+  private TimePunchLogAdjustmentRepository timePunchLogAdjustmentSolicitationModelsRepository;
 
   @Autowired
-  JpaSolicitationsModelRepository solicitationsRepository;
+  private DayOffScheduleAdjustmentRepository dayOffScheduleAdjustmentSolcitationModelsRepository;
 
   @Autowired
-  DayOffSolicitationRepository dayOffSolicitationRepository;
+  private DayOffSolicitationRepository dayOffSolicitationRepository;
 
   @Autowired
-  PaidOvertimeSolicitationMapper paidOvertimeSolicitationMapper;
+  private PaidOvertimeSolicitationMapper paidOvertimeSolicitationMapper;
 
   @Autowired
-  PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
+  private SolicitationMapper solicitationMapper;
 
-  @Autowired
-  SolicitationMapper mapper;
+  @Override
+  public Optional<Solicitation> findById(Id solicitationId) {
+    var solicitationModel = solicitationDao.findById(solicitationId.value());
+    if (solicitationModel.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(solicitationMapper.toEntity(solicitationModel.get()));
+  }
+
+  @Override
+  public Optional<PaidOvertimeSolicitation> findPaidOvertimeSolicitationById(Id solicitationId) {
+    var solicitationModel = paidOvertimeSolicitationDao.findById(solicitationId.value());
+    if (solicitationModel.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(paidOvertimeSolicitationMapper.toEntity(solicitationModel.get()));
+  }
 
   @Override
   public void resolveSolicitation(Solicitation solicitation) {
@@ -81,25 +87,24 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Override
   public Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type) {
-    var solicitationModel = solicitationsRepository.findById(solicitationId.value());
+    var solicitationModel = solicitationDao.findById(solicitationId.value());
     if (solicitationModel.isEmpty()) {
       return Optional.empty();
     }
-    return Optional.of(mapper.toEntity(solicitationModel.get()));
+    return Optional.of(solicitationMapper.toEntity(solicitationModel.get()));
   }
 
   @Override
   public Array<Solicitation> findAllByCollaboratorId(Id collaboratorId) {
-    var solicitationModels = solicitationsRepository.findAllBySenderResponsibleId(collaboratorId.value());
-    var solicitations = Array.createFrom(solicitationModels, mapper::toEntity);
-
+    var solicitationModels = solicitationDao.findAllBySenderResponsibleId(collaboratorId.value());
+    var solicitations = Array.createFrom(solicitationModels, solicitationMapper::toEntity);
     return solicitations;
   }
 
   @Override
   public Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector) {
-    var solicitationModels = solicitationsRepository.findAllBySenderResponsibleAccountSector(sector.value());
-    var solicitations = Array.createFrom(solicitationModels, mapper::toEntity);
+    var solicitationModels = solicitationDao.findAllBySenderResponsibleAccountSector(sector.value());
+    var solicitations = Array.createFrom(solicitationModels, solicitationMapper::toEntity);
     return solicitations;
   }
 
@@ -108,7 +113,7 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
       CollaborationSector sector,
       PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var models = paidOvertimeSolicitationDao.findAllBySenderResponsibleAccountSector(
+    var models = paidOvertimeSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
         sector.value(), pageRequest);
     var items = models.stream().toList();
     var itemsCount = models.getTotalElements();
@@ -116,21 +121,23 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     return new Pair<>(
         Array.createFrom(items, paidOvertimeSolicitationMapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount));
-
-  }
-
-  @Override
-  public Optional<Solicitation> findSolicitationById(Id id) {
-    var solicitationModel = solicitationsRepository.findById(id.value());
-    if (solicitationModel.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(mapper.toEntity(solicitationModel.get()));
   }
 
   @Override
   public void add(PaidOvertimeSolicitation solicitation) {
     var solicitationModel = paidOvertimeSolicitationMapper.toModel(solicitation);
     paidOvertimeSolicitationDao.save(solicitationModel);
+  }
+
+  @Override
+  public void replace(Solicitation solicitation) {
+    var model = solicitationMapper.toModel(solicitation);
+    solicitationDao.save(model);
+  }
+
+  @Override
+  public void replace(PaidOvertimeSolicitation solicitation) {
+    var model = paidOvertimeSolicitationMapper.toModel(solicitation);
+    paidOvertimeSolicitationDao.save(model);
   }
 }

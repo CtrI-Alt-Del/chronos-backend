@@ -10,7 +10,7 @@ import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.server.database.jpa.solicitation.models.PaidOvertimeSolicitationModel;
 
 public interface PaidOvertimeSolicitationDao extends JpaRepository<PaidOvertimeSolicitationModel, UUID> {
-  Page<PaidOvertimeSolicitationModel> findAllBySenderResponsibleAccountSector(
+  Page<PaidOvertimeSolicitationModel> findAllBySenderResponsibleAccountSectorOrderByDateDesc(
       CollaborationSector.Sector sector,
       PageRequest pageRequest);
 }

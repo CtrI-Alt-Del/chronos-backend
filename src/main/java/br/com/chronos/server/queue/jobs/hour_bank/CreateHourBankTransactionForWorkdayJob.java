@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.hour_bank.interfaces.HourBankBroker;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
-import br.com.chronos.core.hour_bank.use_cases.CreateWorkdayHourBankTransactionUseCase;
+import br.com.chronos.core.hour_bank.use_cases.CreateHourBankTransactionForWorkdayUseCase;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 
 @Component
-public class CreateWorkdayHourBankTransactionJob {
+public class CreateHourBankTransactionForWorkdayJob {
   @Autowired
   private HourBankTransactionsRepository hourBankTransactionsRepository;
 
@@ -17,7 +17,7 @@ public class CreateWorkdayHourBankTransactionJob {
   private HourBankBroker hourBankBroker;
 
   public void handle(WorkdayClosedEvent.Payload payload) {
-    var useCase = new CreateWorkdayHourBankTransactionUseCase(
+    var useCase = new CreateHourBankTransactionForWorkdayUseCase(
         hourBankTransactionsRepository,
         hourBankBroker);
 

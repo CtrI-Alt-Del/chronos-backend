@@ -13,7 +13,9 @@ import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import kotlin.Pair;
 
 public interface SolicitationsRepository {
-  void add(PaidOvertimeSolicitation solicitation);
+  Optional<Solicitation> findById(Id id);
+
+  Optional<PaidOvertimeSolicitation> findPaidOvertimeSolicitationById(Id id);
 
   Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
 
@@ -23,10 +25,13 @@ public interface SolicitationsRepository {
 
   Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector);
 
-  Optional<Solicitation> findSolicitationById(Id id);
-
   void resolveSolicitation(Solicitation solicitation);
 
   Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type);
 
+  void add(PaidOvertimeSolicitation solicitation);
+
+  void replace(Solicitation solicitation);
+
+  void replace(PaidOvertimeSolicitation solicitation);
 }

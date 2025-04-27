@@ -8,7 +8,7 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 
 public class HourBankTransactionCreatedEvent extends Event<HourBankTransactionCreatedEvent.Payload> {
-  public static final String KEY = "hour.bank/transaction.created";
+  public static final String NAME = "hour.bank/transaction.created";
 
   public static record Payload(
       LocalTime time,

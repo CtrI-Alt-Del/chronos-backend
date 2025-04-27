@@ -26,8 +26,9 @@ public class PaidOvertimeSolicitationMapper {
 		return PaidOvertimeSolicitationModel
 				.builder()
 				.id(entity.getId().value())
-				.requestedAt(entity.getDate().value())
-				.feedbackMessage(entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
+				.date(entity.getDate().value())
+				.feedbackMessage(
+						entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
 				.solicitationStatus(entity.getStatus().value())
 				.senderResponsible(senderResponse)
 				.replierResponsible(replierResponse)
@@ -60,7 +61,7 @@ public class PaidOvertimeSolicitationMapper {
 		return (PaidOvertimeSolicitationDto) new PaidOvertimeSolicitationDto()
 				.setId(model.getId().toString())
 				.setType("PAID_OVERTIME")
-				.setDate(model.getRequestedAt())
+				.setDate(model.getDate())
 				.setFeedbackMessage(model.getFeedbackMessage())
 				.setStatus(model.getSolicitationStatus().toString())
 				.setSenderResponsible(senderResponsibleAggregateDto)

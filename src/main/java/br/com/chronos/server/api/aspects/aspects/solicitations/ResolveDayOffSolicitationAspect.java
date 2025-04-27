@@ -62,7 +62,7 @@ public class ResolveDayOffSolicitationAspect {
   }
 
   private Solicitation getSolicitation(Id solicitationId) {
-    var solicitation = solicitationsRepository.findSolicitationById(solicitationId);
+    var solicitation = solicitationsRepository.findById(solicitationId);
     if (solicitation.isEmpty()) {
       throw new NotFoundException("Solicitação não encontrada");
     }

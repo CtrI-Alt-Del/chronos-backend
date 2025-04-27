@@ -1,5 +1,6 @@
 @RESOURCE = solicitation/solicitations
 @URL = {{HOST}}/{{RESOURCE}}
+@PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 
@@ -15,8 +16,18 @@ Authorization: Bearer {{JWT}}
 
 {}
 
+### Aprove paid overtime solicitation
+PUT {{URL}}/{{PAID_OVERTIME_SOLICITATION_ID}}/approve/paid-overtime
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "feedbackMessage": "Faça bom proveito dessa hora extra!"
+}
+
+
 ### List paid overtime solicitations
-GET {{URL}}/paid-overtime
+GET {{URL}}/paid-overtime?page=1
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

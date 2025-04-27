@@ -5,7 +5,7 @@ import br.com.chronos.core.global.domain.abstracts.Event;
 import br.com.chronos.core.global.domain.records.Password;
 
 public class CollaboratorCreatedEvent extends Event<CollaboratorCreatedEvent.Payload> {
-  public static final String KEY = "collaboration/collaborator.created";
+  public static final String NAME = "collaboration/collaborator.created";
 
   public static class Payload {
     public final String password;

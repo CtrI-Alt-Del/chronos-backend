@@ -1,11 +1,10 @@
-@RESOURCE = solicitation/justification-type
+@RESOURCE = solicitation/justifications
 @JUSTIFICATION_TYPE_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 @URL = {{HOST}}/{{RESOURCE}}
 
 
 ### Create Justification Type
-# @name create-type
-POST {{URL}}
+POST {{URL}}/types
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -15,21 +14,19 @@ Authorization: Bearer {{JWT}}
 }
 
 ### List All Justification Types
-# @name get-types
-GET {{URL}}
+GET {{URL}}/types
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 
 ### Delete Justification Type 
 # @name delete-type
-DELETE {{URL}}/{{JUSTIFICATION_TYPE_ID}}
+DELETE {{URL}}/type/{{JUSTIFICATION_TYPE_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Update Justification Type 
-# @name update-type 
-PUT {{URL}}/{{JUSTIFICATION_TYPE_ID}}
+PUT {{URL}}/types/{{JUSTIFICATION_TYPE_ID}}
 rontent-Type: application/json
 Authorization: Bearer {{JWT}}
 

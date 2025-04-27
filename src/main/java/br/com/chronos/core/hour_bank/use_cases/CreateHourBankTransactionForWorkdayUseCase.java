@@ -11,11 +11,11 @@ import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.interfaces.HourBankBroker;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 
-public class CreateWorkdayHourBankTransactionUseCase {
+public class CreateHourBankTransactionForWorkdayUseCase {
   private final HourBankTransactionsRepository repository;
   private final HourBankBroker broker;
 
-  public CreateWorkdayHourBankTransactionUseCase(
+  public CreateHourBankTransactionForWorkdayUseCase(
       HourBankTransactionsRepository repository,
       HourBankBroker broker) {
     this.repository = repository;

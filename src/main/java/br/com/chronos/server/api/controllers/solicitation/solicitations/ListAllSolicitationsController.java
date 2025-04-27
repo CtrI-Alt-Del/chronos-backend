@@ -13,7 +13,6 @@ import br.com.chronos.core.solicitation.use_cases.ListAllSolicitationsUseCase;
 
 @SolicitationsController
 public class ListAllSolicitationsController {
-
   @Autowired
   private SolicitationsRepository solicitationsRepository;
 
