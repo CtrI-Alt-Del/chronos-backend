@@ -2,7 +2,7 @@
 
 @RESOURCE = hour-bank
 
-@COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
+@COLLABORATOR_ID = 9b1febb2-60e2-4369-8143-b69429bf4fb3
 
 ### List transactions
 GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/transactions?startDate=2025-04-19&endDate=2025-04-26&operation=all
