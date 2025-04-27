@@ -7,6 +7,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,11 +19,12 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@DiscriminatorValue("EXCUSE_ABSENCE")
+@DiscriminatorValue("EXCUSED_ABSENCE")
 @EqualsAndHashCode(callSuper = false)
-public class ExcuseAbsenceSolicitationModel extends SolicitationModel {
+@Table(name = "excused_absence_solicitations")
+public class ExcusedAbsenceSolicitationModel extends SolicitationModel {
   @Column(nullable = false)
-  private LocalDate excuseAbsenceDate;
+  private LocalDate absenceDate;
   @ManyToOne
   @JoinColumn(name = "justification_id", nullable = true)
   private JustificationModel justification;

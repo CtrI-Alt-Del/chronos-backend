@@ -1,6 +1,8 @@
 @RESOURCE = solicitation/solicitations
 @URL = {{HOST}}/{{RESOURCE}}
 @PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
+@DAY_OFF_SOLICITATION_ID = 3a51c862-09e5-4d98-bd13-7e18947587a9
+@EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 
@@ -25,11 +27,56 @@ Authorization: Bearer {{JWT}}
   "feedbackMessage": "Faça bom proveito dessa hora extra!"
 }
 
-
 ### List paid overtime solicitations
 GET {{URL}}/paid-overtime?page=1
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
+
+### Create day off solicitation
+POST {{URL}}/day-off
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "dayOff": "2025-04-27"
+}
+
+### List day off solicitations
+GET {{URL}}/day-off?page=1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Aprove day off solicitation
+PUT {{URL}}/{{DAY_OFF_SOLICITATION_ID}}/approve/day-off
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "feedbackMessage": "Tenha seu dia de descanso!"
+}
+
+### Create excused absence Solicitation 
+POST {{URL}}/excused-absence
+Content-Type: application/json 
+Authorization: Bearer {{JWT}}
+
+{
+  "absenceDate": "2025-04-17"
+}
+
+### List excused absence solicitations
+GET {{URL}}/excused-absence?page=1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Aprove excused absence solicitation
+PUT {{URL}}/{{EXCEUSED_ABSENCE_SOLICITATION_ID}}/approve/excused-absence
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "feedbackMessage": "Você está perdoado!"
+}
 
 ### Create Day Off Schedule Adjustment Solicitation
 POST {{URL}}/day-off-schedule-adjustment
@@ -56,37 +103,11 @@ Authorization: Bearer {{JWT}}
   "reason": "FORGOTTEN"
 }
 
-### Create Day Off Solicitation
-
-POST {{URL}}/day-off
+### Deny solicitation 
+PATCH {{URL}}/{{DAY_OFF_SOLICITATION_ID}}/deny
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "dayOff": "2025-02-02"
+  "feedbackMessage": "Não fui com a sua cara!"
 }
-
-### Create Excuse Absence Solicitation 
-
-POST {{URL}}/excuse-absence
-Content-Type: application/json 
-Authorization: Bearer {{JWT}}
-
-{
-  "excuseAbsenceDate": "2025-02-02"
-}
-
-
-### Resolve Solicitation 
-PATCH {{URL}}/resolve/b187861a-d331-4935-9cf1-2cdd078abc91
-Content-Type: multipart/form-data
-Authorization: Bearer {{JWT}}
-
-{
-  "status": "APPROVED",
-  "solicitationType": "DAY_OFF"
-}
-
-### Get JustificationAttachmentUrl 
-GET {{URL}}/attachments/809cba83-dbc4-4bbb-8cd6-9f19f4387f97-shrek.jpg
-Authorization: Bearer {{JWT}}

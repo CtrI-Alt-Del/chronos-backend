@@ -1,6 +1,5 @@
 package br.com.chronos.server.database;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -136,27 +135,27 @@ public class DatabaseSeed implements CommandLineRunner {
             HourBankTransactionFaker
                 .fakeDto()
                 .setTime(LocalTime.of(1, 0))
-                .setDateTime(LocalDateTime.of(2025, 4, 1, 3, 0))
+                .setDateTime(LocalDateTime.of(2025, 4, 27, 3, 0))
                 .setOperation("CREDIT"),
             HourBankTransactionFaker
                 .fakeDto()
                 .setTime(LocalTime.of(0, 10))
-                .setDateTime(LocalDateTime.of(2025, 4, 2, 0, 10))
+                .setDateTime(LocalDateTime.of(2025, 4, 26, 0, 10))
                 .setOperation("CREDIT"),
             HourBankTransactionFaker
                 .fakeDto()
                 .setTime(LocalTime.of(0, 10))
-                .setDateTime(LocalDateTime.of(2025, 4, 3, 0, 10))
+                .setDateTime(LocalDateTime.of(2025, 4, 25, 0, 10))
                 .setOperation("CREDIT"),
             HourBankTransactionFaker
                 .fakeDto()
                 .setTime(LocalTime.of(0, 10))
-                .setDateTime(LocalDateTime.of(2025, 4, 4, 0, 10))
+                .setDateTime(LocalDateTime.of(2025, 4, 24, 0, 10))
                 .setOperation("CREDIT"),
             HourBankTransactionFaker
                 .fakeDto()
                 .setTime(LocalTime.of(0, 10))
-                .setDateTime(LocalDateTime.of(2025, 4, 5, 0, 10))
+                .setDateTime(LocalDateTime.of(2025, 4, 23, 0, 10))
                 .setOperation("DEBIT")))
         .map(HourBankTransaction::create);
   }

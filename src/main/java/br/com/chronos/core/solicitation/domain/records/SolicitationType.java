@@ -6,8 +6,8 @@ import br.com.chronos.core.global.domain.records.Text;
 
 public record SolicitationType(Type value) {
   public enum Type {
-    EXCUSE_ABSENCE,
-    TIME_PUNCH,
+    EXCUSED_ABSENCE,
+    TIME_PUNCH_ADJUSMENT,
     DAY_OFF_SCHEDULE,
     DAY_OFF,
     PAID_OVERTIME
@@ -24,12 +24,13 @@ public record SolicitationType(Type value) {
       throw new ValidationException(text.key(), "deve ser de ponto ou de jornada");
     }
   }
-  public static SolicitationType createAsExcuseAbsence() {
-    return new SolicitationType(Type.EXCUSE_ABSENCE);
+
+  public static SolicitationType createAsExcusedAbsence() {
+    return new SolicitationType(Type.EXCUSED_ABSENCE);
   }
 
-  public static SolicitationType createAsTimePunch() {
-    return new SolicitationType(Type.TIME_PUNCH);
+  public static SolicitationType createAsTimePunchAdjusment() {
+    return new SolicitationType(Type.TIME_PUNCH_ADJUSMENT);
   }
 
   public static SolicitationType createAsDayOffSchedule() {
@@ -45,7 +46,7 @@ public record SolicitationType(Type value) {
   }
 
   public Logical isTimePunch() {
-    return Logical.create(value == Type.TIME_PUNCH);
+    return Logical.create(value == Type.TIME_PUNCH_ADJUSMENT);
   }
 
   public Logical isDayOffSchedule() {

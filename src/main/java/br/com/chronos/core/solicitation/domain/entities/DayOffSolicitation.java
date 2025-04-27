@@ -15,16 +15,18 @@ public final class DayOffSolicitation extends Solicitation {
   }
 
   public DayOffSolicitationDto getDto() {
+    var solicitationDto = super.getDto();
     DayOffSolicitationDto dto = new DayOffSolicitationDto();
-    dto.setId(getId().toString());
-    dto.setDescription(getDescription() != null ? getDescription().value() : null);
-    dto.setDate(getDate().value());
-    dto.setStatus(getStatus().value().toString());
-    dto.setFeedbackMessage(getFeedbackMessage() != null ? getFeedbackMessage().value() : null);
-    dto.setSenderResponsible(getSenderResponsible().getDto());
-    dto.setReplierResponsible(getReplierResponsible() != null ? getReplierResponsible().getDto() : null);
-    dto.setDayOff(getDayOff().value());
-    dto.setType(getType().value().toString());
+    dto
+        .setId(solicitationDto.id)
+        .setDescription(solicitationDto.description)
+        .setDate(solicitationDto.date)
+        .setStatus(solicitationDto.status)
+        .setFeedbackMessage(solicitationDto.feedbackMessage)
+        .setSenderResponsible(solicitationDto.senderResponsible)
+        .setReplierResponsible(solicitationDto.replierResponsible)
+        .setDayOff(getDayOff().value())
+        .setType(getType().toString());
     return dto;
   }
 

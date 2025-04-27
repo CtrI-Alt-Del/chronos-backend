@@ -1,12 +1,8 @@
 package br.com.chronos.core.work_schedule.domain.entities;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import br.com.chronos.core.global.domain.abstracts.Entity;
 import br.com.chronos.core.global.domain.aggregates.ResponsibleAggregate;
 import br.com.chronos.core.global.domain.records.Date;
-import br.com.chronos.core.global.domain.records.DateTime;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
@@ -101,6 +97,10 @@ public final class WorkdayLog extends Entity {
     }
 
     hourBankDebit = hourBankDebit.plus(time);
+  }
+
+  public void excuseAbsence() {
+    status = WorkdayStatus.createAsNormalDay();
   }
 
   public Workload getWorkloadSchedule() {

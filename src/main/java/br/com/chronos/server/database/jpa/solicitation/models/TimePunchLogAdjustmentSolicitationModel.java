@@ -10,6 +10,7 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Table(name = "time_punch_adjusment_solicitations")
 public class TimePunchLogAdjustmentSolicitationModel extends SolicitationModel {
   @Column(name = "date")
   private LocalDate date;

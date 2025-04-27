@@ -15,7 +15,7 @@ import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
-import br.com.chronos.core.solicitation.domain.entities.ExcuseAbsenceSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
@@ -23,10 +23,12 @@ import br.com.chronos.core.solicitation.interfaces.repositories.DayOffScheduleAd
 import br.com.chronos.core.solicitation.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.interfaces.repositories.TimePunchLogAdjustmentRepository;
-import br.com.chronos.server.database.jpa.solicitation.daos.ExcuseAbsenceSolicitationDao;
+import br.com.chronos.server.database.jpa.solicitation.daos.DayOffSolicitationDao;
+import br.com.chronos.server.database.jpa.solicitation.daos.ExcusedAbsenceSolicitationDao;
 import br.com.chronos.server.database.jpa.solicitation.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.solicitation.daos.SolicitationDao;
-import br.com.chronos.server.database.jpa.solicitation.mappers.ExcuseAbsenceSolicitationMapper;
+import br.com.chronos.server.database.jpa.solicitation.mappers.DayOffSolicitationMapper;
+import br.com.chronos.server.database.jpa.solicitation.mappers.ExcusedAbsenceSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.SolicitationMapper;
 
@@ -41,10 +43,16 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   private PaidOvertimeSolicitationMapper paidOvertimeSolicitationMapper;
 
   @Autowired
-  ExcuseAbsenceSolicitationDao ExcuseAbsenceSolicitationDao;
+  private ExcusedAbsenceSolicitationDao excusedAbsenceSolicitationDao;
 
   @Autowired
-  ExcuseAbsenceSolicitationMapper excuseAbsenceSolicitationMapper;
+  private ExcusedAbsenceSolicitationMapper excusedAbsenceSolicitationMapper;
+
+  @Autowired
+  private DayOffSolicitationDao dayOffSolicitationDao;
+
+  @Autowired
+  private DayOffSolicitationMapper dayOffSolicitationMapper;
 
   @Autowired
   private TimePunchLogAdjustmentRepository timePunchLogAdjustmentSolicitationModelsRepository;
@@ -139,9 +147,15 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public void add(ExcuseAbsenceSolicitation solicitation) {
-    var solicitationModel = excuseAbsenceSolicitationMapper.toModel(solicitation);
-    ExcuseAbsenceSolicitationDao.save(solicitationModel);
+  public void add(ExcusedAbsenceSolicitation solicitation) {
+    var solicitationModel = excusedAbsenceSolicitationMapper.toModel(solicitation);
+    excusedAbsenceSolicitationDao.save(solicitationModel);
+  }
+
+  @Override
+  public void add(DayOffSolicitation solicitation) {
+    var solicitationModel = dayOffSolicitationMapper.toModel(solicitation);
+    dayOffSolicitationDao.save(solicitationModel);
   }
 
   @Override
@@ -155,4 +169,56 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     var model = paidOvertimeSolicitationMapper.toModel(solicitation);
     paidOvertimeSolicitationDao.save(model);
   }
+
+  @Override
+  public void replace(DayOffSolicitation solicitation) {
+    var model = dayOffSolicitationMapper.toModel(solicitation);
+    dayOffSolicitationDao.save(model);
+  }
+
+  @Override
+  public void replace(ExcusedAbsenceSolicitation solicitation) {
+    var model = excusedAbsenceSolicitationMapper.toModel(solicitation);
+    excusedAbsenceSolicitationDao.save(model);
+  }
+
+  @Override
+  public Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id solicitationId) {
+    var model = excusedAbsenceSolicitationDao.findById(solicitationId.value());
+    if (model.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(excusedAbsenceSolicitationMapper.toEntity(model.get()));
+  }
+
+  @Override
+  public Pair<Array<ExcusedAbsenceSolicitation>, PlusIntegerNumber> findManyExcusedAbsenceSolicitationsByCollaborationSector(
+      CollaborationSector sector, PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = excusedAbsenceSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
+        sector.value(),
+        pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+
+    return new Pair<>(
+        Array.createFrom(items, excusedAbsenceSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
+  }
+
+  @Override
+  public Pair<Array<DayOffSolicitation>, PlusIntegerNumber> findManyDayOffSolicitationsByCollaborationSector(
+      CollaborationSector sector, PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = dayOffSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
+        sector.value(),
+        pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+
+    return new Pair<>(
+        Array.createFrom(items, dayOffSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
+  }
+
 }

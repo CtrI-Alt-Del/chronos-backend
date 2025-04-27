@@ -12,8 +12,8 @@ public class CreatePaidOvertimeSolicitationUseCase {
     this.repository = repository;
   }
 
-  public void execute(PaidOvertimeSolicitationDto dto) {
-    var senderResponsibleDto = new ResponsibleAggregateDto().setId(dto.senderResponsible.id);
+  public void execute(PaidOvertimeSolicitationDto dto, String senderResponsibleId) {
+    var senderResponsibleDto = new ResponsibleAggregateDto().setId(senderResponsibleId);
     dto.setSenderResponsible(senderResponsibleDto);
     var solicitation = new PaidOvertimeSolicitation(dto);
     repository.add(solicitation);

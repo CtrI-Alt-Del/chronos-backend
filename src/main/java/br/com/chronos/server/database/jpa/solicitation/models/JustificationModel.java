@@ -38,7 +38,7 @@ public class JustificationModel {
 
   @OneToMany(mappedBy = "justification")
   @Builder.Default
-  private List<ExcuseAbsenceSolicitationModel> excuseAbsenceSolicitations = new ArrayList<>();
+  private List<ExcusedAbsenceSolicitationModel> excuseAbsenceSolicitations = new ArrayList<>();
 
   @OneToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "attachment_id", nullable = true)

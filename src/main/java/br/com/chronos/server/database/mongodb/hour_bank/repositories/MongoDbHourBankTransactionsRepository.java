@@ -39,8 +39,8 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
     var pageRequest = PageRequest.of(page.number().value() - 1, 10);
     var transactionModels = dao.findAllByCollaboratorIdAndDateTimeBetweenAndOperationOrderByDateTimeDesc(
         collaboratorId.toString(),
-        dateRange.startDate().minusDays(1).toDatetime().value(),
-        dateRange.endDate().plusDays(1).toDatetime().value(),
+        dateRange.startDate().toDatetime().value(),
+        dateRange.endDate().toDatetime().value(),
         operation.name(),
         pageRequest);
 
@@ -59,8 +59,8 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var transactionModels = dao.findAllByCollaboratorIdAndDateTimeBetweenOrderByDateTimeDesc(
         collaboratorId.toString(),
-        dateRange.startDate().minusDays(1).toDatetime().value(),
-        dateRange.endDate().plusDays(1).toDatetime().value(),
+        dateRange.startDate().toDatetime().value(),
+        dateRange.endDate().toDatetime().value(),
         pageRequest);
     var items = transactionModels.stream().toList();
     var itemsCount = transactionModels.getTotalElements();

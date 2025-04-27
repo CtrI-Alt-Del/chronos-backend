@@ -17,7 +17,6 @@ public class CreateDayOffScheduleAdjustmentSolicitationController {
   @Autowired
   private DayOffScheduleAdjustmentRepository solicitationsRepository;
 
-
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
@@ -25,9 +24,9 @@ public class CreateDayOffScheduleAdjustmentSolicitationController {
   public ResponseEntity<DayOffScheduleAdjustmentSolicitationDto> handle(
       @RequestBody DayOffScheduleAdjustmentSolicitationDto body) {
     var useCase = new CreateDayOffScheduleAdjustmentSolicitationUseCase(solicitationsRepository);
-    var responsible = authenticationProvider.getAccount();
-    var senderId = responsible.getCollaboratorId();
-    var response = useCase.execute(body, senderId);
+    var account = authenticationProvider.getAccount();
+    var senderResponsibleId = account.getCollaboratorId().toString();
+    var response = useCase.execute(body, senderResponsibleId);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }
