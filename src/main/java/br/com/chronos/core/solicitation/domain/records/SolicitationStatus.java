@@ -23,10 +23,16 @@ public record SolicitationStatus(Status value) {
       throw new ValidationException(text.key(), "deve ser aprovado, em andamento ou negado");
     }
   }
-  public Logical isApproved(){
+
+  public Logical isApproved() {
     return Logical.create(value == Status.APPROVED);
   }
-  public Logical isPending(){
+
+  public Logical isPending() {
     return Logical.create(value == Status.PENDING);
+  }
+
+  public String toString() {
+    return value.toString().toLowerCase();
   }
 }

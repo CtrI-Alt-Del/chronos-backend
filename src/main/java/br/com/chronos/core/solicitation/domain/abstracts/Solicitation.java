@@ -20,6 +20,7 @@ public abstract class Solicitation extends Entity {
   public Solicitation(SolicitationDto dto) {
     super(dto.id);
     description = dto.description != null ? Text.create(dto.description, "Descrição da solicitação") : null;
+    type = SolicitationType.create(dto.type);
     feedbackMessage = dto.feedbackMessage != null
         ? Text.create(dto.feedbackMessage, "Mensagem de feedback da solicitação")
         : null;
@@ -70,15 +71,24 @@ public abstract class Solicitation extends Entity {
   }
 
   public SolicitationDto getDto() {
-    return new SolicitationDto()
+    var dto = new SolicitationDto()
         .setId(getId().toString())
-        .setDescription(getDescription().value())
         .setStatus(getStatus().toString())
-        .setFeedbackMessage(getFeedbackMessage().value())
         .setDate(getDate().value())
         .setStatus(getStatus().value().toString())
-        .setReplierResponsible(getReplierResponsible().getDto())
         .setSenderResponsible(getSenderResponsible().getDto())
         .setType(getType().toString());
+
+    if (getDescription() != null) {
+      dto.setDescription(getDescription().value());
+    }
+    if (getFeedbackMessage() != null) {
+      dto.setFeedbackMessage(getFeedbackMessage().value());
+    }
+    if (getReplierResponsible() != null) {
+      dto.setReplierResponsible(getReplierResponsible().getDto());
+    }
+
+    return dto;
   }
 }

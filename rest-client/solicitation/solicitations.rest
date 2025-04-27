@@ -15,6 +15,11 @@ Authorization: Bearer {{JWT}}
 
 {}
 
+### List paid overtime solicitations
+GET {{URL}}/paid-overtime
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
 ### Create Day Off Schedule Adjustment Solicitation
 POST {{URL}}/day-off-schedule-adjustment
 Content-Type: application/json

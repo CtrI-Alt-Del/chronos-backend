@@ -5,11 +5,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.PageNumber;
+import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
@@ -24,6 +28,7 @@ import br.com.chronos.server.database.jpa.solicitation.daos.PaidOvertimeSolicita
 import br.com.chronos.server.database.jpa.solicitation.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
+import kotlin.Pair;
 
 interface JpaSolicitationsModelRepository extends JpaRepository<SolicitationModel, UUID> {
   List<SolicitationModel> findAllBySenderResponsibleAccountSector(CollaborationSector.Sector sector);
@@ -89,7 +94,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     var solicitations = Array.createFrom(solicitationModels, mapper::toEntity);
 
     return solicitations;
-
   }
 
   @Override
@@ -97,6 +101,22 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     var solicitationModels = solicitationsRepository.findAllBySenderResponsibleAccountSector(sector.value());
     var solicitations = Array.createFrom(solicitationModels, mapper::toEntity);
     return solicitations;
+  }
+
+  @Override
+  public Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(
+      CollaborationSector sector,
+      PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = paidOvertimeSolicitationDao.findAllBySenderResponsibleAccountSector(
+        sector.value(), pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+
+    return new Pair<>(
+        Array.createFrom(items, paidOvertimeSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
+
   }
 
   @Override

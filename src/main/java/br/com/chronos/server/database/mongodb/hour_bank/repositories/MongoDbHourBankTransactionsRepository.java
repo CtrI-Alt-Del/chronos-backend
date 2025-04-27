@@ -10,6 +10,7 @@ import br.com.chronos.core.global.domain.records.DateRange;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransactionOperation;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
@@ -55,7 +56,7 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
       Id collaboratorId,
       DateRange dateRange,
       PageNumber page) {
-    var pageRequest = PageRequest.of(page.number().value() - 1, 10);
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var transactionModels = dao.findAllByCollaboratorIdAndDateTimeBetweenOrderByDateTimeDesc(
         collaboratorId.toString(),
         dateRange.startDate().minusDays(1).toDatetime().value(),
