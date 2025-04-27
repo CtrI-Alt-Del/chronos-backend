@@ -14,7 +14,7 @@ public class AttachmentMapper {
     return AttachmentModel.builder()
         .name(record.name().value())
         .contentType(record.contentType().value())
-        .id(UUID.fromString(record.key().value()))
+        .id(record.key().value())
         .build();
   }
 

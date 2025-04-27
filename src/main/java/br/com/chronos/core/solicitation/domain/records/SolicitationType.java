@@ -49,6 +49,10 @@ public record SolicitationType(Type value) {
     return Logical.create(value == Type.TIME_PUNCH_ADJUSMENT);
   }
 
+  public Logical isExcusedAbsence() {
+    return Logical.create(value == Type.EXCUSED_ABSENCE);
+  }
+
   public Logical isDayOffSchedule() {
     return Logical.create(value == Type.DAY_OFF_SCHEDULE);
   }
