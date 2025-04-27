@@ -21,6 +21,9 @@ public interface SolicitationsRepository {
 
   Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
 
+  // void addJustificationToSolicitation(ExcuseAbsenceSolicitation solicitation,
+  // Justification justification);
+
   Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
 
   Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(

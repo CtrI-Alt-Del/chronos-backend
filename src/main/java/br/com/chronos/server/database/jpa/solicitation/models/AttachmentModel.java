@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class AttachmentModel {
   @Id
   @Column(nullable = false)
-  private UUID id;
+  private String id;
 
   @Column(nullable = false)
   private String name;

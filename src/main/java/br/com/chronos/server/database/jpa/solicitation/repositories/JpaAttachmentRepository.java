@@ -12,7 +12,7 @@ import br.com.chronos.core.solicitation.interfaces.repositories.AttachmentReposi
 import br.com.chronos.server.database.jpa.solicitation.mappers.AttachmentMapper;
 import br.com.chronos.server.database.jpa.solicitation.models.AttachmentModel;
 
-interface JpaAttachmentModelRepository extends JpaRepository<AttachmentModel, UUID> {
+interface JpaAttachmentModelRepository extends JpaRepository<AttachmentModel, String> {
 
 }
 
@@ -37,8 +37,8 @@ public class JpaAttachmentRepository implements AttachmentRepository {
   }
 
 	@Override
-	public Attachment findAttachmentByKey(Id attachmentKey) {
-    var model = repository.findById(attachmentKey.value());
+	public Attachment findAttachmentByKey(String attachmentKey) {
+    var model = repository.findById(attachmentKey);
     if(model.isEmpty()){
       return null;
     }

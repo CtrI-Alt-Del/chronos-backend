@@ -13,6 +13,7 @@ import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.solicitation.models.DayOffScheduleAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.solicitation.models.DayOffSolicitationModel;
+import br.com.chronos.server.database.jpa.solicitation.models.ExcusedAbsenceSolicitationModel;
 import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
 import br.com.chronos.server.database.jpa.solicitation.models.TimePunchLogAdjustmentSolicitationModel;
 
@@ -28,6 +29,9 @@ public class SolicitationMapper {
   @Autowired
   private DayOffSolicitationMapper dayOffSolicitationMapper;
 
+  @Autowired
+  private ExcusedAbsenceSolicitationMapper excusedAbsenceSolicitationMapper;
+
   public Solicitation toEntity(SolicitationModel model) {
     if (model instanceof DayOffScheduleAdjustmentSolicitationModel) {
       return dayOffScheduleAdjustmentSolicitationMapper.toEntity((DayOffScheduleAdjustmentSolicitationModel) model);
@@ -35,6 +39,8 @@ public class SolicitationMapper {
       return timePunchLogAdjustmentSolicitationMapper.toEntity((TimePunchLogAdjustmentSolicitationModel) model);
     } else if (model instanceof DayOffSolicitationModel) {
       return dayOffSolicitationMapper.toEntity((DayOffSolicitationModel) model);
+    } else if (model instanceof ExcusedAbsenceSolicitationModel) {
+      return excusedAbsenceSolicitationMapper.toEntity((ExcusedAbsenceSolicitationModel) model);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + model.getClass());
   }
@@ -46,6 +52,10 @@ public class SolicitationMapper {
       return timePunchLogAdjustmentSolicitationMapper.toModel((TimePunchLogAdjustmentSolicitation) entity);
     } else if (entity.getType().isDayOff().isTrue()) {
       return dayOffSolicitationMapper.toModel((DayOffSolicitation) entity);
+    } else if (entity.getType().isExcusedAbsence().isTrue()) {
+      // return
+      // excusedAbsenceSolicitationMapper.toModel((ExcusedAbsenceSolicitationMapperon)
+      // entity);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + entity.getClass());
   }
