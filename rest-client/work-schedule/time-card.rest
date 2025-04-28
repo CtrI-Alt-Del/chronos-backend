@@ -1,0 +1,7 @@
+@RESOURCE = work-schedule/time-card
+@COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
+
+## Get time card
+GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}
+Content-Type: application/json
+Authorization: Bearer {{JWT}}

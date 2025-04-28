@@ -1,9 +1,9 @@
 @RESOURCE = work-schedule/workday-logs
 @WORKDAY_LOG_ID = 5e7b3d7c-bf22-48ef-9383-fca04a7c2d58
-@COLLABORATOR_Id = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
+@COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
 
 ## Get today workday log
-GET {{HOST}}/{{RESOURCE}}/{{WORKDAY_LOG_ID}}/today
+GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}/today
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -17,7 +17,7 @@ Authorization: Bearer {{JWT}}
 ###
 
 ## Get collaboration sector history
-GET {{HOST}}/{{RESOURCE}}/history?date=2024-04-14&page=1&collaboratorName=tam
+GET {{HOST}}/{{RESOURCE}}/history?date=2025-04-27&page=1
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -49,7 +49,7 @@ Authorization: Bearer {{JWT}}
 ### 
 
 ## Adjust time punch
-PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}/adjust-time
+PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}/adjust-time-punch
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -57,10 +57,3 @@ Authorization: Bearer {{JWT}}
   "time": "12:00",
   "period": "first_clock_in"
 }
-
-### 
-
-## Get time card
-GET {{HOST}}/{{RESOURCE}}/time-card/{{COLLABORATOR_Id}}
-Content-Type: application/json
-Authorization: Bearer {{JWT}}

@@ -36,6 +36,7 @@ public final class TimePunch extends Entity {
     } else {
       secondClockOut = time;
     }
+    validate();
   }
 
   public void adjust(Time time, TimePunchPeriod period) {
