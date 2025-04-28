@@ -1,10 +1,10 @@
-@RESOURCE = solicitation/justifications
+@RESOURCE = solicitation/justification-type
 @JUSTIFICATION_TYPE_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 @URL = {{HOST}}/{{RESOURCE}}
 
 
 ### Create Justification Type
-POST {{URL}}/types
+POST {{URL}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

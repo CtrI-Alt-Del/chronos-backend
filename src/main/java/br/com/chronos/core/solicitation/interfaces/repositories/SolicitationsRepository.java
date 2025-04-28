@@ -10,6 +10,7 @@ import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.ExcusedAbsenceSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.Justification;
 import br.com.chronos.core.solicitation.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import kotlin.Pair;
@@ -21,8 +22,8 @@ public interface SolicitationsRepository {
 
   Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
 
-  // void addJustificationToSolicitation(ExcuseAbsenceSolicitation solicitation,
-  // Justification justification);
+  void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
+  Justification justification);
 
   Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
 

@@ -16,6 +16,7 @@ import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.ExcusedAbsenceSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.Justification;
 import br.com.chronos.core.solicitation.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
@@ -29,12 +30,16 @@ import br.com.chronos.server.database.jpa.solicitation.daos.PaidOvertimeSolicita
 import br.com.chronos.server.database.jpa.solicitation.daos.SolicitationDao;
 import br.com.chronos.server.database.jpa.solicitation.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.ExcusedAbsenceSolicitationMapper;
+import br.com.chronos.server.database.jpa.solicitation.mappers.JustificationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.solicitation.mappers.SolicitationMapper;
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Autowired
   private SolicitationDao solicitationDao;
+
+  @Autowired
+  private JustificationMapper justificationMapper;
 
   @Autowired
   private PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
@@ -99,6 +104,9 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     } else if (solicitation.getType().isDayOff().isTrue()) {
       DayOffSolicitation dayOffSolicitation = (DayOffSolicitation) solicitation;
       dayOffSolicitationRepository.resolveSolicitation(dayOffSolicitation);
+    } else if (solicitation.getType().isExcusedAbsence().isTrue()) {
+      ExcusedAbsenceSolicitation excusedAbsenceSolicitation = (ExcusedAbsenceSolicitation) solicitation;
+      excusedAbsenceSolicitationDao.save(excusedAbsenceSolicitationMapper.toModel(excusedAbsenceSolicitation));
     }
   }
 
@@ -220,5 +228,13 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
         Array.createFrom(items, dayOffSolicitationMapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount));
   }
+
+@Override
+public void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation, Justification justification) {
+    var solicitationModel = excusedAbsenceSolicitationMapper.toModel(solicitation);
+    var justificationModel = justificationMapper.toModel(justification);
+    solicitationModel.setJustification(justificationModel);
+    excusedAbsenceSolicitationDao.save(solicitationModel);
+}
 
 }

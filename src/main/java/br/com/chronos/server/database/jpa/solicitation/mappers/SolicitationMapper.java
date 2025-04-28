@@ -7,6 +7,7 @@ import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.dtos.SolicitationDto;
 import br.com.chronos.core.solicitation.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
+import br.com.chronos.core.solicitation.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.solicitation.domain.entities.TimePunchLogAdjustmentSolicitation;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
@@ -53,9 +54,7 @@ public class SolicitationMapper {
     } else if (entity.getType().isDayOff().isTrue()) {
       return dayOffSolicitationMapper.toModel((DayOffSolicitation) entity);
     } else if (entity.getType().isExcusedAbsence().isTrue()) {
-      // return
-      // excusedAbsenceSolicitationMapper.toModel((ExcusedAbsenceSolicitationMapperon)
-      // entity);
+      return excusedAbsenceSolicitationMapper.toModel((ExcusedAbsenceSolicitation) entity);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + entity.getClass());
   }
