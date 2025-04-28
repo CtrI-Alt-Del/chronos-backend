@@ -31,7 +31,7 @@ public class AttachJustificationToSolicitationController {
       @RequestPart("justificationTypeName") String justificationTypeName,
       @RequestPart("justificationTypeShouldHaveAttachment") String justificationTypeShouldHaveAttachment,
       @RequestPart("description") String description,
-      @RequestPart("attachment") MultipartFile attachment) {
+      @RequestPart(value = "attachment",required = false) MultipartFile attachment) {
     var attachmentDto = AttachmentContextHolder.get();
     var justificationDto = new JustificationDto()
         .setJustificationType(new JustificationTypeDto()
