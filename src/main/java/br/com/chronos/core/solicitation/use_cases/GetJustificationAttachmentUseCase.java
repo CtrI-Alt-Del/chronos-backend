@@ -10,7 +10,7 @@ public class GetJustificationAttachmentUseCase {
   private final StorageProvider storageProvider;
 
   public GetJustificationAttachmentUseCase(
-       StorageProvider storageProvider) {
+      StorageProvider storageProvider) {
     this.storageProvider = storageProvider;
   }
 
@@ -19,10 +19,10 @@ public class GetJustificationAttachmentUseCase {
     return attachmentUrl;
   }
   // private Attachment findAttachment(String key){
-  //   var attachment = attachmentRepository.findAttachmentByKey(key);
-  //   if (attachment == null) {
-  //     throw new NotFoundException("Attachment not found");
-  //   }
-  //   return attachment;
+  // var attachment = attachmentRepository.findAttachmentByKey(key);
+  // if (attachment == null) {
+  // throw new NotFoundException("Attachment not found");
+  // }
+  // return attachment;
   // }
 }
