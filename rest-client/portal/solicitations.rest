@@ -61,7 +61,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "absenceDate": "2025-04-17"
+  "absenceDate": "2025-04-27"
 }
 
 ### List excused absence solicitations
