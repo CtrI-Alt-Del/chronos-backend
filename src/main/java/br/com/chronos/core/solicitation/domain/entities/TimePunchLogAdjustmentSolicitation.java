@@ -18,13 +18,13 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
 
   public TimePunchLogAdjustmentSolicitation(TimePunchLogAdjustmentSolicitationDto dto) {
     super(dto);
-    this.type = SolicitationType.createAsTimePunch();
+    this.type = SolicitationType.createAsTimePunchAdjusment();
     time = new Time(dto.time);
     period = TimePunchPeriod.create(dto.period);
     workdayLogDate = new Date(dto.workdayLogDate);
     reason = TimePunchAdjustmentReason.create(dto.reason);
     if (reason.value() == Reason.OTHER && dto.description == null) {
-      throw new ValidationException("Razao", "Se o tipo for OUTRO e necessario descricao");
+      throw new ValidationException("Razão", "Se o tipo for OUTRO e necessário descrição");
 
     }
   }

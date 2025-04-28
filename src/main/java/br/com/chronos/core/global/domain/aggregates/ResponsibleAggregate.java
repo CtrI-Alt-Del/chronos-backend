@@ -11,7 +11,7 @@ public class ResponsibleAggregate extends Aggregate<Responsible> {
   public ResponsibleAggregate(ResponsibleAggregateDto aggregateDto) {
     super(
         aggregateDto.id,
-        (aggregateDto.dto != null) ? new Responsible(aggregateDto.dto) : null,
+        (aggregateDto.entity != null) ? new Responsible(aggregateDto.entity) : null,
         ENTITY_NAME);
   }
 
@@ -25,9 +25,10 @@ public class ResponsibleAggregate extends Aggregate<Responsible> {
         .setId(getId().toString())
         .setResponsibleDto(
             new ResponsibleDto()
-                .setId(responsibleDto.id)
                 .setName(responsibleDto.name)
                 .setEmail(responsibleDto.email)
+                .setCpf(responsibleDto.cpf)
+                .setSector(responsibleDto.sector)
                 .setRole(responsibleDto.role));
   }
 }

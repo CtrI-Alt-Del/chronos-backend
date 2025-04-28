@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
+import br.com.chronos.core.solicitation.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
+import br.com.chronos.server.queue.jobs.work_schedule.ExcuseWorkdayAbsenceJob;
 import br.com.chronos.server.queue.jobs.work_schedule.UpdateWorkdayHourBankJob;
 
 @Component
@@ -18,15 +20,24 @@ public class WorkScheduleListener {
   @Autowired
   private UpdateWorkdayHourBankJob updateWorkdayHourBankJob;
 
-  @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.KEY, errorHandler = "rabbitMqErrorHandler")
+  @Autowired
+  private ExcuseWorkdayAbsenceJob excuseWorkdayAbsenceJob;
+
+  @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listenToCollaboratorsPreparedForWorkEvent(
       @Payload CollaboratorsPreparedForWorkEvent.Payload payload) {
     createWorkdayLogsJob.handle(payload);
   }
 
-  @RabbitListener(queues = HourBankTransactionCreatedEvent.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = HourBankTransactionCreatedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listenToHourBankTransactionCreatedEvent(
       @Payload HourBankTransactionCreatedEvent.Payload payload) {
     updateWorkdayHourBankJob.handle(payload);
+  }
+
+  @RabbitListener(queues = ExcusedAbsenceSolicitationApprovedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
+  public void listenToExcusedAbsenceSolicitationApprovedEvent(
+      @Payload ExcusedAbsenceSolicitationApprovedEvent.Payload payload) {
+    excuseWorkdayAbsenceJob.handle(payload);
   }
 }

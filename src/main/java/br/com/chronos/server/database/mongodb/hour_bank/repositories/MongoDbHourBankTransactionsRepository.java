@@ -1,12 +1,7 @@
 package br.com.chronos.server.database.mongodb.hour_bank.repositories;
 
-import java.util.List;
-import java.time.LocalDate;
 import kotlin.Pair;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.bson.types.ObjectId;
-import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,39 +10,23 @@ import br.com.chronos.core.global.domain.records.DateRange;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransactionOperation;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
+import br.com.chronos.server.database.mongodb.hour_bank.daos.HourBankTransactionDao;
 import br.com.chronos.server.database.mongodb.hour_bank.mappers.HourBankTransactionMapper;
-import br.com.chronos.server.database.mongodb.hour_bank.models.HourBankTransactionModel;
-
-interface SpringDataHourBankRepositoy extends MongoRepository<HourBankTransactionModel, ObjectId> {
-  List<HourBankTransactionModel> findAllByCollaboratorId(String collaboratorId);
-
-  Page<HourBankTransactionModel> findAllByCollaboratorIdAndDateBetween(
-      String collaboratorId,
-      LocalDate startDate,
-      LocalDate endDate,
-      PageRequest pageRequest);
-
-  Page<HourBankTransactionModel> findAllByCollaboratorIdAndDateBetweenAndOperation(
-      String collaboratorId,
-      LocalDate startDate,
-      LocalDate endDate,
-      HourBankTransactionOperation.OperationName operation,
-      PageRequest pageRequest);
-}
 
 public class MongoDbHourBankTransactionsRepository implements HourBankTransactionsRepository {
   @Autowired
-  private SpringDataHourBankRepositoy repository;
+  private HourBankTransactionDao dao;
 
   @Autowired
   private HourBankTransactionMapper mapper;
 
   @Override
   public Array<HourBankTransaction> findAllByCollaborator(Id collaboratorId) {
-    var models = repository.findAllByCollaboratorId(collaboratorId.toString());
+    var models = dao.findAllByCollaboratorId(collaboratorId.toString());
     return Array.createFrom(models, mapper::toRecord);
   }
 
@@ -58,10 +37,10 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
       HourBankTransactionOperation operation,
       PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, 10);
-    var transactionModels = repository.findAllByCollaboratorIdAndDateBetweenAndOperation(
+    var transactionModels = dao.findAllByCollaboratorIdAndDateTimeBetweenAndOperationOrderByDateTimeDesc(
         collaboratorId.toString(),
-        dateRange.startDate().value(),
-        dateRange.endDate().value(),
+        dateRange.startDate().toDatetime().value(),
+        dateRange.endDate().toDatetime().value(),
         operation.name(),
         pageRequest);
 
@@ -77,11 +56,11 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
       Id collaboratorId,
       DateRange dateRange,
       PageNumber page) {
-    var pageRequest = PageRequest.of(page.number().value() - 1, 10);
-    var transactionModels = repository.findAllByCollaboratorIdAndDateBetween(
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var transactionModels = dao.findAllByCollaboratorIdAndDateTimeBetweenOrderByDateTimeDesc(
         collaboratorId.toString(),
-        dateRange.startDate().value(),
-        dateRange.endDate().value(),
+        dateRange.startDate().toDatetime().value(),
+        dateRange.endDate().toDatetime().value(),
         pageRequest);
     var items = transactionModels.stream().toList();
     var itemsCount = transactionModels.getTotalElements();
@@ -94,7 +73,7 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
   public void add(HourBankTransaction transaction, Id collaboratorId) {
     var model = mapper.toModel(transaction);
     model.setCollaboratorId(collaboratorId.toString());
-    repository.save(model);
+    dao.save(model);
   }
 
   @Override
@@ -105,7 +84,7 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
       model.setCollaboratorId(collaboratorId.toString());
       return model;
     });
-    repository.saveAll(models.list());
+    dao.saveAll(models.list());
   }
 
 }

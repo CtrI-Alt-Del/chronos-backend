@@ -90,10 +90,6 @@ public final class WorkdayLog extends Entity {
     return status.isAbsence();
   }
 
-  public Date getDate() {
-    return date;
-  }
-
   public void updateHourBank(Time time, Logical isCreditOperation) {
     if (isCreditOperation.isTrue()) {
       hourBankCredit = hourBankCredit.plus(time);
@@ -101,6 +97,10 @@ public final class WorkdayLog extends Entity {
     }
 
     hourBankDebit = hourBankDebit.plus(time);
+  }
+
+  public void excuseAbsence() {
+    status = WorkdayStatus.createAsNormalDay();
   }
 
   public Workload getWorkloadSchedule() {
@@ -113,6 +113,10 @@ public final class WorkdayLog extends Entity {
 
   public WorkdayStatus getStatus() {
     return status;
+  }
+
+  public Date getDate() {
+    return date;
   }
 
   public Time getHourBankCredit() {

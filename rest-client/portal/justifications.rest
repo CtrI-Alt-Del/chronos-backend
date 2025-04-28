@@ -1,37 +1,40 @@
 @RESOURCE = solicitation/justification-type
+@JUSTIFICATION_TYPE_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 @URL = {{HOST}}/{{RESOURCE}}
 
 
 ### Create Justification Type
-# @name create-type
-POST {{URL}} HTTP/1.1
+POST {{URL}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "name": "Tipo justificativa 1",
-  "shouldHaveAttachment": true
+  "id": "{{JUSTIFICATION_TYPE_ID}}",
+  "name": "Tipo justificativa 2(anexo!!)",
+  "shouldHaveAttachment": false
 }
 
 ### List All Justification Types
-# @name get-types
-GET {{URL}} HTTP/1.1
+GET {{URL}}/types
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 
 ### Delete Justification Type 
 # @name delete-type
-DELETE {{URL}}/123 HTTP/1.1
+DELETE {{URL}}/type/{{JUSTIFICATION_TYPE_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Update Justification Type 
-# @name update-type 
-PUT {{URL}}/123 HTTP/1.1
+PUT {{URL}}/types/{{JUSTIFICATION_TYPE_ID}}
 rontent-Type: application/json
 Authorization: Bearer {{JWT}}
 
 { 
   "shouldHaveAttachment": true
 }
+
+### Get JustificationAttachmentUrl 
+GET {{URL}}/attachments/809cba83-dbc4-4bbb-8cd6-9f19f4387f97-shrek.jpg
+Authorization: Bearer {{JWT}}

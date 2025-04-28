@@ -1,9 +1,11 @@
 @RESOURCE = work-schedule/workday-logs
+@WORKDAY_LOG_ID = 5e7b3d7c-bf22-48ef-9383-fca04a7c2d58
+@COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
 @WORKDAY_LOG_ID = 352b2afc-85b4-4ac8-9f8e-839a9a6df1c1
 @COLLABORATOR_Id = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 ## Get today workday log
-GET {{HOST}}/{{RESOURCE}}/{{WORKDAY_LOG_ID}}/today
+GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}/today
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -17,7 +19,7 @@ Authorization: Bearer {{JWT}}
 ###
 
 ## Get collaboration sector history
-GET {{HOST}}/{{RESOURCE}}/history?date=2024-04-14&page=1&collaboratorName=tam
+GET {{HOST}}/{{RESOURCE}}/history?date=2025-04-27&page=1
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

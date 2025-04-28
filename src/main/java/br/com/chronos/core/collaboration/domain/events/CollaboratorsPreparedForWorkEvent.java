@@ -9,7 +9,7 @@ import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.Date;
 
 public class CollaboratorsPreparedForWorkEvent extends Event<CollaboratorsPreparedForWorkEvent.Payload> {
-  public static final String KEY = "collaboration/collaborators.prepared.for.work";
+  public static final String NAME = "collaboration/collaborators.prepared.for.work";
 
   public static class Payload {
     public final List<String> collaboratorIds;

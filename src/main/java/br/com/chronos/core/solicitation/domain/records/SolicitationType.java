@@ -6,8 +6,11 @@ import br.com.chronos.core.global.domain.records.Text;
 
 public record SolicitationType(Type value) {
   public enum Type {
-    TIME_PUNCH,
-    DAY_OFF_SCHEDULE
+    EXCUSED_ABSENCE,
+    TIME_PUNCH_ADJUSMENT,
+    DAY_OFF_SCHEDULE,
+    DAY_OFF,
+    PAID_OVERTIME
   }
 
   public static SolicitationType create(String value) {
@@ -22,19 +25,48 @@ public record SolicitationType(Type value) {
     }
   }
 
-  public static SolicitationType createAsTimePunch() {
-    return new SolicitationType(Type.TIME_PUNCH);
+  public static SolicitationType createAsExcusedAbsence() {
+    return new SolicitationType(Type.EXCUSED_ABSENCE);
+  }
+
+  public static SolicitationType createAsTimePunchAdjusment() {
+    return new SolicitationType(Type.TIME_PUNCH_ADJUSMENT);
   }
 
   public static SolicitationType createAsDayOffSchedule() {
     return new SolicitationType(Type.DAY_OFF_SCHEDULE);
   }
 
+  public static SolicitationType createAsDayOff() {
+    return new SolicitationType(Type.DAY_OFF);
+  }
+
+  public static SolicitationType createPaidOvertime() {
+    return new SolicitationType(Type.PAID_OVERTIME);
+  }
+
   public Logical isTimePunch() {
-    return Logical.create(value == Type.TIME_PUNCH);
+    return Logical.create(value == Type.TIME_PUNCH_ADJUSMENT);
+  }
+
+  public Logical isExcusedAbsence() {
+    return Logical.create(value == Type.EXCUSED_ABSENCE);
   }
 
   public Logical isDayOffSchedule() {
     return Logical.create(value == Type.DAY_OFF_SCHEDULE);
   }
+
+  public Logical isDayOff() {
+    return Logical.create(value == Type.DAY_OFF);
+  }
+
+  public Logical isPaidOvertime() {
+    return Logical.create(value == Type.PAID_OVERTIME);
+  }
+
+  public String toString() {
+    return value.toString().toLowerCase();
+  }
+
 }

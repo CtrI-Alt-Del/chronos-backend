@@ -1,17 +1,15 @@
-# Hour Bank - Transactions
+## Hour Bank - Transactions
 
 @RESOURCE = hour-bank
 
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
-## List transactions
-GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/transactions?startDate=2025-04-02&endDate=2025-12-31&operation=all
+### List transactions
+GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/transactions?startDate=2025-04-19&endDate=2025-04-27&operation=all
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Create transaction adjustment
+### Create transaction adjustment
 POST {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/transactions/adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -22,9 +20,7 @@ Authorization: Bearer {{JWT}}
   "time": "00:30"
 }
 
-###
-
-## Calculate balance
+### Get balance
 GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/balance
 Content-Type: application/json
 Authorization: Bearer {{JWT}}

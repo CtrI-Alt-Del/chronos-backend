@@ -19,6 +19,7 @@ public interface CollaboratorsRepository {
   Pair<Array<Collaborator>, PlusIntegerNumber> findMany(Logical isCollaboratorActive, PageNumber page);
 
   Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(
+    Id id,
       CollaborationSector sector,
       Logical isActive,
       PageNumber page);

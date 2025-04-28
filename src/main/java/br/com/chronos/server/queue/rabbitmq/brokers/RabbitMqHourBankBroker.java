@@ -16,6 +16,6 @@ public class RabbitMqHourBankBroker implements HourBankBroker {
 
   @Override
   public void publish(HourBankTransactionCreatedEvent event) {
-    rabbit.convertAndSend("", HourBankTransactionCreatedEvent.KEY, event.getPayload());
+    rabbit.convertAndSend("", HourBankTransactionCreatedEvent.NAME, event.getPayload());
   }
 }

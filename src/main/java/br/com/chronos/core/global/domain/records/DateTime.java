@@ -3,7 +3,7 @@ package br.com.chronos.core.global.domain.records;
 import java.time.LocalDateTime;
 
 public record DateTime(LocalDateTime value) {
-  public static DateTime create(LocalDateTime value, String key) {
+  public static DateTime create(LocalDateTime value) {
     if (value instanceof LocalDateTime) {
       return new DateTime(value);
     }
@@ -14,11 +14,15 @@ public record DateTime(LocalDateTime value) {
     return new DateTime(LocalDateTime.now());
   }
 
-  public DateTime addHours(int hours) {
+  public DateTime plusHours(int hours) {
     return new DateTime(value.plusHours(hours));
   }
 
-  public DateTime addDays(int days) {
+  public DateTime plusDays(int days) {
     return new DateTime(value.plusDays(days));
+  }
+
+  public DateTime minusDays(int days) {
+    return new DateTime(value.minusDays(days));
   }
 }

@@ -1,11 +1,11 @@
 package br.com.chronos.core.hour_bank.domain.dtos;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class HourBankTransactionDto {
   public LocalTime time;
-  public LocalDate date;
+  public LocalDateTime dateTime;
   public String operation;
   public String reason;
 
@@ -14,8 +14,8 @@ public class HourBankTransactionDto {
     return this;
   }
 
-  public HourBankTransactionDto setDate(LocalDate date) {
-    this.date = date;
+  public HourBankTransactionDto setDateTime(LocalDateTime dateTime) {
+    this.dateTime = dateTime;
     return this;
   }
 

@@ -16,6 +16,6 @@ public class RabbitMqAuthBroker implements AuthBroker {
 
   @Override
   public void publish(AccountUpdatedEvent event) {
-    rabbit.convertAndSend("", AccountUpdatedEvent.KEY, event.getPayload());
+    rabbit.convertAndSend("", AccountUpdatedEvent.NAME, event.getPayload());
   }
 }

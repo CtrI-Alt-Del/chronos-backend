@@ -20,7 +20,7 @@ public class TimePunchLogAdjustmentSolicitationMapper {
     return TimePunchLogAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription() != null ? entity.getDescription().value() : null)
-        .requestedAt(entity.getDate().value())
+        .date(entity.getDate().value())
         .feedbackMessage(entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
         .solicitationStatus(entity.getStatus().value())
         .time(entity.getTime().value())
@@ -39,6 +39,8 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
         .setEmail(model.getSenderResponsible().getAccount().getEmail())
+        .setCpf(model.getSenderResponsible().getCpf())
+        .setSector(model.getSenderResponsible().getAccount().getSector().toString())
         .setRole(model.getSenderResponsible().getAccount().getRole().toString());
 
     var senderResponsibleAggregateDto = new ResponsibleAggregateDto(senderResponsibleDto);
@@ -49,6 +51,8 @@ public class TimePunchLogAdjustmentSolicitationMapper {
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
+          .setCpf(model.getReplierResponsible().getCpf())
+          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
 
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
@@ -62,7 +66,7 @@ public class TimePunchLogAdjustmentSolicitationMapper {
         .setPeriod(model.getTimePunchPeriod().toString())
         .setId(model.getId().toString())
         .setDescription(description)
-        .setDate(model.getRequestedAt())
+        .setDate(model.getDate())
         .setStatus(model.getSolicitationStatus().toString())
         .setFeedbackMessage(feedbackMessage)
         .setSenderResponsible(senderResponsibleAggregateDto)

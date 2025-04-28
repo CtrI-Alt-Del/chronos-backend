@@ -29,17 +29,17 @@ public class ResolveSolicitationUseCase {
     var responsibleAggregate = new ResponsibleAggregate(responsible);
 
     var solicitationStatus = SolicitationStatus.create(status);
-    solicitation.status = solicitationStatus;
+    solicitation.setStatus(solicitationStatus);
 
-    if (solicitation.status.value() == SolicitationStatus.Status.PENDING) {
+    if (solicitation.getStatus().value() == SolicitationStatus.Status.PENDING) {
       throw new ValidationException("status", "O status deve ser diferente de PENDENTE");
 
     }
     if (feedbackMessage != null) {
-      solicitation.feedbackMessage = Text.create(feedbackMessage, "Mensagem de feedback da solicitacao");
+      solicitation.setFeedbackMessage(Text.create(feedbackMessage, "Mensagem de feedback da solicitacao"));
     }
 
-    solicitation.replierResponsible = responsibleAggregate;
+    solicitation.setReplierResponsible(responsibleAggregate);
     solicitationsRepository.resolveSolicitation(solicitation);
     return solicitation.getDto();
   }

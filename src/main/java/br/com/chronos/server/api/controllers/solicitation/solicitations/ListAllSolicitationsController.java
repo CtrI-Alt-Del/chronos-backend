@@ -13,14 +13,13 @@ import br.com.chronos.core.solicitation.use_cases.ListAllSolicitationsUseCase;
 
 @SolicitationsController
 public class ListAllSolicitationsController {
-
   @Autowired
   private SolicitationsRepository solicitationsRepository;
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @GetMapping("/")
+  @GetMapping
   public ResponseEntity<List<SolicitationDto>> handle() {
     var useCase = new ListAllSolicitationsUseCase(solicitationsRepository);
     var account = authenticationProvider.getAccount();

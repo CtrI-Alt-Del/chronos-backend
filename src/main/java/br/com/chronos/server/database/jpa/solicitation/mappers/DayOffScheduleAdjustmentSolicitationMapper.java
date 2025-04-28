@@ -27,7 +27,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
     var solicitationModel = DayOffScheduleAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription() != null ? entity.getDescription().value() : null)
-        .requestedAt(entity.getDate().value())
+        .date(entity.getDate().value())
         .feedbackMessage(entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponsible)
@@ -53,6 +53,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
       var replierResponsibleDto = new ResponsibleDto()
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
+          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
 
@@ -73,7 +74,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
     var dto = new DayOffScheduleAdjustmentSolicitationDto()
         .setId(model.getId().toString())
         .setDescription(description)
-        .setDate(model.getRequestedAt())
+        .setDate(model.getDate())
         .setStatus(model.getSolicitationStatus().toString())
         .setFeedbackMessage(feedbackMessage)
         .setSenderResponsible(senderResponsibleAggregateDto)

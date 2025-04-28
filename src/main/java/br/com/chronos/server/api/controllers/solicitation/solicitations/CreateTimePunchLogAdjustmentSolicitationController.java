@@ -12,9 +12,9 @@ import br.com.chronos.core.solicitation.use_cases.CreateTimePunchLogAdjustmentSo
 
 @SolicitationsController
 public class CreateTimePunchLogAdjustmentSolicitationController {
-
   @Autowired
   private TimePunchLogAdjustmentRepository solicitationsRepository;
+
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
@@ -22,9 +22,9 @@ public class CreateTimePunchLogAdjustmentSolicitationController {
   public ResponseEntity<TimePunchLogAdjustmentSolicitationDto> handle(
       @RequestBody TimePunchLogAdjustmentSolicitationDto body) {
     var useCase = new CreateTimePunchLogAdjustmentSolicitationUseCase(solicitationsRepository);
-    var responsible = authenticationProvider.getAccount();
-    var senderId = responsible.getCollaboratorId();
-    var timePunchLogAdjustmentSolicitationDto = useCase.execute(body, senderId);
+    var account = authenticationProvider.getAccount();
+    var senderResponsibleId = account.getCollaboratorId().toString();
+    var timePunchLogAdjustmentSolicitationDto = useCase.execute(body, senderResponsibleId);
     return ResponseEntity.ok(timePunchLogAdjustmentSolicitationDto);
   }
 }

@@ -20,8 +20,8 @@ public class ListHourBankTransactionsController {
   @GetMapping("/{collaboratorId}/transactions")
   public ResponseEntity<PaginationResponse<HourBankTransactionDto>> handle(
       @PathVariable String collaboratorId,
-      @RequestParam LocalDate startDate,
-      @RequestParam LocalDate endDate,
+      @RequestParam(defaultValue = "") LocalDate startDate,
+      @RequestParam(defaultValue = "") LocalDate endDate,
       @RequestParam(defaultValue = "all") String operation,
       @RequestParam(defaultValue = "1") int page) {
     var useCase = new ListHourBankTransactionsUseCase(hourBankTransactionsRepository);

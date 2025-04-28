@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
 
+import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
+import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,8 +19,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
-import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 
 @Entity
 @AllArgsConstructor
@@ -61,8 +61,4 @@ public class WorkdayLogModel {
 
   @Column(name = "hour_bank_debit", nullable = false)
   private LocalTime hourBankDebit;
-
-  // @OneToMany(mappedBy = "workdayLog", fetch = FetchType.LAZY)
-  // private List<WorkdayLogAdjustmentSolicitationModel>
-  // workdayLogAdjustmentSolicitation;
 }
