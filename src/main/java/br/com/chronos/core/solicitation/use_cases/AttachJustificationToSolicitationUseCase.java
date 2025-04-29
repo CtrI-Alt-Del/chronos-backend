@@ -12,30 +12,28 @@ import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRep
 public class AttachJustificationToSolicitationUseCase {
   private final SolicitationsRepository solicitationsRepository;
   private final JustificationRepository justificationRepository;
-  //
-  public AttachJustificationToSolicitationUseCase(SolicitationsRepository
-  solicitationsRepository,JustificationRepository justificationRepository) {
-  this.justificationRepository = justificationRepository;
-  this.solicitationsRepository = solicitationsRepository;
+
+  public AttachJustificationToSolicitationUseCase(SolicitationsRepository solicitationsRepository,
+      JustificationRepository justificationRepository) {
+    this.justificationRepository = justificationRepository;
+    this.solicitationsRepository = solicitationsRepository;
   }
 
   public ExcusedAbsenceSolicitationDto execute(String solicitationId,
-  JustificationDto justificationDto) {
-  var solicitation = findSolicitation(Id.create(solicitationId));
-  var justification = new Justification(justificationDto);
-  justificationRepository.add(justification);
-  solicitationsRepository.addJustificationToSolicitation(solicitation,
-  justification);
-  return findSolicitation(Id.create(solicitationId)).getDto();
+      JustificationDto justificationDto) {
+    var solicitation = findSolicitation(Id.create(solicitationId));
+    var justification = new Justification(justificationDto);
+    justificationRepository.add(justification);
+    solicitationsRepository.addJustificationToSolicitation(solicitation,
+        justification);
+    return findSolicitation(Id.create(solicitationId)).getDto();
   }
 
   private ExcusedAbsenceSolicitation findSolicitation(Id solicitationId) {
-  var solicitation =
-  solicitationsRepository.findExcusedAbsenceSolicitationById(solicitationId);
-  if (solicitation.isEmpty()) {
-  throw new NotFoundException("Solicitacao nao encontrada");
+    var solicitation = solicitationsRepository.findExcusedAbsenceSolicitationById(solicitationId);
+    if (solicitation.isEmpty()) {
+      throw new NotFoundException("Solicitacao nao encontrada");
+    }
+    return (ExcusedAbsenceSolicitation) solicitation.get();
   }
-  return (ExcusedAbsenceSolicitation) solicitation.get();
-  }
-
 }

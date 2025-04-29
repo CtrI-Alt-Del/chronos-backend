@@ -29,6 +29,7 @@ public class SecurityConfiguration {
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+            .requestMatchers(HttpMethod.GET, "/work-schedule/time-card/**").permitAll()
             .requestMatchers("/collaboration/collaborator").hasRole("MANAGER")
             .anyRequest().authenticated())
         .addFilterBefore(

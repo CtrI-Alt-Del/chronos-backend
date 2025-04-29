@@ -12,7 +12,7 @@ Authorization: Bearer {{JWT}}
 ###
 
 ## Get collaborator history
-GET {{HOST}}/{{RESOURCE}}/history/{{COLLABORATOR_Id}}
+GET {{HOST}}/{{RESOURCE}}/history/{{COLLABORATOR_Id}}?startDate=2024-04-27&endDate=2025-04-29
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

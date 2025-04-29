@@ -1,15 +1,14 @@
-@RESOURCE = work-schedule/time-card
+@URL = {{HOST}}/work-schedule/time-card
 @COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
 
-## Get time card
-GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}
+### Get time card
+GET {{URL}}/{{COLLABORATOR_Id}}?month=4&year=2025
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-@RESOURCE = work-schedule/time-card
-@COLLABORATOR_Id = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
-
-## Get time card
-GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}?month=4&year=2025
+### Generate time card pdf
+GET {{URL}}/{{COLLABORATOR_Id}}/pdf?month=4&year=2025
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
+
+# http://localhost:8080/work-schedule/time-card/56ab2a6d-39f7-4fba-a001-f33ccbe39dfe/pdf?month=4&year=2025

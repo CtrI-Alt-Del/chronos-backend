@@ -6,9 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.global.interfaces.providers.EnvProvider;
 import br.com.chronos.core.global.interfaces.providers.JwtProvider;
+import br.com.chronos.core.global.interfaces.providers.StorageProvider;
+import br.com.chronos.core.work_schedule.interfaces.PdfProvider;
 import br.com.chronos.server.providers.authentication.SecurityAuthenticationProvider;
 import br.com.chronos.server.providers.env.DotenvProvider;
 import br.com.chronos.server.providers.jwt.Auth0JwtProvider;
+import br.com.chronos.server.providers.pdf.JasperPdfProvider;
 import br.com.chronos.server.providers.storage.S3StorageProvider;
 
 @Configuration
@@ -28,8 +31,14 @@ public class ProvidersConfiguration {
   AuthenticationProvider authenticationProvider() {
     return new SecurityAuthenticationProvider();
   }
+
   @Bean
-  S3StorageProvider storageProvider(){
+  StorageProvider storageProvider() {
     return new S3StorageProvider(new DotenvProvider());
+  }
+
+  @Bean
+  PdfProvider pdfProvider() {
+    return new JasperPdfProvider();
   }
 }

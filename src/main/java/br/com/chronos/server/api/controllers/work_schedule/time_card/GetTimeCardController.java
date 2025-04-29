@@ -23,7 +23,7 @@ public class GetTimeCardController {
       @RequestParam int month,
       @RequestParam int year) {
     var useCase = new GetTimeCardUseCase(workdayLogsRepository);
-    var workdayLogs = useCase.execute(collaboratorId, month, year);
-    return ResponseEntity.ok(workdayLogs);
+    var timeCard = useCase.execute(collaboratorId, month, year);
+    return ResponseEntity.ok(timeCard);
   }
 }
