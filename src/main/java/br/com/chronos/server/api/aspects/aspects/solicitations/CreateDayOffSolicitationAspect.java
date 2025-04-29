@@ -41,28 +41,29 @@ public class CreateDayOffSolicitationAspect {
       String justificationTypeId, String justificationTypeName, String justificationTypeShouldHaveAttachment,
       MultipartFile attachment) {
 
-    var collaboratorId = authenticationProvider.getAccount().getCollaboratorId();
-    var collaborator = getCollaborator(collaboratorId);
-    var hourBankBalance = getHourBankBalance(collaboratorId);
-    var requiredHours = (int) collaborator.getWorkload().value();
-    if (hourBankBalance < requiredHours) {
-      throw new ValidationException("Banco de horas",
-          "Voce nao tem horas suficientes no banco de horas para solicitar uma folga");
-    }
-    return;
+    // var collaboratorId = authenticationProvider.getAccount().getCollaboratorId();
+    // var collaborator = getCollaborator(collaboratorId);
+    // var hourBankBalance = getHourBankBalance(collaboratorId);
+    // var requiredHours = (int) collaborator.getWorkload().value();
+    // if (hourBankBalance < requiredHours) {
+    // throw new ValidationException("Banco de horas",
+    // "Voce nao tem horas suficientes no banco de horas para solicitar uma folga");
+    // }
+    // return;
   }
 
-  private Collaborator getCollaborator(Id collaboratorId) {
-    var collaborator = collaboratorsRepository.findById(collaboratorId);
-    if (collaborator.isEmpty()) {
-      throw new NotFoundException("Colaborador não encontrado");
-    }
-    return collaborator.get();
-  }
+  // private Collaborator getCollaborator(Id collaboratorId) {
+  // var collaborator = collaboratorsRepository.findById(collaboratorId);
+  // if (collaborator.isEmpty()) {
+  // throw new NotFoundException("Colaborador não encontrado");
+  // }
+  // return collaborator.get();
+  // }
 
-  private int getHourBankBalance(Id collaboratorId) {
-    var useCase = new CalculateHourBankBalanceUseCase(hourBankTransactionsRepository);
-    return useCase.execute(collaboratorId.value().toString()).value.getHour();
-  }
+  // private int getHourBankBalance(Id collaboratorId) {
+  // var useCase = new
+  // CalculateHourBankBalanceUseCase(hourBankTransactionsRepository);
+  // return useCase.execute(collaboratorId.value().toString()).value.getHour();
+  // }
 
 }

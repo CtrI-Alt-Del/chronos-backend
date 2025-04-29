@@ -1,6 +1,6 @@
 package br.com.chronos.server.api.advices.hour_bank;
 
-import java.time.LocalTime;
+import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -31,9 +31,9 @@ public class EnsureSufficientHourBankCreditForDayOffSolicitationAdvice extends A
       var request = (CreateDayOffSolicitationController.Request) body;
       var account = authenticationProvider.getAccount();
       var collaboratorId = account.getCollaboratorId().toString();
-      var time = LocalTime.of(request.getWorkload(), 0);
+      var hourBankCredit = Duration.ofHours(request.getWorkload());
       var useCase = new EnsureSufficientHourBankCreditUseCase(hourBankTransactionsRepository);
-      useCase.execute(collaboratorId, time);
+      useCase.execute(collaboratorId, hourBankCredit);
       return body;
     }
 

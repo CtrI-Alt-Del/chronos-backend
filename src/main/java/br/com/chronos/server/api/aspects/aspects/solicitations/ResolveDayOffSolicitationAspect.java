@@ -39,58 +39,60 @@ public class ResolveDayOffSolicitationAspect {
   public void handleResolveSolicitation() {
   }
 
-  @Before("handleResolveSolicitation() && args(solicitationId, body,..)")
-  public void validateHourBankBeforeResolve(String solicitationId, ResolveSolicitationRequestBody body) {
-    boolean isDayOff = "DAY_OFF".equals(body.getSolicitationType());
-    boolean isApproved = "APPROVED".equalsIgnoreCase(body.getStatus());
+  // @Before("handleResolveSolicitation() && args(solicitationId, body,..)")
+  // public void validateHourBankBeforeResolve(String solicitationId,
+  // ResolveSolicitationRequestBody body) {
+  // boolean isDayOff = "DAY_OFF".equals(body.getSolicitationType());
+  // boolean isApproved = "APPROVED".equalsIgnoreCase(body.getStatus());
 
-    if (!isDayOff || !isApproved) {
-      return;
-    }
+  // if (!isDayOff || !isApproved) {
+  // return;
+  // }
 
-    var solicitation = getSolicitation(Id.create(solicitationId));
-    var collaboratorId = solicitation.getSenderResponsible().getId();
-    var hourBankBalance = getHourBankBalance(collaboratorId);
-    var collaborator = getCollaborator(collaboratorId);
+  // var solicitation = getSolicitation(Id.create(solicitationId));
+  // var collaboratorId = solicitation.getSenderResponsible().getId();
+  // var hourBankBalance = getHourBankBalance(collaboratorId);
+  // var collaborator = getCollaborator(collaboratorId);
 
-    var requiredHours = (int) collaborator.getWorkload().value();
-    if (hourBankBalance < requiredHours) {
-      throw new ValidationException("Banco de horas",
-          "Esse funcionario nao tem horas insuficientes para tirar um dia de folga");
-    }
-    registerHourBankDebitTransaction(collaboratorId, requiredHours);
-  }
+  // var requiredHours = (int) collaborator.getWorkload().value();
+  // if (hourBankBalance < requiredHours) {
+  // throw new ValidationException("Banco de horas",
+  // "Esse funcionario nao tem horas insuficientes para tirar um dia de folga");
+  // }
+  // registerHourBankDebitTransaction(collaboratorId, requiredHours);
+  // }
 
-  private Solicitation getSolicitation(Id solicitationId) {
-    var solicitation = solicitationsRepository.findById(solicitationId);
-    if (solicitation.isEmpty()) {
-      throw new NotFoundException("Solicitação não encontrada");
-    }
-    return solicitation.get();
-  }
+  // private Solicitation getSolicitation(Id solicitationId) {
+  // var solicitation = solicitationsRepository.findById(solicitationId);
+  // if (solicitation.isEmpty()) {
+  // throw new NotFoundException("Solicitação não encontrada");
+  // }
+  // return solicitation.get();
+  // }
 
-  private Collaborator getCollaborator(Id collaboratorId) {
-    var collaborator = collaboratorsRepository.findById(collaboratorId);
-    if (collaborator.isEmpty()) {
-      throw new NotFoundException("Colaborador não encontrado");
-    }
-    return collaborator.get();
-  }
+  // private Collaborator getCollaborator(Id collaboratorId) {
+  // var collaborator = collaboratorsRepository.findById(collaboratorId);
+  // if (collaborator.isEmpty()) {
+  // throw new NotFoundException("Colaborador não encontrado");
+  // }
+  // return collaborator.get();
+  // }
 
-  private int getHourBankBalance(Id collaboratorId) {
-    var useCase = new CalculateHourBankBalanceUseCase(hourBankTransactionsRepository);
-    return useCase.execute(collaboratorId.value().toString()).value.getHour();
-  }
+  // private int getHourBankBalance(Id collaboratorId) {
+  // var useCase = new
+  // CalculateHourBankBalanceUseCase(hourBankTransactionsRepository);
+  // return useCase.execute(collaboratorId.value().toString()).value.getHour();
+  // }
 
-  private void registerHourBankDebitTransaction(Id collaboratorId, int hours) {
-    var hourBankTransactionDto = new HourBankTransactionDto()
-        .setReason("ADJUSTMENT")
-        .setOperation("DEBIT")
-        .setTime(LocalTime.of(hours, 0))
-        .setDateTime(LocalDateTime.now());
+  // private void registerHourBankDebitTransaction(Id collaboratorId, int hours) {
+  // var hourBankTransactionDto = new HourBankTransactionDto()
+  // .setReason("ADJUSTMENT")
+  // .setOperation("DEBIT")
+  // .setTime(LocalTime.of(hours, 0))
+  // .setDateTime(LocalDateTime.now());
 
-    var hourBankTranscation = HourBankTransaction.create(hourBankTransactionDto);
+  // var hourBankTranscation = HourBankTransaction.create(hourBankTransactionDto);
 
-    hourBankTransactionsRepository.add(hourBankTranscation, collaboratorId);
-  }
+  // hourBankTransactionsRepository.add(hourBankTranscation, collaboratorId);
+  // }
 }
