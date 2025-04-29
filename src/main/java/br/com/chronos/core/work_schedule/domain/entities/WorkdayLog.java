@@ -100,7 +100,7 @@ public final class WorkdayLog extends Entity {
   }
 
   public void excuseAbsence() {
-    status = WorkdayStatus.createAsNormalDay();
+    status = WorkdayStatus.createAsExcusedAbsence();
   }
 
   public Workload getWorkloadSchedule() {

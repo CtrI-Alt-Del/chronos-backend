@@ -38,7 +38,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "dayOff": "2025-04-27"
+  "dayOff": "2025-04-30"
 }
 
 ### List day off solicitations
