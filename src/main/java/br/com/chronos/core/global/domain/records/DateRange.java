@@ -23,4 +23,16 @@ public record DateRange(Date startDate, Date endDate) {
     var lastDayOfMonth = currentYearMonth.atEndOfMonth();
     return new DateRange(Date.create(firstDayOfMonth), Date.create(lastDayOfMonth));
   }
+
+  public static DateRange createAsMonthRange(int month, int year) {
+    if (year == 0) {
+      return createAsCurrentMonthRange();
+    }
+
+    var yearMonth = YearMonth.of(year, month);
+    var firstDayOfMonth = yearMonth.atDay(1);
+    var lastDayOfMonth = yearMonth.atEndOfMonth();
+    return new DateRange(Date.create(firstDayOfMonth), Date.create(lastDayOfMonth));
+  }
+
 }

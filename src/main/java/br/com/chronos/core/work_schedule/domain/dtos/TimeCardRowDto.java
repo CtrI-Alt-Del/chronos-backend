@@ -12,6 +12,8 @@ public class TimeCardRowDto {
   public LocalTime hourBankCredit;
   public LocalTime hourBankDebit;
   public TimePunchDto timePunch;
+  public byte workload;
+  public String workdayStatus;
 
   public TimeCardRowDto setDate(LocalDate date) {
     this.date = date;
@@ -50,6 +52,16 @@ public class TimeCardRowDto {
 
   public TimeCardRowDto setHourBankDebit(LocalTime hourBankDebit) {
     this.hourBankDebit = hourBankDebit;
+    return this;
+  }
+
+  public TimeCardRowDto setWorkdayStatus(String workdayStatus) {
+    this.workdayStatus = workdayStatus;
+    return this;
+  }
+
+  public TimeCardRowDto setWorkload(byte workload) {
+    this.workload = workload;
     return this;
   }
 }

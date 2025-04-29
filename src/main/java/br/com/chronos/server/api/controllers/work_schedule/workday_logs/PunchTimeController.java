@@ -26,7 +26,7 @@ public class PunchTimeController {
     private LocalTime time;
   }
 
-  @PatchMapping("/{workdayLogId}/punch-time")
+  @PatchMapping("/{workdayLogId}/time-punch")
   public ResponseEntity<TimePunchDto> handle(@PathVariable String workdayLogId, @RequestBody Request body) {
     var useCase = new PunchTimeUseCase(workdayLogsRepository, workScheduleBroker);
     var timePunchDto = useCase.execute(workdayLogId, body.getTime());

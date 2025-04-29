@@ -15,8 +15,8 @@ public class GetTimeCardUseCase {
     this.repository = repository;
   }
 
-  public List<TimeCardRowDto> execute(String collaboratorId) {
-    var dateRange = DateRange.createAsCurrentMonthRange();
+  public List<TimeCardRowDto> execute(String collaboratorId, int month, int year) {
+    var dateRange = DateRange.createAsMonthRange(month, year);
     var workdayLogs = repository.findAllByCollaboratorAndDateRange(
         Id.create(collaboratorId),
         dateRange);

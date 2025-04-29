@@ -22,8 +22,8 @@ public class AdjustTimePunchUseCase {
     this.broker = broker;
   }
 
-  public void execute(String timePunchId, LocalTime time, String period) {
-    var workdayLog = findWorkdayLog(Id.create(timePunchId));
+  public void execute(String workdayLogId, LocalTime time, String period) {
+    var workdayLog = findWorkdayLog(Id.create(workdayLogId));
     workdayLog.getTimePunch().adjust(Time.create(time), TimePunchPeriod.create(period));
     repository.replace(workdayLog);
 

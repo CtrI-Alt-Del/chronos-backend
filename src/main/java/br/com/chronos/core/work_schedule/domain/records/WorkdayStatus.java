@@ -73,6 +73,6 @@ public record WorkdayStatus(WorkdayStatusName name) {
   }
 
   public String toString() {
-    return name.toString();
+    return name.toString().toLowerCase();
   }
 }
