@@ -3,6 +3,7 @@ package br.com.chronos.server.queue.rabbitmq.brokers;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+import br.com.chronos.core.work_schedule.domain.events.WorkdayAbsenceExcusedEvent;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
 
@@ -14,7 +15,14 @@ public class RabbitMqWorkScheduleBroker implements WorkScheduleBroker {
     this.rabbit = rabbit;
   }
 
+  @Override
   public void publish(WorkdayClosedEvent event) {
     rabbit.convertAndSend("", WorkdayClosedEvent.NAME, event.getPayload());
   }
+
+  @Override
+  public void publish(WorkdayAbsenceExcusedEvent event) {
+    rabbit.convertAndSend("", WorkdayAbsenceExcusedEvent.NAME, event.getPayload());
+  }
+
 }

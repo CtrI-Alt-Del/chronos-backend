@@ -7,18 +7,19 @@ import br.com.chronos.core.hour_bank.domain.dtos.HourBankTransactionDto;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 
-public class CreateHourBankTransactionForDayOffUseCase {
+public class CreateHourBankTransactionForExcusedAbsenceUseCase {
   private final HourBankTransactionsRepository repository;
 
-  public CreateHourBankTransactionForDayOffUseCase(HourBankTransactionsRepository repository) {
+  public CreateHourBankTransactionForExcusedAbsenceUseCase(
+      HourBankTransactionsRepository repository) {
     this.repository = repository;
   }
 
-  public void execute(String collaboratorId, int collaboratorWorkload) {
+  public void execute(String collaboratorId, LocalTime workdayHourBankDebit) {
     var dto = new HourBankTransactionDto()
-        .setTime(LocalTime.of(collaboratorWorkload, 0))
-        .setOperation("DEBIT")
-        .setReason("DAY_OFF");
+        .setTime(workdayHourBankDebit)
+        .setOperation("CREDIT")
+        .setReason("EXCUSED_ABSENCE");
     var transaction = HourBankTransaction.create(dto);
     repository.add(transaction, Id.create(collaboratorId));
   }

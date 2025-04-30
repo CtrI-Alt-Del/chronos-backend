@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.solicitation.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
+import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.use_cases.ExcuseWorkdayAbsenceUseCase;
 
@@ -12,8 +13,11 @@ public class ExcuseWorkdayAbsenceJob {
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
+  @Autowired
+  private WorkScheduleBroker workScheduleBroker;
+
   public void handle(ExcusedAbsenceSolicitationApprovedEvent.Payload payload) {
-    var useCase = new ExcuseWorkdayAbsenceUseCase(workdayLogsRepository);
+    var useCase = new ExcuseWorkdayAbsenceUseCase(workdayLogsRepository, workScheduleBroker);
     useCase.execute(payload.collaboratorId(), payload.absenceDate());
   }
 }
