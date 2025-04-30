@@ -18,6 +18,7 @@ public class ExcuseWorkdayAbsenceUseCase {
   public void execute(String collaboratorId, LocalDate absenceDate) {
     var workdayLog = findWorkdayLog(Id.create(collaboratorId), Date.create(absenceDate));
     workdayLog.excuseAbsence();
+    System.out.println(workdayLog);
     repository.replace(workdayLog);
   }
 

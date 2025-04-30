@@ -2,6 +2,7 @@ package br.com.chronos.core.hour_bank.use_cases;
 
 import java.time.Duration;
 
+import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.TimeInterval;
 import br.com.chronos.core.hour_bank.domain.exceptions.InsufficientHourBankBalanceException;
@@ -19,6 +20,11 @@ public class EnsureSufficientHourBankCreditUseCase {
   public void execute(String collaboratorId, Duration hourBankCredit) {
     var transactions = repository.findAllByCollaborator(Id.create(collaboratorId));
     var balance = HourBankBalance.create(transactions);
+
+    if (time.equals(LocalTime.MIDNIGHT)) {
+      throw new ValidationException("carga horaria", "nao pode ser zero");
+
+    }
 
     if (balance.isNegative().isTrue()) {
       throw new NegativeHourBankException();
