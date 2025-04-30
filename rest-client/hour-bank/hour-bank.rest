@@ -16,8 +16,8 @@ Authorization: Bearer {{JWT}}
 
 {
   "date": "2025-04-21",
-  "operation": "debit",
-  "time": "23:00"
+  "operation": "credit",
+  "time": "06:00"
 }
 
 ### Get balance

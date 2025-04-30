@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import br.com.chronos.core.solicitation.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.solicitation.domain.events.PaidOvertimeSolicitationApprovedEvent;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
+import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForDayOffJob;
 import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForPaidOvertimeJob;
 import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForWorkdayJob;
 
@@ -18,6 +20,9 @@ public class HourBankListener {
   @Autowired
   CreateHourBankTransactionForPaidOvertimeJob createHourBankTransactionForPaidOvertimeJob;
 
+  @Autowired
+  CreateHourBankTransactionForDayOffJob createHourBankTransactionForDayOffJob;
+
   @RabbitListener(queues = WorkdayClosedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listen(@Payload WorkdayClosedEvent.Payload payload) {
     createHourBankTransactionForWorkdayJob.handle(payload);
@@ -26,5 +31,10 @@ public class HourBankListener {
   @RabbitListener(queues = PaidOvertimeSolicitationApprovedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listen(@Payload PaidOvertimeSolicitationApprovedEvent.Payload payload) {
     createHourBankTransactionForPaidOvertimeJob.handle(payload);
+  }
+
+  @RabbitListener(queues = DayOffSolicitationApprovedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
+  public void listen(@Payload DayOffSolicitationApprovedEvent.Payload payload) {
+    createHourBankTransactionForDayOffJob.handle(payload);
   }
 }

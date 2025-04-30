@@ -4,14 +4,25 @@ import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.solicitation.domain.abstracts.Solicitation;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
 import br.com.chronos.core.solicitation.domain.records.SolicitationType;
+import br.com.chronos.core.work_schedule.domain.records.Workload;
 
 public final class DayOffSolicitation extends Solicitation {
   private Date dayOff;
+  private Workload workload;
 
   public DayOffSolicitation(DayOffSolicitationDto dto) {
     super(dto);
     type = SolicitationType.createAsDayOff();
     dayOff = Date.create(dto.dayOff);
+    workload = Workload.create((byte) dto.workload);
+  }
+
+  public Date getDayOff() {
+    return dayOff;
+  }
+
+  public Workload getWorkload() {
+    return workload;
   }
 
   public DayOffSolicitationDto getDto() {
@@ -25,13 +36,10 @@ public final class DayOffSolicitation extends Solicitation {
         .setFeedbackMessage(solicitationDto.feedbackMessage)
         .setSenderResponsible(solicitationDto.senderResponsible)
         .setReplierResponsible(solicitationDto.replierResponsible)
+        .setWorkload(getWorkload().value())
         .setDayOff(getDayOff().value())
         .setType(getType().toString());
     return dto;
-  }
-
-  public Date getDayOff() {
-    return dayOff;
   }
 
 }

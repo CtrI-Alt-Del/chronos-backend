@@ -13,6 +13,7 @@ import br.com.chronos.server.api.advices.Advice;
 import br.com.chronos.server.api.controllers.solicitation.solicitations.CreateDayOffSolicitationController;
 
 @ControllerAdvice
+@Order(2)
 public class EnsureSufficientHourBankCreditForDayOffSolicitationAdvice extends Advice {
   @Autowired
   private AuthenticationProvider authenticationProvider;
@@ -30,12 +31,13 @@ public class EnsureSufficientHourBankCreditForDayOffSolicitationAdvice extends A
       var request = (CreateDayOffSolicitationController.Request) body;
       var account = authenticationProvider.getAccount();
       var collaboratorId = account.getCollaboratorId().toString();
-      var hourBankCredit = Duration.ofHours(request.getWorkload());
+      var hourBankCredit = Duration.ofHours(request.workload);
       var useCase = new EnsureSufficientHourBankCreditUseCase(hourBankTransactionsRepository);
       useCase.execute(collaboratorId, hourBankCredit);
       return body;
     }
 
+    return body;
   }
 
 }

@@ -9,6 +9,7 @@ import br.com.chronos.core.auth.domain.events.AccountUpdatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
+import br.com.chronos.core.solicitation.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.solicitation.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.core.solicitation.domain.events.PaidOvertimeSolicitationApprovedEvent;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
@@ -43,6 +44,11 @@ public class RabbitMqConfiguration {
   @Bean
   Queue PaidOvertimeSolicitationApprovedEventQueue() {
     return new Queue(PaidOvertimeSolicitationApprovedEvent.NAME, true);
+  }
+
+  @Bean
+  Queue DayOffSolicitationApprovedEventQueue() {
+    return new Queue(DayOffSolicitationApprovedEvent.NAME, true);
   }
 
   @Bean

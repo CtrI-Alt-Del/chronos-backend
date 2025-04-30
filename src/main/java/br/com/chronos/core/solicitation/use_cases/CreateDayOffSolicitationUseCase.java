@@ -6,7 +6,6 @@ import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
-import br.com.chronos.core.solicitation.interfaces.PortalBroker;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 
 public class CreateDayOffSolicitationUseCase {

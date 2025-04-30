@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.solicitation.domain.dtos.DayOffSolicitationDto;
-import br.com.chronos.core.solicitation.interfaces.PortalBroker;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.solicitation.use_cases.CreateDayOffSolicitationUseCase;
 
@@ -20,14 +19,12 @@ public class CreateDayOffSolicitationController {
   @Autowired
   private SolicitationsRepository solicitationsRepository;
 
-
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
   @Data
   @EqualsAndHashCode(callSuper = false)
   public static class Request extends DayOffSolicitationDto {
-    private int workload;
   }
 
   @PostMapping("/day-off")
