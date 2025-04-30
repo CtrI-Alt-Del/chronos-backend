@@ -36,7 +36,8 @@ public class ApproveDayOffSolicitationController {
   public ResponseEntity<SolicitationDto> handle(
       @PathVariable String solicitationId,
       @RequestBody Request body) {
-    var useCase = new ApproveDayOffSolicitationUseCase(solicitationsRepository, portalBroker);
+    var useCase = new ApproveDayOffSolicitationUseCase(solicitationsRepository,
+        portalBroker);
     var account = authenticationProvider.getAccount();
     var responsible = new ResponsibleAggregateDto(
         new ResponsibleDto()

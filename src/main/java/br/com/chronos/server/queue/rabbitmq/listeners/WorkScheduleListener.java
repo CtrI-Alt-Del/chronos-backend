@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
+import br.com.chronos.core.solicitation.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.solicitation.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ExcuseWorkdayAbsenceJob;
+import br.com.chronos.server.queue.jobs.work_schedule.ScheduleDayOffJob;
 import br.com.chronos.server.queue.jobs.work_schedule.UpdateWorkdayHourBankJob;
 
 @Component
@@ -22,6 +24,9 @@ public class WorkScheduleListener {
 
   @Autowired
   private ExcuseWorkdayAbsenceJob excuseWorkdayAbsenceJob;
+
+  @Autowired
+  private ScheduleDayOffJob scheduleDayOffJob;
 
   @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   public void listenToCollaboratorsPreparedForWorkEvent(
@@ -39,5 +44,10 @@ public class WorkScheduleListener {
   public void listenToExcusedAbsenceSolicitationApprovedEvent(
       @Payload ExcusedAbsenceSolicitationApprovedEvent.Payload payload) {
     excuseWorkdayAbsenceJob.handle(payload);
+  }
+
+  @RabbitListener(queues = DayOffSolicitationApprovedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
+  public void listen(@Payload DayOffSolicitationApprovedEvent.Payload payload) {
+    scheduleDayOffJob.handle(payload);
   }
 }

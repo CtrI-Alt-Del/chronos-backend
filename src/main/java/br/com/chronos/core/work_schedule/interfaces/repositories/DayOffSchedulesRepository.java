@@ -3,6 +3,7 @@ package br.com.chronos.core.work_schedule.interfaces.repositories;
 import java.util.Optional;
 
 import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.work_schedule.domain.entities.DayOffSchedule;
 
@@ -12,6 +13,8 @@ public interface DayOffSchedulesRepository {
   Optional<DayOffSchedule> findByCollaborator(Id collaborator);
 
   void add(DayOffSchedule dayOffSchedule, Id collaborator);
+
+  void add(Date date, Id collaborator);
 
   void addMany(Array<DayOffSchedule> dayOffSchedules, Id collaborator);
 

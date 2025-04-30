@@ -5,7 +5,6 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.solicitation.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.solicitation.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.solicitation.domain.exceptions.SolicitationNotFoundException;
-import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import br.com.chronos.core.solicitation.interfaces.PortalBroker;
 import br.com.chronos.core.solicitation.interfaces.repositories.SolicitationsRepository;
 
@@ -30,8 +29,7 @@ public class ApproveDayOffSolicitationUseCase extends ApproveSolicitationUseCase
   }
 
   private DayOffSolicitation findSolicitation(Id solicitationId) {
-    var solicitation = repository.findSolicitationByIdAndSolicitationType(solicitationId,
-        SolicitationType.createAsDayOff());
+    var solicitation = repository.findDayOffSolicitationById(solicitationId);
     if (solicitation.isEmpty()) {
       throw new SolicitationNotFoundException();
     }

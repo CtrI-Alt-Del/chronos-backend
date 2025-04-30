@@ -16,46 +16,48 @@ import br.com.chronos.core.solicitation.domain.records.SolicitationType;
 import kotlin.Pair;
 
 public interface SolicitationsRepository {
-  Optional<Solicitation> findById(Id id);
+    Optional<Solicitation> findById(Id id);
 
-  Optional<PaidOvertimeSolicitation> findPaidOvertimeSolicitationById(Id id);
+    Optional<PaidOvertimeSolicitation> findPaidOvertimeSolicitationById(Id id);
 
-  Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
+    Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
 
-  void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
-  Justification justification);
+    Optional<DayOffSolicitation> findDayOffSolicitationById(Id id);
 
-  Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
+    void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
+            Justification justification);
 
-  Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
 
-  Pair<Array<DayOffSolicitation>, PlusIntegerNumber> findManyDayOffSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(
+            CollaborationSector sector,
+            PageNumber page);
 
-  Pair<Array<ExcusedAbsenceSolicitation>, PlusIntegerNumber> findManyExcusedAbsenceSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    Pair<Array<DayOffSolicitation>, PlusIntegerNumber> findManyDayOffSolicitationsByCollaborationSector(
+            CollaborationSector sector,
+            PageNumber page);
 
-  Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector);
+    Pair<Array<ExcusedAbsenceSolicitation>, PlusIntegerNumber> findManyExcusedAbsenceSolicitationsByCollaborationSector(
+            CollaborationSector sector,
+            PageNumber page);
 
-  void resolveSolicitation(Solicitation solicitation);
+    Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector);
 
-  Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type);
+    void resolveSolicitation(Solicitation solicitation);
 
-  void add(PaidOvertimeSolicitation solicitation);
+    Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type);
 
-  void add(ExcusedAbsenceSolicitation solicitation);
+    void add(PaidOvertimeSolicitation solicitation);
 
-  void add(DayOffSolicitation solicitation);
+    void add(ExcusedAbsenceSolicitation solicitation);
 
-  void replace(Solicitation solicitation);
+    void add(DayOffSolicitation solicitation);
 
-  void replace(PaidOvertimeSolicitation solicitation);
+    void replace(Solicitation solicitation);
 
-  void replace(DayOffSolicitation solicitation);
+    void replace(PaidOvertimeSolicitation solicitation);
 
-  void replace(ExcusedAbsenceSolicitation solicitation);
+    void replace(DayOffSolicitation solicitation);
+
+    void replace(ExcusedAbsenceSolicitation solicitation);
 }

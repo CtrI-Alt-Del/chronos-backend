@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.work_schedule.domain.entities.DayOffSchedule;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
@@ -110,14 +111,19 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
 
   @Override
   public Array<DayOffSchedule> findAll() {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'findAll'");
   }
 
   @Override
   public void replaceMany(Array<DayOffSchedule> dayOffSchedule) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'replaceMany'");
+  }
+
+  @Override
+  public void add(Date dayOff, Id dayOffScheduleId) {
+    var model = dayOffMapper.toModel(dayOff);
+    model.setDayOffSchedule(DayOffScheduleModel.builder().id(dayOffScheduleId.value()).build());
+    dayOffModelsRepository.save(model);
   }
 
 }

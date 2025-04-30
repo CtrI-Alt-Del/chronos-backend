@@ -33,10 +33,10 @@ public class EnsureSufficientHourBankCreditForDayOffSolicitationAdvice extends A
       var collaboratorId = account.getCollaboratorId().toString();
       var hourBankCredit = Duration.ofHours(request.workload);
       var useCase = new EnsureSufficientHourBankCreditUseCase(hourBankTransactionsRepository);
+      System.out.println(request.workload);
       useCase.execute(collaboratorId, hourBankCredit);
       return body;
     }
-
     return body;
   }
 

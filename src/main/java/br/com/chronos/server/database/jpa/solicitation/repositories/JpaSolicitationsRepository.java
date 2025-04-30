@@ -90,6 +90,15 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
+  public Optional<DayOffSolicitation> findDayOffSolicitationById(Id solicitationId) {
+    var solicitationModel = dayOffSolicitationDao.findById(solicitationId.value());
+    if (solicitationModel.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(dayOffSolicitationMapper.toEntity(solicitationModel.get()));
+  }
+
+  @Override
   public void resolveSolicitation(Solicitation solicitation) {
     if (solicitation.getType().isTimePunch().isTrue()) {
 
@@ -229,12 +238,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
         PlusIntegerNumber.create((int) itemsCount));
   }
 
-@Override
-public void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation, Justification justification) {
+  @Override
+  public void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation, Justification justification) {
     var solicitationModel = excusedAbsenceSolicitationMapper.toModel(solicitation);
     var justificationModel = justificationMapper.toModel(justification);
     solicitationModel.setJustification(justificationModel);
     excusedAbsenceSolicitationDao.save(solicitationModel);
-}
+  }
 
 }
