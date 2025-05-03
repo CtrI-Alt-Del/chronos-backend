@@ -5,16 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
-import br.com.chronos.server.queue.jobs.auth.CreateAccountJob;
+import br.com.chronos.core.auth.domain.events.AccountUpdatedEvent;
+import br.com.chronos.server.queue.jobs.collaboration.UpdateCollaboratorJob;
 
 @Component
 public class CollaborationListener {
   @Autowired
-  CreateAccountJob createAccountJob;
+  private UpdateCollaboratorJob updateCollaboratorJob;
 
-  @RabbitListener(queues = CollaboratorCreatedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
-  public void listenToCollaboratorCreated(@Payload CollaboratorCreatedEvent.Payload payload) {
-    createAccountJob.handle(payload);
+  @RabbitListener(queues = UpdateCollaboratorJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  public void listenTo(@Payload AccountUpdatedEvent.Payload payload) {
+    updateCollaboratorJob.handle(payload);
   }
 }

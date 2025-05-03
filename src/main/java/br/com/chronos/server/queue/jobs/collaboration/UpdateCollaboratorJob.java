@@ -10,6 +10,8 @@ import br.com.chronos.core.collaboration.use_cases.UpdateCollaboratorUseCase;
 
 @Component
 public class UpdateCollaboratorJob {
+  public static final String KEY = "collaboration/update.collaborator.job";
+
   @Autowired
   private CollaboratorsRepository collaboratorsRepository;
 
