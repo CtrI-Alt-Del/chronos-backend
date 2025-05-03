@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.hour_bank.use_cases.CreateHourBankTransactionForPaidOvertimeUseCase;
-import br.com.chronos.core.solicitation.domain.events.PaidOvertimeSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.PaidOvertimeSolicitationApprovedEvent;
 
 @Component
 public class CreateHourBankTransactionForPaidOvertimeJob {

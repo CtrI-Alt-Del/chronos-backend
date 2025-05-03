@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.solicitation.domain.events.PaidOvertimeSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.PaidOvertimeSolicitationApprovedEvent;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForPaidOvertimeJob;
 import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForWorkdayJob;

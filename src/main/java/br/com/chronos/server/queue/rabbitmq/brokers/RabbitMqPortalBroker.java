@@ -3,10 +3,10 @@ package br.com.chronos.server.queue.rabbitmq.brokers;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
-import br.com.chronos.core.solicitation.domain.events.DayOffSolicitationApprovedEvent;
-import br.com.chronos.core.solicitation.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
-import br.com.chronos.core.solicitation.domain.events.PaidOvertimeSolicitationApprovedEvent;
-import br.com.chronos.core.solicitation.interfaces.PortalBroker;
+import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.PaidOvertimeSolicitationApprovedEvent;
+import br.com.chronos.core.portal.interfaces.PortalBroker;
 
 @Component
 public class RabbitMqPortalBroker implements PortalBroker {

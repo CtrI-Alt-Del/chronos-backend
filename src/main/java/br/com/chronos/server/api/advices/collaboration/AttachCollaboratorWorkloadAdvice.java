@@ -8,8 +8,8 @@ import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRe
 import br.com.chronos.core.collaboration.use_cases.GetCollaboratorUseCase;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.server.api.advices.Advice;
-import br.com.chronos.server.api.controllers.solicitation.solicitations.CreateDayOffSolicitationController;
-import br.com.chronos.server.api.controllers.solicitation.solicitations.CreatePaidOvertimeSolitationController;
+import br.com.chronos.server.api.controllers.portal.solicitations.CreateDayOffSolicitationController;
+import br.com.chronos.server.api.controllers.portal.solicitations.CreatePaidOvertimeSolitationController;
 
 @ControllerAdvice
 @Order(1)
