@@ -4,6 +4,7 @@ import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
 import br.com.chronos.core.portal.domain.dtos.DayOffSolicitationDto;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
+import br.com.chronos.core.work_schedule.domain.records.Workload;
 
 public final class DayOffSolicitation extends Solicitation {
   private Date dayOff;

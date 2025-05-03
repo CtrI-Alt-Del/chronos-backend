@@ -1,9 +1,9 @@
-package br.com.chronos.core.solicitation.domain.entities.fakers;
+package br.com.chronos.core.portal.domain.entities.fakers;
 
 import java.util.UUID;
 
-import br.com.chronos.core.solicitation.domain.dtos.JustificationTypeDto;
-import br.com.chronos.core.solicitation.domain.entities.JustificationType;
+import br.com.chronos.core.portal.domain.dtos.JustificationTypeDto;
+import br.com.chronos.core.portal.domain.entities.JustificationType;
 
 public class JustificationTypeFaker {
   public static JustificationType fakeWithAttachment() {
