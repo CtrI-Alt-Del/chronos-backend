@@ -59,7 +59,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Override
   public Array<WorkdayLog> findAllByCollaboratorAndDateRange(Id collaboratorId, DateRange dateRange) {
     var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
-    var workdayLogModels = dao.findAllByCollaboratorAndDateBetween(
+    var workdayLogModels = dao.findAllByCollaboratorAndDateBetweenOrderByDateDesc(
         collaboratorModel,
         dateRange.startDate().value(),
         dateRange.endDate().value());

@@ -20,14 +20,12 @@ public class CreateDayOffSolicitationController {
   @Autowired
   private SolicitationsRepository solicitationsRepository;
 
-
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
   @Data
   @EqualsAndHashCode(callSuper = false)
   public static class Request extends DayOffSolicitationDto {
-    private int workload;
   }
 
   @PostMapping("/day-off")

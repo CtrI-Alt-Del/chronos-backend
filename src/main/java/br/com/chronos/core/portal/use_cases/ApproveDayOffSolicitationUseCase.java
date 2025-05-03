@@ -21,6 +21,7 @@ public class ApproveDayOffSolicitationUseCase extends ApproveSolicitationUseCase
   public void execute(
       String solicitationId,
       ResponsibleAggregateDto replierResponsible,
+      byte collaboratorWorkload,
       String feedbackMessage) {
     var solicitation = findSolicitation(Id.create(solicitationId));
     approveSolicitation(solicitation, replierResponsible, feedbackMessage);

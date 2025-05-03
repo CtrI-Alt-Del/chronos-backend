@@ -1,7 +1,7 @@
 package br.com.chronos.server.api.controllers.portal.solicitations;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +27,9 @@ public class ApproveDayOffSolicitationController {
   private AuthenticationProvider authenticationProvider;
 
   @Data
-  private static class Request {
+  public static class Request {
     private String feedbackMessage;
+    private byte collaboratorWorkload;
   }
 
   @PutMapping("/{solicitationId}/approve/day-off")
@@ -43,7 +44,11 @@ public class ApproveDayOffSolicitationController {
             .setRole(account.getRole().toString())
             .setSector(account.getCollaborationSector().toString()));
 
-    useCase.execute(solicitationId, responsible, body.getFeedbackMessage());
+    useCase.execute(
+        solicitationId,
+        responsible,
+        body.getCollaboratorWorkload(),
+        body.getFeedbackMessage());
     return ResponseEntity.noContent().build();
   }
 }

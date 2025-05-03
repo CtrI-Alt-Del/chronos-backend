@@ -21,7 +21,7 @@ public class AttachCollaboratorWorkloadAdvice extends Advice {
   private CollaboratorsRepository collaboratorsRepository;
 
   public AttachCollaboratorWorkloadAdvice() {
-    super(CreatePaidOvertimeSolitationController.class);
+    super(CreateDayOffSolicitationController.class);
   }
 
   @Override

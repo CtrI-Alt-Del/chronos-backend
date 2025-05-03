@@ -12,8 +12,11 @@ public class ExcuseWorkdayAbsenceJob {
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
+  @Autowired
+  private WorkScheduleBroker workScheduleBroker;
+
   public void handle(ExcusedAbsenceSolicitationApprovedEvent.Payload payload) {
-    var useCase = new ExcuseWorkdayAbsenceUseCase(workdayLogsRepository);
+    var useCase = new ExcuseWorkdayAbsenceUseCase(workdayLogsRepository, workScheduleBroker);
     useCase.execute(payload.collaboratorId(), payload.absenceDate());
   }
 }

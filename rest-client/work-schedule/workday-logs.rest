@@ -1,8 +1,8 @@
 @RESOURCE = work-schedule/workday-logs
 @WORKDAY_LOG_ID = 5e7b3d7c-bf22-48ef-9383-fca04a7c2d58
 @COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
-@WORKDAY_LOG_ID = 352b2afc-85b4-4ac8-9f8e-839a9a6df1c1
-@COLLABORATOR_Id = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
+@WORKDAY_LOG_ID = 8a3fb930-249d-4484-8a56-6e50ac80adec
+@COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
 
 ## Get today workday log
 GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}/today
@@ -12,7 +12,7 @@ Authorization: Bearer {{JWT}}
 ###
 
 ## Get collaborator history
-GET {{HOST}}/{{RESOURCE}}/history/{{COLLABORATOR_Id}}?startDate=2024-04-27&endDate=2025-04-29
+GET {{HOST}}/{{RESOURCE}}/history/{{COLLABORATOR_Id}}?startDate=2024-04-27&endDate=2026-04-29
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -45,7 +45,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "time": "22:00"
+  "time": "12:00"
 }
 
 ### 

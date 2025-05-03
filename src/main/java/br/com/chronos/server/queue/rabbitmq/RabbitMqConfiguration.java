@@ -21,6 +21,11 @@ public class RabbitMqConfiguration {
   }
 
   @Bean
+  Queue WorkdayAbsenceExcusedEventQueue() {
+    return new Queue(WorkdayAbsenceExcusedEvent.NAME, true);
+  }
+
+  @Bean
   Queue CollaboratorCreatedEventQueue() {
     return new Queue(CollaboratorCreatedEvent.NAME, true);
   }
@@ -43,6 +48,11 @@ public class RabbitMqConfiguration {
   @Bean
   Queue PaidOvertimeSolicitationApprovedEventQueue() {
     return new Queue(PaidOvertimeSolicitationApprovedEvent.NAME, true);
+  }
+
+  @Bean
+  Queue DayOffSolicitationApprovedEventQueue() {
+    return new Queue(DayOffSolicitationApprovedEvent.NAME, true);
   }
 
   @Bean

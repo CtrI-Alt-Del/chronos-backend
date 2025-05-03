@@ -1,12 +1,10 @@
 package br.com.chronos.core.hour_bank.domain.dtos;
 
-import java.time.LocalTime;
-
 public class HourBankBalanceDto {
-  public LocalTime value;
+  public String value;
   public boolean isNegative;
 
-  public HourBankBalanceDto setValue(LocalTime value) {
+  public HourBankBalanceDto setValue(String value) {
     this.value = value;
     return this;
   }

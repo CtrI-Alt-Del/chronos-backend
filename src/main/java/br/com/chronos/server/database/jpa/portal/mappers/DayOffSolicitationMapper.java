@@ -12,18 +12,27 @@ import br.com.chronos.server.database.jpa.portal.models.DayOffSolicitationModel;
 @Component
 public class DayOffSolicitationMapper {
   public DayOffSolicitationModel toModel(DayOffSolicitation entity) {
-    var senderResponse = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();
+    var senderResponse = CollaboratorModel
+        .builder()
+        .id(entity.getSenderResponsible().getId().value()).build();
     var replierResponse = (entity.getReplierResponsible() != null)
         ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
     var solicitationModel = DayOffSolicitationModel.builder()
         .id(entity.getId().value())
-        .description(entity.getDescription() != null ? entity.getDescription().value() : null)
+        .description(
+            entity.getDescription() != null
+                ? entity.getDescription().value()
+                : null)
         .date(entity.getDate().value())
-        .feedbackMessage(entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
+        .feedbackMessage(
+            entity.getFeedbackMessage() != null
+                ? entity.getFeedbackMessage().value()
+                : null)
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponse)
         .replierResponsible(replierResponse)
+        .workload(entity.getWorkload().value())
         .dayOff(entity.getDayOff().value())
         .build();
     return solicitationModel;
@@ -59,7 +68,8 @@ public class DayOffSolicitationMapper {
         .setStatus(model.getSolicitationStatus().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
         .setReplierResponsible(replierResponsibleAggregateDto)
-        .setDayOff(model.getDayOff());
+        .setDayOff(model.getDayOff())
+        .setWorkload(model.getWorkload());
   }
 
   public DayOffSolicitation toEntity(DayOffSolicitationModel model) {

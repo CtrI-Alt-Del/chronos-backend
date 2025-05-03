@@ -1,6 +1,6 @@
 package br.com.chronos.server.api.advices.hour_bank;
 
-import java.time.LocalTime;
+import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,7 +13,7 @@ import br.com.chronos.server.api.controllers.portal.solicitations.CreatePaidOver
 
 @ControllerAdvice
 public class EnsureSufficientHourBankCreditForPaidOvertimeAdvice extends Advice {
-  private static final LocalTime OVERTIME = LocalTime.of(2, 0);
+  private static final Duration OVERTIME = Duration.ofHours(2);
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
