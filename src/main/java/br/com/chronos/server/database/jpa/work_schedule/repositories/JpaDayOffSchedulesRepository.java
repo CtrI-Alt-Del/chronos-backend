@@ -1,13 +1,7 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
 import java.util.Optional;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chronos.core.global.domain.records.Array;
@@ -15,27 +9,18 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.work_schedule.domain.entities.DayOffSchedule;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
+import br.com.chronos.server.database.jpa.work_schedule.daos.DayOffDao;
+import br.com.chronos.server.database.jpa.work_schedule.daos.DayOffScheduleDao;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffScheduleMapper;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffModel;
-import br.com.chronos.server.database.jpa.work_schedule.models.DayOffScheduleModel;
-
-interface JpaDayOffScheduleModelsRepository extends JpaRepository<DayOffScheduleModel, UUID> {
-  Optional<DayOffScheduleModel> findByCollaborator(CollaboratorModel collaborator);
-}
-
-interface JpaDayOffModelsRepository extends JpaRepository<DayOffModel, UUID> {
-  @Modifying
-  @Query(value = "DELETE FROM days_off WHERE day_off_schedule_id = :dayOffScheduleId", nativeQuery = true)
-  void deleteManyByDayOffSchedule(@Param("dayOffScheduleId") UUID dayOffScheduleId);
-}
 
 public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
   @Autowired
-  private JpaDayOffScheduleModelsRepository dayOffScheduleModelsRepository;
+  private DayOffScheduleDao dayOffScheduleDao;
 
   @Autowired
-  private JpaDayOffModelsRepository dayOffModelsRepository;
+  private DayOffDao dayOffDao;
 
   @Autowired
   private DayOffScheduleMapper dayOffScheduleMapper;
@@ -44,9 +29,14 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
   private DayOffMapper dayOffMapper;
 
   @Override
+  public Array<DayOffSchedule> findAll() {
+    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+  }
+
+  @Override
   public Optional<DayOffSchedule> findByCollaborator(Id collaborator) {
     var collaboratorModel = CollaboratorModel.builder().id(collaborator.value()).build();
-    var dayOffScheduleModel = dayOffScheduleModelsRepository.findByCollaborator(collaboratorModel);
+    var dayOffScheduleModel = dayOffScheduleDao.findByCollaborator(collaboratorModel);
     if (dayOffScheduleModel.isEmpty()) {
       return Optional.empty();
     }
@@ -66,8 +56,8 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
       return dayOffModel;
     });
 
-    dayOffScheduleModelsRepository.save(dayOffScheduleModel);
-    dayOffModelsRepository.saveAll(dayOffModels.list());
+    dayOffScheduleDao.save(dayOffScheduleModel);
+    dayOffDao.saveAll(dayOffModels.list());
   }
 
   @Override
@@ -89,35 +79,34 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
       allDayOffModels.addArray(dayOffModels);
       return dayOffScheduleModel;
     });
-    dayOffScheduleModelsRepository.saveAll(dayOffScheduleModels.list());
-    dayOffModelsRepository.saveAll(allDayOffModels.list());
+    dayOffScheduleDao.saveAll(dayOffScheduleModels.list());
+    dayOffDao.saveAll(allDayOffModels.list());
   }
 
   @Override
   @Transactional
   public void replace(DayOffSchedule dayOffSchedule, Id collaboratorId) {
     var collaboratorModel = CollaboratorModel.builder().id(collaboratorId.value()).build();
-    var dayOffScheduleModel = dayOffScheduleModelsRepository.findByCollaborator(collaboratorModel);
-    dayOffModelsRepository.deleteManyByDayOffSchedule(dayOffScheduleModel.get().getId());
+    var dayOffScheduleModel = dayOffScheduleDao.findByCollaborator(collaboratorModel);
+    dayOffDao.deleteManyByDayOffSchedule(dayOffScheduleModel.get().getId());
 
     var dayOffModels = dayOffSchedule.getDaysOff().map((dayOff) -> {
       var dayOffModel = dayOffMapper.toModel(dayOff);
       dayOffModel.setDayOffSchedule(dayOffScheduleModel.get());
       return dayOffModel;
     });
-    dayOffModelsRepository.saveAll(dayOffModels.list());
+    dayOffDao.saveAll(dayOffModels.list());
   }
 
   @Override
-  public Array<DayOffSchedule> findAll() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-  }
+  @Transactional
+  public void replaceMany(Array<DayOffSchedule> dayOffSchedules) {
+    var dayOffScheduleModels = dayOffSchedules.map((dayOffSchedule) -> {
+      var dayOffScheduleModel = dayOffScheduleMapper.toModel(dayOffSchedule);
+      dayOffDao.deleteManyByDayOffSchedule(dayOffScheduleModel.getId());
+      return dayOffScheduleModel;
+    });
 
-  @Override
-  public void replaceMany(Array<DayOffSchedule> dayOffSchedule) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'replaceMany'");
+    dayOffScheduleDao.saveAll(dayOffScheduleModels.list());
   }
-
 }
