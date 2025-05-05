@@ -10,6 +10,8 @@ import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 
 @Component
 public class CreateHourBankTransactionForWorkdayJob {
+  public static final String KEY = "hour.bank/create.transaction.for.workday.job";
+
   @Autowired
   private HourBankTransactionsRepository hourBankTransactionsRepository;
 
