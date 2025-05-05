@@ -3,7 +3,7 @@ package br.com.chronos.server.database.jpa.work_schedule.models;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import br.com.chronos.server.database.jpa.solicitation.models.DayOffScheduleAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.portal.models.DayOffScheduleAdjustmentSolicitationModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

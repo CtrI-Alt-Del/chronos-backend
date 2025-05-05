@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.chronos.core.global.interfaces.providers.StorageProvider;
-import br.com.chronos.core.solicitation.interfaces.repositories.AttachmentRepository;
-import br.com.chronos.core.solicitation.use_cases.UploadJustificationAttachmentUseCase;
+import br.com.chronos.core.portal.interfaces.repositories.AttachmentRepository;
+import br.com.chronos.core.portal.use_cases.UploadJustificationAttachmentUseCase;
 import br.com.chronos.server.api.aspects.annotations.global.HandleAttachmentUpload;
 import br.com.chronos.server.api.aspects.contexts.global.AttachmentContextHolder;
 
