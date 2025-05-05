@@ -55,7 +55,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
           .setCpf(model.getReplierResponsible().getCpf()) 
-          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
+          .setSector(model.getReplierResponsible().getAccount().getSector().toString())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
 
