@@ -37,7 +37,7 @@ public record TimeCard(Array<Row> rows) {
 
   public static TimeCard create(Array<WorkdayLog> workdayLogs) {
     var rows = workdayLogs.map(workdayLog -> {
-      System.out.println(workdayLog.getWorkloadSchedule());
+      // System.out.println(workdayLog.getTimePunch());
       return new Row(
           workdayLog.getDate(),
           workdayLog.getTimePunch(),

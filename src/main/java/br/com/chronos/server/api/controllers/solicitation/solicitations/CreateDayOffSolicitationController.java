@@ -25,11 +25,10 @@ public class CreateDayOffSolicitationController {
   @Data
   @EqualsAndHashCode(callSuper = false)
   public static class Request extends DayOffSolicitationDto {
-    private int workload;
   }
 
   @PostMapping("/day-off")
-  public ResponseEntity<DayOffSolicitationDto> handle(@RequestBody DayOffSolicitationDto body) {
+  public ResponseEntity<DayOffSolicitationDto> handle(@RequestBody Request body) {
     var useCase = new CreateDayOffSolicitationUseCase(solicitationsRepository);
     var account = authenticationProvider.getAccount();
     var senderResponsibleId = account.getCollaboratorId().toString();

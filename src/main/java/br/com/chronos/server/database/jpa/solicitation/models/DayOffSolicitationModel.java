@@ -23,4 +23,7 @@ import lombok.experimental.SuperBuilder;
 public class DayOffSolicitationModel extends SolicitationModel {
   @Column(nullable = false)
   private LocalDate dayOff;
+
+  @Column(nullable = false)
+  private int workload;
 }

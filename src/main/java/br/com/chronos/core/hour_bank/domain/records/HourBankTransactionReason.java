@@ -8,6 +8,8 @@ public record HourBankTransactionReason(ReasonName name) {
     OVERTIME,
     LATETIME,
     ADJUSTMENT,
+    DAY_OFF,
+    EXCUSED_ABSENCE
   }
 
   public static HourBankTransactionReason create(String reasonName) {

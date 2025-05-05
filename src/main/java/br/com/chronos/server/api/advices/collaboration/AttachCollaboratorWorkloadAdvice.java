@@ -9,7 +9,6 @@ import br.com.chronos.core.collaboration.use_cases.GetCollaboratorUseCase;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.server.api.advices.Advice;
 import br.com.chronos.server.api.controllers.solicitation.solicitations.CreateDayOffSolicitationController;
-import br.com.chronos.server.api.controllers.solicitation.solicitations.CreatePaidOvertimeSolitationController;
 
 @ControllerAdvice
 @Order(1)
@@ -21,7 +20,7 @@ public class AttachCollaboratorWorkloadAdvice extends Advice {
   private CollaboratorsRepository collaboratorsRepository;
 
   public AttachCollaboratorWorkloadAdvice() {
-    super(CreatePaidOvertimeSolitationController.class);
+    super(CreateDayOffSolicitationController.class);
   }
 
   @Override

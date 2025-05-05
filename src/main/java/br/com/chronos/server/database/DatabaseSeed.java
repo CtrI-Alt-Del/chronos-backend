@@ -22,8 +22,12 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.fakers.HourBankTransactionFaker;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
+import br.com.chronos.core.work_schedule.domain.entities.fakers.WorkdayLogFaker;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.solicitation.domain.entities.fakers.JustificationTypeFaker;
+import br.com.chronos.core.solicitation.interfaces.repositories.JustificationTypeRepository;
 
 @Component
 public class DatabaseSeed implements CommandLineRunner {
@@ -44,6 +48,12 @@ public class DatabaseSeed implements CommandLineRunner {
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
+
+  @Autowired
+  private WorkdayLogsRepository workdayLogsRepository;
+
+  @Autowired
+  private JustificationTypeRepository justificationTypeRepository;
 
   public void run(String... args) throws Exception {
     if (!isEnable)
@@ -66,6 +76,7 @@ public class DatabaseSeed implements CommandLineRunner {
     collaboratorsRepository.addMany(collaborators);
 
     addManyDayOffSchedules(collaborators);
+    addManyWorkdayLogs(collaborators);
 
     var hourBankTransactions = fakeHourBankTransactions();
     hourBankTransactionsRepository.addMany(hourBankTransactions, employeeTest.getId());
@@ -79,6 +90,25 @@ public class DatabaseSeed implements CommandLineRunner {
         .add(employeeAccountTest)
         .add(managerAccountTest);
     accountsRepository.addMany(accounts);
+
+    addJustificationTypes();
+  }
+
+  private void addJustificationTypes() {
+    var withAttachment = JustificationTypeFaker.fakeWithAttachment();
+    var withoutAttachment = JustificationTypeFaker.fakeWithoutAttachment();
+    justificationTypeRepository.add(withAttachment);
+    justificationTypeRepository.add(withoutAttachment);
+  }
+
+  private void addManyWorkdayLogs(Array<Collaborator> collaborators) {
+    for (var collaborator : collaborators.list()) {
+      var presenceLog = WorkdayLogFaker.fakePresence(collaborator.getId().toString());
+      workdayLogsRepository.add(presenceLog);
+
+      var absenceLog = WorkdayLogFaker.fakeAbsence(collaborator.getId().toString());
+      workdayLogsRepository.add(absenceLog);
+    }
   }
 
   private Account fakeAdminAccountTest(Id collaboratorId) {

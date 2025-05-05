@@ -1,7 +1,7 @@
 @RESOURCE = solicitation/solicitations
 @URL = {{HOST}}/{{RESOURCE}}
 @PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
-@DAY_OFF_SOLICITATION_ID = 3a51c862-09e5-4d98-bd13-7e18947587a9
+@DAY_OFF_SOLICITATION_ID = 6ead2493-e159-41ec-95a6-15cbbe04c5f0
 @EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
@@ -38,7 +38,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "dayOff": "2025-04-27"
+  "dayOff": "2025-04-30"
 }
 
 ### List day off solicitations
