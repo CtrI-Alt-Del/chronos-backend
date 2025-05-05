@@ -266,4 +266,9 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     dayOffScheduleAdjustmentSolicitationDao.save(model);
   }
 
+  @Override
+  public void add(DayOffScheduleAdjustmentSolicitation solicitation) {
+    var model = dayOffScheduleAdjustmentSolicitationMapper.toModel(solicitation);
+    dayOffScheduleAdjustmentSolicitationDao.save(model);
+  }
 }

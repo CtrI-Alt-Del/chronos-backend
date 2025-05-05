@@ -52,6 +52,8 @@ public interface SolicitationsRepository {
 
   void add(PaidOvertimeSolicitation solicitation);
 
+  void add(DayOffScheduleAdjustmentSolicitation solicitation);
+
   void add(ExcusedAbsenceSolicitation solicitation);
 
   void add(DayOffSolicitation solicitation);
