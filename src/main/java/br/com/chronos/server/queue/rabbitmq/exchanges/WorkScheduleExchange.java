@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
-import br.com.chronos.core.solicitation.domain.events.DayOffSolicitationApprovedEvent;
-import br.com.chronos.core.solicitation.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ExcuseWorkdayAbsenceJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ScheduleDayOffJob;

@@ -18,7 +18,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
-import br.com.chronos.server.database.jpa.solicitation.models.SolicitationModel;
+import br.com.chronos.server.database.jpa.portal.models.SolicitationModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffScheduleModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 

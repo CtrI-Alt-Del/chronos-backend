@@ -1,8 +1,8 @@
-# Auth - Accounts
+## Auth - Accounts
 @RESOURCE = auth/accounts
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
-## Update account
+### Update account
 PUT {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -16,23 +16,17 @@ Authorization: Bearer {{JWT}}
   }
 }
 
-###
-
-## Enable account
+### Enable account
 PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/enable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Disable account
+### Disable account
 PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/disable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Update password
+### Update password
 PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/password
 Content-Type: application/json
 Authorization: Bearer {{JWT}}

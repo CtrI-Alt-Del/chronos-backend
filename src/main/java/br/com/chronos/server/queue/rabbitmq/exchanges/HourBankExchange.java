@@ -7,7 +7,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.chronos.core.solicitation.domain.events.DayOffSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayAbsenceExcusedEvent;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForDayOffJob;

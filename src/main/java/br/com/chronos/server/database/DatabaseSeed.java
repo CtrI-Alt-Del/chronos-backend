@@ -26,8 +26,8 @@ import br.com.chronos.core.work_schedule.domain.entities.fakers.WorkdayLogFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
-import br.com.chronos.core.solicitation.domain.entities.fakers.JustificationTypeFaker;
-import br.com.chronos.core.solicitation.interfaces.repositories.JustificationTypeRepository;
+import br.com.chronos.core.portal.domain.entities.fakers.JustificationTypeFaker;
+import br.com.chronos.core.portal.interfaces.repositories.JustificationTypeRepository;
 
 @Component
 public class DatabaseSeed implements CommandLineRunner {

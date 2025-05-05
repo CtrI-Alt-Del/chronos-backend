@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.hour_bank.use_cases.CreateHourBankTransactionForDayOffUseCase;
-import br.com.chronos.core.solicitation.domain.events.DayOffSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 
 @Component
 public class CreateHourBankTransactionForDayOffJob {
