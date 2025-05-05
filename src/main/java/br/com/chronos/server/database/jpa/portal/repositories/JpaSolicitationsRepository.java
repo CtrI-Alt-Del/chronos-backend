@@ -24,10 +24,12 @@ import br.com.chronos.core.portal.interfaces.repositories.DayOffScheduleAdjustme
 import br.com.chronos.core.portal.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.interfaces.repositories.TimePunchLogAdjustmentRepository;
+import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.ExcusedAbsenceSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
+import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.ExcusedAbsenceSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.JustificationMapper;
@@ -40,6 +42,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   private JustificationMapper justificationMapper;
+
+  @Autowired
+  private DayOffScheduleAdjustmentSolicitationDao dayOffScheduleAdjustmentSolicitationDao;
+
+  @Autowired
+  private DayOffScheduleAdjustmentSolicitationMapper dayOffScheduleAdjustmentSolicitationMapper;
 
   @Autowired
   private PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
@@ -229,12 +237,33 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
         PlusIntegerNumber.create((int) itemsCount));
   }
 
-@Override
-public void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation, Justification justification) {
+  @Override
+  public void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation, Justification justification) {
     var solicitationModel = excusedAbsenceSolicitationMapper.toModel(solicitation);
     var justificationModel = justificationMapper.toModel(justification);
     solicitationModel.setJustification(justificationModel);
     excusedAbsenceSolicitationDao.save(solicitationModel);
-}
+  }
+
+  @Override
+  public Pair<Array<DayOffScheduleAdjustmentSolicitation>, PlusIntegerNumber> findManyDayOffScheduleAdjustmentSolicitationsByCollaborationSector(
+      CollaborationSector sector, PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = dayOffScheduleAdjustmentSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
+        sector.value(),
+        pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+
+    return new Pair<>(
+        Array.createFrom(items, dayOffScheduleAdjustmentSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
+  }
+
+  @Override
+  public void replace(DayOffScheduleAdjustmentSolicitation solicitation) {
+    var model = dayOffScheduleAdjustmentSolicitationMapper.toModel(solicitation);
+    dayOffScheduleAdjustmentSolicitationDao.save(model);
+  }
 
 }

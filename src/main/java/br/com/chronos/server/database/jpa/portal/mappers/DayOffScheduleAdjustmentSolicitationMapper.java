@@ -44,8 +44,9 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
         .setEmail(model.getSenderResponsible().getAccount().getEmail())
-        .setRole(model.getSenderResponsible().getAccount().getRole().toString());
-
+        .setRole(model.getSenderResponsible().getAccount().getRole().toString())
+        .setCpf(model.getSenderResponsible().getCpf())
+        .setSector(model.getSenderResponsible().getAccount().getSector().toString());
     var senderResponsibleAggregateDto = new ResponsibleAggregateDto(senderResponsibleDto);
 
     ResponsibleAggregateDto replierResponsibleAggregateDto = null;
@@ -53,6 +54,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
       var replierResponsibleDto = new ResponsibleDto()
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
+          .setCpf(model.getReplierResponsible().getCpf()) 
           .setSector(model.getSenderResponsible().getAccount().getSector().toString())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
