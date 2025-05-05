@@ -10,6 +10,8 @@ import br.com.chronos.core.work_schedule.use_cases.ExcuseWorkdayAbsenceUseCase;
 
 @Component
 public class ExcuseWorkdayAbsenceJob {
+  public static final String KEY = "work.schedule/excuse.workday.absence.job";
+
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 

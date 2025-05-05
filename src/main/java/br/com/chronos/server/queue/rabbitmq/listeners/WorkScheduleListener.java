@@ -24,20 +24,17 @@ public class WorkScheduleListener {
   private ExcuseWorkdayAbsenceJob excuseWorkdayAbsenceJob;
 
   @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.NAME, errorHandler = "rabbitMqErrorHandler")
-  public void listenToCollaboratorsPreparedForWorkEvent(
-      @Payload CollaboratorsPreparedForWorkEvent.Payload payload) {
+  public void listenTo(@Payload CollaboratorsPreparedForWorkEvent.Payload payload) {
     createWorkdayLogsJob.handle(payload);
   }
 
   @RabbitListener(queues = HourBankTransactionCreatedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
-  public void listenToHourBankTransactionCreatedEvent(
-      @Payload HourBankTransactionCreatedEvent.Payload payload) {
+  public void listenTo(@Payload HourBankTransactionCreatedEvent.Payload payload) {
     updateWorkdayHourBankJob.handle(payload);
   }
 
   @RabbitListener(queues = ExcusedAbsenceSolicitationApprovedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
-  public void listenToExcusedAbsenceSolicitationApprovedEvent(
-      @Payload ExcusedAbsenceSolicitationApprovedEvent.Payload payload) {
+  public void listenTo(@Payload ExcusedAbsenceSolicitationApprovedEvent.Payload payload) {
     excuseWorkdayAbsenceJob.handle(payload);
   }
 }

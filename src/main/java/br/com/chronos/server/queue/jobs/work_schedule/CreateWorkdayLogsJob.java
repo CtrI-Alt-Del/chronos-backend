@@ -10,6 +10,8 @@ import br.com.chronos.core.work_schedule.use_cases.CreateWorkdayLogsUseCase;
 
 @Component
 public class CreateWorkdayLogsJob {
+  public static final String KEY = "work.schedule/create.workday.logs.job";
+
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 

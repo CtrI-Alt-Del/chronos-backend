@@ -13,6 +13,8 @@ import br.com.chronos.core.work_schedule.use_cases.CloseWorkdayUseCase;
 
 @Component
 public class CloseWorkdayJob {
+  public static final String KEY = "work.schedule/close.workday.job";
+
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 

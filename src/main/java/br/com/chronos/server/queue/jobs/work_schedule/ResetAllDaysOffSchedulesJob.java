@@ -9,6 +9,8 @@ import br.com.chronos.core.work_schedule.use_cases.ResetAllDaysOffSchedulesUseCa
 
 @Component
 public class ResetAllDaysOffSchedulesJob {
+  public static final String KEY = "work.schedule/reset.all.days.off.schedules.job";
+
   @Autowired
   private DayOffSchedulesRepository dayOffSchedulesRepository;
 

@@ -8,6 +8,7 @@ import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Month;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
+import br.com.chronos.core.work_schedule.domain.events.DayOffAlreadyScheduledException;
 import br.com.chronos.core.work_schedule.domain.exceptions.ZeroDaysOffCountException;
 import br.com.chronos.core.work_schedule.domain.exceptions.ZeroWorkdaysCountException;
 
@@ -91,6 +92,14 @@ public class DayOffSchedule extends Entity {
 
   public void resetDaysOffSchedule() {
     daysOff = scheduleDaysOff(workdaysCount.integer().value(), daysOffCount.integer().value());
+  }
+
+  public void schedule(Date dayOff) {
+    if (daysOff.includes(dayOff).isTrue()) {
+      throw new DayOffAlreadyScheduledException();
+    }
+
+    daysOff = daysOff.add(dayOff);
   }
 
   public Count getWorkdaysCount() {
