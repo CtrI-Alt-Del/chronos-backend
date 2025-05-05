@@ -9,6 +9,8 @@ import br.com.chronos.core.work_schedule.domain.events.WorkdayAbsenceExcusedEven
 
 @Component
 public class CreateHourBankTransactionForExcusedAbsenceJob {
+  public static final String KEY = "hour.bank/create.hour.bank.transaction.for.excused.absence.job";
+
   @Autowired
   private HourBankTransactionsRepository hourBankTransactionsRepository;
 

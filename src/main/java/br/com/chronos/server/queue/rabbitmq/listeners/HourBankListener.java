@@ -28,23 +28,18 @@ public class HourBankListener {
   @Autowired
   CreateHourBankTransactionForExcusedAbsenceJob createHourBankTransactionForExcusedAbsenceJob;
 
-  @RabbitListener(queues = WorkdayClosedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
-  public void listen(@Payload WorkdayClosedEvent.Payload payload) {
+  @RabbitListener(queues = CreateHourBankTransactionForWorkdayJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  public void listenTo(@Payload WorkdayClosedEvent.Payload payload) {
     createHourBankTransactionForWorkdayJob.handle(payload);
   }
 
-  @RabbitListener(queues = PaidOvertimeSolicitationApprovedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
-  public void listen(@Payload PaidOvertimeSolicitationApprovedEvent.Payload payload) {
-    createHourBankTransactionForPaidOvertimeJob.handle(payload);
-  }
-
-  @RabbitListener(queues = DayOffSolicitationApprovedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
-  public void listen(@Payload DayOffSolicitationApprovedEvent.Payload payload) {
+  @RabbitListener(queues = CreateHourBankTransactionForDayOffJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  public void listenTo(@Payload DayOffSolicitationApprovedEvent.Payload payload) {
     createHourBankTransactionForDayOffJob.handle(payload);
   }
 
-  @RabbitListener(queues = WorkdayAbsenceExcusedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
-  public void listen(@Payload WorkdayAbsenceExcusedEvent.Payload payload) {
+  @RabbitListener(queues = CreateHourBankTransactionForWorkdayJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  public void listenTo(@Payload WorkdayAbsenceExcusedEvent.Payload payload) {
     createHourBankTransactionForExcusedAbsenceJob.handle(payload);
   }
 }

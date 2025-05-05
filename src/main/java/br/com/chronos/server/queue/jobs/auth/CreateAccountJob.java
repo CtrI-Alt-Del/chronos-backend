@@ -11,6 +11,8 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 
 @Component
 public class CreateAccountJob {
+  public static final String KEY = "auth/create.account.job";
+
   @Autowired
   private AccountsRepository accountsRepository;
 

@@ -9,6 +9,8 @@ import br.com.chronos.core.work_schedule.use_cases.UpdateWorkdayHourBankUseCase;
 
 @Component
 public class UpdateWorkdayHourBankJob {
+  public static final String KEY = "work.schedule/update.workday.hour.bank.job";
+
   @Autowired
   private WorkdayLogsRepository repository;
 

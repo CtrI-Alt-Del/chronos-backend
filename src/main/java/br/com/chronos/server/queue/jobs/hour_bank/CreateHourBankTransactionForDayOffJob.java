@@ -9,6 +9,8 @@ import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 
 @Component
 public class CreateHourBankTransactionForDayOffJob {
+  public static final String KEY = "hour_bank/create.hour.bank.transaction.for.day.off.job";
+
   @Autowired
   private HourBankTransactionsRepository hourBankTransactionsRepository;
 
