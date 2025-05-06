@@ -1,8 +1,9 @@
 package br.com.chronos.core.work_schedule.use_cases;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
-import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
@@ -22,8 +23,8 @@ public class AdjustTimePunchUseCase {
     this.broker = broker;
   }
 
-  public void execute(String workdayLogId, LocalTime time, String period) {
-    var workdayLog = findWorkdayLog(Id.create(workdayLogId));
+  public void execute(LocalDate workdayLogDate, LocalTime time, String period) {
+    var workdayLog = findWorkdayLog(Date.create(workdayLogDate));
     workdayLog.getTimePunch().adjust(Time.create(time), TimePunchPeriod.create(period));
     repository.replace(workdayLog);
 
@@ -31,8 +32,8 @@ public class AdjustTimePunchUseCase {
     broker.publish(event);
   }
 
-  private WorkdayLog findWorkdayLog(Id workdayLogId) {
-    var workdayLog = repository.findById(workdayLogId);
+  private WorkdayLog findWorkdayLog(Date workdayLogDate) {
+    var workdayLog = repository.findByDate(workdayLogDate);
     if (workdayLog.isEmpty()) {
       throw new WorkdayLogNotFoundException();
     }

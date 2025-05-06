@@ -94,6 +94,15 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
+  public Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id solicitationId) {
+    var solicitationModel = timePunchAdjustmentSolicitationDao.findById(solicitationId.value());
+    if (solicitationModel.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(timePunchAdjustmentSolicitationMapper.toEntity(solicitationModel.get()));
+  }
+
+  @Override
   public Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type) {
     var solicitationModel = solicitationDao.findById(solicitationId.value());
     if (solicitationModel.isEmpty()) {
@@ -267,4 +276,5 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
         Array.createFrom(items, timePunchAdjustmentSolicitationMapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount));
   }
+
 }

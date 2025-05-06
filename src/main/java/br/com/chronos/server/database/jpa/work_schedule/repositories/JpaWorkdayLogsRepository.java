@@ -40,6 +40,15 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
+  public Optional<WorkdayLog> findByDate(Date date) {
+    var workdayLogModel = dao.findByDate(date.value());
+    if (workdayLogModel.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(mapper.toEntity(workdayLogModel.get()));
+  }
+
+  @Override
   public Array<WorkdayLog> findAllByDate(Date date) {
     var workdayLogModels = dao.findAllByDate(date.value());
     return Array.createFrom(workdayLogModels, mapper::toEntity);
