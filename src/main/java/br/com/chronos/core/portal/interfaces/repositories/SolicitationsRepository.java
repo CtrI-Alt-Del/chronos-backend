@@ -24,6 +24,8 @@ public interface SolicitationsRepository {
 
     Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
 
+    Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id id);
+
     void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
             Justification justification);
 
