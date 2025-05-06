@@ -11,6 +11,8 @@ import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForW
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
+import br.com.chronos.server.queue.jobs.work_schedule.AdjustTimePunchJob;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ExcuseWorkdayAbsenceJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ScheduleDayOffJob;
@@ -44,6 +46,11 @@ public class WorkScheduleExchange {
   }
 
   @Bean
+  Queue adjustTimePunchJob() {
+    return new Queue(AdjustTimePunchJob.KEY, true);
+  }
+
+  @Bean
   Binding createWorkdayLogsJobBinding() {
     return BindingBuilder
         .bind(createWorkdayLogsJobQueue())
@@ -65,6 +72,14 @@ public class WorkScheduleExchange {
         .bind(excuseWorkdayAbsenceJobQueue())
         .to(workScheduleDirectExchange())
         .with(ExcusedAbsenceSolicitationApprovedEvent.NAME);
+  }
+
+  @Bean
+  Binding adjustTimePunchJobBinding() {
+    return BindingBuilder
+        .bind(excuseWorkdayAbsenceJobQueue())
+        .to(workScheduleDirectExchange())
+        .with(TimePunchAdjusmentSolicitationApprovedEvent.NAME);
   }
 
   @Bean
