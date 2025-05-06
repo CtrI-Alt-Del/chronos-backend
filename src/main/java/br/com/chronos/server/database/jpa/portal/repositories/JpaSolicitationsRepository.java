@@ -18,7 +18,7 @@ import br.com.chronos.core.portal.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
-import br.com.chronos.core.portal.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import br.com.chronos.core.portal.interfaces.repositories.DayOffScheduleAdjustmentRepository;
 import br.com.chronos.core.portal.interfaces.repositories.DayOffSolicitationRepository;
@@ -29,12 +29,14 @@ import br.com.chronos.server.database.jpa.portal.daos.DayOffSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.ExcusedAbsenceSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
+import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.ExcusedAbsenceSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.JustificationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.SolicitationMapper;
+import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Autowired
@@ -57,6 +59,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   private ExcusedAbsenceSolicitationDao excusedAbsenceSolicitationDao;
+
+  @Autowired
+  private TimePunchAdjustmentSolicitationDao timePunchAdjustmentSolicitationDao;
+
+  @Autowired
+  private TimePunchAdjustmentSolicitationMapper timePunchAdjustmentSolicitationMapper;
 
   @Autowired
   private ExcusedAbsenceSolicitationMapper excusedAbsenceSolicitationMapper;
@@ -101,7 +109,7 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   public void resolveSolicitation(Solicitation solicitation) {
     if (solicitation.getType().isTimePunch().isTrue()) {
 
-      TimePunchLogAdjustmentSolicitation timePunchSolicitation = (TimePunchLogAdjustmentSolicitation) solicitation;
+      TimePunchAdjustmentSolicitation timePunchSolicitation = (TimePunchAdjustmentSolicitation) solicitation;
       timePunchLogAdjustmentSolicitationModelsRepository.resolveSolicitation(timePunchSolicitation);
 
     } else if (solicitation.getType().isDayOffSchedule().isTrue()) {
@@ -270,5 +278,26 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   public void add(DayOffScheduleAdjustmentSolicitation solicitation) {
     var model = dayOffScheduleAdjustmentSolicitationMapper.toModel(solicitation);
     dayOffScheduleAdjustmentSolicitationDao.save(model);
+  }
+
+  @Override
+  public void add(TimePunchAdjustmentSolicitation solicitation) {
+    var model = timePunchAdjustmentSolicitationMapper.toModel(solicitation);
+    timePunchAdjustmentSolicitationDao.save(model);
+  }
+
+  @Override
+  public Pair<Array<TimePunchAdjustmentSolicitation>, PlusIntegerNumber> findManyTimePunchAdjustmentSolicitationsByCollaborationSector(
+      CollaborationSector sector, PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = timePunchAdjustmentSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
+        sector.value(),
+        pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+
+    return new Pair<>(
+        Array.createFrom(items, timePunchAdjustmentSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
   }
 }

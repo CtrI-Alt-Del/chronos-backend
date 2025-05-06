@@ -4,19 +4,19 @@ import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Time;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
-import br.com.chronos.core.portal.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
+import br.com.chronos.core.portal.domain.dtos.TimePunchAdjustmentSolicitationDto;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import br.com.chronos.core.portal.domain.records.TimePunchAdjustmentReason;
 import br.com.chronos.core.portal.domain.records.TimePunchAdjustmentReason.Reason;
 import br.com.chronos.core.work_schedule.domain.records.TimePunchPeriod;
 
-public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
+public final class TimePunchAdjustmentSolicitation extends Solicitation {
   private Time time;
   private TimePunchPeriod period;
   private Date workdayLogDate;
   private TimePunchAdjustmentReason reason;
 
-  public TimePunchLogAdjustmentSolicitation(TimePunchLogAdjustmentSolicitationDto dto) {
+  public TimePunchAdjustmentSolicitation(TimePunchAdjustmentSolicitationDto dto) {
     super(dto);
     this.type = SolicitationType.createAsTimePunchAdjusment();
     time = new Time(dto.time);
@@ -45,8 +45,8 @@ public final class TimePunchLogAdjustmentSolicitation extends Solicitation {
     return reason;
   }
 
-  public TimePunchLogAdjustmentSolicitationDto getDto() {
-    TimePunchLogAdjustmentSolicitationDto dto = new TimePunchLogAdjustmentSolicitationDto();
+  public TimePunchAdjustmentSolicitationDto getDto() {
+    TimePunchAdjustmentSolicitationDto dto = new TimePunchAdjustmentSolicitationDto();
     dto.setId(getId().toString());
     dto.setDescription(getDescription() != null ? getDescription().value() : null);
     dto.setDate(getDate().value());

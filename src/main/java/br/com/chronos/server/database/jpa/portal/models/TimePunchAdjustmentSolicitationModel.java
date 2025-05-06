@@ -18,14 +18,14 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@DiscriminatorValue("TIME_PUNCH")
+@DiscriminatorValue("TIME_PUNCH_ADJUSTMENT")
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "time_punch_adjusment_solicitations")
-public class TimePunchLogAdjustmentSolicitationModel extends SolicitationModel {
+public class TimePunchAdjustmentSolicitationModel extends SolicitationModel {
   @Column(name = "date")
   private LocalDate date;
 

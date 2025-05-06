@@ -12,17 +12,17 @@ import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.CollaborationSector.Sector;
-import br.com.chronos.core.portal.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.interfaces.repositories.TimePunchLogAdjustmentRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
-import br.com.chronos.server.database.jpa.portal.mappers.TimePunchLogAdjustmentSolicitationMapper;
-import br.com.chronos.server.database.jpa.portal.models.TimePunchLogAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
+import br.com.chronos.server.database.jpa.portal.models.TimePunchAdjustmentSolicitationModel;
 
 interface JpaTimePunchAdjustmentSolicitationRepository
-    extends JpaRepository<TimePunchLogAdjustmentSolicitationModel, UUID> {
-  List<TimePunchLogAdjustmentSolicitationModel> findAllBySenderResponsibleAccountSector(Sector sector);
+    extends JpaRepository<TimePunchAdjustmentSolicitationModel, UUID> {
+  List<TimePunchAdjustmentSolicitationModel> findAllBySenderResponsibleAccountSector(Sector sector);
 
-  List<TimePunchLogAdjustmentSolicitationModel> findAllBySenderResponsibleId(
+  List<TimePunchAdjustmentSolicitationModel> findAllBySenderResponsibleId(
       UUID userId);
 }
 
@@ -32,13 +32,13 @@ public class JpaTimePunchLogPunchAdjustmentSolicitationsRepository implements Ti
   private JpaTimePunchAdjustmentSolicitationRepository solicitationRepository;
 
   @Autowired
-  private TimePunchLogAdjustmentSolicitationMapper mapper;
+  private TimePunchAdjustmentSolicitationMapper mapper;
 
   @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
   @Override
-  public void add(TimePunchLogAdjustmentSolicitation solicitation) {
+  public void add(TimePunchAdjustmentSolicitation solicitation) {
     var solicitationModel = mapper.toModel(solicitation);
     solicitationModel.setSolicitationStatus(solicitation.getStatus().value());
     if (solicitation.getStatus().isApproved().isTrue()) {
@@ -50,26 +50,26 @@ public class JpaTimePunchLogPunchAdjustmentSolicitationsRepository implements Ti
     solicitationRepository.save(solicitationModel);
   }
 
-  public void resolveSolicitation(TimePunchLogAdjustmentSolicitation solicitation) {
+  public void resolveSolicitation(TimePunchAdjustmentSolicitation solicitation) {
     var solicitationModel = mapper.toModel(solicitation);
     solicitationModel.setSolicitationStatus(solicitation.getStatus().value());
     solicitationRepository.save(solicitationModel);
   }
 
   @Override
-  public Optional<TimePunchLogAdjustmentSolicitation> findSolicitationById(Id solicitationId) {
+  public Optional<TimePunchAdjustmentSolicitation> findSolicitationById(Id solicitationId) {
     return solicitationRepository.findById(solicitationId.value())
         .map(mapper::toEntity);
   }
 
   @Override
-  public Array<TimePunchLogAdjustmentSolicitation> findAllByCollaboratorId(Id userId) {
+  public Array<TimePunchAdjustmentSolicitation> findAllByCollaboratorId(Id userId) {
     var solicitationModels = solicitationRepository.findAllBySenderResponsibleId(userId.value());
     return Array.createFrom(solicitationModels, mapper::toEntity);
   }
 
   @Override
-  public Array<TimePunchLogAdjustmentSolicitation> findAllByCollaboratorSector(CollaborationSector sector) {
+  public Array<TimePunchAdjustmentSolicitation> findAllByCollaboratorSector(CollaborationSector sector) {
     var solicitationModels = solicitationRepository.findAllBySenderResponsibleAccountSector(sector.value());
     return Array.createFrom(solicitationModels, mapper::toEntity);
   }

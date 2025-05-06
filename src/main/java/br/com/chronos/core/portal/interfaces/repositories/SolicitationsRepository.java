@@ -13,6 +13,7 @@ import br.com.chronos.core.portal.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
+import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import kotlin.Pair;
 
@@ -44,6 +45,10 @@ public interface SolicitationsRepository {
       CollaborationSector sector,
       PageNumber page);
 
+  Pair<Array<TimePunchAdjustmentSolicitation>, PlusIntegerNumber> findManyTimePunchAdjustmentSolicitationsByCollaborationSector(
+      CollaborationSector sector,
+      PageNumber page);
+
   Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector);
 
   void resolveSolicitation(Solicitation solicitation);
@@ -57,6 +62,8 @@ public interface SolicitationsRepository {
   void add(ExcusedAbsenceSolicitation solicitation);
 
   void add(DayOffSolicitation solicitation);
+
+  void add(TimePunchAdjustmentSolicitation solicitation);
 
   void replace(Solicitation solicitation);
 

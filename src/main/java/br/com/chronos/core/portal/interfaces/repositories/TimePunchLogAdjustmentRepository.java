@@ -5,16 +5,16 @@ import java.util.Optional;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
-import br.com.chronos.core.portal.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 
 public interface TimePunchLogAdjustmentRepository {
-  void add(TimePunchLogAdjustmentSolicitation solicitation);
+  void add(TimePunchAdjustmentSolicitation solicitation);
 
-  void resolveSolicitation(TimePunchLogAdjustmentSolicitation solicitation);
+  void resolveSolicitation(TimePunchAdjustmentSolicitation solicitation);
 
-  Optional<TimePunchLogAdjustmentSolicitation> findSolicitationById(Id solicitationId);
+  Optional<TimePunchAdjustmentSolicitation> findSolicitationById(Id solicitationId);
 
-  Array<TimePunchLogAdjustmentSolicitation> findAllByCollaboratorId(Id userId);
+  Array<TimePunchAdjustmentSolicitation> findAllByCollaboratorId(Id userId);
 
-  Array<TimePunchLogAdjustmentSolicitation> findAllByCollaboratorSector(CollaborationSector sector);
+  Array<TimePunchAdjustmentSolicitation> findAllByCollaboratorSector(CollaborationSector sector);
 }
