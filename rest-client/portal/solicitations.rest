@@ -1,7 +1,8 @@
 @RESOURCE = solicitation/solicitations
 @URL = {{HOST}}/{{RESOURCE}}
+@DAY_OFF_SCHEDULE_ADJUSTMENT_SOLICITATION_ID =2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d
 @PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
-@DAY_OFF_SOLICITATION_ID = 6ead2493-e159-41ec-95a6-15cbbe04c5f0
+@DAY_OFF_SOLICITATION_ID = 916f0a5b-0aec-4020-afe4-67b4b3fc57d8
 @EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
@@ -10,6 +11,8 @@
 GET {{URL}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
+
+
 
 ### Create paid overtime solicitation
 POST {{URL}}/paid-overtime
@@ -38,7 +41,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "dayOff": "2025-04-30"
+  "dayOff": "2025-05-31"
 }
 
 ### List day off solicitations
@@ -78,6 +81,11 @@ Authorization: Bearer {{JWT}}
   "feedbackMessage": "Você está perdoado!"
 }
 
+### Get All day off schedule adjustment solicitations 
+GET {{URL}}/day-off-schedule-adjustment
+Content-Type: application/json 
+Authorization: Bearer {{JWT}}
+
 ### Create Day Off Schedule Adjustment Solicitation
 POST {{URL}}/day-off-schedule-adjustment
 Content-Type: application/json
@@ -90,6 +98,16 @@ Authorization: Bearer {{JWT}}
     "daysOff": ["2025-04-05", "2025-04-10", "2025-04-15"]
   }
 }
+
+### Approve day off schedule adjustment solicitations
+PUT {{URL}}/2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d/approve/day-off-schedule-adjustment
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "feedbackMessage": "Aprovado!,merece descansar banana!"
+}
+
 
 ### Create Time Punch Adjustment Solicitation
 POST {{URL}}/time-punch-adjustment

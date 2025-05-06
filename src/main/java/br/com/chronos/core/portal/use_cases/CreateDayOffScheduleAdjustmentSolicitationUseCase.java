@@ -3,13 +3,13 @@ package br.com.chronos.core.portal.use_cases;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.portal.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
-import br.com.chronos.core.portal.interfaces.repositories.DayOffScheduleAdjustmentRepository;
+import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 
 public class CreateDayOffScheduleAdjustmentSolicitationUseCase {
-  private final DayOffScheduleAdjustmentRepository solicitationsRepository;
+  private final SolicitationsRepository solicitationsRepository;
 
   public CreateDayOffScheduleAdjustmentSolicitationUseCase(
-      DayOffScheduleAdjustmentRepository solicitationsRepository) {
+      SolicitationsRepository solicitationsRepository) {
     this.solicitationsRepository = solicitationsRepository;
   }
 

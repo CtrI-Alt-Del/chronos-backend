@@ -1,6 +1,5 @@
 package br.com.chronos.server.api.controllers.portal.solicitations;
 
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

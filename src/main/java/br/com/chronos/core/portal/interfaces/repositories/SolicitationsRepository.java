@@ -8,6 +8,7 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
+import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
@@ -23,7 +24,7 @@ public interface SolicitationsRepository {
   Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
 
   void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
-  Justification justification);
+      Justification justification);
 
   Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
 
@@ -39,6 +40,10 @@ public interface SolicitationsRepository {
       CollaborationSector sector,
       PageNumber page);
 
+  Pair<Array<DayOffScheduleAdjustmentSolicitation>, PlusIntegerNumber> findManyDayOffScheduleAdjustmentSolicitationsByCollaborationSector(
+      CollaborationSector sector,
+      PageNumber page);
+
   Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector);
 
   void resolveSolicitation(Solicitation solicitation);
@@ -47,11 +52,15 @@ public interface SolicitationsRepository {
 
   void add(PaidOvertimeSolicitation solicitation);
 
+  void add(DayOffScheduleAdjustmentSolicitation solicitation);
+
   void add(ExcusedAbsenceSolicitation solicitation);
 
   void add(DayOffSolicitation solicitation);
 
   void replace(Solicitation solicitation);
+
+  void replace(DayOffScheduleAdjustmentSolicitation solicitation);
 
   void replace(PaidOvertimeSolicitation solicitation);
 

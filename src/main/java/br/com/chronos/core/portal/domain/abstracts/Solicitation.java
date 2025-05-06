@@ -34,7 +34,6 @@ public abstract class Solicitation extends Entity {
   }
 
   public void approve(ResponsibleAggregate replierResponsible, Text feedbackMessage) {
-    System.out.println(senderResponsible.getEntity());
     reply(replierResponsible, feedbackMessage);
     this.status = status.approve();
   }

@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.portal.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
-import br.com.chronos.core.portal.interfaces.repositories.DayOffScheduleAdjustmentRepository;
+import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.use_cases.CreateDayOffScheduleAdjustmentSolicitationUseCase;
 
 @SolicitationsController
 public class CreateDayOffScheduleAdjustmentSolicitationController {
 
   @Autowired
-  private DayOffScheduleAdjustmentRepository solicitationsRepository;
+  private SolicitationsRepository solicitationsRepository;
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
