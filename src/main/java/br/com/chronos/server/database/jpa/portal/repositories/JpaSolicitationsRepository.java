@@ -20,10 +20,7 @@ import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
-import br.com.chronos.core.portal.interfaces.repositories.DayOffScheduleAdjustmentRepository;
-import br.com.chronos.core.portal.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
-import br.com.chronos.core.portal.interfaces.repositories.TimePunchLogAdjustmentRepository;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.ExcusedAbsenceSolicitationDao;
@@ -76,15 +73,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   private DayOffSolicitationMapper dayOffSolicitationMapper;
 
   @Autowired
-  private TimePunchLogAdjustmentRepository timePunchLogAdjustmentSolicitationModelsRepository;
-
-  @Autowired
-  private DayOffScheduleAdjustmentRepository dayOffScheduleAdjustmentSolcitationModelsRepository;
-
-  @Autowired
-  private DayOffSolicitationRepository dayOffSolicitationRepository;
-
-  @Autowired
   private SolicitationMapper solicitationMapper;
 
   @Override
@@ -103,27 +91,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
       return Optional.empty();
     }
     return Optional.of(paidOvertimeSolicitationMapper.toEntity(solicitationModel.get()));
-  }
-
-  @Override
-  public void resolveSolicitation(Solicitation solicitation) {
-    if (solicitation.getType().isTimePunch().isTrue()) {
-
-      TimePunchAdjustmentSolicitation timePunchSolicitation = (TimePunchAdjustmentSolicitation) solicitation;
-      timePunchLogAdjustmentSolicitationModelsRepository.resolveSolicitation(timePunchSolicitation);
-
-    } else if (solicitation.getType().isDayOffSchedule().isTrue()) {
-
-      DayOffScheduleAdjustmentSolicitation dayOffScheduleSolicitation = (DayOffScheduleAdjustmentSolicitation) solicitation;
-      dayOffScheduleAdjustmentSolcitationModelsRepository.resolveSolicitation(dayOffScheduleSolicitation);
-
-    } else if (solicitation.getType().isDayOff().isTrue()) {
-      DayOffSolicitation dayOffSolicitation = (DayOffSolicitation) solicitation;
-      dayOffSolicitationRepository.resolveSolicitation(dayOffSolicitation);
-    } else if (solicitation.getType().isExcusedAbsence().isTrue()) {
-      ExcusedAbsenceSolicitation excusedAbsenceSolicitation = (ExcusedAbsenceSolicitation) solicitation;
-      excusedAbsenceSolicitationDao.save(excusedAbsenceSolicitationMapper.toModel(excusedAbsenceSolicitation));
-    }
   }
 
   @Override
