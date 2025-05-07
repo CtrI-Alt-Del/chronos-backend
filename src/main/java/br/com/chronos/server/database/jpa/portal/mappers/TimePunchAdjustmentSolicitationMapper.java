@@ -1,21 +1,13 @@
 package br.com.chronos.server.database.jpa.portal.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.global.domain.records.Array;
-import br.com.chronos.core.portal.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
 import br.com.chronos.core.portal.domain.dtos.TimePunchAdjustmentSolicitationDto;
-import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
-import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
-import br.com.chronos.server.database.jpa.portal.models.DayOffScheduleAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.portal.models.TimePunchAdjustmentSolicitationModel;
-import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
 
 @Component
 public class TimePunchAdjustmentSolicitationMapper {

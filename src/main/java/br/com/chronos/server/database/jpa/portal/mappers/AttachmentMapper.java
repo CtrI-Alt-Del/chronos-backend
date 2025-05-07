@@ -1,6 +1,5 @@
 package br.com.chronos.server.database.jpa.portal.mappers;
 
-import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 

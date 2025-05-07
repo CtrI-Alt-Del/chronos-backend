@@ -1,10 +1,6 @@
 package br.com.chronos.core.portal.use_cases;
 
-import br.com.chronos.core.global.domain.dtos.AttachmentDto;
-import br.com.chronos.core.global.domain.exceptions.NotFoundException;
-import br.com.chronos.core.global.domain.records.Attachment;
 import br.com.chronos.core.global.interfaces.providers.StorageProvider;
-import br.com.chronos.core.portal.interfaces.repositories.AttachmentRepository;
 
 public class GetJustificationAttachmentUseCase {
   private final StorageProvider storageProvider;

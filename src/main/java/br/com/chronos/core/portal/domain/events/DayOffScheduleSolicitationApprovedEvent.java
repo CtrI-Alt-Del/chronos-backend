@@ -2,7 +2,6 @@ package br.com.chronos.core.portal.domain.events;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.logging.Logger;
 
 import br.com.chronos.core.global.domain.abstracts.Event;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
@@ -20,6 +19,5 @@ public class DayOffScheduleSolicitationApprovedEvent extends Event<DayOffSchedul
         solicitation.getDayOffSchedule().getDaysOff().map(dayOff -> dayOff.value()).list(),
         solicitation.getDayOffSchedule().getDaysOffCount().integer().value(),
         solicitation.getDayOffSchedule().getWorkdaysCount().integer().value()));
-    Logger.getAnonymousLogger().info("DAYS OFF DEBUG: " + solicitation.getDayOffSchedule());
   }
 }

@@ -1,6 +1,5 @@
 package br.com.chronos.core.portal.use_cases;
 
-import java.util.logging.Logger;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.records.Id;
@@ -23,14 +22,11 @@ public class ApproveDayOffScheduleAdjustmentSolicitationUseCase extends ApproveS
       ResponsibleAggregateDto replierResponsible,
       String feedbackMessage) {
     var solicitation = findSolicitation(Id.create(solicitationId));
-    Logger.getAnonymousLogger().info("DEBUG BEFORE APPROVE SOLICITATION: " + solicitation.getDto().dayOffSchedule.daysOff);
 
     approveSolicitation(solicitation, replierResponsible, feedbackMessage);
     repository.replace(solicitation);
 
-    Logger.getAnonymousLogger().info("DEBUG SOLICITATION: " + solicitation.getDto().dayOffSchedule.daysOff);
     var event = new DayOffScheduleSolicitationApprovedEvent(solicitation);
-    Logger.getAnonymousLogger().info("DEBUG EVENT: " + event.getPayload());
     portalBroker.publish(event);
   }
 

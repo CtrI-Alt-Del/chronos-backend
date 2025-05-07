@@ -113,7 +113,7 @@ Authorization: Bearer {{JWT}}
 }
 
 ### Approve day off schedule adjustment solicitations
-PUT {{URL}}/bc809ef7-18f4-41ac-b55a-12ad60cf8a30/approve/day-off-schedule-adjustment
+PUT {{URL}}/4a4137cf-29a7-49d0-82bd-b622c64ba731/approve/day-off-schedule-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

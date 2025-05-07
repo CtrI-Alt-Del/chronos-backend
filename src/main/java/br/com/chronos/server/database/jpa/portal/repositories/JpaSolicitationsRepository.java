@@ -1,7 +1,6 @@
 package br.com.chronos.server.database.jpa.portal.repositories;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -239,7 +238,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
         pageRequest);
     var items = models.stream().toList();
     var itemsCount = models.getTotalElements();
-    Logger.getAnonymousLogger().info("DEBUG LIST " + items);
 
     return new Pair<>(
         Array.createFrom(items, dayOffScheduleAdjustmentSolicitationMapper::toEntity),
@@ -255,7 +253,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Override
   public void add(DayOffScheduleAdjustmentSolicitation solicitation) {
     var model = dayOffScheduleAdjustmentSolicitationMapper.toModel(solicitation);
-    Logger.getAnonymousLogger().info("DEBUG SOLICIATION MODEL" + model);
     dayOffScheduleAdjustmentSolicitationDao.save(model);
   }
 
