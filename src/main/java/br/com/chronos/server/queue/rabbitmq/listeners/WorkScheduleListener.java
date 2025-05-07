@@ -1,5 +1,6 @@
 package br.com.chronos.server.queue.rabbitmq.listeners;
 
+
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -28,7 +29,6 @@ public class WorkScheduleListener {
   @Autowired
   private UpdateDayOffScheduleJob updateDayOffScheduleJob;
 
-  @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.NAME, errorHandler = "rabbitMqErrorHandler")
   @RabbitListener(queues = CreateWorkdayLogsJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload CollaboratorsPreparedForWorkEvent.Payload payload) {
     createWorkdayLogsJob.handle(payload);
@@ -43,8 +43,16 @@ public class WorkScheduleListener {
   public void listenTo(@Payload ExcusedAbsenceSolicitationApprovedEvent.Payload payload) {
     excuseWorkdayAbsenceJob.handle(payload);
   }
-  // @RabbitListener(queues = DayOffScheduleSolicitationApprovedEvent.NAME,errorHandler = "rabbitMqErrorHandler")
-  // public void listenTo(@Payload DayOffScheduleSolicitationApprovedEvent.Payload payload){
-  //   updateDayOffScheduleJob.handle(payload);
+
+  @RabbitListener(queues = UpdateDayOffScheduleJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  public void listenTo(@Payload DayOffScheduleSolicitationApprovedEvent.Payload payload) {
+    updateDayOffScheduleJob.handle(payload);
+  }
+  // @RabbitListener(queues =
+  // DayOffScheduleSolicitationApprovedEvent.NAME,errorHandler =
+  // "rabbitMqErrorHandler")
+  // public void listenTo(@Payload DayOffScheduleSolicitationApprovedEvent.Payload
+  // payload){
+  // updateDayOffScheduleJob.handle(payload);
   // }
 }

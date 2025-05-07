@@ -1,5 +1,6 @@
 package br.com.chronos.server.queue.rabbitmq.brokers;
 
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ public class RabbitMqPortalBroker implements PortalBroker {
 
   @Override
   public void publish(ExcusedAbsenceSolicitationApprovedEvent event) {
-    rabbit.convertAndSend("", ExcusedAbsenceSolicitationApprovedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend("work.schedule.exchange", ExcusedAbsenceSolicitationApprovedEvent.NAME, event.getPayload());
   }
 
   @Override
@@ -33,12 +34,11 @@ public class RabbitMqPortalBroker implements PortalBroker {
     rabbit.convertAndSend("", DayOffSolicitationApprovedEvent.NAME, event.getPayload());
   }
 
-  @Override
   public void publish(DayOffScheduleSolicitationApprovedEvent event) {
-    rabbit.convertAndSend("", DayOffScheduleSolicitationApprovedEvent.NAME, event.getPayload());
-  }
-  public void publish(TimePunchAdjusmentSolicitationApprovedEvent event) {
-    rabbit.convertAndSend("", TimePunchAdjusmentSolicitationApprovedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend("work.schedule.exchange", DayOffScheduleSolicitationApprovedEvent.NAME, event.getPayload());
   }
 
+  public void publish(TimePunchAdjusmentSolicitationApprovedEvent event) {
+    rabbit.convertAndSend("worl.schedule.exchange", TimePunchAdjusmentSolicitationApprovedEvent.NAME, event.getPayload());
+  }
 }

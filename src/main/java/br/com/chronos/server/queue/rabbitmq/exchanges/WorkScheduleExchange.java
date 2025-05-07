@@ -50,6 +50,8 @@ public class WorkScheduleExchange {
   @Bean
   Queue updateDayOffScheduleJobQueue() {
     return new Queue(UpdateDayOffScheduleJob.KEY, true);
+  }
+
   Queue adjustTimePunchJob() {
     return new Queue(AdjustTimePunchJob.KEY, true);
   }

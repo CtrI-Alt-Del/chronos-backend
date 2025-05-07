@@ -1,5 +1,7 @@
 package br.com.chronos.server.database.jpa.portal.mappers;
 
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +35,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
         .senderResponsible(senderResponsible)
         .replierResponsible(replierResponsible)
         .daysOffCount(entity.getDayOffSchedule().getDaysOffCount().integer().value())
+        .daysOff(entity.getDayOffSchedule().getDaysOff().map(dayOffMapper::toModel).list())
         .workDaysCount(entity.getDayOffSchedule().getWorkdaysCount().integer().value())
         .build();
 
@@ -54,7 +57,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
       var replierResponsibleDto = new ResponsibleDto()
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
-          .setCpf(model.getReplierResponsible().getCpf()) 
+          .setCpf(model.getReplierResponsible().getCpf())
           .setSector(model.getReplierResponsible().getAccount().getSector().toString())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
@@ -66,6 +69,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
     String feedbackMessage = model.getFeedbackMessage() != null ? model.getFeedbackMessage().toString() : null;
 
     var daysOffDto = Array.createFrom(model.getDaysOff(), dayOffMapper::toDto).list();
+    Logger.getAnonymousLogger().info("DEBUG DAY OFF DTO" +  daysOffDto);
 
     var daysOffScheduleDto = new DayOffScheduleDto()
         .setId(model.getId().toString())

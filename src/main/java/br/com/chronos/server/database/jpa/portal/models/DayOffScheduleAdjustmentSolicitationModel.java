@@ -33,7 +33,7 @@ public class DayOffScheduleAdjustmentSolicitationModel extends SolicitationModel
   @Column(nullable = false)
   private int daysOffCount;
 
-  @OneToMany(mappedBy = "dayOffScheduleAdjustment", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "dayOffScheduleAdjustment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @Default
   private List<DayOffModel> daysOff = new ArrayList<>();
 }
