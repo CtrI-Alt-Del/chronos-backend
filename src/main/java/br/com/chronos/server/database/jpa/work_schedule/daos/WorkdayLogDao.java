@@ -17,6 +17,8 @@ import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 public interface WorkdayLogDao extends JpaRepository<WorkdayLogModel, UUID> {
+  Optional<WorkdayLogModel> findByDate(LocalDate date);
+
   List<WorkdayLogModel> findAllByDate(LocalDate date);
 
   @Query("""

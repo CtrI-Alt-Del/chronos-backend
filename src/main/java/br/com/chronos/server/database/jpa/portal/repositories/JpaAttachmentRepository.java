@@ -1,48 +1,38 @@
 package br.com.chronos.server.database.jpa.portal.repositories;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.chronos.core.global.domain.records.Attachment;
-import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.portal.interfaces.repositories.AttachmentRepository;
+import br.com.chronos.server.database.jpa.portal.daos.AttachmentDao;
 import br.com.chronos.server.database.jpa.portal.mappers.AttachmentMapper;
-import br.com.chronos.server.database.jpa.portal.models.AttachmentModel;
-
-interface JpaAttachmentModelRepository extends JpaRepository<AttachmentModel, String> {
-
-}
 
 public class JpaAttachmentRepository implements AttachmentRepository {
-
   @Autowired
   private AttachmentMapper mapper;
 
   @Autowired
-  private JpaAttachmentModelRepository repository;
+  private AttachmentDao dao;
 
   @Override
   public void add(Attachment attachment) {
     var model = mapper.toModel(attachment);
-    repository.save(model);
+    dao.save(model);
   }
 
   @Override
   public void remove(Attachment attachment) {
     var model = mapper.toModel(attachment);
-    repository.delete(model);
+    dao.delete(model);
   }
 
-	@Override
-	public Attachment findAttachmentByKey(String attachmentKey) {
-    var model = repository.findById(attachmentKey);
-    if(model.isEmpty()){
+  @Override
+  public Attachment findAttachmentByKey(String attachmentKey) {
+    var model = dao.findById(attachmentKey);
+    if (model.isEmpty()) {
       return null;
     }
     return mapper.toRecord(model.get());
-	}
+  }
 
 }

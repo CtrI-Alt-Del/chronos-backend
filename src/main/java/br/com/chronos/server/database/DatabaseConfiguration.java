@@ -7,24 +7,17 @@ import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.portal.interfaces.repositories.AttachmentRepository;
-import br.com.chronos.core.portal.interfaces.repositories.DayOffScheduleAdjustmentRepository;
-import br.com.chronos.core.portal.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.portal.interfaces.repositories.JustificationRepository;
 import br.com.chronos.core.portal.interfaces.repositories.JustificationTypeRepository;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
-import br.com.chronos.core.portal.interfaces.repositories.TimePunchLogAdjustmentRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.server.database.jpa.auth.repositories.JpaAccountsRepository;
 import br.com.chronos.server.database.jpa.collaborator.repositories.JpaCollaboratorsRepository;
-import br.com.chronos.server.database.jpa.portal.models.SolicitationModel;
 import br.com.chronos.server.database.jpa.portal.repositories.JpaAttachmentRepository;
-import br.com.chronos.server.database.jpa.portal.repositories.JpaDayOffScheduleAdjustmentSolicitationsRepository;
-import br.com.chronos.server.database.jpa.portal.repositories.JpaDayOffSolicitationRepository;
 import br.com.chronos.server.database.jpa.portal.repositories.JpaJustificationRepository;
 import br.com.chronos.server.database.jpa.portal.repositories.JpaJustificationTypeRepository;
 import br.com.chronos.server.database.jpa.portal.repositories.JpaSolicitationsRepository;
-import br.com.chronos.server.database.jpa.portal.repositories.JpaTimePunchLogPunchAdjustmentSolicitationsRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaDayOffSchedulesRepository;
 import br.com.chronos.server.database.jpa.work_schedule.repositories.JpaWorkdayLogsRepository;
 import br.com.chronos.server.database.mongodb.hour_bank.repositories.MongoDbHourBankTransactionsRepository;
@@ -62,29 +55,17 @@ public class DatabaseConfiguration {
   }
 
   @Bean
-  TimePunchLogAdjustmentRepository timePunchAdjustmentRepository() {
-    return new JpaTimePunchLogPunchAdjustmentSolicitationsRepository();
-  }
-
-  @Bean
-  DayOffScheduleAdjustmentRepository dayOffSchedulesRepository() {
-    return new JpaDayOffScheduleAdjustmentSolicitationsRepository();
-  }
-
-  @Bean
   JustificationTypeRepository justificationTypeRepository() {
     return new JpaJustificationTypeRepository();
   }
+
   @Bean
-  JustificationRepository justificationRepository(){
+  JustificationRepository justificationRepository() {
     return new JpaJustificationRepository();
   }
+
   @Bean
-  DayOffSolicitationRepository dayOffSolicitationRepository(){
-    return new JpaDayOffSolicitationRepository();
-  }
-  @Bean
-  AttachmentRepository attachmentRepository(){
+  AttachmentRepository attachmentRepository() {
     return new JpaAttachmentRepository();
   }
 }

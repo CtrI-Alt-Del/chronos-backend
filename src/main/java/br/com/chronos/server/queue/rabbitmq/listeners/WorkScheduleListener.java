@@ -23,17 +23,17 @@ public class WorkScheduleListener {
   @Autowired
   private ExcuseWorkdayAbsenceJob excuseWorkdayAbsenceJob;
 
-  @RabbitListener(queues = CollaboratorsPreparedForWorkEvent.NAME, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = CreateWorkdayLogsJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload CollaboratorsPreparedForWorkEvent.Payload payload) {
     createWorkdayLogsJob.handle(payload);
   }
 
-  @RabbitListener(queues = HourBankTransactionCreatedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = UpdateWorkdayHourBankJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload HourBankTransactionCreatedEvent.Payload payload) {
     updateWorkdayHourBankJob.handle(payload);
   }
 
-  @RabbitListener(queues = ExcusedAbsenceSolicitationApprovedEvent.NAME, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = ExcuseWorkdayAbsenceJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload ExcusedAbsenceSolicitationApprovedEvent.Payload payload) {
     excuseWorkdayAbsenceJob.handle(payload);
   }

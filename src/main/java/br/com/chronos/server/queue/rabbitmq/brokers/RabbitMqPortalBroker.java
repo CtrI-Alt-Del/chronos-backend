@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.PaidOvertimeSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
 import br.com.chronos.core.portal.interfaces.PortalBroker;
 
 @Component
@@ -29,6 +30,11 @@ public class RabbitMqPortalBroker implements PortalBroker {
   @Override
   public void publish(DayOffSolicitationApprovedEvent event) {
     rabbit.convertAndSend("", DayOffSolicitationApprovedEvent.NAME, event.getPayload());
+  }
+
+  @Override
+  public void publish(TimePunchAdjusmentSolicitationApprovedEvent event) {
+    rabbit.convertAndSend("", TimePunchAdjusmentSolicitationApprovedEvent.NAME, event.getPayload());
   }
 
 }

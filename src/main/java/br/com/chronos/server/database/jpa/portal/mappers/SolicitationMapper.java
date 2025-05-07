@@ -8,7 +8,7 @@ import br.com.chronos.core.portal.domain.dtos.SolicitationDto;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
-import br.com.chronos.core.portal.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -16,7 +16,7 @@ import br.com.chronos.server.database.jpa.portal.models.DayOffScheduleAdjustment
 import br.com.chronos.server.database.jpa.portal.models.DayOffSolicitationModel;
 import br.com.chronos.server.database.jpa.portal.models.ExcusedAbsenceSolicitationModel;
 import br.com.chronos.server.database.jpa.portal.models.SolicitationModel;
-import br.com.chronos.server.database.jpa.portal.models.TimePunchLogAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.portal.models.TimePunchAdjustmentSolicitationModel;
 
 @Component
 public class SolicitationMapper {
@@ -25,7 +25,7 @@ public class SolicitationMapper {
   private DayOffScheduleAdjustmentSolicitationMapper dayOffScheduleAdjustmentSolicitationMapper;
 
   @Autowired
-  private TimePunchLogAdjustmentSolicitationMapper timePunchLogAdjustmentSolicitationMapper;
+  private TimePunchAdjustmentSolicitationMapper timePunchAdjustmentSolicitationMapper;
 
   @Autowired
   private DayOffSolicitationMapper dayOffSolicitationMapper;
@@ -36,8 +36,8 @@ public class SolicitationMapper {
   public Solicitation toEntity(SolicitationModel model) {
     if (model instanceof DayOffScheduleAdjustmentSolicitationModel) {
       return dayOffScheduleAdjustmentSolicitationMapper.toEntity((DayOffScheduleAdjustmentSolicitationModel) model);
-    } else if (model instanceof TimePunchLogAdjustmentSolicitationModel) {
-      return timePunchLogAdjustmentSolicitationMapper.toEntity((TimePunchLogAdjustmentSolicitationModel) model);
+    } else if (model instanceof TimePunchAdjustmentSolicitationModel) {
+      return timePunchAdjustmentSolicitationMapper.toEntity((TimePunchAdjustmentSolicitationModel) model);
     } else if (model instanceof DayOffSolicitationModel) {
       return dayOffSolicitationMapper.toEntity((DayOffSolicitationModel) model);
     } else if (model instanceof ExcusedAbsenceSolicitationModel) {
@@ -50,7 +50,7 @@ public class SolicitationMapper {
     if (entity.getType().isTimePunch().isTrue()) {
       return dayOffScheduleAdjustmentSolicitationMapper.toModel((DayOffScheduleAdjustmentSolicitation) entity);
     } else if (entity.getType().isDayOffSchedule().isTrue()) {
-      return timePunchLogAdjustmentSolicitationMapper.toModel((TimePunchLogAdjustmentSolicitation) entity);
+      return timePunchAdjustmentSolicitationMapper.toModel((TimePunchAdjustmentSolicitation) entity);
     } else if (entity.getType().isDayOff().isTrue()) {
       return dayOffSolicitationMapper.toModel((DayOffSolicitation) entity);
     } else if (entity.getType().isExcusedAbsence().isTrue()) {

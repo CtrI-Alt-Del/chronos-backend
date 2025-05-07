@@ -6,22 +6,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.portal.domain.dtos.TimePunchLogAdjustmentSolicitationDto;
-import br.com.chronos.core.portal.interfaces.repositories.TimePunchLogAdjustmentRepository;
-import br.com.chronos.core.portal.use_cases.CreateTimePunchLogAdjustmentSolicitationUseCase;
+import br.com.chronos.core.portal.domain.dtos.TimePunchAdjustmentSolicitationDto;
+import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
+import br.com.chronos.core.portal.use_cases.CreateTimePunchAdjustmentSolicitationUseCase;
 
 @SolicitationsController
-public class CreateTimePunchLogAdjustmentSolicitationController {
+public class CreateTimePunchAdjustmentSolicitationController {
   @Autowired
-  private TimePunchLogAdjustmentRepository solicitationsRepository;
+  private SolicitationsRepository solicitationsRepository;
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
   @PostMapping("/time-punch-adjustment")
-  public ResponseEntity<TimePunchLogAdjustmentSolicitationDto> handle(
-      @RequestBody TimePunchLogAdjustmentSolicitationDto body) {
-    var useCase = new CreateTimePunchLogAdjustmentSolicitationUseCase(solicitationsRepository);
+  public ResponseEntity<TimePunchAdjustmentSolicitationDto> handle(
+      @RequestBody TimePunchAdjustmentSolicitationDto body) {
+    var useCase = new CreateTimePunchAdjustmentSolicitationUseCase(solicitationsRepository);
     var account = authenticationProvider.getAccount();
     var senderResponsibleId = account.getCollaboratorId().toString();
     var timePunchLogAdjustmentSolicitationDto = useCase.execute(body, senderResponsibleId);
