@@ -3,6 +3,7 @@ package br.com.chronos.core.portal.use_cases;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.events.DayOffScheduleSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.exceptions.SolicitationNotFoundException;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import br.com.chronos.core.portal.interfaces.PortalBroker;
@@ -22,8 +23,8 @@ public class ApproveDayOffScheduleAdjustmentSolicitationUseCase extends ApproveS
     approveSolicitation(solicitation, replierResponsible, feedbackMessage);
     repository.replace(solicitation);
 
-    // var event = new ExcusedAbsenceSolicitationApprovedEvent(solicitation);
-    // portalBroker.publish(event);
+    var event = new DayOffScheduleSolicitationApprovedEvent(solicitation);
+    portalBroker.publish(event);
   }
   private DayOffScheduleAdjustmentSolicitation findSolicitation(Id solicitationId) {
     var solicitation = repository.findSolicitationByIdAndSolicitationType(solicitationId,
