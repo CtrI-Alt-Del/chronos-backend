@@ -20,6 +20,6 @@ public record TimePunchPeriod(PeriodName name) {
   }
 
   public String toString() {
-    return name.toString();
+    return name.toString().toLowerCase();
   }
 }

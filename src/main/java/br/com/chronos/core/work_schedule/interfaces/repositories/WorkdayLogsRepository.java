@@ -18,6 +18,8 @@ import kotlin.Pair;
 public interface WorkdayLogsRepository {
   Optional<WorkdayLog> findById(Id workdayLogId);
 
+  Optional<WorkdayLog> findByDate(Date date);
+
   Array<WorkdayLog> findAllByDate(Date date);
 
   Optional<WorkdayLog> findByCollaboratorAndDate(Id collaboratorId, Date date);

@@ -18,23 +18,22 @@ import br.com.chronos.core.portal.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
-import br.com.chronos.core.portal.domain.entities.TimePunchLogAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
-import br.com.chronos.core.portal.interfaces.repositories.DayOffScheduleAdjustmentRepository;
-import br.com.chronos.core.portal.interfaces.repositories.DayOffSolicitationRepository;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
-import br.com.chronos.core.portal.interfaces.repositories.TimePunchLogAdjustmentRepository;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.ExcusedAbsenceSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
+import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.ExcusedAbsenceSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.JustificationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.SolicitationMapper;
+import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Autowired
@@ -59,6 +58,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   private ExcusedAbsenceSolicitationDao excusedAbsenceSolicitationDao;
 
   @Autowired
+  private TimePunchAdjustmentSolicitationDao timePunchAdjustmentSolicitationDao;
+
+  @Autowired
+  private TimePunchAdjustmentSolicitationMapper timePunchAdjustmentSolicitationMapper;
+
+  @Autowired
   private ExcusedAbsenceSolicitationMapper excusedAbsenceSolicitationMapper;
 
   @Autowired
@@ -66,15 +71,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   private DayOffSolicitationMapper dayOffSolicitationMapper;
-
-  @Autowired
-  private TimePunchLogAdjustmentRepository timePunchLogAdjustmentSolicitationModelsRepository;
-
-  @Autowired
-  private DayOffScheduleAdjustmentRepository dayOffScheduleAdjustmentSolcitationModelsRepository;
-
-  @Autowired
-  private DayOffSolicitationRepository dayOffSolicitationRepository;
 
   @Autowired
   private SolicitationMapper solicitationMapper;
@@ -98,24 +94,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public void resolveSolicitation(Solicitation solicitation) {
-    if (solicitation.getType().isTimePunch().isTrue()) {
-
-      TimePunchLogAdjustmentSolicitation timePunchSolicitation = (TimePunchLogAdjustmentSolicitation) solicitation;
-      timePunchLogAdjustmentSolicitationModelsRepository.resolveSolicitation(timePunchSolicitation);
-
-    } else if (solicitation.getType().isDayOffSchedule().isTrue()) {
-
-      DayOffScheduleAdjustmentSolicitation dayOffScheduleSolicitation = (DayOffScheduleAdjustmentSolicitation) solicitation;
-      dayOffScheduleAdjustmentSolcitationModelsRepository.resolveSolicitation(dayOffScheduleSolicitation);
-
-    } else if (solicitation.getType().isDayOff().isTrue()) {
-      DayOffSolicitation dayOffSolicitation = (DayOffSolicitation) solicitation;
-      dayOffSolicitationRepository.resolveSolicitation(dayOffSolicitation);
-    } else if (solicitation.getType().isExcusedAbsence().isTrue()) {
-      ExcusedAbsenceSolicitation excusedAbsenceSolicitation = (ExcusedAbsenceSolicitation) solicitation;
-      excusedAbsenceSolicitationDao.save(excusedAbsenceSolicitationMapper.toModel(excusedAbsenceSolicitation));
+  public Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id solicitationId) {
+    var solicitationModel = timePunchAdjustmentSolicitationDao.findById(solicitationId.value());
+    if (solicitationModel.isEmpty()) {
+      return Optional.empty();
     }
+    return Optional.of(timePunchAdjustmentSolicitationMapper.toEntity(solicitationModel.get()));
   }
 
   @Override
@@ -271,4 +255,26 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     var model = dayOffScheduleAdjustmentSolicitationMapper.toModel(solicitation);
     dayOffScheduleAdjustmentSolicitationDao.save(model);
   }
+
+  @Override
+  public void add(TimePunchAdjustmentSolicitation solicitation) {
+    var model = timePunchAdjustmentSolicitationMapper.toModel(solicitation);
+    timePunchAdjustmentSolicitationDao.save(model);
+  }
+
+  @Override
+  public Pair<Array<TimePunchAdjustmentSolicitation>, PlusIntegerNumber> findManyTimePunchAdjustmentSolicitationsByCollaborationSector(
+      CollaborationSector sector, PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = timePunchAdjustmentSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
+        sector.value(),
+        pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+
+    return new Pair<>(
+        Array.createFrom(items, timePunchAdjustmentSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
+  }
+
 }

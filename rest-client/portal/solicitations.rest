@@ -6,13 +6,26 @@
 @EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
-
-### Get all solicitations 
-GET {{URL}}
+### Create time punch adjustment solicitation
+POST {{URL}}/time-punch-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
+{}
 
+### List time punch adjustment solicitations
+GET {{URL}}/time-punch-adjustment?page=1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Aprove time punch adjustment solicitation
+PUT {{URL}}/{{PAID_OVERTIME_SOLICITATION_ID}}/approve/time-punch-adjustment
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "feedbackMessage": "Seu ponto foi ajustado!"
+}
 
 ### Create paid overtime solicitation
 POST {{URL}}/paid-overtime

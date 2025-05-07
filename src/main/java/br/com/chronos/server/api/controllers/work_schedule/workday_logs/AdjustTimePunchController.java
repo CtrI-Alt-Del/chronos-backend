@@ -1,5 +1,6 @@
 package br.com.chronos.server.api.controllers.work_schedule.workday_logs;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,13 @@ public class AdjustTimePunchController {
   private static class Request {
     private LocalTime time;
     private String period;
+    private LocalDate workdayLogDate;
   }
 
-  @PatchMapping("/{workdayLogId}/time-punch/adjustment")
-  public ResponseEntity<TimePunchDto> handle(@PathVariable String workdayLogId, @RequestBody Request body) {
+  @PatchMapping("/time-punch/adjustment")
+  public ResponseEntity<TimePunchDto> handle(@PathVariable LocalDate workdayLogDate, @RequestBody Request body) {
     var useCase = new AdjustTimePunchUseCase(workdayLogsRepository, workScheduleBroker);
-    useCase.execute(workdayLogId, body.getTime(), body.getPeriod());
+    useCase.execute(workdayLogDate, body.getTime(), body.getPeriod());
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 }
