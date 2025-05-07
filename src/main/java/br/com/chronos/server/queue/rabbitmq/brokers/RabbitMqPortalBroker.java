@@ -5,8 +5,9 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
-import br.com.chronos.core.portal.domain.events.PaidOvertimeSolicitationApprovedEvent;
 import br.com.chronos.core.portal.interfaces.PortalBroker;
+import br.com.chronos.server.queue.rabbitmq.exchanges.HourBankExchange;
+import br.com.chronos.server.queue.rabbitmq.exchanges.WorkScheduleExchange;
 
 @Component
 public class RabbitMqPortalBroker implements PortalBroker {
@@ -17,18 +18,22 @@ public class RabbitMqPortalBroker implements PortalBroker {
   }
 
   @Override
-  public void publish(PaidOvertimeSolicitationApprovedEvent event) {
-    rabbit.convertAndSend("", PaidOvertimeSolicitationApprovedEvent.NAME, event.getPayload());
-  }
-
-  @Override
   public void publish(ExcusedAbsenceSolicitationApprovedEvent event) {
-    rabbit.convertAndSend("", ExcusedAbsenceSolicitationApprovedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend(
+        WorkScheduleExchange.NAME,
+        ExcusedAbsenceSolicitationApprovedEvent.NAME,
+        event.getPayload());
+    rabbit.convertAndSend(
+        HourBankExchange.NAME,
+        ExcusedAbsenceSolicitationApprovedEvent.NAME,
+        event.getPayload());
   }
 
   @Override
   public void publish(DayOffSolicitationApprovedEvent event) {
-    rabbit.convertAndSend("", DayOffSolicitationApprovedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend(
+        WorkScheduleExchange.NAME,
+        DayOffSolicitationApprovedEvent.NAME,
+        event.getPayload());
   }
-
 }

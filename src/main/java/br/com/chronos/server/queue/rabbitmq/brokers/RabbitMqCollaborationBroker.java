@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.collaboration.interfaces.CollaborationBroker;
+import br.com.chronos.server.queue.rabbitmq.exchanges.AuthExchange;
+import br.com.chronos.server.queue.rabbitmq.exchanges.WorkScheduleExchange;
 
 @Component
 public class RabbitMqCollaborationBroker implements CollaborationBroker {
@@ -17,11 +19,17 @@ public class RabbitMqCollaborationBroker implements CollaborationBroker {
 
   @Override
   public void publish(CollaboratorCreatedEvent event) {
-    rabbit.convertAndSend("", CollaboratorCreatedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend(
+        AuthExchange.NAME,
+        CollaboratorCreatedEvent.NAME,
+        event.getPayload());
   }
 
   @Override
   public void publish(CollaboratorsPreparedForWorkEvent event) {
-    rabbit.convertAndSend("", CollaboratorsPreparedForWorkEvent.NAME, event.getPayload());
+    rabbit.convertAndSend(
+        WorkScheduleExchange.NAME,
+        CollaboratorsPreparedForWorkEvent.NAME,
+        event.getPayload());
   }
 }

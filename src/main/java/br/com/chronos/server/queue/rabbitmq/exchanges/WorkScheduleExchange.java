@@ -18,9 +18,11 @@ import br.com.chronos.server.queue.jobs.work_schedule.UpdateWorkdayHourBankJob;
 
 @Configuration
 public class WorkScheduleExchange {
+  public static final String NAME = "work.schedule.exchange";
+
   @Bean
   DirectExchange workScheduleDirectExchange() {
-    return new DirectExchange("work.schedule.exchange", true, false);
+    return new DirectExchange(NAME, true, false);
   }
 
   @Bean
