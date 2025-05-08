@@ -17,12 +17,12 @@ public class RabbitMqWorkScheduleBroker implements WorkScheduleBroker {
 
   @Override
   public void publish(WorkdayClosedEvent event) {
-    rabbit.convertAndSend("", WorkdayClosedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend("hour.bank.direct.exchange", WorkdayClosedEvent.NAME, event.getPayload());
   }
 
   @Override
   public void publish(WorkdayAbsenceExcusedEvent event) {
-    rabbit.convertAndSend("", WorkdayAbsenceExcusedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend("hour.bank.direct.exchange", WorkdayAbsenceExcusedEvent.NAME, event.getPayload());
   }
 
 }

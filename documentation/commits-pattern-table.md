@@ -6,7 +6,6 @@
 | :------------------------------- | :-------- | :---- |
 | Camada de domínio                | domain    | 🌐    |
 | Camada de API REST               | api       | 📶    |
-| Camada de Aspectos/Cross-Cutting | aspect    | 🧩    |
 | Camada de UI                     | ui        | 🖥️    |
 | Camada de banco de dados         | database  | 💾    |
 | Camada de fila/mensageria        | queue     | 🎞️    |

@@ -36,7 +36,7 @@ public class DayOffScheduleModel {
   @Column(nullable = false)
   private int daysOffCount;
 
-  @OneToMany(mappedBy = "dayOffSchedule", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "dayOffSchedule", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @Default
   private List<DayOffModel> daysOff = new ArrayList<>();
 

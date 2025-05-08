@@ -1,5 +1,6 @@
 package br.com.chronos.core.portal.use_cases;
 
+
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.portal.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;

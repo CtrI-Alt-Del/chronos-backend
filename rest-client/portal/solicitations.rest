@@ -106,14 +106,14 @@ Authorization: Bearer {{JWT}}
 
 {
   "dayOffSchedule": {
-    "workdaysCount": 20,
-    "daysOffCount": 10,
-    "daysOff": ["2025-04-05", "2025-04-10", "2025-04-15"]
+    "workdaysCount": 6,
+    "daysOffCount": 1,
+    "daysOff": ["2025-05-11", "2025-05-12", "2025-05-13"]
   }
 }
 
 ### Approve day off schedule adjustment solicitations
-PUT {{URL}}/2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d/approve/day-off-schedule-adjustment
+PUT {{URL}}/4a4137cf-29a7-49d0-82bd-b622c64ba731/approve/day-off-schedule-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

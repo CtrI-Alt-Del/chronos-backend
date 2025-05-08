@@ -1,5 +1,6 @@
 package br.com.chronos.server.database.jpa.portal.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "day_off_schedule_change_solicitations")
+@Table(name = "day_off_schedule_adjustment_solicitations")
 public class DayOffScheduleAdjustmentSolicitationModel extends SolicitationModel {
   @Column(nullable = false)
   private int workDaysCount;
@@ -33,7 +34,6 @@ public class DayOffScheduleAdjustmentSolicitationModel extends SolicitationModel
   @Column(nullable = false)
   private int daysOffCount;
 
-  @OneToMany(mappedBy = "dayOffScheduleAdjustment", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-  @Default
-  private List<DayOffModel> daysOff = new ArrayList<>();
+  @Column(nullable = false)
+  private List<LocalDate> daysOff;
 }

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
+import br.com.chronos.core.portal.domain.events.DayOffScheduleSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
@@ -16,6 +17,7 @@ import br.com.chronos.server.queue.jobs.work_schedule.AdjustTimePunchJob;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ExcuseWorkdayAbsenceJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ScheduleDayOffJob;
+import br.com.chronos.server.queue.jobs.work_schedule.UpdateDayOffScheduleJob;
 import br.com.chronos.server.queue.jobs.work_schedule.UpdateWorkdayHourBankJob;
 
 @Configuration
@@ -46,6 +48,10 @@ public class WorkScheduleExchange {
   }
 
   @Bean
+  Queue updateDayOffScheduleJobQueue() {
+    return new Queue(UpdateDayOffScheduleJob.KEY, true);
+  }
+
   Queue adjustTimePunchJob() {
     return new Queue(AdjustTimePunchJob.KEY, true);
   }
@@ -88,5 +94,13 @@ public class WorkScheduleExchange {
         .bind(scheduleDayOffJobQueue())
         .to(workScheduleDirectExchange())
         .with(DayOffSolicitationApprovedEvent.NAME);
+  }
+
+  @Bean
+  Binding updateDayOffScheduleJobBinding() {
+    return BindingBuilder
+        .bind(updateDayOffScheduleJobQueue())
+        .to(workScheduleDirectExchange())
+        .with(DayOffScheduleSolicitationApprovedEvent.NAME);
   }
 }

@@ -1,29 +1,25 @@
 package br.com.chronos.server.database.jpa.portal.mappers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.portal.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
 import br.com.chronos.core.work_schedule.domain.dtos.DayOffScheduleDto;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.portal.models.DayOffScheduleAdjustmentSolicitationModel;
-import br.com.chronos.server.database.jpa.work_schedule.mappers.DayOffMapper;
 
 @Component
 public class DayOffScheduleAdjustmentSolicitationMapper {
 
-  @Autowired
-  private DayOffMapper dayOffMapper;
 
   public DayOffScheduleAdjustmentSolicitationModel toModel(DayOffScheduleAdjustmentSolicitation entity) {
     var senderResponsible = CollaboratorModel.builder().id(entity.getSenderResponsible().getId().value()).build();
     var replierResponsible = (entity.getReplierResponsible() != null)
         ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
+    var daysOff = entity.getDayOffSchedule().getDaysOff().map(date -> date.value()).list();
     var solicitationModel = DayOffScheduleAdjustmentSolicitationModel.builder()
         .id(entity.getId().value())
         .description(entity.getDescription() != null ? entity.getDescription().value() : null)
@@ -34,6 +30,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
         .replierResponsible(replierResponsible)
         .daysOffCount(entity.getDayOffSchedule().getDaysOffCount().integer().value())
         .workDaysCount(entity.getDayOffSchedule().getWorkdaysCount().integer().value())
+        .daysOff(daysOff)
         .build();
 
     return solicitationModel;
@@ -54,7 +51,7 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
       var replierResponsibleDto = new ResponsibleDto()
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
-          .setCpf(model.getReplierResponsible().getCpf()) 
+          .setCpf(model.getReplierResponsible().getCpf())
           .setSector(model.getReplierResponsible().getAccount().getSector().toString())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
@@ -65,13 +62,12 @@ public class DayOffScheduleAdjustmentSolicitationMapper {
     String description = model.getDescription() != null ? model.getDescription().toString() : null;
     String feedbackMessage = model.getFeedbackMessage() != null ? model.getFeedbackMessage().toString() : null;
 
-    var daysOffDto = Array.createFrom(model.getDaysOff(), dayOffMapper::toDto).list();
 
     var daysOffScheduleDto = new DayOffScheduleDto()
         .setId(model.getId().toString())
         .setWorkdaysCount(model.getWorkDaysCount())
         .setDaysOffCount(model.getDaysOffCount())
-        .setDaysOff(daysOffDto);
+        .setDaysOff(model.getDaysOff());
 
     var dto = new DayOffScheduleAdjustmentSolicitationDto()
         .setId(model.getId().toString())

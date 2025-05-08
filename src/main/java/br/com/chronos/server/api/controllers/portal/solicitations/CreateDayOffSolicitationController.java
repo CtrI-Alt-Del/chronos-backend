@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.portal.domain.dtos.DayOffSolicitationDto;
-import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.use_cases.CreateDayOffSolicitationUseCase;
 

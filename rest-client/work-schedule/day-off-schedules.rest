@@ -1,5 +1,5 @@
 @RESOURCE = work-schedule/day-off-schedules
-@COLLABORATOR_ID = 94f83dca-78ec-413e-8dc5-613288d3db94
+@COLLABORATOR_ID=9b1febb2-60e2-4369-8143-b69429bf4fb3
 
 ### Get day off schedule
 GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
