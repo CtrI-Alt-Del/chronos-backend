@@ -60,7 +60,7 @@ public class TimePunchAdjustmentSolicitationMapper {
 
     return (TimePunchAdjustmentSolicitationDto) new TimePunchAdjustmentSolicitationDto()
         .setId(model.getId().toString())
-        .setType("PAID_OVERTIME")
+        .setType("")
         .setDate(model.getDate())
         .setFeedbackMessage(model.getFeedbackMessage())
         .setStatus(model.getSolicitationStatus().toString())
