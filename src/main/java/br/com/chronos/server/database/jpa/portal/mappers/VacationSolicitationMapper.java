@@ -53,7 +53,7 @@ public class VacationSolicitationMapper {
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
-          .setCpf(model.getSenderResponsible().getCpf())
+          .setCpf(model.getReplierResponsible().getCpf())
           .setSector(model.getSenderResponsible().getAccount().getSector().toString())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);

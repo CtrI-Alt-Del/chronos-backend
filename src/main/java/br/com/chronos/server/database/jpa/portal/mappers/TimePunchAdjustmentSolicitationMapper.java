@@ -26,12 +26,16 @@ public class TimePunchAdjustmentSolicitationMapper {
     return TimePunchAdjustmentSolicitationModel
         .builder()
         .id(entity.getId().value())
+        .workdayLogDate(entity.getDate().value())
         .date(entity.getDate().value())
         .feedbackMessage(
             entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponse)
         .replierResponsible(replierResponse)
+        .time(entity.getTime().value())
+        .timePunchPeriod(entity.getPeriod().name())
+        .reason(entity.getReason().value())
         .build();
 
   }
@@ -60,11 +64,14 @@ public class TimePunchAdjustmentSolicitationMapper {
 
     return (TimePunchAdjustmentSolicitationDto) new TimePunchAdjustmentSolicitationDto()
         .setId(model.getId().toString())
-        .setType("")
         .setDate(model.getDate())
         .setFeedbackMessage(model.getFeedbackMessage())
         .setStatus(model.getSolicitationStatus().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
+        .setTime(model.getTime())
+        .setPeriod(model.getTimePunchPeriod().toString())
+        .setReason(model.getReason().toString())
+        .setWorkdayLogDate(model.getWorkdayLogDate())
         .setReplierResponsible(replierResponsibleAggregateDto);
   }
 
