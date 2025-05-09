@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "time_punch_adjusment_solicitations")
 public class TimePunchAdjustmentSolicitationModel extends SolicitationModel {
   @Column(name = "date")
-  private LocalDate date;
+  private LocalDate workdayLogDate;
 
   @Column(nullable = false)
   private LocalTime time;

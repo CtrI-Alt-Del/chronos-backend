@@ -19,6 +19,7 @@ import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
@@ -27,6 +28,7 @@ import br.com.chronos.server.database.jpa.portal.daos.ExcusedAbsenceSolicitation
 import br.com.chronos.server.database.jpa.portal.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
+import br.com.chronos.server.database.jpa.portal.daos.VacationSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.ExcusedAbsenceSolicitationMapper;
@@ -34,6 +36,7 @@ import br.com.chronos.server.database.jpa.portal.mappers.JustificationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
+import br.com.chronos.server.database.jpa.portal.mappers.VacationSolicitationMapper;
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Autowired
@@ -71,6 +74,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   private DayOffSolicitationMapper dayOffSolicitationMapper;
+
+  @Autowired
+  private VacationSolicitationDao vacationSolicitationDao;
+
+  @Autowired
+  private VacationSolicitationMapper vacationSolicitationMapper;
 
   @Autowired
   private SolicitationMapper solicitationMapper;
@@ -275,6 +284,31 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     return new Pair<>(
         Array.createFrom(items, timePunchAdjustmentSolicitationMapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount));
+  }
+
+  @Override
+  public Pair<Array<VacationSolicitation>, PlusIntegerNumber> findManyVacationSolicitationsByCollaboratorId(
+      CollaborationSector sector, PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = vacationSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
+        sector.value(), pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+    return new Pair<>(
+        Array.createFrom(items, vacationSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
+  }
+
+  @Override
+  public void add(VacationSolicitation vacationSolicitation) {
+    var solicitationModel = vacationSolicitationMapper.toModel(vacationSolicitation);
+    vacationSolicitationDao.save(solicitationModel);
+  }
+
+  @Override
+  public void replace(VacationSolicitation vacationSolicitation) {
+    var solicitationModel = vacationSolicitationMapper.toModel(vacationSolicitation);
+    vacationSolicitationDao.save(solicitationModel);
   }
 
 }

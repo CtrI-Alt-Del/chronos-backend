@@ -10,7 +10,8 @@ public record SolicitationType(Type value) {
     TIME_PUNCH_ADJUSMENT,
     DAY_OFF_SCHEDULE,
     DAY_OFF,
-    PAID_OVERTIME
+    PAID_OVERTIME,
+    VACATION,
   }
 
   public static SolicitationType create(String value) {
@@ -43,6 +44,12 @@ public record SolicitationType(Type value) {
 
   public static SolicitationType createPaidOvertime() {
     return new SolicitationType(Type.PAID_OVERTIME);
+  }
+  public static SolicitationType createAsVacation() {
+    return new SolicitationType(Type.VACATION);
+  }
+  public Logical isVacation() {
+    return Logical.create(value == Type.VACATION);
   }
 
   public Logical isTimePunch() {

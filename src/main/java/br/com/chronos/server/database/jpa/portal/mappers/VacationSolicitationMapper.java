@@ -4,43 +4,40 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.portal.domain.dtos.TimePunchAdjustmentSolicitationDto;
-import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.dtos.VacationSolicitationDto;
+import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.portal.models.TimePunchAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.portal.models.VacationSolicitationModel;
 
 @Component
-public class TimePunchAdjustmentSolicitationMapper {
-  public TimePunchAdjustmentSolicitationModel toModel(TimePunchAdjustmentSolicitation entity) {
+public class VacationSolicitationMapper {
+  public VacationSolicitationModel toModel(VacationSolicitation entity) {
     var senderResponse = CollaboratorModel
         .builder()
-        .id(entity.getSenderResponsible().getId().value())
-        .build();
+        .id(entity.getSenderResponsible().getId().value()).build();
     var replierResponse = (entity.getReplierResponsible() != null)
-        ? CollaboratorModel
-            .builder()
-            .id(entity.getReplierResponsible().getId().value())
-            .build()
+        ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
-
-    return TimePunchAdjustmentSolicitationModel
-        .builder()
+    var solicitationModel = VacationSolicitationModel.builder()
         .id(entity.getId().value())
-        .workdayLogDate(entity.getDate().value())
+        .description(
+            entity.getDescription() != null
+                ? entity.getDescription().value()
+                : null)
         .date(entity.getDate().value())
         .feedbackMessage(
-            entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
+            entity.getFeedbackMessage() != null
+                ? entity.getFeedbackMessage().value()
+                : null)
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponse)
         .replierResponsible(replierResponse)
-        .time(entity.getTime().value())
-        .timePunchPeriod(entity.getPeriod().name())
-        .reason(entity.getReason().value())
+        .vacationDays(entity.getVacationDays().map(date -> date.value()).list())
         .build();
-
+    return solicitationModel;
   }
 
-  public TimePunchAdjustmentSolicitationDto toDto(TimePunchAdjustmentSolicitationModel model) {
+  public VacationSolicitationDto toDto(VacationSolicitationModel model) {
     var senderResponsibleDto = new ResponsibleDto()
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
@@ -57,25 +54,23 @@ public class TimePunchAdjustmentSolicitationMapper {
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setCpf(model.getReplierResponsible().getCpf())
-          .setSector(model.getReplierResponsible().getAccount().getSector().toString())
+          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
 
-    return (TimePunchAdjustmentSolicitationDto) new TimePunchAdjustmentSolicitationDto()
+    return new VacationSolicitationDto()
         .setId(model.getId().toString())
+        .setDescription(model.getDescription())
         .setDate(model.getDate())
         .setFeedbackMessage(model.getFeedbackMessage())
         .setStatus(model.getSolicitationStatus().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
-        .setTime(model.getTime())
-        .setPeriod(model.getTimePunchPeriod().toString())
-        .setReason(model.getReason().toString())
-        .setWorkdayLogDate(model.getWorkdayLogDate())
-        .setReplierResponsible(replierResponsibleAggregateDto);
+        .setReplierResponsible(replierResponsibleAggregateDto)
+        .setVacationDays(model.getVacationDays());
   }
 
-  public TimePunchAdjustmentSolicitation toEntity(TimePunchAdjustmentSolicitationModel model) {
-    return new TimePunchAdjustmentSolicitation(toDto(model));
+  public VacationSolicitation toEntity(VacationSolicitationModel model) {
+    return new VacationSolicitation(toDto(model));
   }
 }
