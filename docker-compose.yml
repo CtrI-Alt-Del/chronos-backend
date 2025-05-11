@@ -12,7 +12,7 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
-  
+
   postgres:
     image: postgres:16
     container_name: postgres
@@ -35,9 +35,9 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db
+      - mongo-data:/data/db
 
 volumes:
   postgres_data:
-  mongo_data:
+  mongo-data:
   rabbitmq_data:

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.auth.domain.events.AccountUpdatedEvent;
 import br.com.chronos.core.auth.interfaces.AuthBroker;
+import br.com.chronos.server.queue.rabbitmq.exchanges.CollaborationExchange;
 
 @Component
 public class RabbitMqAuthBroker implements AuthBroker {
@@ -16,6 +17,9 @@ public class RabbitMqAuthBroker implements AuthBroker {
 
   @Override
   public void publish(AccountUpdatedEvent event) {
-    rabbit.convertAndSend("", AccountUpdatedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend(
+        CollaborationExchange.NAME,
+        AccountUpdatedEvent.NAME,
+        event.getPayload());
   }
 }

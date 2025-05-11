@@ -5,12 +5,12 @@ import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 
 public class PaidOvertimeSolicitationApprovedEvent
     extends Event<PaidOvertimeSolicitationApprovedEvent.Payload> {
-  public static final String NAME = "portal/paid.overtime.solicitation.approved";
+public static final String NAME = "portal/paid.overtime.solicitation.approved";
 
-  public static record Payload(String collaboratorId) {
-  }
+public static record Payload(String collaboratorId) {
+}
 
-  public PaidOvertimeSolicitationApprovedEvent(PaidOvertimeSolicitation solicitation) {
-    super(new Payload(solicitation.getSenderResponsible().getId().toString()));
-  }
+public PaidOvertimeSolicitationApprovedEvent(PaidOvertimeSolicitation solicitation) {
+  super(new Payload(solicitation.getSenderResponsible().getId().toString()));
+}
 }

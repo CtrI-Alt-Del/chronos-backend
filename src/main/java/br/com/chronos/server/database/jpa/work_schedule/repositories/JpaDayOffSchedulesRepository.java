@@ -35,11 +35,13 @@ public class JpaDayOffSchedulesRepository implements DayOffSchedulesRepository {
 
   @Override
   public Optional<DayOffSchedule> findByCollaborator(Id collaborator) {
+    System.out.println("findByCollaborator: " + collaborator);
     var collaboratorModel = CollaboratorModel.builder().id(collaborator.value()).build();
     var dayOffScheduleModel = dayOffScheduleDao.findByCollaborator(collaboratorModel);
     if (dayOffScheduleModel.isEmpty()) {
       return Optional.empty();
     }
+    System.out.println("getWorkDaysCount: " + dayOffScheduleModel.get().getWorkDaysCount());
     return Optional.of(dayOffScheduleMapper.toEntity(dayOffScheduleModel.get()));
   }
 

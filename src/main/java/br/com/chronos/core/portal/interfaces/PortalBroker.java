@@ -6,8 +6,6 @@ import br.com.chronos.core.portal.domain.events.PaidOvertimeSolicitationApproved
 import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
 
 public interface PortalBroker {
-  void publish(PaidOvertimeSolicitationApprovedEvent event);
-
   void publish(ExcusedAbsenceSolicitationApprovedEvent event);
 
   void publish(DayOffSolicitationApprovedEvent event);

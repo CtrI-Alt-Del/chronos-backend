@@ -16,9 +16,11 @@ import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForWo
 
 @Configuration
 public class HourBankExchange {
+  public static final String NAME = "hour.bank.direct.exchange";
+
   @Bean
   DirectExchange hourBankDirectExchange() {
-    return new DirectExchange("hour.bank.direct.exchange", true, false);
+    return new DirectExchange(NAME, true, false);
   }
 
   @Bean

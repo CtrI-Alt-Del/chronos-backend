@@ -21,7 +21,11 @@ public class ListCollaboratorsUseCase {
   }
 
   public PaginationResponse<CollaboratorDto> execute(
-      int page, String accountRole, String requesterSector, boolean isCollaboratorActive, String requesterId) {
+      int page,
+      String accountRole,
+      String requesterSector,
+      boolean isCollaboratorActive,
+      String requesterId) {
     var role = Role.create(accountRole);
     Pair<Array<Collaborator>, PlusIntegerNumber> response;
 
@@ -32,7 +36,6 @@ public class ListCollaboratorsUseCase {
           Id.create(requesterId),
           CollaborationSector.create(requesterSector),
           Logical.create(isCollaboratorActive),
-
           PageNumber.create(page));
     }
 

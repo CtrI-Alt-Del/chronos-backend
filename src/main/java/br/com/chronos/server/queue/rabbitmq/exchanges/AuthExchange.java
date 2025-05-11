@@ -12,9 +12,11 @@ import br.com.chronos.server.queue.jobs.auth.CreateAccountJob;
 
 @Configuration
 public class AuthExchange {
+  public static final String NAME = "auth.direct.exchange";
+
   @Bean
   DirectExchange authDirectExchange() {
-    return new DirectExchange("auth.direct.exchange", true, false);
+    return new DirectExchange(NAME, true, false);
   }
 
   @Bean
