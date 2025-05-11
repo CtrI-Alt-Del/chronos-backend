@@ -21,4 +21,3 @@
 
 - [ ] Code is more maintainable
 - [ ] Existing functionality remains unchanged
-

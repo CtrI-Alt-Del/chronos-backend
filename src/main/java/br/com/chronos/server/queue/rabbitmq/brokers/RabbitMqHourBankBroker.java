@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
 import br.com.chronos.core.hour_bank.interfaces.HourBankBroker;
+import br.com.chronos.server.queue.rabbitmq.exchanges.WorkScheduleExchange;
 
 @Component
 public class RabbitMqHourBankBroker implements HourBankBroker {
@@ -16,6 +17,9 @@ public class RabbitMqHourBankBroker implements HourBankBroker {
 
   @Override
   public void publish(HourBankTransactionCreatedEvent event) {
-    rabbit.convertAndSend("work.schedule.exchange", HourBankTransactionCreatedEvent.NAME, event.getPayload());
+    rabbit.convertAndSend(
+        WorkScheduleExchange.NAME,
+        HourBankTransactionCreatedEvent.NAME,
+        event.getPayload());
   }
 }

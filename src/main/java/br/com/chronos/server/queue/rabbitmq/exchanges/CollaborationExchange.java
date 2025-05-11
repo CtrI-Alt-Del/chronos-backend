@@ -12,9 +12,11 @@ import br.com.chronos.server.queue.jobs.collaboration.UpdateCollaboratorJob;
 
 @Configuration
 public class CollaborationExchange {
+  public static final String NAME = "collaboration.direct.exchange";
+
   @Bean
   DirectExchange collaborationDirectExchange() {
-    return new DirectExchange("collaboration.direct.exchange", true, false);
+    return new DirectExchange(NAME, true, false);
   }
 
   @Bean
