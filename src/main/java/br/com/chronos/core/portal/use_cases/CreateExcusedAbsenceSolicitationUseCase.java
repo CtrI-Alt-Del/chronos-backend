@@ -20,7 +20,6 @@ public class CreateExcusedAbsenceSolicitationUseCase {
 
     dto.setSenderResponsible(senderResponsibleDto);
     var solicitation = new ExcusedAbsenceSolicitation(dto);
-    System.out.println(solicitation);
     solicitationRepository.add(solicitation);
     return solicitation.getDto();
   }
