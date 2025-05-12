@@ -134,6 +134,29 @@ Authorization: Bearer {{JWT}}
   "reason": "FORGOTTEN"
 }
 
+##### Create withdraw solicitation
+POST {{URL}}/withdraw
+Content-Type: application/json 
+Authorization: Bearer {{JWT}}
+
+{
+  "withdrawalDays":["2025-04-05","2025-04-07"]
+}
+
+### List withdraw solicitations 
+GET {{URL}}/withdraw
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Approve withdraw solicitations
+PUT {{URL}}/26f97b45-3ad3-4233-8102-5b82cf54a77f/approve/withdraw
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "feedbackMessage": "Aprovado!,merece descansar banana!"
+} 
+
 ### Deny solicitation 
 PATCH {{URL}}/{{DAY_OFF_SOLICITATION_ID}}/deny
 Content-Type: application/json

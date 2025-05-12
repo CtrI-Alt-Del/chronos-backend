@@ -345,4 +345,21 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     withdrawSolicitationDao.save(solicitationModel);
   }
 
+  @Override
+  public void addJustificationToSolicitation(WithdrawSolicitation solicitation, Justification justification) {
+    var solicitationModel = withdrawSolicitationMapper.toModel(solicitation);
+    var justificationModel = justificationMapper.toModel(justification);
+    solicitationModel.setJustification(justificationModel);
+    withdrawSolicitationDao.save(solicitationModel);
+  }
+
+@Override
+public Optional<WithdrawSolicitation> findWithdrawSolicitationById(Id id) {
+    var solicitationModel = withdrawSolicitationDao.findById(id.value());
+    if (solicitationModel.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(withdrawSolicitationMapper.toEntity(solicitationModel.get()));
+}
+
 }
