@@ -20,6 +20,7 @@ import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
+import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
@@ -29,6 +30,7 @@ import br.com.chronos.server.database.jpa.portal.daos.PaidOvertimeSolicitationDa
 import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.VacationSolicitationDao;
+import br.com.chronos.server.database.jpa.portal.daos.WithdrawSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.ExcusedAbsenceSolicitationMapper;
@@ -37,6 +39,7 @@ import br.com.chronos.server.database.jpa.portal.mappers.PaidOvertimeSolicitatio
 import br.com.chronos.server.database.jpa.portal.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.VacationSolicitationMapper;
+import br.com.chronos.server.database.jpa.portal.mappers.WithdrawSolicitationMapper;
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Autowired
@@ -83,6 +86,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   private SolicitationMapper solicitationMapper;
+
+  @Autowired
+  private WithdrawSolicitationDao withdrawSolicitationDao;
+
+  @Autowired
+  private WithdrawSolicitationMapper withdrawSolicitationMapper;
 
   @Override
   public Optional<Solicitation> findById(Id solicitationId) {
@@ -309,6 +318,31 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   public void replace(VacationSolicitation vacationSolicitation) {
     var solicitationModel = vacationSolicitationMapper.toModel(vacationSolicitation);
     vacationSolicitationDao.save(solicitationModel);
+  }
+
+  @Override
+  public Pair<Array<WithdrawSolicitation>, PlusIntegerNumber> findManyWithdrawSolicitationsByCollaborationSector(
+      CollaborationSector sector, PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = withdrawSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
+        sector.value(), pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+    return new Pair<>(
+        Array.createFrom(items, withdrawSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
+  }
+
+  @Override
+  public void add(WithdrawSolicitation solicitation) {
+    var solicitationModel = withdrawSolicitationMapper.toModel(solicitation);
+    withdrawSolicitationDao.save(solicitationModel);
+  }
+
+  @Override
+  public void replace(WithdrawSolicitation solicitation) {
+    var solicitationModel = withdrawSolicitationMapper.toModel(solicitation);
+    withdrawSolicitationDao.save(solicitationModel);
   }
 
 }
