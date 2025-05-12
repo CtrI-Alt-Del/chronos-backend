@@ -59,8 +59,8 @@ public class WithdrawSolicitationMapper {
           .setId(model.getReplierResponsible().getId().toString())
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
-          .setCpf(model.getSenderResponsible().getCpf())
-          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
+          .setCpf(model.getReplierResponsible().getCpf())
+          .setSector(model.getReplierResponsible().getAccount().getSector().toString())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }

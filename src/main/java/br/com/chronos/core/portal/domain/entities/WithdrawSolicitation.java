@@ -12,7 +12,7 @@ public final class WithdrawSolicitation extends Solicitation {
 
   public WithdrawSolicitation(WithdrawSolicitationDto dto) {
     super(dto);
-    Array.createFrom(dto.withdrawalDays, Date::create);
+    withdrawalDays = Array.createFrom(dto.withdrawalDays, Date::create);
     justification = dto.justification != null ? new Justification(dto.justification) : null;
     this.type = SolicitationType.createAsWithdraw();
   }
