@@ -40,7 +40,7 @@ public class JustificationModel {
   @Builder.Default
   private List<ExcusedAbsenceSolicitationModel> excuseAbsenceSolicitations = new ArrayList<>();
 
-  @OneToMany
+  @OneToMany(mappedBy = "justification")
   @Builder.Default
   private List<WithdrawSolicitationModel> withdrawSolicitationModels = new ArrayList<>();
 
