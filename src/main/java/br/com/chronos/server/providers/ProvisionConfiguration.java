@@ -7,9 +7,11 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.global.interfaces.providers.EnvProvider;
 import br.com.chronos.core.global.interfaces.providers.JwtProvider;
 import br.com.chronos.core.global.interfaces.providers.StorageProvider;
+import br.com.chronos.core.notification.interfaces.CacheProvider;
 import br.com.chronos.core.notification.interfaces.EmailProvider;
 import br.com.chronos.core.work_schedule.interfaces.PdfProvider;
 import br.com.chronos.server.providers.authentication.SecurityAuthenticationProvider;
+import br.com.chronos.server.providers.cache.RedisCacheProvider;
 import br.com.chronos.server.providers.email.SpringEmailProvider;
 import br.com.chronos.server.providers.env.DotenvProvider;
 import br.com.chronos.server.providers.jwt.Auth0JwtProvider;
@@ -36,6 +38,11 @@ public class ProvisionConfiguration {
   @Bean
   EmailProvider emailProvider() {
     return new SpringEmailProvider();
+  }
+
+  @Bean
+  CacheProvider cacheProvider() {
+    return new RedisCacheProvider();
   }
 
   @Bean

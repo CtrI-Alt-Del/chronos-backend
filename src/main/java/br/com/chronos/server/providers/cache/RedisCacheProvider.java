@@ -1,32 +1,34 @@
 package br.com.chronos.server.providers.cache;
 
-import br.com.chronos.core.notification.interfaces.CacheProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+import java.util.concurrent.TimeUnit;
 
+import br.com.chronos.core.notification.interfaces.CacheProvider;
+
+@Component
 public class RedisCacheProvider implements CacheProvider {
-  private final StringRedisTemplate redisTemplate;
-
-  public RedisCacheProvider(StringRedisTemplate redisTemplate) {
-    this.redisTemplate = redisTemplate;
-  }
+  @Autowired
+  private StringRedisTemplate redisTemplate;
 
   @Override
   public void setWithMinutesToExpire(String key, String value, int minutesToExpire) {
-    throw new UnsupportedOperationException("Unimplemented method 'setWithMinutesToExpire'");
+    redisTemplate.opsForValue().set(key, value, minutesToExpire, TimeUnit.MINUTES);
   }
 
   @Override
   public void set(String key, String value) {
-    throw new UnsupportedOperationException("Unimplemented method 'set'");
+    redisTemplate.opsForValue().set(key, value);
   }
 
   @Override
   public String get(String key) {
-    throw new UnsupportedOperationException("Unimplemented method 'get'");
+    return redisTemplate.opsForValue().get(key);
   }
 
   @Override
   public void delete(String key) {
-    throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    redisTemplate.delete(key);
   }
 }
