@@ -1,6 +1,8 @@
 package br.com.chronos.core.auth.domain.entities;
 
 import br.com.chronos.core.auth.domain.dtos.AccountDto;
+import br.com.chronos.core.auth.domain.exceptions.NotAuthorizedException;
+import br.com.chronos.core.auth.domain.records.Otp;
 import br.com.chronos.core.global.domain.abstracts.Entity;
 import br.com.chronos.core.global.domain.records.Role;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
@@ -28,6 +30,13 @@ public final class Account extends Entity {
     collaboratorId = (dto.collaboratorId != null) ? Id.create(dto.collaboratorId) : null;
   }
 
+  public void validatePassword(Password password) {
+    var isPasswordMatch = this.getPassword().matches(password);
+    if (isPasswordMatch.isFalse()) {
+      throw new NotAuthorizedException();
+    }
+  }
+
   public Logical canUpdateOtherAccount(Account account) {
     if (this.getRole().isAdmin().isTrue()) {
       return Logical.createAsTrue();
@@ -45,6 +54,10 @@ public final class Account extends Entity {
 
   public Logical isFromCollaborator() {
     return Logical.create(collaboratorId != null);
+  }
+
+  public Otp generateOtp() {
+    return Otp.create(getId().value().toString());
   }
 
   public void disable() {

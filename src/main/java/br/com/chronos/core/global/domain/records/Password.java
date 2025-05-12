@@ -17,4 +17,8 @@ public record Password(Text text) {
   public String value() {
     return this.text.value();
   }
+
+  public Logical matches(Password password) {
+    return Logical.create(this.text.value().equals(password.text.value()));
+  }
 }
