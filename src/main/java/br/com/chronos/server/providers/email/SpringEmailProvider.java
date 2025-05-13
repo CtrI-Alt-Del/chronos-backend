@@ -29,7 +29,7 @@ public class SpringEmailProvider implements EmailProvider {
     var message = mailSender.createMimeMessage();
     try {
       var template = loadAuthenticationEmailTemplate();
-      template = template.replace("{{otpCode}}", otpCode.value());
+      template = template.replace("#{{otpCode}}", otpCode.value());
 
       var helper = new MimeMessageHelper(message);
       helper.setFrom(senderEmail);

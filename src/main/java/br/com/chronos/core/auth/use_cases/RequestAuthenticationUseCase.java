@@ -3,33 +3,41 @@ package br.com.chronos.core.auth.use_cases;
 import br.com.chronos.core.auth.domain.entities.Account;
 import br.com.chronos.core.auth.domain.events.AuthenticationRequestedEvent;
 import br.com.chronos.core.auth.domain.exceptions.AccountNotFoundException;
+import br.com.chronos.core.auth.domain.exceptions.CredentialsNotValidException;
 import br.com.chronos.core.auth.domain.records.Otp;
 import br.com.chronos.core.auth.interfaces.AuthBroker;
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.global.domain.records.Email;
-import br.com.chronos.core.global.domain.records.Password;
+import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.notification.interfaces.CacheProvider;
 
 public class RequestAuthenticationUseCase {
+  private final AuthenticationProvider authenticationProvider;
+  private final CacheProvider cacheProvider;
   private final AccountsRepository repository;
-  private final CacheProvider cache;
   private final AuthBroker broker;
 
   public RequestAuthenticationUseCase(
+      AuthenticationProvider authenticationProvider,
+      CacheProvider cacheProvider,
       AccountsRepository repository,
-      CacheProvider cache,
       AuthBroker broker) {
+    this.authenticationProvider = authenticationProvider;
+    this.cacheProvider = cacheProvider;
     this.repository = repository;
-    this.cache = cache;
     this.broker = broker;
   }
 
   public void execute(String email, String password) {
     var account = findAccount(Email.create(email));
-    account.validatePassword(Password.create(password));
+    var isAuthenticated = authenticationProvider.validateCredentials(email, password);
 
-    var otp = account.generateOtp();
-    cache.setWithMinutesToExpire(
+    if (isAuthenticated.isFalse()) {
+      throw new CredentialsNotValidException();
+    }
+
+    var otp = Otp.create();
+    cacheProvider.setWithMinutesToExpire(
         otp.code().value(),
         account.getId().toString(),
         Otp.MINUTES_TO_EXPIRE);
