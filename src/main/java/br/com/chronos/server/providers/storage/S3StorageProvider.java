@@ -82,7 +82,7 @@ public class S3StorageProvider implements StorageProvider {
       var requestBody = RequestBody.fromByteBuffer(ByteBuffer.wrap(fileContent));
       s3Client.putObject(objectRequest, requestBody);
       return fileKey;
-    } catch (Exception exception) {
+   } catch (Exception exception) {
       throw new AppException("StorageException");
     }
   }
