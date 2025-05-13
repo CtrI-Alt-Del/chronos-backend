@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.chronos.core.auth.domain.events.AuthenticationRequestedEvent;
 import br.com.chronos.server.queue.jobs.notification.SendAuthenticationEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendSolicitationCreatedEmailJob;
 
 @Configuration
 public class NotificationExchange {
@@ -22,6 +23,11 @@ public class NotificationExchange {
   @Bean
   Queue sendAuthenticationEmailJobQueue() {
     return new Queue(SendAuthenticationEmailJob.KEY, true);
+  }
+
+  @Bean
+  Queue sendSolicitationCreatedEmailJobQueue() {
+    return new Queue(SendSolicitationCreatedEmailJob.KEY, true);
   }
 
   @Bean
