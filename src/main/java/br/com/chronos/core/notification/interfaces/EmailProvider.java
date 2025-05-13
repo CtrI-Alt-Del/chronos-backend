@@ -5,4 +5,6 @@ import br.com.chronos.core.global.domain.records.Text;
 
 public interface EmailProvider {
   void sendAuthenticationEmail(Email recipientEmail, Text otpCode);
+
+  void sendSolicitationCreatedEmail(Email managerEmail, Text solicitationType);
 }
