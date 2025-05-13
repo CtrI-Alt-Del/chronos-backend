@@ -46,4 +46,9 @@ public class SpringEmailProvider implements EmailProvider {
     var resource = new ClassPathResource("ui/templates/authentication-email.html");
     return new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
   }
+
+  @Override
+  public void sendSolicitationCreatedEmail(Email managerEmail, Text solicitationType) {
+    throw new UnsupportedOperationException("Unimplemented method 'sendSolicitationCreatedEmail'");
+  }
 }
