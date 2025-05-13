@@ -44,7 +44,7 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    command: redis-server --requirepass ${REDIS_PASSWORD}
+    command: redis-server
 
 volumes:
   postgres_data:
