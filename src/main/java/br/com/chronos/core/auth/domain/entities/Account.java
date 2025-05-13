@@ -56,10 +56,6 @@ public final class Account extends Entity {
     return Logical.create(collaboratorId != null);
   }
 
-  public Otp generateOtp() {
-    return Otp.create(getId().value().toString());
-  }
-
   public void disable() {
     this.isActive = Logical.create(false);
   }

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.chronos.core.auth.domain.dtos.AccountDto;
-import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.auth.domain.exceptions.CredentialsNotValidException;
 import br.com.chronos.core.global.domain.records.DateTime;
 import br.com.chronos.core.global.interfaces.providers.EnvProvider;
 import br.com.chronos.core.global.interfaces.providers.JwtProvider;
@@ -39,7 +39,7 @@ public class Auth0JwtProvider implements JwtProvider {
     try {
       accountJson = objectMapper.writeValueAsString(accountDto);
     } catch (JsonProcessingException e) {
-      throw new NotAuthenticatedException();
+      throw new CredentialsNotValidException();
     }
     var jwt = JWT.create()
         .withIssuer(issuer)
@@ -58,7 +58,7 @@ public class Auth0JwtProvider implements JwtProvider {
       });
       return (String) subjectMap.get("email");
     } catch (Exception exception) {
-      throw new NotAuthenticatedException();
+      throw new CredentialsNotValidException();
     }
   }
 
