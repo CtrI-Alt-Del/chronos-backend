@@ -40,6 +40,10 @@ public class JustificationModel {
   @Builder.Default
   private List<ExcusedAbsenceSolicitationModel> excuseAbsenceSolicitations = new ArrayList<>();
 
+  @OneToMany(mappedBy = "justification")
+  @Builder.Default
+  private List<WithdrawSolicitationModel> withdrawSolicitationModels = new ArrayList<>();
+
   @OneToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "attachment_id", nullable = true)
   private AttachmentModel attachment;
