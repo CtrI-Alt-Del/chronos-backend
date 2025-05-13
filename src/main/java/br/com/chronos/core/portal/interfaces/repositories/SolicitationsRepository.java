@@ -28,7 +28,11 @@ public interface SolicitationsRepository {
 
   Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id id);
 
+  Optional<WithdrawSolicitation> findWithdrawSolicitationById(Id id);
+
   void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
+      Justification justification);
+  void addJustificationToSolicitation(WithdrawSolicitation solicitation,
       Justification justification);
 
   Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);

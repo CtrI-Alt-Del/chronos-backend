@@ -2,14 +2,11 @@ package br.com.chronos.core.portal.use_cases;
 
 import br.com.chronos.core.global.domain.dtos.AttachmentDto;
 import br.com.chronos.core.global.domain.exceptions.NotFoundException;
-import br.com.chronos.core.global.domain.records.Attachment;
 import br.com.chronos.core.global.domain.records.Id;
-import br.com.chronos.core.global.interfaces.providers.StorageProvider;
 import br.com.chronos.core.portal.domain.dtos.ExcusedAbsenceSolicitationDto;
 import br.com.chronos.core.portal.domain.dtos.JustificationDto;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
-import br.com.chronos.core.portal.interfaces.repositories.AttachmentRepository;
 import br.com.chronos.core.portal.interfaces.repositories.JustificationRepository;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 
