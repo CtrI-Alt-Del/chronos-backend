@@ -11,8 +11,8 @@ import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepositor
 public class ApproveExecusedAbsenceSolicitationUseCase extends ApproveSolicitationUseCase {
   public ApproveExecusedAbsenceSolicitationUseCase(
       SolicitationsRepository repository,
-      PortalBroker portalBroker) {
-    super(repository, portalBroker);
+      PortalBroker broker) {
+    super(repository, broker);
   }
 
   public void execute(
@@ -24,7 +24,7 @@ public class ApproveExecusedAbsenceSolicitationUseCase extends ApproveSolicitati
     repository.replace(solicitation);
 
     var event = new ExcusedAbsenceSolicitationApprovedEvent(solicitation);
-    portalBroker.publish(event);
+    broker.publish(event);
   }
 
   private ExcusedAbsenceSolicitation findSolicitation(Id solicitationId) {
