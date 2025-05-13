@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import kotlin.Pair;
 
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
-import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Cpf;
@@ -151,5 +151,10 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
     return new Pair<>(
         Array.createFrom(items, mapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount, "contagem de colaboradores"));
+  }
+
+  @Override
+  public Array<Collaborator> findAllManagersByCollaborationSector(CollaborationSector sector) {
+    return null;
   }
 }
