@@ -28,5 +28,10 @@ public class DotenvProvider implements EnvProvider {
     System.setProperty("RABBITMQ_HOST", get("RABBITMQ_HOST"));
     System.setProperty("RABBITMQ_USER", get("RABBITMQ_USER"));
     System.setProperty("RABBITMQ_PASSWORD", get("RABBITMQ_PASSWORD"));
+
+    System.setProperty("SMTP_HOST", get("SMTP_HOST"));
+    System.setProperty("SMTP_PORT", get("SMTP_PORT"));
+    System.setProperty("SMTP_SENDER", get("SMTP_SENDER"));
+    System.setProperty("SMTP_SENDER_PASSWORD", get("SMTP_SENDER_PASSWORD"));
   }
 }

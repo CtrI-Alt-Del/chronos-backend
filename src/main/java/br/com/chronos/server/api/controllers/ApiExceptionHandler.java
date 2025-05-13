@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.auth.domain.exceptions.CredentialsNotValidException;
 import br.com.chronos.core.global.domain.exceptions.AppException;
 import br.com.chronos.core.global.domain.exceptions.ConflictException;
 import br.com.chronos.core.global.domain.exceptions.NotFoundException;
@@ -41,8 +41,8 @@ public class ApiExceptionHandler {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
   }
 
-  @ExceptionHandler(NotAuthenticatedException.class)
-  private ResponseEntity<ExceptionMessage> handleNotAuthenticatedException(NotAuthenticatedException exception) {
+  @ExceptionHandler(CredentialsNotValidException.class)
+  private ResponseEntity<ExceptionMessage> handleCredentialsNotValidException(CredentialsNotValidException exception) {
     var message = new ExceptionMessage(exception.getTitle(), exception.getMessage());
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
   }

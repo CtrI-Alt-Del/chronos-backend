@@ -10,6 +10,10 @@ public record Text(String value, String key) {
     throw new ValidationException(key, "é obrigatório");
   }
 
+  public PlusIntegerNumber charactersCount() {
+    return PlusIntegerNumber.create(value.length());
+  }
+
   public Text update(String value) {
     return Text.create(value, key);
   }
