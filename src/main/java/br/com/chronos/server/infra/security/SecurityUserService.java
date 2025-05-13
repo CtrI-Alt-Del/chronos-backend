@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.chronos.core.auth.domain.entities.Account;
-import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.auth.domain.exceptions.CredentialsNotValidException;
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.auth.use_cases.GetAccountUseCase;
 
@@ -27,7 +27,7 @@ public class SecurityUserService implements UserDetailsService {
       return securityUser;
     } catch (Exception e) {
       System.out.println(e);
-      throw new NotAuthenticatedException();
+      throw new CredentialsNotValidException();
     }
   }
 }

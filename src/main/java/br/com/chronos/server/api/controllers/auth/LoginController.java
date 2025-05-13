@@ -7,22 +7,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.auth.use_cases.LoginUseCase;
-import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.global.interfaces.providers.JwtProvider;
+import br.com.chronos.core.notification.interfaces.CacheProvider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @AuthController
 public class LoginController {
   @Autowired
-  private AuthenticationProvider authenticationProvider;
+  private AccountsRepository accountsRepository;
 
   @Autowired
-  private AccountsRepository accountsRepository;
+  private CacheProvider cacheProvider;
+
+  @Autowired
+  private JwtProvider jwtProvider;
 
   @Data
   private static class Request {
-    private String email;
-    private String password;
+    private String otpCode;
   }
 
   @Data
@@ -33,8 +36,11 @@ public class LoginController {
 
   @PostMapping("/login")
   public ResponseEntity<Response> handle(@RequestBody Request body) {
-    var useCase = new LoginUseCase(authenticationProvider, accountsRepository);
-    var jwt = useCase.execute(body.email, body.password);
+    var useCase = new LoginUseCase(
+        accountsRepository,
+        cacheProvider,
+        jwtProvider);
+    var jwt = useCase.execute(body.getOtpCode());
     var response = new Response(jwt);
     return ResponseEntity.ok(response);
   }

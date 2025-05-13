@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 import br.com.chronos.core.auth.domain.dtos.AccountDto;
 import br.com.chronos.core.auth.domain.entities.Account;
 import br.com.chronos.core.auth.domain.exceptions.DisabledAccountException;
-import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.auth.domain.exceptions.CredentialsNotValidException;
+import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.global.interfaces.providers.JwtProvider;
 import br.com.chronos.server.infra.security.SecurityUser;
 
 @Component
@@ -26,19 +26,18 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  @Autowired
-  private JwtProvider jwtProvider;
-
   @Override
-  public String login(AccountDto accountDto, String password) {
-    var authenticationToken = new UsernamePasswordAuthenticationToken(accountDto.email, password);
+  public Logical validateCredentials(String email, String password) {
+    var authenticationToken = new UsernamePasswordAuthenticationToken(email, password);
     try {
-      authenticationManager.authenticate(authenticationToken);
-      return jwtProvider.generateToken(accountDto);
+      Authentication authentication = authenticationManager.authenticate(authenticationToken);
+      return Logical.create(authentication.isAuthenticated());
     } catch (DisabledException e) {
       throw new DisabledAccountException();
     } catch (BadCredentialsException e) {
-      throw new NotAuthenticatedException();
+      return Logical.createAsFalse();
+    } catch (Exception e) {
+      return Logical.createAsFalse();
     }
   }
 
@@ -63,6 +62,6 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
       return account;
     }
 
-    throw new NotAuthenticatedException();
+    throw new CredentialsNotValidException();
   }
 }

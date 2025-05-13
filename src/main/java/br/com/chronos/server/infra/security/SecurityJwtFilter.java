@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.chronos.core.auth.domain.entities.Account;
-import br.com.chronos.core.auth.domain.exceptions.NotAuthenticatedException;
+import br.com.chronos.core.auth.domain.exceptions.CredentialsNotValidException;
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.auth.use_cases.GetAccountUseCase;
 import br.com.chronos.core.global.interfaces.providers.JwtProvider;
@@ -60,7 +60,7 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
     var useCase = new GetAccountUseCase(accountRepositor);
     var accountDto = useCase.execute(email);
     if (accountDto == null) {
-      throw new NotAuthenticatedException();
+      throw new CredentialsNotValidException();
     }
     return new Account(accountDto);
   }
