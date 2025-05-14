@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.collaboration.interfaces.CollaborationBroker;
-import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
 import br.com.chronos.core.global.domain.records.Date;
 
 public class PrepareCollaboratorsForWorkUseCase {

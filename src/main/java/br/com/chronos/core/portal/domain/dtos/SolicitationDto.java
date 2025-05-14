@@ -46,6 +46,7 @@ public class SolicitationDto {
 
   public SolicitationDto setSenderResponsible(ResponsibleAggregateDto senderResponsible) {
     this.senderResponsible = senderResponsible;
+    System.out.println("senderResponsible: " + this.senderResponsible.entity.id);
     return this;
   }
 

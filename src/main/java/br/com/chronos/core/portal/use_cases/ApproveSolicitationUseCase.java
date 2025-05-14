@@ -27,7 +27,10 @@ public class ApproveSolicitationUseCase {
         ? Text.create(feedbackMessage, "mensagem de feedback")
         : null;
 
-    solicitation.approve(new ResponsibleAggregate(replierResponsibleDto), feedbackText);
-    broker.publish(new SolicitationApprovedEvent(solicitation));
+    var approvationResponsible = new ResponsibleAggregate(replierResponsibleDto);
+    // solicitation.approve(approvationResponsible, feedbackText);
+
+    var event = new SolicitationApprovedEvent(solicitation);
+    broker.publish(event);
   }
 }

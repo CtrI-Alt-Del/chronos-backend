@@ -2,7 +2,7 @@
 @URL = {{HOST}}/{{RESOURCE}}
 @DAY_OFF_SCHEDULE_ADJUSTMENT_SOLICITATION_ID =2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d
 @PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
-@DAY_OFF_SOLICITATION_ID = 24dcf99d-febf-46ab-9463-5a56a223b7a4
+@DAY_OFF_SOLICITATION_ID = fbd7d1ea-86e3-4e26-b13e-e6238bd8bf53
 @EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
@@ -26,27 +26,6 @@ Authorization: Bearer {{JWT}}
 {
   "feedbackMessage": "Seu ponto foi ajustado!"
 }
-
-### Create paid overtime solicitation
-POST {{URL}}/paid-overtime
-Content-Type: application/json
-Authorization: Bearer {{JWT}}
-
-{}
-
-### Aprove paid overtime solicitation
-PUT {{URL}}/{{PAID_OVERTIME_SOLICITATION_ID}}/approve/paid-overtime
-Content-Type: application/json
-Authorization: Bearer {{JWT}}
-
-{
-  "feedbackMessage": "Faça bom proveito dessa hora extra!"
-}
-
-### List paid overtime solicitations
-GET {{URL}}/paid-overtime?page=1
-Content-Type: application/json
-Authorization: Bearer {{JWT}}
 
 ### Create day off solicitation
 POST {{URL}}/day-off

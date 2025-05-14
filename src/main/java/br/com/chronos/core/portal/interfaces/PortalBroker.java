@@ -4,10 +4,16 @@ import br.com.chronos.core.portal.domain.events.DayOffScheduleSolicitationApprov
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
+import br.com.chronos.core.portal.domain.events.SolicitationDeniedEvent;
 import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
 
 public interface PortalBroker {
   void publish(SolicitationApprovedEvent event);
+
+  void publish(SolicitationCreatedEvent event);
+
+  void publish(SolicitationDeniedEvent event);
 
   void publish(ExcusedAbsenceSolicitationApprovedEvent event);
 

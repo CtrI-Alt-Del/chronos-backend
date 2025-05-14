@@ -21,7 +21,7 @@ public class ListAllSolicitationsUseCase {
       var solicitations = repository.findAllByCollaboratorId(userId);
       dtos = solicitations.map(solicitation -> solicitation.getDto()).list();
     } else {
-      var solicitations = repository.findAllByCollaboratorSector(sector);
+      var solicitations = repository.findAllBycollaboratorationSector(sector);
       dtos = solicitations.map(solicitation -> solicitation.getDto()).list();
     }
     return dtos;

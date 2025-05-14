@@ -51,4 +51,14 @@ public class SpringEmailProvider implements EmailProvider {
   public void sendSolicitationCreatedEmail(Email managerEmail, Text solicitationType) {
     throw new UnsupportedOperationException("Unimplemented method 'sendSolicitationCreatedEmail'");
   }
+
+  @Override
+  public void sendSolicitationApprovedEmail(Email managerEmail, Text solicitationType) {
+    throw new UnsupportedOperationException("Unimplemented method 'sendSolicitationApprovedEmail'");
+  }
+
+  @Override
+  public void sendSolicitationDeniedEmail(Email managerEmail, Text solicitationType) {
+    throw new UnsupportedOperationException("Unimplemented method 'sendSolicitationDeniedEmail'");
+  }
 }

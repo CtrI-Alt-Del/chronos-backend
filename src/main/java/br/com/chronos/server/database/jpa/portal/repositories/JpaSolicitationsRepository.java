@@ -19,6 +19,7 @@ import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.exceptions.SolicitationNotFoundException;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
@@ -119,7 +120,7 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector) {
+  public Array<Solicitation> findAllBycollaboratorationSector(CollaborationSector sector) {
     var solicitationModels = solicitationDao.findAllBySenderResponsibleAccountSector(sector.value());
     var solicitations = Array.createFrom(solicitationModels, solicitationMapper::toEntity);
     return solicitations;

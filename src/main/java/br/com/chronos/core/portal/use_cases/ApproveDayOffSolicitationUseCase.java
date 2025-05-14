@@ -22,7 +22,7 @@ public class ApproveDayOffSolicitationUseCase extends ApproveSolicitationUseCase
       byte collaboratorWorkload,
       String feedbackMessage) {
     var solicitation = findSolicitation(Id.create(solicitationId));
-    // approveSolicitation(solicitation, replierResponsible, feedbackMessage);
+    approveSolicitation(solicitation, replierResponsible, feedbackMessage);
     repository.replace(solicitation);
 
     var event = new DayOffSolicitationApprovedEvent(solicitation);
@@ -30,7 +30,8 @@ public class ApproveDayOffSolicitationUseCase extends ApproveSolicitationUseCase
   }
 
   private DayOffSolicitation findSolicitation(Id solicitationId) {
-    var solicitation = repository.findSolicitationByIdAndSolicitationType(solicitationId,
+    var solicitation = repository.findSolicitationByIdAndSolicitationType(
+        solicitationId,
         SolicitationType.createAsDayOff());
     if (solicitation.isEmpty()) {
       throw new SolicitationNotFoundException();

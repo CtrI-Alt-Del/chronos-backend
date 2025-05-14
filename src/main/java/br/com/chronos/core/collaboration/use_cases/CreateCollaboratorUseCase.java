@@ -6,7 +6,7 @@ import br.com.chronos.core.collaboration.domain.events.CollaboratorCreatedEvent;
 import br.com.chronos.core.collaboration.domain.exceptions.ExistingCpfException;
 import br.com.chronos.core.collaboration.domain.exceptions.ExistingEmailException;
 import br.com.chronos.core.collaboration.interfaces.CollaborationBroker;
-import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
 import br.com.chronos.core.global.domain.records.Cpf;
 import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Password;

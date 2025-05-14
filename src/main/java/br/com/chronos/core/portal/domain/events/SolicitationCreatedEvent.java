@@ -3,13 +3,13 @@ package br.com.chronos.core.portal.domain.events;
 import br.com.chronos.core.global.domain.abstracts.Event;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
 
-public class SolicitationApprovedEvent extends Event<SolicitationApprovedEvent.Payload> {
-  public static final String NAME = "portal/solicitation.approved";
+public class SolicitationCreatedEvent extends Event<SolicitationCreatedEvent.Payload> {
+  public static final String NAME = "portal/solicitation.created";
 
   public static record Payload(String collaboratorationSector, String solicitationType) {
   }
 
-  public SolicitationApprovedEvent(Solicitation solicitation) {
+  public SolicitationCreatedEvent(Solicitation solicitation) {
     super(new Payload(
         solicitation.getSenderResponsible().getEntity().getSector().toString(),
         solicitation.getType().toString()));

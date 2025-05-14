@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.portal.domain.dtos.DayOffScheduleAdjustmentSolicitationDto;
+import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.use_cases.CreateDayOffScheduleAdjustmentSolicitationUseCase;
 
@@ -20,10 +21,15 @@ public class CreateDayOffScheduleAdjustmentSolicitationController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
+  @Autowired
+  private PortalBroker portalBroker;
+
   @PostMapping("/day-off-schedule-adjustment")
   public ResponseEntity<DayOffScheduleAdjustmentSolicitationDto> handle(
       @RequestBody DayOffScheduleAdjustmentSolicitationDto body) {
-    var useCase = new CreateDayOffScheduleAdjustmentSolicitationUseCase(solicitationsRepository);
+    var useCase = new CreateDayOffScheduleAdjustmentSolicitationUseCase(
+        solicitationsRepository,
+        portalBroker);
     var account = authenticationProvider.getAccount();
     var senderResponsibleId = account.getCollaboratorId().toString();
     var response = useCase.execute(body, senderResponsibleId);

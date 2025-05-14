@@ -12,9 +12,9 @@ public class GetManagersEmailsUseCase {
     this.repository = repository;
   }
 
-  public List<String> execute(String collaboratorSector) {
+  public List<String> execute(String collaboratorationSector) {
     var managers = repository.findAllManagersByCollaborationSector(
-        CollaborationSector.create(collaboratorSector));
+        CollaborationSector.create(collaboratorationSector));
     return managers.map(collaborator -> collaborator.getEmail().value().toString()).list();
   }
 }

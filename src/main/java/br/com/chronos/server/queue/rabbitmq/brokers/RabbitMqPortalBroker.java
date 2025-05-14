@@ -7,6 +7,8 @@ import br.com.chronos.core.portal.domain.events.DayOffScheduleSolicitationApprov
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
+import br.com.chronos.core.portal.domain.events.SolicitationDeniedEvent;
 import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
 import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.server.queue.rabbitmq.exchanges.HourBankExchange;
@@ -58,10 +60,26 @@ public class RabbitMqPortalBroker implements PortalBroker {
   }
 
   @Override
+  public void publish(SolicitationCreatedEvent event) {
+    rabbit.convertAndSend(
+        NotificationExchange.NAME,
+        SolicitationCreatedEvent.NAME,
+        event.getPayload());
+  }
+
+  @Override
   public void publish(SolicitationApprovedEvent event) {
     rabbit.convertAndSend(
         NotificationExchange.NAME,
         SolicitationApprovedEvent.NAME,
+        event.getPayload());
+  }
+
+  @Override
+  public void publish(SolicitationDeniedEvent event) {
+    rabbit.convertAndSend(
+        NotificationExchange.NAME,
+        SolicitationDeniedEvent.NAME,
         event.getPayload());
   }
 }

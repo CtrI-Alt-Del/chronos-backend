@@ -52,7 +52,7 @@
 	<parameter name="workedTime" class="java.lang.String"/>
 	<parameter name="collaboratorName" class="java.lang.String"/>
 	<parameter name="collaboratorCpf" class="java.lang.String"/>
-	<parameter name="collaboratorSector" class="java.lang.String"/>
+	<parameter name="collaboratorationSector" class="java.lang.String"/>
 	<parameter name="expeditionDate" class="java.lang.String"/>
 	<parameter name="collaboratorRole" class="java.lang.String"/>
 	<parameter name="collaboratorEmail" class="java.lang.String"/>
@@ -85,7 +85,7 @@
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 		<element kind="textField" uuid="7eadff3f-0043-48ae-9896-a591733fea6c" x="0" y="39" width="160" height="16" fontName="Arial">
-			<expression><![CDATA["Setor: " + $P{collaboratorSector}]]></expression>
+			<expression><![CDATA["Setor: " + $P{collaboratorationSector}]]></expression>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 		<element kind="textField" uuid="32d8b2d6-5390-432e-8d8d-26be3ce105dc" x="228" y="38" width="150" height="16" fontName="Arial">

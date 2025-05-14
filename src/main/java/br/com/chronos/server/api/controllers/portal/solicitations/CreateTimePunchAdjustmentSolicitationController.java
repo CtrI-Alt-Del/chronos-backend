@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.portal.domain.dtos.TimePunchAdjustmentSolicitationDto;
+import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.use_cases.CreateTimePunchAdjustmentSolicitationUseCase;
 
@@ -18,13 +19,21 @@ public class CreateTimePunchAdjustmentSolicitationController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
+  @Autowired
+  private PortalBroker portalBroker;
+
   @PostMapping("/time-punch-adjustment")
   public ResponseEntity<TimePunchAdjustmentSolicitationDto> handle(
       @RequestBody TimePunchAdjustmentSolicitationDto body) {
-    var useCase = new CreateTimePunchAdjustmentSolicitationUseCase(solicitationsRepository);
+    var useCase = new CreateTimePunchAdjustmentSolicitationUseCase(
+        solicitationsRepository,
+        portalBroker);
     var account = authenticationProvider.getAccount();
     var senderResponsibleId = account.getCollaboratorId().toString();
-    var timePunchLogAdjustmentSolicitationDto = useCase.execute(body, senderResponsibleId);
-    return ResponseEntity.ok(timePunchLogAdjustmentSolicitationDto);
+    var response = useCase.execute(
+        body,
+        senderResponsibleId,
+        account.getCollaborationSector().toString());
+    return ResponseEntity.ok(response);
   }
 }

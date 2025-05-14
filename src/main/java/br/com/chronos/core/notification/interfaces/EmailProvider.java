@@ -7,4 +7,8 @@ public interface EmailProvider {
   void sendAuthenticationEmail(Email recipientEmail, Text otpCode);
 
   void sendSolicitationCreatedEmail(Email managerEmail, Text solicitationType);
+
+  void sendSolicitationApprovedEmail(Email managerEmail, Text solicitationType);
+
+  void sendSolicitationDeniedEmail(Email managerEmail, Text solicitationType);
 }
