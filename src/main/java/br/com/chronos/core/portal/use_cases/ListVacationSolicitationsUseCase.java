@@ -14,7 +14,7 @@ public class ListVacationSolicitationsUseCase {
     }
 
     public PaginationResponse<VacationSolicitationDto> execute(String collaborationSector, int page) {
-        var response = repository.findManyVacationSolicitationsByCollaborationSector(
+        var response = repository.findManyVacationSolicitationsByCollaboratorId(
                 CollaborationSector.create(collaborationSector),
                 PageNumber.create(page));
 
