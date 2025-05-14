@@ -10,6 +10,7 @@ import br.com.chronos.core.portal.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
+import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
@@ -19,6 +20,7 @@ import br.com.chronos.server.database.jpa.portal.models.ExcusedAbsenceSolicitati
 import br.com.chronos.server.database.jpa.portal.models.SolicitationModel;
 import br.com.chronos.server.database.jpa.portal.models.TimePunchAdjustmentSolicitationModel;
 import br.com.chronos.server.database.jpa.portal.models.VacationSolicitationModel;
+import br.com.chronos.server.database.jpa.portal.models.WithdrawSolicitationModel;
 
 @Component
 public class SolicitationMapper {
@@ -38,6 +40,9 @@ public class SolicitationMapper {
   @Autowired
   private VacationSolicitationMapper vacationSolicitationMapper;
 
+  @Autowired
+  private WithdrawSolicitationMapper withdrawSolicitationMapper;
+
   public Solicitation toEntity(SolicitationModel model) {
     if (model instanceof DayOffScheduleAdjustmentSolicitationModel) {
       return dayOffScheduleAdjustmentSolicitationMapper.toEntity((DayOffScheduleAdjustmentSolicitationModel) model);
@@ -49,6 +54,8 @@ public class SolicitationMapper {
       return excusedAbsenceSolicitationMapper.toEntity((ExcusedAbsenceSolicitationModel) model);
     }else if (model instanceof VacationSolicitationModel){
       return  vacationSolicitationMapper.toEntity((VacationSolicitationModel) model);
+    }else if(model instanceof WithdrawSolicitationModel){
+      return withdrawSolicitationMapper.toEntity((WithdrawSolicitationModel) model);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + model.getClass());
   }
@@ -64,6 +71,8 @@ public class SolicitationMapper {
       return excusedAbsenceSolicitationMapper.toModel((ExcusedAbsenceSolicitation) entity);
     } else if (entity.getType().isVacation().isTrue()) {
       return vacationSolicitationMapper.toModel((VacationSolicitation) entity);
+    }else if (entity.getType().isWithdraw().isTrue()){
+      return withdrawSolicitationMapper.toModel((WithdrawSolicitation) entity);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + entity.getClass());
   }
