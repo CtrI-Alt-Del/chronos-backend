@@ -13,6 +13,7 @@ import br.com.chronos.core.global.interfaces.providers.StorageProvider;
 import br.com.chronos.core.portal.domain.dtos.ExcusedAbsenceSolicitationDto;
 import br.com.chronos.core.portal.domain.dtos.JustificationDto;
 import br.com.chronos.core.portal.domain.dtos.JustificationTypeDto;
+import br.com.chronos.core.portal.domain.dtos.SolicitationDto;
 import br.com.chronos.core.portal.interfaces.repositories.AttachmentRepository;
 import br.com.chronos.core.portal.interfaces.repositories.JustificationRepository;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
@@ -34,7 +35,7 @@ public class AttachJustificationToSolicitationController {
   private StorageProvider storageProvider;
 
   @PostMapping(value = "/attach", consumes = "multipart/form-data")
-  public ResponseEntity<ExcusedAbsenceSolicitationDto> handle(
+  public ResponseEntity<SolicitationDto> handle(
       @RequestPart("solicitationId") String solicitationId,
       @RequestPart("justificationTypeId") String justificationTypeId,
       @RequestPart("justificationTypeName") String justificationTypeName,
