@@ -61,9 +61,9 @@ public class SolicitationMapper {
   }
 
   public SolicitationModel toModel(Solicitation entity) {
-    if (entity.getType().isTimePunch().isTrue()) {
+    if (entity.getType().isDayOffSchedule().isTrue()) {
       return dayOffScheduleAdjustmentSolicitationMapper.toModel((DayOffScheduleAdjustmentSolicitation) entity);
-    } else if (entity.getType().isDayOffSchedule().isTrue()) {
+    } else if (entity.getType().isTimePunch().isTrue()) {
       return timePunchAdjustmentSolicitationMapper.toModel((TimePunchAdjustmentSolicitation) entity);
     } else if (entity.getType().isDayOff().isTrue()) {
       return dayOffSolicitationMapper.toModel((DayOffSolicitation) entity);
