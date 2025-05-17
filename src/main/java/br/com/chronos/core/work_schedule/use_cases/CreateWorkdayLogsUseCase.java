@@ -42,7 +42,6 @@ public class CreateWorkdayLogsUseCase {
           .setResponsibleId(collaboratorId.toString());
       workdayLogs.add(new WorkdayLog(workdayLogDto));
     }
-    System.out.println(workdayLogs);
     workdayLogsRepository.addMany(workdayLogs);
   }
 

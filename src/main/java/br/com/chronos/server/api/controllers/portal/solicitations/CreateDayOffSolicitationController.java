@@ -38,7 +38,6 @@ public class CreateDayOffSolicitationController {
     var response = useCase.execute(
         body,
         senderResponsibleId,
-        account.getEmail().toString(),
         account.getCollaborationSector().toString());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
