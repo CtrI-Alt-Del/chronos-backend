@@ -2,7 +2,7 @@ package br.com.chronos.core.collaboration.use_cases;
 
 import br.com.chronos.core.collaboration.domain.dtos.CollaboratorDto;
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
-import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;

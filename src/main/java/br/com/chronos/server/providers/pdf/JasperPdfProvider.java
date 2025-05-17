@@ -154,7 +154,7 @@ public class JasperPdfProvider implements PdfProvider {
     parameters.put("collaboratorName", responsible.getName().value());
     parameters.put("collaboratorCpf", responsible.getCpf().value());
     parameters.put("collaboratorRole", formatRole(responsible.getRole()));
-    parameters.put("collaboratorSector", responsible.getSector().toString());
+    parameters.put("collaboratorationSector", responsible.getSector().toString());
     parameters.put("expeditionDate", getExpeditionDate());
     parameters.put("startDate", formatDate(dateRange.startDate()));
     parameters.put("endDate", formatDate(dateRange.endDate()));

@@ -10,17 +10,20 @@ import lombok.EqualsAndHashCode;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.portal.domain.dtos.DayOffSolicitationDto;
+import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.use_cases.CreateDayOffSolicitationUseCase;
 
 @SolicitationsController
 public class CreateDayOffSolicitationController {
-
   @Autowired
   private SolicitationsRepository solicitationsRepository;
 
   @Autowired
   private AuthenticationProvider authenticationProvider;
+
+  @Autowired
+  private PortalBroker portalBroker;
 
   @Data
   @EqualsAndHashCode(callSuper = false)
@@ -29,10 +32,14 @@ public class CreateDayOffSolicitationController {
 
   @PostMapping("/day-off")
   public ResponseEntity<DayOffSolicitationDto> handle(@RequestBody Request body) {
-    var useCase = new CreateDayOffSolicitationUseCase(solicitationsRepository);
+    var useCase = new CreateDayOffSolicitationUseCase(solicitationsRepository, portalBroker);
     var account = authenticationProvider.getAccount();
     var senderResponsibleId = account.getCollaboratorId().toString();
-    var response = useCase.execute(body, senderResponsibleId);
+    var response = useCase.execute(
+        body,
+        senderResponsibleId,
+        account.getEmail().toString(),
+        account.getCollaborationSector().toString());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

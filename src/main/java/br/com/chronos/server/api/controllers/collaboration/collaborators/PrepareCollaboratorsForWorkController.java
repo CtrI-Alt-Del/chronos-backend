@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.ResponseEntity;
 
 import br.com.chronos.core.collaboration.interfaces.CollaborationBroker;
-import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
 import br.com.chronos.core.collaboration.use_cases.PrepareCollaboratorsForWorkUseCase;
 import br.com.chronos.core.work_schedule.domain.dtos.WorkdayLogDto;
 

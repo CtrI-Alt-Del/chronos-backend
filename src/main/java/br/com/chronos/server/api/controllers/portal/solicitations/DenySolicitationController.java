@@ -10,6 +10,7 @@ import lombok.Data;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
+import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.use_cases.DenySolicitationUseCase;
 
@@ -21,6 +22,9 @@ public class DenySolicitationController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
+  @Autowired
+  private PortalBroker portalBroker;
+
   @Data
   private static class Request {
     private String feedbackMessage;
@@ -30,7 +34,9 @@ public class DenySolicitationController {
   public ResponseEntity<Void> handle(
       @PathVariable String solicitationId,
       @RequestBody Request body) {
-    var useCase = new DenySolicitationUseCase(solicitationsRepository);
+    var useCase = new DenySolicitationUseCase(
+        solicitationsRepository,
+        portalBroker);
     var account = authenticationProvider.getAccount();
     var responsible = new ResponsibleAggregateDto(
         new ResponsibleDto()
