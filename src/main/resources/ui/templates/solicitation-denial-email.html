@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aviso de Falta Não Justificada</title>
+  <title>Solicitação de #{{solicitationType}} Negada</title>
 </head>
 
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333333;">
@@ -13,7 +13,6 @@
       <td style="padding: 20px 0;">
         <table align="center" width="600" cellspacing="0" cellpadding="0" border="0"
           style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-          <!-- Header -->
           <tr>
             <td style="padding: 12px; text-align: center; border-bottom: 1px solid #eeeeee;">
               <div style="display: inline-block; text-align: center;">
@@ -24,11 +23,10 @@
             </td>
           </tr>
 
-          <!-- Content -->
           <tr>
             <td style="padding: 40px 30px;">
-              <h1 style="margin: 0 0 20px; font-size: 24px; line-height: 30px; color: #333333; text-align: center;">
-                Aviso de Falta Não Justificada
+              <h1 style="margin: 0 0 20px; font-size: 24px; line-height: 30px; color: #d9534f; text-align: center;">
+                Solicitação de #{{solicitationType}} Negada
               </h1>
 
               <p style="margin: 0 0 20px; font-size: 16px; line-height: 24px; color: #555555;">
@@ -36,16 +34,23 @@
               </p>
 
               <p style="margin: 0 0 20px; font-size: 16px; line-height: 24px; color: #555555;">
-                Identificamos que você possui uma falta não justificada no sistema. Por favor, atualize seu registro de presença o quanto antes para evitar impactos no seu saldo de horas.
+                Gostaríamos de informar que sua solicitação de #{{solicitationType}} foi negada pelo seu gestor.
               </p>
 
               <p style="margin: 0; font-size: 16px; line-height: 24px; color: #555555;">
-                Em caso de dúvidas, entre em contato com o departamento de Recursos Humanos.
+                Para mais detalhes ou em caso de dúvidas, entre em contato com o seu gestor ou o
+                departamento de Recursos Humanos.
               </p>
+
+              <div style="text-align: center; margin-top: 30px;">
+                <a href="#{{chronosWebAppUrl}}/solicitations?tab=#{{solicitationsTab}}"
+                  style="background-color: #007bff; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                  Ver minhas solicitações
+                </a>
+              </div>
             </td>
           </tr>
 
-          <!-- Footer -->
           <tr>
             <td
               style="padding: 20px 30px; background-color: #f8f8f8; border-top: 1px solid #eeeeee; font-size: 14px; line-height: 20px; color: #777777; text-align: center; border-radius: 0 0 8px 8px;">
@@ -59,4 +64,4 @@
   </table>
 </body>
 
-</html> 
+</html>

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 import br.com.chronos.server.queue.rabbitmq.exchanges.AuthExchange;
 import br.com.chronos.server.queue.rabbitmq.exchanges.CollaborationExchange;
 import br.com.chronos.server.queue.rabbitmq.exchanges.HourBankExchange;
+import br.com.chronos.server.queue.rabbitmq.exchanges.NotificationExchange;
 import br.com.chronos.server.queue.rabbitmq.exchanges.WorkScheduleExchange;
 
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -16,6 +17,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
     AuthExchange.class,
     CollaborationExchange.class,
     HourBankExchange.class,
+    NotificationExchange.class,
     WorkScheduleExchange.class })
 public class RabbitMqConfiguration {
   @Bean

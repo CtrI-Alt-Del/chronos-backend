@@ -74,7 +74,6 @@ public class WorkdayLogMapper {
 				.setHourBankDebit(model.getHourBankDebit())
 				.setResponsible(new ResponsibleAggregateDto(responsibleDto));
 
-		System.out.println(dto.timePunch.firstClockIn);
 		return new WorkdayLog(dto);
 	}
 

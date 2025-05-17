@@ -18,7 +18,6 @@ public class ScheduleDayOffUseCase {
   public void execute(LocalDate dayOff, String collaboratorIdValue) {
     var collaboratorId = Id.create(collaboratorIdValue);
     var dayOffSchedule = findDayOffSchedule(collaboratorId);
-    System.out.println(dayOffSchedule);
     dayOffSchedule.schedule(Date.create(dayOff));
     repository.replace(dayOffSchedule, collaboratorId);
   }

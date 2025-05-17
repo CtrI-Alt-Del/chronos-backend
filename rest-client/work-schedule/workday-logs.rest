@@ -1,46 +1,36 @@
-@RESOURCE = work-schedule/workday-logs
+@URL = {{HOST}}/work-schedule/workday-logs
 @WORKDAY_LOG_ID = 5e7b3d7c-bf22-48ef-9383-fca04a7c2d58
 @COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
-@WORKDAY_LOG_ID = 8a3fb930-249d-4484-8a56-6e50ac80adec
+@WORKDAY_LOG_ID = addc23ad-0caf-445d-8289-8d611fcae73d
 @COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
 
-## Get today workday log
-GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}/today
+### Get today workday log
+GET {{URL}}/{{COLLABORATOR_Id}}/today
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Get collaborator history
-GET {{HOST}}/{{RESOURCE}}/history/{{COLLABORATOR_Id}}?startDate=2024-04-27&endDate=2026-04-29
+### Get collaborator history
+GET {{URL}}/history/{{COLLABORATOR_Id}}?startDate=2025-05-10&endDate=2025-05-17
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Get collaboration sector history
-GET {{HOST}}/{{RESOURCE}}/history?date=2025-04-27&page=1
+### Get collaboration sector history
+GET {{URL}}/history?date=2025-05-17&page=1
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Get work time log
-GET {{HOST}}/{{RESOURCE}}/work-time/{{COLLABORATOR_Id}}
+### Get work time log
+GET {{URL}}/work-time/{{COLLABORATOR_Id}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Close workday
-PUT {{HOST}}/{{RESOURCE}}/close
+### Close workday
+PUT {{URL}}/close
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-###
-
-## Punch time
-PATCH {{HOST}}/{{RESOURCE}}/{{WORKDAY_LOG_ID}}/time-punch
+### Punch time
+PATCH {{URL}}/{{WORKDAY_LOG_ID}}/time-punch
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -48,10 +38,8 @@ Authorization: Bearer {{JWT}}
   "time": "12:00"
 }
 
-### 
-
-## Adjust time punch
-PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_Id}}/time-punch/adjustment
+### Adjust time punch
+PATCH {{URL}}/{{COLLABORATOR_Id}}/time-punch/adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

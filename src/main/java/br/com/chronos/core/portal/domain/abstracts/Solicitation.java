@@ -42,6 +42,7 @@ public abstract class Solicitation extends Entity {
     reply(replierResponsible, feedbackMessage);
     this.status = status.deny();
   }
+
   public void cancel() {
     this.status = status.cancel();
   }

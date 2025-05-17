@@ -26,7 +26,6 @@ public class SecurityUserService implements UserDetailsService {
       var securityUser = new SecurityUser(account);
       return securityUser;
     } catch (Exception e) {
-      System.out.println(e);
       throw new CredentialsNotValidException();
     }
   }

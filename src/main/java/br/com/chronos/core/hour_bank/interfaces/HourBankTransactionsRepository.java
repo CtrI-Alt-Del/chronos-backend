@@ -27,4 +27,6 @@ public interface HourBankTransactionsRepository {
   void add(HourBankTransaction transaction, Id collaboratorId);
 
   void addMany(Array<HourBankTransaction> transactions, Id collaboratorId);
+
+  void removeAll(Id collaboratorId);
 }

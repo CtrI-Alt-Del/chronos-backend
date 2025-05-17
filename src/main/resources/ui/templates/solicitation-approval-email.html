@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solicitação de Férias Aprovada</title>
+  <title>Solicitação de #{{solicitationType}} Aprovada</title>
 </head>
 
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333333;">
@@ -27,8 +27,8 @@
           <!-- Content -->
           <tr>
             <td style="padding: 40px 30px;">
-              <h1 style="margin: 0 0 20px; font-size: 24px; line-height: 30px; color: #333333; text-align: center;">
-                Solicitação de Férias Aprovada
+              <h1 style="margin: 0 0 20px; font-size: 24px; line-height: 30px; color: #28a745; text-align: center;">
+                Solicitação de #{{solicitationType}} Aprovada
               </h1>
 
               <p style="margin: 0 0 20px; font-size: 16px; line-height: 24px; color: #555555;">
@@ -36,12 +36,19 @@
               </p>
 
               <p style="margin: 0 0 20px; font-size: 16px; line-height: 24px; color: #555555;">
-                Sua solicitação de férias foi aprovada pelo seu gestor. Você pode visualizar os detalhes do seu período de férias aprovado no sistema Chronos.
+                Sua solicitação de férias foi aprovada pelo seu gestor.
               </p>
 
               <p style="margin: 0; font-size: 16px; line-height: 24px; color: #555555;">
                 Em caso de dúvidas, entre em contato com o departamento de Recursos Humanos.
               </p>
+
+              <div style="text-align: center; margin-top: 30px;">
+                <a href="#{{chronosWebAppUrl}}/solicitations?tab=#{{solicitationsTab}}"
+                  style="background-color: #007bff; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                  Ver minhas solicitações
+                </a>
+              </div>
             </td>
           </tr>
 
@@ -59,4 +66,4 @@
   </table>
 </body>
 
-</html> 
+</html>

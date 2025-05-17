@@ -17,6 +17,6 @@ public interface DayOffScheduleAdjustmentRepository {
 
   Array<DayOffScheduleAdjustmentSolicitation> findAllByCollaboratorId(Id userId);
 
-  Array<DayOffScheduleAdjustmentSolicitation> findAllByCollaboratorSector(CollaborationSector sector);
+  Array<DayOffScheduleAdjustmentSolicitation> findAllBycollaboratorationSector(CollaborationSector sector);
 
 }

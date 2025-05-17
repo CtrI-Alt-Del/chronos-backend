@@ -87,4 +87,8 @@ public class MongoDbHourBankTransactionsRepository implements HourBankTransactio
     dao.saveAll(models.list());
   }
 
+  @Override
+  public void removeAll(Id collaboratorId) {
+    dao.deleteAll();
+  }
 }

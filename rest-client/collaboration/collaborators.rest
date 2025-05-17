@@ -1,11 +1,10 @@
 ## Collaboration - Collaborators
-
 @RESOURCE = collaboration/collaborators
+@URL = {{HOST}}/{{RESOURCE}}
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
-
 ### Create collaborator
-POST {{HOST}}/{{RESOURCE}}
+POST {{URL}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -23,17 +22,17 @@ Authorization: Bearer {{JWT}}
 }
 
 ### Get collaborator
-GET {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
+GET {{URL}}/{{COLLABORATOR_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### List collaborators
-GET {{HOST}}/{{RESOURCE}}
+GET {{URL}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Update collaborator
-PUT {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}
+PUT {{URL}}/{{COLLABORATOR_ID}}
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -48,17 +47,21 @@ Authorization: Bearer {{JWT}}
 }
 
 ### Enable collaborator
-PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/enable
+PATCH {{URL}}/{{COLLABORATOR_ID}}/enable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Disable collaborator
-PATCH {{HOST}}/{{RESOURCE}}/{{COLLABORATOR_ID}}/disable
+PATCH {{URL}}/{{COLLABORATOR_ID}}/disable
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-
 ### Prepare collaborators for work
-POST {{HOST}}/{{RESOURCE}}/work?date=2025-05-06
+POST {{URL}}/work?date=2025-05-06
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Get all managers emails
+GET {{URL}}/managers/emails?sector=comercial
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
