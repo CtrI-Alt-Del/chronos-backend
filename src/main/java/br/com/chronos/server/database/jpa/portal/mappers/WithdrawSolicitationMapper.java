@@ -1,46 +1,49 @@
+
 package br.com.chronos.server.database.jpa.portal.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.portal.domain.dtos.TimePunchAdjustmentSolicitationDto;
-import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
+import br.com.chronos.core.portal.domain.dtos.WithdrawSolicitationDto;
+import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.portal.models.TimePunchAdjustmentSolicitationModel;
+import br.com.chronos.server.database.jpa.portal.models.WithdrawSolicitationModel;
 
 @Component
-public class TimePunchAdjustmentSolicitationMapper {
-  public TimePunchAdjustmentSolicitationModel toModel(TimePunchAdjustmentSolicitation entity) {
+public class WithdrawSolicitationMapper {
+
+  @Autowired
+  private JustificationMapper justificationMapper;
+
+  public WithdrawSolicitationModel toModel(WithdrawSolicitation entity) {
     var senderResponse = CollaboratorModel
         .builder()
         .id(entity.getSenderResponsible().getId().value())
         .build();
-    var replierResponse = (entity.getReplierResponsible() != null)
-        ? CollaboratorModel
-            .builder()
-            .id(entity.getReplierResponsible().getId().value())
-            .build()
-        : null;
 
-    return TimePunchAdjustmentSolicitationModel
-        .builder()
+    var replierResponse = (entity.getReplierResponsible() != null)
+        ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
+        : null;
+    var justification = entity.getJustification() != null
+        ? justificationMapper.toModel(entity.getJustification())
+        : null;
+    var solicitationModel = WithdrawSolicitationModel.builder()
         .id(entity.getId().value())
-        .workdayLogDate(entity.getDate().value())
+        .description(entity.getDescription() != null ? entity.getDescription().value() : null)
         .date(entity.getDate().value())
-        .feedbackMessage(
-            entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
+        .feedbackMessage(entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponse)
         .replierResponsible(replierResponse)
-        .time(entity.getTime().value())
-        .timePunchPeriod(entity.getPeriod().name())
-        .reason(entity.getReason().value())
+        .withdrawalDays(entity.getWithdrawalDays().map(date -> date.value()).list())
+        .justification(justification)
         .build();
-
+    return solicitationModel;
   }
 
-  public TimePunchAdjustmentSolicitationDto toDto(TimePunchAdjustmentSolicitationModel model) {
+  public WithdrawSolicitationDto toDto(WithdrawSolicitationModel model) {
     var senderResponsibleDto = new ResponsibleDto()
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
@@ -62,20 +65,23 @@ public class TimePunchAdjustmentSolicitationMapper {
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
 
-    return (TimePunchAdjustmentSolicitationDto) new TimePunchAdjustmentSolicitationDto()
+    var justificationDto = model.getJustification() != null
+        ? justificationMapper.toDto(model.getJustification())
+        : null;
+    return new WithdrawSolicitationDto()
         .setId(model.getId().toString())
+        .setDescription(model.getDescription())
         .setDate(model.getDate())
         .setFeedbackMessage(model.getFeedbackMessage())
         .setStatus(model.getSolicitationStatus().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
-        .setTime(model.getTime())
-        .setPeriod(model.getTimePunchPeriod().toString())
-        .setReason(model.getReason().toString())
-        .setWorkdayLogDate(model.getWorkdayLogDate())
-        .setReplierResponsible(replierResponsibleAggregateDto);
+        .setReplierResponsible(replierResponsibleAggregateDto)
+        .setWithdrawalDays(model.getWithdrawalDays())
+        .setJustification(justificationDto);
   }
 
-  public TimePunchAdjustmentSolicitation toEntity(TimePunchAdjustmentSolicitationModel model) {
-    return new TimePunchAdjustmentSolicitation(toDto(model));
+  public WithdrawSolicitation toEntity(WithdrawSolicitationModel model) {
+    return new WithdrawSolicitation(toDto(model));
   }
+
 }

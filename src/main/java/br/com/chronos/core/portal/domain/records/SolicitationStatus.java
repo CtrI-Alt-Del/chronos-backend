@@ -8,7 +8,8 @@ public record SolicitationStatus(Status value) {
   public enum Status {
     APPROVED,
     PENDING,
-    DENIED
+    DENIED,
+    CANCELED,
   }
 
   public static SolicitationStatus create(String value) {
@@ -36,6 +37,10 @@ public record SolicitationStatus(Status value) {
     return Logical.create(value == Status.PENDING);
   }
 
+  public Logical isCanceled() {
+    return Logical.create(value == Status.CANCELED);
+  }
+
   public String toString() {
     return value.toString().toLowerCase();
   }
@@ -44,6 +49,9 @@ public record SolicitationStatus(Status value) {
     return new SolicitationStatus(Status.APPROVED);
   }
 
+  public SolicitationStatus cancel() {
+    return new SolicitationStatus(Status.CANCELED);
+  }
   public SolicitationStatus deny() {
     return new SolicitationStatus(Status.DENIED);
   }
