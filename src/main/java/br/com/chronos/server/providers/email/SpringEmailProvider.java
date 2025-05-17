@@ -2,6 +2,7 @@ package br.com.chronos.server.providers.email;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import jakarta.mail.MessagingException;
 
 import br.com.chronos.core.global.domain.exceptions.AppException;
+import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.notification.interfaces.EmailProvider;
@@ -46,6 +48,18 @@ public class SpringEmailProvider implements EmailProvider {
     template = template.replace("#{{otpCode}}", otpCode.value());
 
     sendEmail(recipientEmail.value(), template, "Pedido de autenticação");
+  }
+
+  @Override
+  public void sendUnexcusedWorkdayAbsenceEmail(Email employeeEmail, Text employeeName, Date workdayDate) {
+    var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    var template = loadEmailTemplate("unexcused-workday-absence-email");
+    template = template
+        .replace("#{{employeeName}}", employeeName.value())
+        .replace("#{{workdayDate}}", formatter.format(workdayDate.value()))
+        .replace("#{{chronosWebAppUrl}}", webAppBaseUrl);
+
+    sendEmail(employeeEmail.value(), template, "Aviso de falta não justificada");
   }
 
   @Override
@@ -115,5 +129,4 @@ public class SpringEmailProvider implements EmailProvider {
       throw new AppException("Email provider exception", e.getMessage());
     }
   }
-
 }
