@@ -12,9 +12,9 @@ import br.com.chronos.core.portal.domain.events.SolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationDeniedEvent;
 import br.com.chronos.server.queue.jobs.notification.SendAuthenticationEmailJob;
-import br.com.chronos.server.queue.jobs.notification.SendSolicitationApprovedEmailJob;
-import br.com.chronos.server.queue.jobs.notification.SendSolicitationCreatedEmailJob;
-import br.com.chronos.server.queue.jobs.notification.SendSolicitationDeniedEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendSolicitationApprovalEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendSolicitationCreationEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendSolicitationDenialEmailJob;
 
 @Configuration
 public class NotificationExchange {
@@ -31,18 +31,18 @@ public class NotificationExchange {
   }
 
   @Bean
-  Queue sendSolicitationCreatedEmailJobQueue() {
-    return new Queue(SendSolicitationCreatedEmailJob.KEY, true);
+  Queue sendSolicitationCreationEmailJobQueue() {
+    return new Queue(SendSolicitationCreationEmailJob.KEY, true);
   }
 
   @Bean
-  Queue sendSolicitationApprovedEmailJobQueue() {
-    return new Queue(SendSolicitationApprovedEmailJob.KEY, true);
+  Queue sendSolicitationApprovalEmailJobQueue() {
+    return new Queue(SendSolicitationApprovalEmailJob.KEY, true);
   }
 
   @Bean
-  Queue sendSolicitationDeniedEmailJobQueue() {
-    return new Queue(SendSolicitationDeniedEmailJob.KEY, true);
+  Queue sendSolicitationDenialEmailJobQueue() {
+    return new Queue(SendSolicitationDenialEmailJob.KEY, true);
   }
 
   @Bean
@@ -54,25 +54,25 @@ public class NotificationExchange {
   }
 
   @Bean
-  Binding sendSolicitationCreatedEmailJobBinding() {
+  Binding sendSolicitationCreationEmailJobBinding() {
     return BindingBuilder
-        .bind(sendSolicitationCreatedEmailJobQueue())
+        .bind(sendSolicitationCreationEmailJobQueue())
         .to(notificationDirectExchange())
         .with(SolicitationCreatedEvent.NAME);
   }
 
   @Bean
-  Binding sendSolicitationApprovedEmailJobBinding() {
+  Binding sendSolicitationApprovalEmailJobBinding() {
     return BindingBuilder
-        .bind(sendSolicitationApprovedEmailJobQueue())
+        .bind(sendSolicitationApprovalEmailJobQueue())
         .to(notificationDirectExchange())
         .with(SolicitationApprovedEvent.NAME);
   }
 
   @Bean
-  Binding sendSolicitationDeniedEmailJobBinding() {
+  Binding sendSolicitationDenialEmailJobBinding() {
     return BindingBuilder
-        .bind(sendSolicitationDeniedEmailJobQueue())
+        .bind(sendSolicitationDenialEmailJobQueue())
         .to(notificationDirectExchange())
         .with(SolicitationDeniedEvent.NAME);
   }

@@ -10,9 +10,9 @@ import br.com.chronos.core.portal.domain.events.SolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationDeniedEvent;
 import br.com.chronos.server.queue.jobs.notification.SendAuthenticationEmailJob;
-import br.com.chronos.server.queue.jobs.notification.SendSolicitationApprovedEmailJob;
-import br.com.chronos.server.queue.jobs.notification.SendSolicitationCreatedEmailJob;
-import br.com.chronos.server.queue.jobs.notification.SendSolicitationDeniedEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendSolicitationApprovalEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendSolicitationCreationEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendSolicitationDenialEmailJob;
 
 @Component
 public class NotificationListener {
@@ -20,32 +20,31 @@ public class NotificationListener {
   private SendAuthenticationEmailJob sendAuthenticationEmailJob;
 
   @Autowired
-  private SendSolicitationCreatedEmailJob sendSolicitationCreatedEmailJob;
+  private SendSolicitationCreationEmailJob sendSolicitationCreationEmailJob;
 
   @Autowired
-  private SendSolicitationApprovedEmailJob sendSolicitationApprovedEmailJob;
+  private SendSolicitationApprovalEmailJob sendSolicitationApprovalEmailJob;
 
   @Autowired
-  private SendSolicitationDeniedEmailJob sendSolicitationDeniedEmailJob;
+  private SendSolicitationDenialEmailJob sendSolicitationDenialEmailJob;
 
   @RabbitListener(queues = SendAuthenticationEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload AuthenticationRequestedEvent.Payload payload) {
     sendAuthenticationEmailJob.handle(payload);
   }
 
-  @RabbitListener(queues = SendSolicitationCreatedEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = SendSolicitationCreationEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload SolicitationCreatedEvent.Payload payload) {
-    System.out.println("SolicitationCreatedEvent.Payload: " + payload);
-    sendSolicitationCreatedEmailJob.handle(payload);
+    sendSolicitationCreationEmailJob.handle(payload);
   }
 
-  @RabbitListener(queues = SendSolicitationApprovedEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = SendSolicitationApprovalEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload SolicitationApprovedEvent.Payload payload) {
-    sendSolicitationApprovedEmailJob.handle(payload);
+    sendSolicitationApprovalEmailJob.handle(payload);
   }
 
-  @RabbitListener(queues = SendSolicitationDeniedEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = SendSolicitationDenialEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload SolicitationDeniedEvent.Payload payload) {
-    sendSolicitationDeniedEmailJob.handle(payload);
+    sendSolicitationDenialEmailJob.handle(payload);
   }
 }

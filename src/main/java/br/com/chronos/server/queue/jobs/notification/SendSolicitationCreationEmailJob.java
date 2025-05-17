@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.notification.interfaces.EmailProvider;
-import br.com.chronos.core.notification.use_cases.SendSolicitationCreatedEmailUseCase;
+import br.com.chronos.core.notification.use_cases.SendSolicitationCreationEmailUseCase;
 import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
 import br.com.chronos.server.api.services.CollaborationService;
 
 @Component
-public class SendSolicitationCreatedEmailJob {
-  public static final String KEY = "notification/send.solicitation.created.email.job";
+public class SendSolicitationCreationEmailJob {
+  public static final String KEY = "notification/send.solicitation.creation.email.job";
 
   @Autowired
   private CollaborationService collaborationService;
@@ -19,11 +19,9 @@ public class SendSolicitationCreatedEmailJob {
   private EmailProvider emailProvider;
 
   public void handle(SolicitationCreatedEvent.Payload payload) {
-    System.out.println("collaboratorationSector: " + payload.collaboratorationSector());
     var managersEmails = collaborationService.getManagersEmails(payload.collaboratorationSector());
-    System.out.println("managersEmails: " + managersEmails);
-    var useCase = new SendSolicitationCreatedEmailUseCase(emailProvider);
-    // useCase.execute(payload.collaboratorationSector(),
-    // payload.solicitationType());
+    var collaborator = collaborationService.getCollaborator(payload.employeeId());
+    var useCase = new SendSolicitationCreationEmailUseCase(emailProvider);
+    useCase.execute(managersEmails, collaborator.name, payload.solicitationType());
   }
 }
