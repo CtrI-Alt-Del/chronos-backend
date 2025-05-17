@@ -22,7 +22,6 @@ public class UpdateCollaboratorJob {
         .setCpf(payload.collaboratorCpf)
         .setWorkload(payload.collaboratorWorkload);
 
-    System.out.println("payload" + payload.collaboratorWorkload);
     var useCase = new UpdateCollaboratorUseCase(collaboratorsRepository);
     useCase.execute(collaboratorDto);
   }

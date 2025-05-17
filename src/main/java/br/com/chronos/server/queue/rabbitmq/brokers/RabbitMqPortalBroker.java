@@ -16,11 +16,9 @@ import br.com.chronos.server.queue.rabbitmq.exchanges.NotificationExchange;
 import br.com.chronos.server.queue.rabbitmq.exchanges.WorkScheduleExchange;
 
 @Component
-public class RabbitMqPortalBroker implements PortalBroker {
-  private final RabbitTemplate rabbit;
-
+public class RabbitMqPortalBroker extends RabbitMqBroker implements PortalBroker {
   public RabbitMqPortalBroker(RabbitTemplate rabbit) {
-    this.rabbit = rabbit;
+    super(rabbit);
   }
 
   @Override
