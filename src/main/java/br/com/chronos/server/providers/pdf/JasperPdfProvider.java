@@ -147,8 +147,6 @@ public class JasperPdfProvider implements PdfProvider {
     var timeCardCollectionDataSource = new JRBeanCollectionDataSource(
         timeCard.rows().map(row -> new TimeCardRow(row.getDto())).list());
 
-    System.out.println(timeCard.rows());
-
     parameters.put("chronosLogo", chronosLogoBytes);
     parameters.put("collaboratorEmail", responsible.getEmail().value());
     parameters.put("collaboratorName", responsible.getName().value());
@@ -167,7 +165,6 @@ public class JasperPdfProvider implements PdfProvider {
       var fillManager = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
       JasperExportManager.exportReportToPdfFile(fillManager, timeCardPdfPath);
     } catch (JRException e) {
-      System.out.println("Jasper error: " + e.getMessage());
       throw new AppException(
           "Jasper PdfProvider Exception",
           "Erro ao gerar pdf de espelho ponto utilizando o JasperReports");
