@@ -29,6 +29,7 @@ public class ApproveVacationSolicitationController {
     @Data
     public static class Request {
         private String feedbackMessage;
+        private byte collaboratorWorkload;
     }
 
     @PutMapping("/{solicitationId}/approve/vacation")
@@ -46,6 +47,7 @@ public class ApproveVacationSolicitationController {
             useCase.execute(
                 solicitationId,
                 responsible,
+                body.getCollaboratorWorkload(),
                 body.getFeedbackMessage());
 
             return ResponseEntity.noContent().build();
