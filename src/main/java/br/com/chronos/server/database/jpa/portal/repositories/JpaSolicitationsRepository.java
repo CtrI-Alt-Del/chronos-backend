@@ -103,15 +103,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public Optional<PaidOvertimeSolicitation> findPaidOvertimeSolicitationById(Id solicitationId) {
-    var solicitationModel = paidOvertimeSolicitationDao.findById(solicitationId.value());
-    if (solicitationModel.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(paidOvertimeSolicitationMapper.toEntity(solicitationModel.get()));
-  }
-
-  @Override
   public Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id solicitationId) {
     var solicitationModel = timePunchAdjustmentSolicitationDao.findById(solicitationId.value());
     if (solicitationModel.isEmpty()) {
@@ -132,13 +123,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Override
   public Array<Solicitation> findAllByCollaboratorId(Id collaboratorId) {
     var solicitationModels = solicitationDao.findAllBySenderResponsibleId(collaboratorId.value());
-    var solicitations = Array.createFrom(solicitationModels, solicitationMapper::toEntity);
-    return solicitations;
-  }
-
-  @Override
-  public Array<Solicitation> findAllBycollaboratorationSector(CollaborationSector sector) {
-    var solicitationModels = solicitationDao.findAllBySenderResponsibleAccountSector(sector.value());
     var solicitations = Array.createFrom(solicitationModels, solicitationMapper::toEntity);
     return solicitations;
   }
