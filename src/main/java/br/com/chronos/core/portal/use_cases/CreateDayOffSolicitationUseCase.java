@@ -22,16 +22,18 @@ public class CreateDayOffSolicitationUseCase extends CreateSolicitationUseCase {
   public DayOffSolicitationDto execute(
       DayOffSolicitationDto dto,
       String senderResponsibleId,
+      String senderResponsibleName,
       String collaboratorionSector) {
     var responsibleDto = new ResponsibleDto()
         .setId(senderResponsibleId)
+        .setName(senderResponsibleName)
         .setSector(collaboratorionSector);
     var senderResponsibleDto = new ResponsibleAggregateDto(responsibleDto);
 
     dto.setSenderResponsible(senderResponsibleDto);
     if (dto.dayOff.isBefore(LocalDate.now())) {
       throw new ValidationException(
-          "Data inválida",
+          "data de solicitação",
           "A data da solicitação não pode ser anterior a data atual");
     }
     var solicitation = new DayOffSolicitation(dto);

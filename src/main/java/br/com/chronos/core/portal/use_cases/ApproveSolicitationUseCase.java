@@ -28,7 +28,8 @@ public class ApproveSolicitationUseCase {
         : null;
 
     var approvationResponsible = new ResponsibleAggregate(replierResponsibleDto);
-    // solicitation.approve(approvationResponsible, feedbackText);
+    solicitation.approve(approvationResponsible, feedbackText);
+    repository.replace(solicitation);
 
     var event = new SolicitationApprovedEvent(solicitation);
     broker.publish(event);

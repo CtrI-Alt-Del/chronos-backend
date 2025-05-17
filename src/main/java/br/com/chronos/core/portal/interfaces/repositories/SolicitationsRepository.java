@@ -22,8 +22,6 @@ import kotlin.Pair;
 public interface SolicitationsRepository {
     Optional<Solicitation> findById(Id id);
 
-    Optional<PaidOvertimeSolicitation> findPaidOvertimeSolicitationById(Id id);
-
     Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
 
     Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id id);
@@ -65,8 +63,6 @@ public interface SolicitationsRepository {
     Pair<Array<TimePunchAdjustmentSolicitation>, PlusIntegerNumber> findManyTimePunchAdjustmentSolicitationsByCollaborationSector(
             CollaborationSector sector,
             PageNumber page);
-
-    Array<Solicitation> findAllByCollaboratorSector(CollaborationSector sector);
 
     Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type);
 

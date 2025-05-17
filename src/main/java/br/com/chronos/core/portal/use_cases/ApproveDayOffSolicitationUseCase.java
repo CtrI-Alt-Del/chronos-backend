@@ -23,7 +23,6 @@ public class ApproveDayOffSolicitationUseCase extends ApproveSolicitationUseCase
       String feedbackMessage) {
     var solicitation = findSolicitation(Id.create(solicitationId));
     approveSolicitation(solicitation, replierResponsible, feedbackMessage);
-    repository.replace(solicitation);
 
     var event = new DayOffSolicitationApprovedEvent(solicitation);
     broker.publish(event);
