@@ -34,5 +34,4 @@ public record DateRange(Date startDate, Date endDate) {
     var lastDayOfMonth = yearMonth.atEndOfMonth();
     return new DateRange(Date.create(firstDayOfMonth), Date.create(lastDayOfMonth));
   }
-
 }

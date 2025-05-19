@@ -1,9 +1,10 @@
 @RESOURCE = solicitation/solicitations
 @URL = {{HOST}}/{{RESOURCE}}
-@DAY_OFF_SCHEDULE_ADJUSTMENT_SOLICITATION_ID =2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d
+@DAY_OFF_SCHEDULE_ADJUSTMENT_SOLICITATION_ID = 2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d
 @PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
 @DAY_OFF_SOLICITATION_ID = c0b7618f-38b3-40e8-b2f3-1f67d2e2a26c
 @EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
+@WORK_LEAVE_SOLICITATION_ID = 26f97b45-3ad3-4233-8102-5b82cf54a77f
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 ### Create time punch adjustment solicitation
@@ -73,12 +74,34 @@ Authorization: Bearer {{JWT}}
   "feedbackMessage": "Você está perdoado!"
 }
 
+### Create work leave solicitation 
+POST {{URL}}/work-leave
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{}
+
+### List work leave solicitations
+GET {{URL}}/work-leave?page=1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Aprove work leave solicitation
+PUT {{URL}}/{{WORK_LEAVE_SOLICITATION_ID}}/approve/work-leave
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "feedbackMessage": "Descance bastante"
+}
+
+
 ### Get All day off schedule adjustment solicitations 
 GET {{URL}}/day-off-schedule-adjustment
 Content-Type: application/json 
 Authorization: Bearer {{JWT}}
 
-### Create Day Off Schedule Adjustment Solicitation
+### Create day off schedule adjustment solicitation
 POST {{URL}}/day-off-schedule-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -101,7 +124,7 @@ Authorization: Bearer {{JWT}}
 }
 
 
-### Create Time Punch Adjustment Solicitation
+### Create time punch adjustment solicitation
 POST {{URL}}/time-punch-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -113,7 +136,7 @@ Authorization: Bearer {{JWT}}
   "reason": "FORGOTTEN"
 }
 
-##### Create withdraw solicitation
+### Create withdraw solicitation
 POST {{URL}}/withdraw
 Content-Type: application/json 
 Authorization: Bearer {{JWT}}

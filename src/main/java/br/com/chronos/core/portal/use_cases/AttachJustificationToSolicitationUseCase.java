@@ -4,7 +4,6 @@ import br.com.chronos.core.global.domain.dtos.AttachmentDto;
 import br.com.chronos.core.global.domain.exceptions.NotFoundException;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
-import br.com.chronos.core.portal.domain.dtos.ExcusedAbsenceSolicitationDto;
 import br.com.chronos.core.portal.domain.dtos.JustificationDto;
 import br.com.chronos.core.portal.domain.dtos.SolicitationDto;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.global.responses.PaginationResponse;
-import br.com.chronos.core.portal.domain.dtos.VacationSolicitationDto;
+import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.use_cases.ListVacationSolicitationsUseCase;
 
@@ -19,7 +19,7 @@ public class ListVacationSolicitationController {
     private AuthenticationProvider authenticationProvider;
 
     @GetMapping("/vacation")
-    public ResponseEntity<PaginationResponse<VacationSolicitationDto>> handle(
+    public ResponseEntity<PaginationResponse<WorkLeaveSolicitationDto>> handle(
             @RequestParam(defaultValue = "1") int page) {
         var account = authenticationProvider.getAccount();
         var sector = account.getCollaborationSector().toString();

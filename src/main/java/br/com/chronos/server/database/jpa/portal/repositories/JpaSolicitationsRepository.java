@@ -9,6 +9,8 @@ import kotlin.Pair;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Logical;
+import br.com.chronos.core.global.domain.records.Month;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.responses.PaginationResponse;
@@ -21,7 +23,9 @@ import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
 import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
+import br.com.chronos.core.portal.domain.entities.WorkleaveSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
+import br.com.chronos.core.portal.domain.records.SolicitationStatus;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffSolicitationDao;
@@ -31,6 +35,7 @@ import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.VacationSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.WithdrawSolicitationDao;
+import br.com.chronos.server.database.jpa.portal.daos.WorkLeaveSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.ExcusedAbsenceSolicitationMapper;
@@ -40,6 +45,7 @@ import br.com.chronos.server.database.jpa.portal.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.VacationSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.WithdrawSolicitationMapper;
+import br.com.chronos.server.database.jpa.portal.mappers.WorkLeaveSolicitationMapper;
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
   @Autowired
@@ -92,6 +98,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   private WithdrawSolicitationMapper withdrawSolicitationMapper;
+
+  @Autowired
+  private WorkLeaveSolicitationDao workLeaveSolicitationDao;
+
+  @Autowired
+  private WorkLeaveSolicitationMapper workLeaveSolicitationMapper;
 
   @Override
   public Optional<Solicitation> findById(Id solicitationId) {
@@ -158,6 +170,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   public void add(DayOffSolicitation solicitation) {
     var solicitationModel = dayOffSolicitationMapper.toModel(solicitation);
     dayOffSolicitationDao.save(solicitationModel);
+  }
+
+  @Override
+  public void add(WorkleaveSolicitation solicitation) {
+    var solicitationModel = workLeaveSolicitationMapper.toModel(solicitation);
+    workLeaveSolicitationDao.save(solicitationModel);
   }
 
   @Override
@@ -293,6 +311,19 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
+  public Pair<Array<WorkleaveSolicitation>, PlusIntegerNumber> findManyWorkLeaveSolicitationsByCollaborationSectorAndVacationStatus(
+      CollaborationSector sector, Logical isVacation, PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = workLeaveSolicitationDao.findAllBySenderResponsibleAccountSectorAndIsVacationOrderByDateDesc(
+        sector.value(), isVacation.value(), pageRequest);
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+    return new Pair<>(
+        Array.createFrom(items, workLeaveSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
+  }
+
+  @Override
   public void add(VacationSolicitation vacationSolicitation) {
     var solicitationModel = vacationSolicitationMapper.toModel(vacationSolicitation);
     vacationSolicitationDao.save(solicitationModel);
@@ -344,6 +375,31 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
       return Optional.empty();
     }
     return Optional.of(withdrawSolicitationMapper.toEntity(solicitationModel.get()));
+  }
+
+  @Override
+  public Optional<WorkleaveSolicitation> findWorkleaveSolicitationById(Id id) {
+    var solicitationModel = workLeaveSolicitationDao.findById(id.value());
+    return Optional.of(workLeaveSolicitationMapper.toEntity(solicitationModel.get()));
+  }
+
+  @Override
+  public Pair<Array<WorkleaveSolicitation>, PlusIntegerNumber> findManyApprovedWorkLeaveSolicitationsByCollaborationSectorAndMonth(
+      CollaborationSector sector,
+      Month month,
+      PageNumber page) {
+    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
+    var models = workLeaveSolicitationDao
+        .findAllBySolicitationStatusAndSenderResponsibleAccountSectorOrderByDateDesc(
+            SolicitationStatus.Status.APPROVED,
+            sector.value(),
+            pageRequest);
+
+    var items = models.stream().toList();
+    var itemsCount = models.getTotalElements();
+    return new Pair<>(
+        Array.createFrom(items, workLeaveSolicitationMapper::toEntity),
+        PlusIntegerNumber.create((int) itemsCount));
   }
 
 }

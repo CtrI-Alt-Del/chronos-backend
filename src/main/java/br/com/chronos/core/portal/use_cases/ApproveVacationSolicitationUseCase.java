@@ -17,16 +17,16 @@ public class ApproveVacationSolicitationUseCase extends ApproveSolicitationUseCa
   }
 
   public void execute(
-        String solicitationId,
-        ResponsibleAggregateDto replierResponsible,
-        byte collaboratorWorkload,
-        String feedbackMessage) {
+      String solicitationId,
+      ResponsibleAggregateDto replierResponsible,
+      byte collaboratorWorkload,
+      String feedbackMessage) {
     var solicitation = findSolicitation(Id.create(solicitationId));
 
     repository.replace(solicitation);
 
     var event = new VacationSolicitationApprovedEvent(solicitation);
-    portalBroker.publish(event);
+    broker.publish(event);
   }
 
   private VacationSolicitation findSolicitation(Id solicitationId) {
@@ -36,6 +36,5 @@ public class ApproveVacationSolicitationUseCase extends ApproveSolicitationUseCa
       throw new SolicitationNotFoundException();
     }
     return (VacationSolicitation) solicitation.get();
-} 
+  }
 }
-
