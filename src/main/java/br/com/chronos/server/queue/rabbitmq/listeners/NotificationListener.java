@@ -9,10 +9,12 @@ import br.com.chronos.core.auth.domain.events.AuthenticationRequestedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationDeniedEvent;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayAbsenceUnexcusedEvent;
 import br.com.chronos.server.queue.jobs.notification.SendAuthenticationEmailJob;
 import br.com.chronos.server.queue.jobs.notification.SendSolicitationApprovalEmailJob;
 import br.com.chronos.server.queue.jobs.notification.SendSolicitationCreationEmailJob;
 import br.com.chronos.server.queue.jobs.notification.SendSolicitationDenialEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendUnexcusedWorkdayAbsenceEmailJob;
 
 @Component
 public class NotificationListener {
@@ -27,6 +29,9 @@ public class NotificationListener {
 
   @Autowired
   private SendSolicitationDenialEmailJob sendSolicitationDenialEmailJob;
+
+  @Autowired
+  private SendUnexcusedWorkdayAbsenceEmailJob sendUnexcusedWorkdayAbsenceEmailJob;
 
   @RabbitListener(queues = SendAuthenticationEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload AuthenticationRequestedEvent.Payload payload) {
@@ -46,5 +51,10 @@ public class NotificationListener {
   @RabbitListener(queues = SendSolicitationDenialEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload SolicitationDeniedEvent.Payload payload) {
     sendSolicitationDenialEmailJob.handle(payload);
+  }
+
+  @RabbitListener(queues = SendUnexcusedWorkdayAbsenceEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  public void listenTo(@Payload WorkdayAbsenceUnexcusedEvent.Payload payload) {
+    sendUnexcusedWorkdayAbsenceEmailJob.handle(payload);
   }
 }

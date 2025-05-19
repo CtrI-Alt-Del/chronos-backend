@@ -3,9 +3,10 @@ package br.com.chronos.server.providers.cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-import java.util.concurrent.TimeUnit;
 
 import br.com.chronos.core.notification.interfaces.CacheProvider;
+
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class RedisCacheProvider implements CacheProvider {

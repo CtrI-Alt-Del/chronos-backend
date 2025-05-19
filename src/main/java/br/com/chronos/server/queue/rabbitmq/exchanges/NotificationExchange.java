@@ -11,10 +11,12 @@ import br.com.chronos.core.auth.domain.events.AuthenticationRequestedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationDeniedEvent;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayAbsenceUnexcusedEvent;
 import br.com.chronos.server.queue.jobs.notification.SendAuthenticationEmailJob;
 import br.com.chronos.server.queue.jobs.notification.SendSolicitationApprovalEmailJob;
 import br.com.chronos.server.queue.jobs.notification.SendSolicitationCreationEmailJob;
 import br.com.chronos.server.queue.jobs.notification.SendSolicitationDenialEmailJob;
+import br.com.chronos.server.queue.jobs.notification.SendUnexcusedWorkdayAbsenceEmailJob;
 
 @Configuration
 public class NotificationExchange {
@@ -28,6 +30,11 @@ public class NotificationExchange {
   @Bean
   Queue sendAuthenticationEmailJobQueue() {
     return new Queue(SendAuthenticationEmailJob.KEY, true);
+  }
+
+  @Bean
+  Queue sendUnexcusedWorkdayAbsenceEmailJobQueue() {
+    return new Queue(SendUnexcusedWorkdayAbsenceEmailJob.KEY, true);
   }
 
   @Bean
@@ -75,5 +82,13 @@ public class NotificationExchange {
         .bind(sendSolicitationDenialEmailJobQueue())
         .to(notificationDirectExchange())
         .with(SolicitationDeniedEvent.NAME);
+  }
+
+  @Bean
+  Binding sendUnexcusedWorkdayAbsenceEmailJobBinding() {
+    return BindingBuilder
+        .bind(sendUnexcusedWorkdayAbsenceEmailJobQueue())
+        .to(notificationDirectExchange())
+        .with(WorkdayAbsenceUnexcusedEvent.NAME);
   }
 }

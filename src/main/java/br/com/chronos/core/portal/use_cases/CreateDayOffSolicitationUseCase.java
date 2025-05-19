@@ -22,11 +22,9 @@ public class CreateDayOffSolicitationUseCase extends CreateSolicitationUseCase {
   public DayOffSolicitationDto execute(
       DayOffSolicitationDto dto,
       String senderResponsibleId,
-      String senderResponsibleName,
       String collaboratorionSector) {
     var responsibleDto = new ResponsibleDto()
         .setId(senderResponsibleId)
-        .setName(senderResponsibleName)
         .setSector(collaboratorionSector);
     var senderResponsibleDto = new ResponsibleAggregateDto(responsibleDto);
 

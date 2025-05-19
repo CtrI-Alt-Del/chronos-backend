@@ -86,7 +86,6 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Transactional
   public void addMany(Array<WorkdayLog> workdayLogs) {
     var workdayLogModels = workdayLogs.map(mapper::toModel);
-    System.out.println("Workday logs saved: ");
     dao.saveAll(workdayLogModels.list());
   }
 

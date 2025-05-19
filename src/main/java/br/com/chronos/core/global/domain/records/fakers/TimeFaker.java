@@ -14,7 +14,7 @@ public class TimeFaker {
   }
 
   public static LocalTime fakeDto() {
-    var hour = random.nextInt(24);
+    var hour = random.nextInt(16);
     var minute = random.nextInt(60);
     var randomTime = LocalTime.of(hour, minute);
     return randomTime;

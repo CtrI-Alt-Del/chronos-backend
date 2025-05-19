@@ -22,6 +22,7 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.fakers.HourBankTransactionFaker;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
+import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.work_schedule.domain.entities.fakers.WorkdayLogFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
@@ -62,29 +63,28 @@ public class DatabaseSeed implements CommandLineRunner {
     Array<Collaborator> collaborators = Array.createAsEmpty();
     var managers = fakeManagers(6);
     var employees = fakeEmployees(12);
-
-    var adminTest = fakeAdminTest();
     var managerTest = fakeManagerTest();
     var employeeTest = fakeEmployeeTest();
 
     collaborators
         .addArray(managers)
         .addArray(employees)
-        .add(adminTest)
         .add(managerTest)
         .add(employeeTest);
     collaboratorsRepository.addMany(collaborators);
 
     addManyDayOffSchedules(collaborators);
-    addManyWorkdayLogs(collaborators);
+    addManyWorkdayLogs(collaborators.removeLastItem().list(), "normal_day");
+    addManyWorkdayLogs(List.of(employeeTest), "absence");
 
     var hourBankTransactions = fakeHourBankTransactions();
+    hourBankTransactionsRepository.removeAll(employeeTest.getId());
     hourBankTransactionsRepository.addMany(hourBankTransactions, employeeTest.getId());
 
-    var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
-    var adminAccountTest = fakeAdminAccountTest(adminTest.getId());
+    var adminAccountTest = fakeAdminAccountTest();
     var managerAccountTest = fakeManagerAccountTest(managerTest.getId());
-    var accounts = fakeAccounts(collaborators.removeLastItem().removeLastItem().removeLastItem());
+    var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
+    var accounts = fakeAccounts(collaborators.removeLastItem());
     accounts
         .add(adminAccountTest)
         .add(employeeAccountTest)
@@ -101,23 +101,23 @@ public class DatabaseSeed implements CommandLineRunner {
     justificationTypeRepository.add(withoutAttachment);
   }
 
-  private void addManyWorkdayLogs(Array<Collaborator> collaborators) {
-    for (var collaborator : collaborators.list()) {
-      var presenceLog = WorkdayLogFaker.fakePresence(collaborator.getId().toString());
-      workdayLogsRepository.add(presenceLog);
-
-      var absenceLog = WorkdayLogFaker.fakeAbsence(collaborator.getId().toString());
-      workdayLogsRepository.add(absenceLog);
+  private void addManyWorkdayLogs(List<Collaborator> collaborators, String workdayStatus) {
+    for (var collaborator : collaborators) {
+      var dto = WorkdayLogFaker
+          .fakeDto(collaborator.getId().toString())
+          .setWorkloadSchedule(collaborator.getWorkload().value())
+          .setStatus(workdayStatus);
+      workdayLogsRepository.add(new WorkdayLog(dto));
     }
   }
 
-  private Account fakeAdminAccountTest(Id collaboratorId) {
+  private Account fakeAdminAccountTest() {
     var fakeDto = AccountFaker.fakeDto();
     fakeDto
+        .setId("7d87b4a3-3ce5-485f-a218-717d46ae812a")
         .setRole("admin")
         .setEmail("chronos.admin@gmail.com")
-        .setPassword("123456")
-        .setCollaboratorId(collaboratorId.toString());
+        .setPassword("123456");
     authenticationProvider.register(fakeDto);
     return new Account(fakeDto);
   }
@@ -128,14 +128,6 @@ public class DatabaseSeed implements CommandLineRunner {
       fakeDto.setRole("manager");
       return new Collaborator(fakeDto);
     });
-  }
-
-  private Collaborator fakeAdminTest() {
-    var fakeDto = CollaboratorFaker.fakeDto();
-    fakeDto
-        .setId("7d87b4a3-3ce5-485f-a218-717d46ae812a")
-        .setRole("admin");
-    return new Collaborator(fakeDto);
   }
 
   private Array<Collaborator> fakeEmployees(int count) {

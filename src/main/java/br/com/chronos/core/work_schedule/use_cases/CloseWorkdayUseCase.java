@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.work_schedule.domain.events.WorkdayAbsenceUnexcusedEvent;
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 import br.com.chronos.core.work_schedule.interfaces.WorkScheduleBroker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
@@ -20,17 +21,20 @@ public class CloseWorkdayUseCase {
 
   public void execute(LocalDate date) {
     var workdayLogs = repository.findAllByDate(Date.create(date));
-    Array<WorkdayLog> absenceWorkdays = Array.createAsEmpty();
+    Array<WorkdayLog> absences = Array.createAsEmpty();
 
     for (var workdayLog : workdayLogs.list()) {
       var isAbsence = workdayLog.verifyAbsense();
       if (isAbsence.isTrue()) {
-        absenceWorkdays.add(workdayLog);
+        absences.add(workdayLog);
+        var event = new WorkdayAbsenceUnexcusedEvent(workdayLog);
+        broker.publish(event);
       }
       var event = new WorkdayClosedEvent(workdayLog);
+      System.out.println("getPayload: " + event.getPayload());
       broker.publish(event);
     }
 
-    repository.replaceMany(absenceWorkdays);
+    repository.replaceMany(absences);
   }
 }
