@@ -7,6 +7,7 @@ import br.com.chronos.core.portal.domain.events.SolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationDeniedEvent;
 import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.VacationSolicitationApprovedEvent;
 
 public interface PortalBroker {
   void publish(SolicitationApprovedEvent event);
@@ -22,4 +23,6 @@ public interface PortalBroker {
   void publish(DayOffScheduleSolicitationApprovedEvent event);
 
   void publish(TimePunchAdjusmentSolicitationApprovedEvent event);
+
+  void publish(VacationSolicitationApprovedEvent event);
 }
