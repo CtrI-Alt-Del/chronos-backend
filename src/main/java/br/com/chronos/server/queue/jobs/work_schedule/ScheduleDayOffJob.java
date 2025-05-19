@@ -15,7 +15,6 @@ public class ScheduleDayOffJob {
   private DayOffSchedulesRepository dayOffSchedulesRepository;
 
   public void handle(DayOffSolicitationApprovedEvent.Payload payload) {
-    System.out.println("OIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
     var useCase = new ScheduleDayOffUseCase(dayOffSchedulesRepository);
     useCase.execute(payload.dayOff(), payload.collaboratorId());
   }

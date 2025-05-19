@@ -20,9 +20,6 @@ public record HourBankBalance(TimeInterval value, Logical isNegative) {
       }
     }
 
-    System.out.println("creditTime: " + creditTime.getDto());
-    System.out.println("debitTime: " + debitTime.getDto());
-
     if (debitTime.isGreaterThan(creditTime).isTrue()) {
       return new HourBankBalance(
           debitTime.minus(creditTime),

@@ -1,4 +1,4 @@
-package br.com.chronos.core.collaboration.interfaces.repositories;
+package br.com.chronos.core.collaboration.interfaces;
 
 import java.util.Optional;
 
@@ -16,10 +16,12 @@ import kotlin.Pair;
 public interface CollaboratorsRepository {
   Array<Collaborator> findAllActive();
 
+  Array<Collaborator> findAllManagersByCollaborationSector(CollaborationSector sector);
+
   Pair<Array<Collaborator>, PlusIntegerNumber> findMany(Logical isCollaboratorActive, PageNumber page);
 
   Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(
-    Id id,
+      Id id,
       CollaborationSector sector,
       Logical isActive,
       PageNumber page);

@@ -14,7 +14,7 @@ import br.com.chronos.core.auth.domain.entities.fakers.AccountFaker;
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.collaboration.domain.entities.fakers.CollaboratorFaker;
-import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;

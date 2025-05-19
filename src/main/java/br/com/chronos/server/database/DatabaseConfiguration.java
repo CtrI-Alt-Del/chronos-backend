@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
-import br.com.chronos.core.collaboration.interfaces.repositories.CollaboratorsRepository;
+import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.portal.interfaces.repositories.AttachmentRepository;
 import br.com.chronos.core.portal.interfaces.repositories.JustificationRepository;
