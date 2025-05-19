@@ -1,0 +1,12 @@
+@URL = {{HOST}}/reports
+
+
+### Get workdaylog status chart
+GET {{URL}}/workday-status
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Get yearly absence chart 
+GET {{URL}}/yearly-absence
+Content-Type: application/json
+Authorization: Bearer {{JWT}}

@@ -1,5 +1,10 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import kotlin.Pair;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +21,12 @@ import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.responses.PaginationResponse;
+import br.com.chronos.core.work_schedule.domain.dtos.WorkdayStatusChartoDto;
+import br.com.chronos.core.work_schedule.domain.dtos.YearlyAbsenceChartDto;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.work_schedule.domain.records.MonthlyAbsence;
+import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkdayLogMapper;
@@ -148,4 +157,50 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     dao.save(workdayLogModel);
   }
 
+  @Override
+  public WorkdayStatusChartoDto getWorkdayStatusChartByDateRange(DateRange dateRange) {
+    var normalDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.NORMAL_DAY,
+        dateRange.startDate().value(),
+        dateRange.endDate().value());
+    var vacationDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.DAY_OFF,
+        dateRange.startDate().value(),
+        dateRange.startDate().value());
+    var withdrawDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.WORK_LEAVE,
+        dateRange.startDate().value(),
+        dateRange.endDate().value());
+    return WorkdayStatusChartoDto.createFromValues(normalDays, vacationDays, withdrawDays);
+
+  }
+
+  @Override
+  public YearlyAbsenceChartDto getYearlyAbsenceChart() {
+    LocalDate end = LocalDate.now();
+    LocalDate start = end.minusMonths(11).withDayOfMonth(1);
+
+    List<Object[]> results = dao.countMonthlyAbsencesByRole(
+        WorkdayStatusName.ABSENCE.toString(), start, end);
+
+    Map<Integer, MonthlyAbsence> mapMonthToAbsence = new HashMap<>();
+
+    for (Object[] row : results) {
+      int month = ((Number) row[0]).intValue();
+      int collaboratorAbsence = ((Number) row[1]).intValue();
+      int managerAbsence = ((Number) row[2]).intValue();
+
+      mapMonthToAbsence.put(month, MonthlyAbsence.create(collaboratorAbsence, managerAbsence));
+    }
+
+    List<MonthlyAbsence> fullList = new ArrayList<>();
+    int currentMonth = start.getMonthValue();
+    int endMonth = end.getMonthValue();
+
+    while (true) {
+      fullList.add(mapMonthToAbsence.getOrDefault(currentMonth, MonthlyAbsence.create(0, 0)));
+      if (currentMonth == endMonth)
+        break;
+      currentMonth = currentMonth % 12 + 1;
+    }
+
+    return YearlyAbsenceChartDto.createFromValues(fullList);
+  }
 }

@@ -11,12 +11,18 @@ import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.work_schedule.domain.dtos.WorkdayStatusChartoDto;
+import br.com.chronos.core.work_schedule.domain.dtos.YearlyAbsenceChartDto;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import kotlin.Pair;
 
 public interface WorkdayLogsRepository {
   Optional<WorkdayLog> findById(Id workdayLogId);
+
+  WorkdayStatusChartoDto getWorkdayStatusChartByDateRange(DateRange dateRange);
+
+  YearlyAbsenceChartDto getYearlyAbsenceChart();
 
   Optional<WorkdayLog> findByDate(Date date);
 

@@ -16,6 +16,18 @@ public record DateRange(Date startDate, Date endDate) {
     return new DateRange(dateRangeStart, dateRangeEnd);
   }
 
+  public static DateRange createWithMonthRange(LocalDate startDate, LocalDate endDate) {
+    var dateRangeStart = Date.create(startDate);
+    var dateRangeEnd = Date.create(endDate);
+
+    if (startDate == null || endDate == null) {
+      dateRangeEnd = Date.createFromNow();
+      dateRangeStart = dateRangeEnd.minusDays(30);
+    }
+
+    return new DateRange(dateRangeStart, dateRangeEnd);
+  }
+
   public static DateRange createAsCurrentMonthRange() {
     var today = LocalDate.now();
     var firstDayOfMonth = today.withDayOfMonth(1);
