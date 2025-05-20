@@ -15,11 +15,14 @@ public class ScheduleVacationUseCase {
         this.repository = repository;
     }
 
-    public void execute(LocalDate vacationDays, String collaboratorIdValue) {
+    public void execute(LocalDate startDate, LocalDate endDate, String collaboratorIdValue) {
         var collaboratorId = Id.create(collaboratorIdValue);
         var vacationSchedule = findVacationSchedule(collaboratorId);
-        System.out.println(vacationSchedule);
-        vacationSchedule.schedule(Date.create(vacationDays));
+        LocalDate currentDate = startDate;
+        while (!currentDate.isAfter(endDate)) {
+            vacationSchedule.schedule(Date.create(currentDate));
+            currentDate = currentDate.plusDays(1);
+        }
         repository.replace(vacationSchedule, collaboratorId);
     }
     
