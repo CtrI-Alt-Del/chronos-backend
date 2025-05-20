@@ -23,6 +23,8 @@ public interface WorkdayLogsRepository {
 
   Array<ClockEvent> getAllTimePunchsByDate(Date date);
 
+  Array<Integer> getCollaboratorsQuantityWithoutPunchsFromLastSevenDays();
+
   Triple<Long, Long, Long> getCollaboratorsWorkdayStatusByDateRange(DateRange dateRange);
 
   Array<MonthlyAbsence> getYearlyCollaboratorsAbsence();
