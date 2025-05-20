@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
-import br.com.chronos.core.portal.domain.entities.WorkleaveSolicitation;
+import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.portal.models.WorkLeaveSolicitationModel;
 
@@ -17,19 +17,20 @@ public class WorkLeaveSolicitationMapper {
   @Autowired
   private JustificationMapper justificationMapper;
 
-  public WorkLeaveSolicitationModel toModel(WorkleaveSolicitation entity) {
+  public WorkLeaveSolicitationModel toModel(WorkLeaveSolicitation entity) {
     var senderResponse = CollaboratorModel
         .builder()
         .id(entity.getSenderResponsible().getId().value())
         .build();
-
     var replierResponse = (entity.getReplierResponsible() != null)
         ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
     var justification = entity.getJustification() != null
         ? justificationMapper.toModel(entity.getJustification())
         : null;
-    var solicitationModel = WorkLeaveSolicitationModel.builder()
+
+    var solicitationModel = WorkLeaveSolicitationModel
+        .builder()
         .id(entity.getId().value())
         .description(entity.getDescription() != null ? entity.getDescription().value() : null)
         .date(entity.getDate().value())
@@ -40,7 +41,7 @@ public class WorkLeaveSolicitationMapper {
         .justification(justification)
         .startedAt(entity.getStartedAt().value())
         .endedAt(entity.getEndedAt().value())
-        .isVacation(entity.isVacation())
+        .isVacation(entity.isVacation().value())
         .build();
     return solicitationModel;
   }
@@ -70,6 +71,7 @@ public class WorkLeaveSolicitationMapper {
     var justificationDto = model.getJustification() != null
         ? justificationMapper.toDto(model.getJustification())
         : null;
+
     return new WorkLeaveSolicitationDto()
         .setId(model.getId().toString())
         .setDescription(model.getDescription())
@@ -84,8 +86,8 @@ public class WorkLeaveSolicitationMapper {
         .setJustification(justificationDto);
   }
 
-  public WorkleaveSolicitation toEntity(WorkLeaveSolicitationModel model) {
-    return new WorkleaveSolicitation(toDto(model));
+  public WorkLeaveSolicitation toEntity(WorkLeaveSolicitationModel model) {
+    return new WorkLeaveSolicitation(toDto(model));
   }
 
 }

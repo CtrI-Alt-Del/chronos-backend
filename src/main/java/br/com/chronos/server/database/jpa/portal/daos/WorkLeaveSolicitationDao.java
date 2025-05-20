@@ -11,13 +11,13 @@ import br.com.chronos.core.portal.domain.records.SolicitationStatus;
 import br.com.chronos.server.database.jpa.portal.models.WorkLeaveSolicitationModel;
 
 public interface WorkLeaveSolicitationDao extends JpaRepository<WorkLeaveSolicitationModel, UUID> {
-  Page<WorkLeaveSolicitationModel> findAllBySenderResponsibleAccountSectorAndIsVacationOrderByDateDesc(
-      CollaborationSector.Sector sector,
-      Boolean isVacation,
-      PageRequest pageRequest);
+    Page<WorkLeaveSolicitationModel> findAllBySenderResponsibleAccountSectorAndIsVacationOrderByDateDesc(
+            CollaborationSector.Sector sector,
+            Boolean isVacation,
+            PageRequest pageRequest);
 
-  Page<WorkLeaveSolicitationModel> findAllBySolicitationStatusAndSenderResponsibleAccountSectorOrderByDateDesc(
-      SolicitationStatus.Status status,
-      CollaborationSector.Sector sector,
-      PageRequest pageRequest);
+    Page<WorkLeaveSolicitationModel> findAllBySolicitationStatusAndSenderResponsibleAccountSectorOrderByDateDesc(
+            SolicitationStatus.Status status,
+            CollaborationSector.Sector sector,
+            PageRequest pageRequest);
 }

@@ -21,9 +21,7 @@ import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
-import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
-import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
-import br.com.chronos.core.portal.domain.entities.WorkleaveSolicitation;
+import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import br.com.chronos.core.portal.domain.records.SolicitationStatus;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
@@ -33,8 +31,6 @@ import br.com.chronos.server.database.jpa.portal.daos.ExcusedAbsenceSolicitation
 import br.com.chronos.server.database.jpa.portal.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
-import br.com.chronos.server.database.jpa.portal.daos.VacationSolicitationDao;
-import br.com.chronos.server.database.jpa.portal.daos.WithdrawSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.WorkLeaveSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
@@ -43,8 +39,6 @@ import br.com.chronos.server.database.jpa.portal.mappers.JustificationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
-import br.com.chronos.server.database.jpa.portal.mappers.VacationSolicitationMapper;
-import br.com.chronos.server.database.jpa.portal.mappers.WithdrawSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.WorkLeaveSolicitationMapper;
 
 public class JpaSolicitationsRepository implements SolicitationsRepository {
@@ -85,25 +79,13 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   private DayOffSolicitationMapper dayOffSolicitationMapper;
 
   @Autowired
-  private VacationSolicitationDao vacationSolicitationDao;
-
-  @Autowired
-  private VacationSolicitationMapper vacationSolicitationMapper;
-
-  @Autowired
   private SolicitationMapper solicitationMapper;
 
   @Autowired
-  private WithdrawSolicitationDao withdrawSolicitationDao;
+  private WorkLeaveSolicitationDao WorkLeaveSolicitationDao;
 
   @Autowired
-  private WithdrawSolicitationMapper withdrawSolicitationMapper;
-
-  @Autowired
-  private WorkLeaveSolicitationDao workLeaveSolicitationDao;
-
-  @Autowired
-  private WorkLeaveSolicitationMapper workLeaveSolicitationMapper;
+  private WorkLeaveSolicitationMapper WorkLeaveSolicitationMapper;
 
   @Override
   public Optional<Solicitation> findById(Id solicitationId) {
@@ -173,9 +155,9 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public void add(WorkleaveSolicitation solicitation) {
-    var solicitationModel = workLeaveSolicitationMapper.toModel(solicitation);
-    workLeaveSolicitationDao.save(solicitationModel);
+  public void add(WorkLeaveSolicitation solicitation) {
+    var solicitationModel = WorkLeaveSolicitationMapper.toModel(solicitation);
+    WorkLeaveSolicitationDao.save(solicitationModel);
   }
 
   @Override
@@ -298,98 +280,39 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public Pair<Array<VacationSolicitation>, PlusIntegerNumber> findManyVacationSolicitationsByCollaboratorId(
-      CollaborationSector sector, PageNumber page) {
-    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var models = vacationSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
-        sector.value(), pageRequest);
-    var items = models.stream().toList();
-    var itemsCount = models.getTotalElements();
-    return new Pair<>(
-        Array.createFrom(items, vacationSolicitationMapper::toEntity),
-        PlusIntegerNumber.create((int) itemsCount));
-  }
-
-  @Override
-  public Pair<Array<WorkleaveSolicitation>, PlusIntegerNumber> findManyWorkLeaveSolicitationsByCollaborationSectorAndVacationStatus(
+  public Pair<Array<WorkLeaveSolicitation>, PlusIntegerNumber> findManyWorkLeaveSolicitationsByCollaborationSectorAndVacationStatus(
       CollaborationSector sector, Logical isVacation, PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var models = workLeaveSolicitationDao.findAllBySenderResponsibleAccountSectorAndIsVacationOrderByDateDesc(
+    var models = WorkLeaveSolicitationDao.findAllBySenderResponsibleAccountSectorAndIsVacationOrderByDateDesc(
         sector.value(), isVacation.value(), pageRequest);
     var items = models.stream().toList();
     var itemsCount = models.getTotalElements();
     return new Pair<>(
-        Array.createFrom(items, workLeaveSolicitationMapper::toEntity),
+        Array.createFrom(items, WorkLeaveSolicitationMapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount));
   }
 
   @Override
-  public void add(VacationSolicitation vacationSolicitation) {
-    var solicitationModel = vacationSolicitationMapper.toModel(vacationSolicitation);
-    vacationSolicitationDao.save(solicitationModel);
-  }
-
-  @Override
-  public void replace(VacationSolicitation vacationSolicitation) {
-    var solicitationModel = vacationSolicitationMapper.toModel(vacationSolicitation);
-    vacationSolicitationDao.save(solicitationModel);
-  }
-
-  @Override
-  public Pair<Array<WithdrawSolicitation>, PlusIntegerNumber> findManyWithdrawSolicitationsByCollaborationSector(
-      CollaborationSector sector, PageNumber page) {
-    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var models = withdrawSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
-        sector.value(), pageRequest);
-    var items = models.stream().toList();
-    var itemsCount = models.getTotalElements();
-    return new Pair<>(
-        Array.createFrom(items, withdrawSolicitationMapper::toEntity),
-        PlusIntegerNumber.create((int) itemsCount));
-  }
-
-  @Override
-  public void add(WithdrawSolicitation solicitation) {
-    var solicitationModel = withdrawSolicitationMapper.toModel(solicitation);
-    withdrawSolicitationDao.save(solicitationModel);
-  }
-
-  @Override
-  public void replace(WithdrawSolicitation solicitation) {
-    var solicitationModel = withdrawSolicitationMapper.toModel(solicitation);
-    withdrawSolicitationDao.save(solicitationModel);
-  }
-
-  @Override
-  public void addJustificationToSolicitation(WithdrawSolicitation solicitation, Justification justification) {
-    var solicitationModel = withdrawSolicitationMapper.toModel(solicitation);
+  public void addJustificationToSolicitation(WorkLeaveSolicitation solicitation, Justification justification) {
+    var solicitationModel = WorkLeaveSolicitationMapper.toModel(solicitation);
     var justificationModel = justificationMapper.toModel(justification);
     solicitationModel.setJustification(justificationModel);
-    withdrawSolicitationDao.save(solicitationModel);
+    WorkLeaveSolicitationDao.save(solicitationModel);
   }
 
   @Override
-  public Optional<WithdrawSolicitation> findWithdrawSolicitationById(Id id) {
-    var solicitationModel = withdrawSolicitationDao.findById(id.value());
-    if (solicitationModel.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(withdrawSolicitationMapper.toEntity(solicitationModel.get()));
+  public Optional<WorkLeaveSolicitation> findWorkLeaveSolicitationById(Id id) {
+    var solicitationModel = WorkLeaveSolicitationDao.findById(id.value());
+    return Optional.of(WorkLeaveSolicitationMapper.toEntity(solicitationModel.get()));
   }
 
   @Override
-  public Optional<WorkleaveSolicitation> findWorkleaveSolicitationById(Id id) {
-    var solicitationModel = workLeaveSolicitationDao.findById(id.value());
-    return Optional.of(workLeaveSolicitationMapper.toEntity(solicitationModel.get()));
-  }
-
-  @Override
-  public Pair<Array<WorkleaveSolicitation>, PlusIntegerNumber> findManyApprovedWorkLeaveSolicitationsByCollaborationSectorAndMonth(
+  public Pair<Array<WorkLeaveSolicitation>, PlusIntegerNumber> findManyApprovedWorkLeaveSolicitationsByCollaborationSectorAndMonth(
       CollaborationSector sector,
       Month month,
       PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var models = workLeaveSolicitationDao
+    var models = WorkLeaveSolicitationDao
         .findAllBySolicitationStatusAndSenderResponsibleAccountSectorOrderByDateDesc(
             SolicitationStatus.Status.APPROVED,
             sector.value(),
@@ -398,7 +321,7 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     var items = models.stream().toList();
     var itemsCount = models.getTotalElements();
     return new Pair<>(
-        Array.createFrom(items, workLeaveSolicitationMapper::toEntity),
+        Array.createFrom(items, WorkLeaveSolicitationMapper::toEntity),
         PlusIntegerNumber.create((int) itemsCount));
   }
 
