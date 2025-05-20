@@ -11,7 +11,6 @@ public record SolicitationType(Type value) {
     TIME_PUNCH_ADJUSMENT,
     DAY_OFF_SCHEDULE,
     DAY_OFF,
-    PAID_OVERTIME,
     VACATION,
   }
 
@@ -30,9 +29,11 @@ public record SolicitationType(Type value) {
   public static SolicitationType createAsExcusedAbsence() {
     return new SolicitationType(Type.EXCUSED_ABSENCE);
   }
+
   public static SolicitationType createAsWithdraw() {
     return new SolicitationType(Type.WITHDRAW);
   }
+
   public static SolicitationType createAsTimePunchAdjusment() {
     return new SolicitationType(Type.TIME_PUNCH_ADJUSMENT);
   }
@@ -45,16 +46,15 @@ public record SolicitationType(Type value) {
     return new SolicitationType(Type.DAY_OFF);
   }
 
-  public static SolicitationType createPaidOvertime() {
-    return new SolicitationType(Type.PAID_OVERTIME);
-  }
   public static SolicitationType createAsVacation() {
     return new SolicitationType(Type.VACATION);
   }
+
   public Logical isVacation() {
     return Logical.create(value == Type.VACATION);
   }
-  public Logical isWithdraw(){
+
+  public Logical isWithdraw() {
     return Logical.create(value == Type.WITHDRAW);
   }
 
@@ -74,12 +74,7 @@ public record SolicitationType(Type value) {
     return Logical.create(value == Type.DAY_OFF);
   }
 
-  public Logical isPaidOvertime() {
-    return Logical.create(value == Type.PAID_OVERTIME);
-  }
-
   public String toString() {
     return value.toString().toLowerCase();
   }
-
 }
