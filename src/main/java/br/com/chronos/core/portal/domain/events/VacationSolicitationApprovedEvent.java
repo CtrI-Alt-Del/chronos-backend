@@ -7,14 +7,19 @@ public class VacationSolicitationApprovedEvent extends Event<VacationSolicitatio
     public static final String NAME = "portal/vacation.solicitation.approved";
 
     public static record Payload(String collaboratorId, String startDate, String endDate) {
+
+        public static Payload fromVacationSolicitation (VacationSolicitation Solicitation) {
+        return new Payload(
+                Solicitation.getSenderResponsible().getId().toString(),
+                Solicitation.getStartDate().toString(),
+                Solicitation.getEndDate().toString()
+        );
+    }
     }
 
     public VacationSolicitationApprovedEvent(VacationSolicitation solicitation) {
-        super(new Payload(
-            solicitation.getSenderResponsible().getId().toString(),
-            solicitation.getVacationDays().firstItem().value().toString(),
-            solicitation.getVacationDays().lastItem().value().toString()
-        ));
+        super(Payload.fromVacationSolicitation(solicitation));
     }
-    
+  
 }
+
