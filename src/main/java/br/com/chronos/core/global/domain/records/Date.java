@@ -31,6 +31,14 @@ public record Date(LocalDate value) {
     return new Date(value.minusDays(daysCount));
   }
 
+  public Logical isBefore(Date date) {
+    return Logical.create(value.isBefore(date.value()));
+  }
+
+  public Logical isAfter(Date date) {
+    return Logical.create(value.isAfter(date.value()));
+  }
+
   public Logical isEqual(Date date) {
     return Logical.create(value.isEqual(date.value()));
   }
