@@ -1,5 +1,7 @@
 package br.com.chronos.core.portal.domain.entities;
 
+import java.time.LocalDate;
+
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
@@ -17,6 +19,14 @@ public final class VacationSolicitation extends Solicitation {
 
   public Array<Date> getVacationDays() {
     return vacationDays;
+  }
+
+  public LocalDate getStartDate() {
+    return this.vacationDays.firstItem().value();
+  }
+
+  public LocalDate getEndDate() {
+    return this.vacationDays.lastItem().value();
   }
 
   public VacationSolicitationDto getDto() {

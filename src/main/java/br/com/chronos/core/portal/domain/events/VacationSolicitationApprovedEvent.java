@@ -6,16 +6,20 @@ import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
 public class VacationSolicitationApprovedEvent extends Event<VacationSolicitationApprovedEvent.Payload> {
     public static final String NAME = "portal/vacation.solicitation.approved";
 
-    public static record Payload(String collaboratorId, String vacation) {
+    public static record Payload(String collaboratorId, String startDate, String endDate) {
+
+        public static Payload fromVacationSolicitation (VacationSolicitation Solicitation) {
+        return new Payload(
+                Solicitation.getSenderResponsible().getId().toString(),
+                Solicitation.getStartDate().toString(),
+                Solicitation.getEndDate().toString()
+        );
+    }
     }
 
     public VacationSolicitationApprovedEvent(VacationSolicitation solicitation) {
-        super(new Payload(
-            solicitation.getSenderResponsible().getId().toString(),
-            solicitation.getVacationDays().firstItem().value() + " - " +
-            solicitation.getVacationDays().lastItem().value() + " (" +
-            solicitation.getVacationDays().size().value()
-        ));
+        super(Payload.fromVacationSolicitation(solicitation));
     }
-    
+  
 }
+
