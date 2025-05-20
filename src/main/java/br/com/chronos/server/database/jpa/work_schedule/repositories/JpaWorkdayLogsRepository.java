@@ -1,6 +1,5 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
-import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -8,11 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import kotlin.Pair;
-import kotlin.Triple;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chronos.core.global.domain.records.Array;
@@ -25,8 +22,6 @@ import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.responses.PaginationResponse;
-import br.com.chronos.core.work_schedule.domain.dtos.WorkdayStatusChartoDto;
-import br.com.chronos.core.work_schedule.domain.dtos.YearlyAbsenceChartDto;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
 import br.com.chronos.core.work_schedule.domain.records.ClockEvent;
@@ -34,9 +29,11 @@ import br.com.chronos.core.work_schedule.domain.records.MonthlyAbsence;
 import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
+import br.com.chronos.server.database.jpa.work_schedule.daos.WorkdayLogDao;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkdayLogMapper;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
-import br.com.chronos.server.database.jpa.work_schedule.daos.WorkdayLogDao;
+import kotlin.Pair;
+import kotlin.Triple;
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Autowired
@@ -243,5 +240,22 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     }
     return Array.create(hourlyClockEvents);
 
+  }
+
+  @Override
+  public Array<Integer> getCollaboratorsQuantityWithoutPunchsFromLastSevenDays() {
+    List<Object[]> rawResults = dao.countLowPunchesLast7Days();
+    Map<LocalDate, Integer> countsByDate = new HashMap<>();
+    for (Object[] row : rawResults) {
+      LocalDate date = ((Date) row[0]).value();
+      int count = ((Number) row[1]).intValue();
+      countsByDate.put(date, count);
+    }
+    Array<Integer> result = Array.createAsEmpty();
+    for (int i = 6; i >= 0; i--) {
+      LocalDate date = LocalDate.now().minusDays(i);
+      result.add(countsByDate.getOrDefault(date, 0));
+    }
+    return result;
   }
 }

@@ -22,6 +22,23 @@ public interface WorkdayLogDao extends JpaRepository<WorkdayLogModel, UUID> {
 
   List<WorkdayLogModel> findAllByDate(LocalDate date);
 
+  @Query(value = """
+      SELECT
+        wl.date,
+        COUNT(DISTINCT wl.collaborator_id) AS qty
+      FROM workday_logs wl
+      WHERE wl.date >= CURRENT_DATE - INTERVAL '6 days'
+        AND (
+          (CASE WHEN wl.first_clock_in IS NOT NULL THEN 1 ELSE 0 END) +
+          (CASE WHEN wl.first_clock_out IS NOT NULL THEN 1 ELSE 0 END) +
+          (CASE WHEN wl.second_clock_in IS NOT NULL THEN 1 ELSE 0 END) +
+          (CASE WHEN wl.second_clock_out IS NOT NULL THEN 1 ELSE 0 END)
+        ) < 4
+      GROUP BY wl.date
+      ORDER BY wl.date
+      """, nativeQuery = true)
+  List<Object[]> countLowPunchesLast7Days();
+
   @Query("""
       SELECT wl FROM WorkdayLogModel wl
       LEFT JOIN FETCH wl.collaborator c

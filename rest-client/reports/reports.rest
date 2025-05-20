@@ -10,3 +10,14 @@ Authorization: Bearer {{JWT}}
 GET {{URL}}/yearly-absence
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
+
+### Get daily time punchs chart
+GET {{URL}}/daily-punchs?date=2024-05-19
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+
+### Get missing punchs report dto 
+GET {{URL}}/collaborators-missing-time
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
