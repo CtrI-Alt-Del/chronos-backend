@@ -41,7 +41,7 @@ public class WorkLeaveSolicitationMapper {
         .justification(justification)
         .startedAt(entity.getStartedAt().value())
         .endedAt(entity.getEndedAt().value())
-        .isVacation(entity.isVacation().value())
+        .isVacation(entity.getIsVacation().value())
         .build();
     return solicitationModel;
   }
