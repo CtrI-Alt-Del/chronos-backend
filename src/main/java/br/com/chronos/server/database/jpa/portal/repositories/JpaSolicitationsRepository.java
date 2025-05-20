@@ -17,7 +17,6 @@ import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolici
 import br.com.chronos.core.portal.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
-import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
 import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
@@ -26,7 +25,6 @@ import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepositor
 import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.ExcusedAbsenceSolicitationDao;
-import br.com.chronos.server.database.jpa.portal.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.VacationSolicitationDao;
@@ -35,7 +33,6 @@ import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmen
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.ExcusedAbsenceSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.JustificationMapper;
-import br.com.chronos.server.database.jpa.portal.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.VacationSolicitationMapper;
@@ -53,12 +50,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
 
   @Autowired
   private DayOffScheduleAdjustmentSolicitationMapper dayOffScheduleAdjustmentSolicitationMapper;
-
-  @Autowired
-  private PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
-
-  @Autowired
-  private PaidOvertimeSolicitationMapper paidOvertimeSolicitationMapper;
 
   @Autowired
   private ExcusedAbsenceSolicitationDao excusedAbsenceSolicitationDao;
@@ -103,15 +94,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public Optional<PaidOvertimeSolicitation> findPaidOvertimeSolicitationById(Id solicitationId) {
-    var solicitationModel = paidOvertimeSolicitationDao.findById(solicitationId.value());
-    if (solicitationModel.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(paidOvertimeSolicitationMapper.toEntity(solicitationModel.get()));
-  }
-
-  @Override
   public Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id solicitationId) {
     var solicitationModel = timePunchAdjustmentSolicitationDao.findById(solicitationId.value());
     if (solicitationModel.isEmpty()) {
@@ -144,27 +126,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   }
 
   @Override
-  public Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page) {
-    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var models = paidOvertimeSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
-        sector.value(), pageRequest);
-    var items = models.stream().toList();
-    var itemsCount = models.getTotalElements();
-
-    return new Pair<>(
-        Array.createFrom(items, paidOvertimeSolicitationMapper::toEntity),
-        PlusIntegerNumber.create((int) itemsCount));
-  }
-
-  @Override
-  public void add(PaidOvertimeSolicitation solicitation) {
-    var solicitationModel = paidOvertimeSolicitationMapper.toModel(solicitation);
-    paidOvertimeSolicitationDao.save(solicitationModel);
-  }
-
-  @Override
   public void add(ExcusedAbsenceSolicitation solicitation) {
     var solicitationModel = excusedAbsenceSolicitationMapper.toModel(solicitation);
     excusedAbsenceSolicitationDao.save(solicitationModel);
@@ -180,12 +141,6 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
   public void replace(Solicitation solicitation) {
     var model = solicitationMapper.toModel(solicitation);
     solicitationDao.save(model);
-  }
-
-  @Override
-  public void replace(PaidOvertimeSolicitation solicitation) {
-    var model = paidOvertimeSolicitationMapper.toModel(solicitation);
-    paidOvertimeSolicitationDao.save(model);
   }
 
   @Override
@@ -353,13 +308,12 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
     withdrawSolicitationDao.save(solicitationModel);
   }
 
-@Override
-public Optional<WithdrawSolicitation> findWithdrawSolicitationById(Id id) {
+  @Override
+  public Optional<WithdrawSolicitation> findWithdrawSolicitationById(Id id) {
     var solicitationModel = withdrawSolicitationDao.findById(id.value());
     if (solicitationModel.isEmpty()) {
       return Optional.empty();
     }
     return Optional.of(withdrawSolicitationMapper.toEntity(solicitationModel.get()));
-}
-
+  }
 }
