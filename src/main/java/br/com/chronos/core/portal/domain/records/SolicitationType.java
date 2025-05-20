@@ -6,13 +6,11 @@ import br.com.chronos.core.global.domain.records.Text;
 
 public record SolicitationType(Type value) {
   public enum Type {
-    WITHDRAW,
     EXCUSED_ABSENCE,
     TIME_PUNCH_ADJUSMENT,
     DAY_OFF_SCHEDULE,
     DAY_OFF,
     PAID_OVERTIME,
-    VACATION,
     WORK_LEAVE,
   }
 
@@ -32,10 +30,6 @@ public record SolicitationType(Type value) {
     return new SolicitationType(Type.EXCUSED_ABSENCE);
   }
 
-  public static SolicitationType createAsWithdraw() {
-    return new SolicitationType(Type.WITHDRAW);
-  }
-
   public static SolicitationType createAsTimePunchAdjusment() {
     return new SolicitationType(Type.TIME_PUNCH_ADJUSMENT);
   }
@@ -52,20 +46,12 @@ public record SolicitationType(Type value) {
     return new SolicitationType(Type.PAID_OVERTIME);
   }
 
-  public static SolicitationType createAsVacation() {
-    return new SolicitationType(Type.VACATION);
-  }
-
   public static SolicitationType createAsWorkLeave() {
     return new SolicitationType(Type.WORK_LEAVE);
   }
 
-  public Logical isVacation() {
-    return Logical.create(value == Type.VACATION);
-  }
-
-  public Logical isWithdraw() {
-    return Logical.create(value == Type.WITHDRAW);
+  public Logical isWorkLeave() {
+    return Logical.create(value == Type.WORK_LEAVE);
   }
 
   public Logical isTimePunch() {

@@ -2,28 +2,29 @@ package br.com.chronos.core.portal.domain.entities;
 
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.DateRange;
+import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
 import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 
-public class WorkleaveSolicitation extends Solicitation {
+public class WorkLeaveSolicitation extends Solicitation {
   private Date startedAt;
   private Date endedAt;
   private Justification justification;
-  private Boolean isVacation;
+  private Logical isVacation;
 
-  public WorkleaveSolicitation(WorkLeaveSolicitationDto dto) {
+  public WorkLeaveSolicitation(WorkLeaveSolicitationDto dto) {
     super(dto);
     var dateRange = DateRange.create(dto.startedAt, dto.endedAt);
     this.startedAt = dateRange.startDate();
     this.endedAt = dateRange.endDate();
-    this.isVacation = dto.isVacation;
+    this.isVacation = dto.isVacation != null ? Logical.create(dto.isVacation) : Logical.createAsFalse();
     this.type = SolicitationType.createAsWorkLeave();
     this.justification = dto.justification != null ? new Justification(dto.justification) : null;
   }
 
   public void becomeVacation() {
-    this.isVacation = true;
+    isVacation = isVacation.becomeTrue();
   }
 
   public Date getStartedAt() {
@@ -38,7 +39,7 @@ public class WorkleaveSolicitation extends Solicitation {
     return justification;
   }
 
-  public Boolean isVacation() {
+  public Logical isVacation() {
     return isVacation;
   }
 
@@ -55,7 +56,7 @@ public class WorkleaveSolicitation extends Solicitation {
         .setReplierResponsible(solicitationDto.replierResponsible)
         .setStartedAt(getStartedAt().value())
         .setEndedAt(getEndedAt().value())
-        .setIsVacation(isVacation())
+        .setIsVacation(isVacation().value())
         .setJustification(getJustification() != null ? getJustification().getDto() : null)
         .setType(getType().toString());
     return dto;
