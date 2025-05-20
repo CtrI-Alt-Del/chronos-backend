@@ -10,16 +10,12 @@ import br.com.chronos.core.work_schedule.domain.events.WorkdayAbsenceExcusedEven
 import br.com.chronos.core.work_schedule.domain.events.WorkdayClosedEvent;
 import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForDayOffJob;
 import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForExcusedAbsenceJob;
-import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForPaidOvertimeJob;
 import br.com.chronos.server.queue.jobs.hour_bank.CreateHourBankTransactionForWorkdayJob;
 
 @Component
 public class HourBankListener {
   @Autowired
   private CreateHourBankTransactionForWorkdayJob createHourBankTransactionForWorkdayJob;
-
-  @Autowired
-  CreateHourBankTransactionForPaidOvertimeJob createHourBankTransactionForPaidOvertimeJob;
 
   @Autowired
   CreateHourBankTransactionForDayOffJob createHourBankTransactionForDayOffJob;
