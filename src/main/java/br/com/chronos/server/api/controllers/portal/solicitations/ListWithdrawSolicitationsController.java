@@ -20,7 +20,7 @@ public class ListWithdrawSolicitationsController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @GetMapping("/withdraw")
+  @GetMapping("work-leave/withdraw")
   public ResponseEntity<PaginationResponse<WorkLeaveSolicitationDto>> handle(
       @RequestParam(defaultValue = "1") int page) {
     var account = authenticationProvider.getAccount();

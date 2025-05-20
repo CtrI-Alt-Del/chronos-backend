@@ -12,5 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @RestController
-@RequestMapping("solicitation/justification")
-public @interface JustificationController {}
+@RequestMapping("portal/justification")
+public @interface JustificationController {
+}

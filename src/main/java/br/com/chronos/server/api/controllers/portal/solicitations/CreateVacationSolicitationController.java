@@ -31,12 +31,12 @@ public class CreateVacationSolicitationController {
     public static class Request extends WorkLeaveSolicitationDto {
     }
 
-    @PostMapping("/vacation")
+    @PostMapping("work-leave/vacation")
     public ResponseEntity<WorkLeaveSolicitationDto> handle(@RequestBody Request body) {
         var useCase = new CreateVacationSolicitationUseCase(solicitationsRepository, broker);
         var account = authenticationProvider.getAccount();
         var senderResponsibleId = account.getCollaboratorId().toString();
-        var response = useCase.execute(body, senderResponsibleId);
+        var response = useCase.execute(body, senderResponsibleId, account.getCollaborationSector().toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -25,12 +25,15 @@ public class CreateWithdrawSolicitationController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @PostMapping("/withdraw")
+  @PostMapping("work-leave/withdraw")
   public ResponseEntity<WorkLeaveSolicitationDto> handle(@RequestBody WorkLeaveSolicitationDto body) {
     var useCase = new CreateWithdrawSolicitationUseCase(solicitationsRepository, broker);
     var account = authenticationProvider.getAccount();
     var senderResponsibleId = account.getCollaboratorId().toString();
-    var response = useCase.execute(body, senderResponsibleId);
+    var response = useCase.execute(
+        body,
+        senderResponsibleId,
+        account.getCollaborationSector().toString());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

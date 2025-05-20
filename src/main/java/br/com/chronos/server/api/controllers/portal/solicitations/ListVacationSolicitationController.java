@@ -18,7 +18,7 @@ public class ListVacationSolicitationController {
     @Autowired
     private AuthenticationProvider authenticationProvider;
 
-    @GetMapping("/vacation")
+    @GetMapping("work-leave/vacation")
     public ResponseEntity<PaginationResponse<WorkLeaveSolicitationDto>> handle(
             @RequestParam(defaultValue = "1") int page) {
         var account = authenticationProvider.getAccount();
