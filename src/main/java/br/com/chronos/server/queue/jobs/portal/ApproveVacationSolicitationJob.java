@@ -1,5 +1,7 @@
 package br.com.chronos.server.queue.jobs.portal;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +17,10 @@ public class ApproveVacationSolicitationJob {
     private DayOffSchedulesRepository dayOffSchedulesRepository;
 
     public void handle(VacationSolicitationApprovedEvent.Payload payload) {
-        System.out.println("OIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-        var useCase = new ScheduleVacationUseCase(dayOffSchedulesRepository);
-        java.time.LocalDate vacationDate = java.time.LocalDate.parse(payload.vacation());
-        useCase.execute(vacationDate, payload.collaboratorId());
+    var useCase = new ScheduleVacationUseCase(dayOffSchedulesRepository);
+    LocalDate startDate = LocalDate.parse(payload.startDate());
+    LocalDate endDate = LocalDate.parse(payload.endDate());
+    
+    useCase.execute(startDate, endDate, payload.collaboratorId());
     }
-
 }
