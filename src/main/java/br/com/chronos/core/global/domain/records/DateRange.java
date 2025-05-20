@@ -39,4 +39,8 @@ public record DateRange(Date startDate, Date endDate) {
     var lastDayOfMonth = yearMonth.atEndOfMonth();
     return new DateRange(Date.create(firstDayOfMonth), Date.create(lastDayOfMonth));
   }
+
+  public Logical covers(Date date) {
+    return date.isEqualOrAfter(startDate).and(date.isEqualOrBefore(endDate));
+  }
 }
