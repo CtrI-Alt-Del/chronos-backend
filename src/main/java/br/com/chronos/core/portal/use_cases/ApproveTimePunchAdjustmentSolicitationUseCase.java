@@ -11,8 +11,8 @@ import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepositor
 public class ApproveTimePunchAdjustmentSolicitationUseCase extends ApproveSolicitationUseCase {
   public ApproveTimePunchAdjustmentSolicitationUseCase(
       SolicitationsRepository repository,
-      PortalBroker portalBroker) {
-    super(repository, portalBroker);
+      PortalBroker broker) {
+    super(repository, broker);
   }
 
   public void execute(
@@ -24,7 +24,7 @@ public class ApproveTimePunchAdjustmentSolicitationUseCase extends ApproveSolici
     repository.replace(solicitation);
 
     var event = new TimePunchAdjusmentSolicitationApprovedEvent(solicitation);
-    portalBroker.publish(event);
+    broker.publish(event);
   }
 
   private TimePunchAdjustmentSolicitation findSolicitation(Id solicitationId) {

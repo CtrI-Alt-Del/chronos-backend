@@ -12,8 +12,8 @@ import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepositor
 public class ApproveDayOffSolicitationUseCase extends ApproveSolicitationUseCase {
   public ApproveDayOffSolicitationUseCase(
       SolicitationsRepository repository,
-      PortalBroker portalBroker) {
-    super(repository, portalBroker);
+      PortalBroker broker) {
+    super(repository, broker);
   }
 
   public void execute(
@@ -22,15 +22,15 @@ public class ApproveDayOffSolicitationUseCase extends ApproveSolicitationUseCase
       byte collaboratorWorkload,
       String feedbackMessage) {
     var solicitation = findSolicitation(Id.create(solicitationId));
-    // approveSolicitation(solicitation, replierResponsible, feedbackMessage);
-    repository.replace(solicitation);
+    approveSolicitation(solicitation, replierResponsible, feedbackMessage);
 
     var event = new DayOffSolicitationApprovedEvent(solicitation);
-    portalBroker.publish(event);
+    broker.publish(event);
   }
 
   private DayOffSolicitation findSolicitation(Id solicitationId) {
-    var solicitation = repository.findSolicitationByIdAndSolicitationType(solicitationId,
+    var solicitation = repository.findSolicitationByIdAndSolicitationType(
+        solicitationId,
         SolicitationType.createAsDayOff());
     if (solicitation.isEmpty()) {
       throw new SolicitationNotFoundException();

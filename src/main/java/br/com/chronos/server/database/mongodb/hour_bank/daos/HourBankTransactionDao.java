@@ -11,18 +11,20 @@ import br.com.chronos.core.hour_bank.domain.records.HourBankTransactionOperation
 import br.com.chronos.server.database.mongodb.hour_bank.models.HourBankTransactionModel;
 
 public interface HourBankTransactionDao extends MongoRepository<HourBankTransactionModel, ObjectId> {
-    List<HourBankTransactionModel> findAllByCollaboratorId(String collaboratorId);
+  List<HourBankTransactionModel> findAllByCollaboratorId(String collaboratorId);
 
-    Page<HourBankTransactionModel> findAllByCollaboratorIdAndDateTimeBetweenOrderByDateTimeDesc(
-            String collaboratorId,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
-            PageRequest pageRequest);
+  Page<HourBankTransactionModel> findAllByCollaboratorIdAndDateTimeBetweenOrderByDateTimeDesc(
+      String collaboratorId,
+      LocalDateTime startDate,
+      LocalDateTime endDate,
+      PageRequest pageRequest);
 
-    Page<HourBankTransactionModel> findAllByCollaboratorIdAndDateTimeBetweenAndOperationOrderByDateTimeDesc(
-            String collaboratorId,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
-            HourBankTransactionOperation.OperationName operation,
-            PageRequest pageRequest);
+  Page<HourBankTransactionModel> findAllByCollaboratorIdAndDateTimeBetweenAndOperationOrderByDateTimeDesc(
+      String collaboratorId,
+      LocalDateTime startDate,
+      LocalDateTime endDate,
+      HourBankTransactionOperation.OperationName operation,
+      PageRequest pageRequest);
+
+  void deleteAllByCollaboratorId(String collaboratorId);
 }

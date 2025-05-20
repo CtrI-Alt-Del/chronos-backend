@@ -19,7 +19,6 @@ public class DisableAccountUseCase {
     var requesterAccount = new Account(requesterAccountDto);
     var account = findAccount(Id.create(collaboratorId));
 
-    System.out.println("equals: " + requesterAccount.equals(account));
     if (requesterAccount.equals(account)) {
       throw new ToggleSameAccountException();
     }

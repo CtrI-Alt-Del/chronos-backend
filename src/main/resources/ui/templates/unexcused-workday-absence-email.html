@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solicitação de Folga Aprovada</title>
+  <title>Aviso de Falta Não Justificada</title>
 </head>
 
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333333;">
@@ -28,7 +28,7 @@
           <tr>
             <td style="padding: 40px 30px;">
               <h1 style="margin: 0 0 20px; font-size: 24px; line-height: 30px; color: #333333; text-align: center;">
-                Solicitação de Folga Aprovada
+                Aviso de Falta Não Justificada
               </h1>
 
               <p style="margin: 0 0 20px; font-size: 16px; line-height: 24px; color: #555555;">
@@ -36,12 +36,21 @@
               </p>
 
               <p style="margin: 0 0 20px; font-size: 16px; line-height: 24px; color: #555555;">
-                Sua solicitação de folga foi aprovada pelo seu gestor. Você pode visualizar os detalhes da sua solicitação aprovada no sistema Chronos.
+                Identificamos que você possui uma falta não justificada no sistema para o dia #{{workdayDate}}. Por
+                favor,
+                atualize seu registro de presença o quanto antes para evitar impactos no seu saldo de horas.
               </p>
 
               <p style="margin: 0; font-size: 16px; line-height: 24px; color: #555555;">
                 Em caso de dúvidas, entre em contato com o departamento de Recursos Humanos.
               </p>
+
+              <div style="text-align: center; margin-top: 30px;">
+                <a href="#{{chronosWebAppUrl}}/work-schedule/collaborator-history"
+                  style="background-color: #007bff; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">
+                  Ver meu histórico de pontos
+                </a>
+              </div>
             </td>
           </tr>
 
@@ -59,4 +68,4 @@
   </table>
 </body>
 
-</html> 
+</html>

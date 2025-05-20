@@ -1,9 +1,6 @@
 package br.com.chronos.core.portal.use_cases;
 
-import java.util.logging.Logger;
-
 import br.com.chronos.core.auth.domain.exceptions.NotAuthorizedException;
-import br.com.chronos.core.global.domain.aggregates.ResponsibleAggregate;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;

@@ -8,11 +8,9 @@ import br.com.chronos.core.hour_bank.interfaces.HourBankBroker;
 import br.com.chronos.server.queue.rabbitmq.exchanges.WorkScheduleExchange;
 
 @Component
-public class RabbitMqHourBankBroker implements HourBankBroker {
-  private final RabbitTemplate rabbit;
-
+public class RabbitMqHourBankBroker extends RabbitMqBroker implements HourBankBroker {
   public RabbitMqHourBankBroker(RabbitTemplate rabbit) {
-    this.rabbit = rabbit;
+    super(rabbit);
   }
 
   @Override
