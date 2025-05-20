@@ -1,12 +1,16 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
+import java.time.Clock;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import kotlin.Pair;
+import kotlin.Triple;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +29,13 @@ import br.com.chronos.core.work_schedule.domain.dtos.WorkdayStatusChartoDto;
 import br.com.chronos.core.work_schedule.domain.dtos.YearlyAbsenceChartDto;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.work_schedule.domain.records.ClockEvent;
 import br.com.chronos.core.work_schedule.domain.records.MonthlyAbsence;
 import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkdayLogMapper;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 import br.com.chronos.server.database.jpa.work_schedule.daos.WorkdayLogDao;
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
@@ -158,22 +164,21 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
-  public WorkdayStatusChartoDto getWorkdayStatusChartByDateRange(DateRange dateRange) {
+  public Triple<Long, Long, Long> getCollaboratorsWorkdayStatusByDateRange(DateRange dateRange) {
     var normalDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.NORMAL_DAY,
         dateRange.startDate().value(),
         dateRange.endDate().value());
     var vacationDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.DAY_OFF,
         dateRange.startDate().value(),
-        dateRange.startDate().value());
+        dateRange.endDate().value());
     var withdrawDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.WORK_LEAVE,
         dateRange.startDate().value(),
         dateRange.endDate().value());
-    return WorkdayStatusChartoDto.createFromValues(normalDays, vacationDays, withdrawDays);
-
+    return new Triple<Long, Long, Long>(normalDays, vacationDays, withdrawDays);
   }
 
   @Override
-  public YearlyAbsenceChartDto getYearlyAbsenceChart() {
+  public Array<MonthlyAbsence> getYearlyCollaboratorsAbsence() {
     LocalDate end = LocalDate.now();
     LocalDate start = end.minusMonths(11).withDayOfMonth(1);
 
@@ -201,6 +206,42 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
       currentMonth = currentMonth % 12 + 1;
     }
 
-    return YearlyAbsenceChartDto.createFromValues(fullList);
+    return Array.create(fullList);
+  }
+
+  @Override
+  public Array<ClockEvent> getAllTimePunchsByDate(Date date) {
+    List<ClockEvent> hourlyClockEvents = new ArrayList<>(24);
+    for (int i = 0; i < 24; i++) {
+      hourlyClockEvents.add(ClockEvent.create());
+    }
+    List<WorkdayLogModel> logs = dao.findAllByDate(date.value());
+    for (WorkdayLogModel log : logs) {
+      LocalTime firstIn = log.getFirstClockIn();
+      if (firstIn != null) {
+        int hour = firstIn.getHour();
+        hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockIns(1));
+      }
+
+      LocalTime firstOut = log.getFirstClockOut();
+      if (firstOut != null) {
+        int hour = firstOut.getHour();
+        hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockOuts(1));
+      }
+
+      LocalTime secondIn = log.getSecondClockIn();
+      if (secondIn != null) {
+        int hour = secondIn.getHour();
+        hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockIns(1));
+      }
+
+      LocalTime secondOut = log.getSecondClockOut();
+      if (secondOut != null) {
+        int hour = secondOut.getHour();
+        hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockOuts(1));
+      }
+    }
+    return Array.create(hourlyClockEvents);
+
   }
 }
