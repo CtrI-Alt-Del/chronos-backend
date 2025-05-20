@@ -8,7 +8,7 @@ import br.com.chronos.core.portal.domain.dtos.JustificationDto;
 import br.com.chronos.core.portal.domain.dtos.SolicitationDto;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
-import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
+import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.core.portal.interfaces.repositories.JustificationRepository;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 
@@ -37,9 +37,9 @@ public class AttachJustificationToSolicitationUseCase {
     if (solicitation.getType().isExcusedAbsence().isTrue()) {
       var excuseAbsenceSolicitation = (ExcusedAbsenceSolicitation) solicitation;
       solicitationsRepository.addJustificationToSolicitation(excuseAbsenceSolicitation, justification);
-    } else if (solicitation.getType().isWithdraw().isTrue()) {
-      var withdrawSolicitation = (WithdrawSolicitation) solicitation;
-      solicitationsRepository.addJustificationToSolicitation(withdrawSolicitation, justification);
+    } else if (solicitation.getType().isWorkLeave().isTrue()) {
+      var workLeaveSolicitation = (WorkLeaveSolicitation) solicitation;
+      solicitationsRepository.addJustificationToSolicitation(workLeaveSolicitation, justification);
     }
 
     return findById(Id.create(solicitationId)).getDto();

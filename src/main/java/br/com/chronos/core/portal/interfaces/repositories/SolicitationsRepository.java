@@ -16,98 +16,79 @@ import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
-import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
-import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
-import br.com.chronos.core.portal.domain.entities.WorkleaveSolicitation;
+import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import kotlin.Pair;
 
 public interface SolicitationsRepository {
-  Optional<Solicitation> findById(Id id);
+    Optional<Solicitation> findById(Id id);
 
-  Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
+    Optional<ExcusedAbsenceSolicitation> findExcusedAbsenceSolicitationById(Id id);
 
-  Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id id);
+    Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id id);
 
-  Optional<WithdrawSolicitation> findWithdrawSolicitationById(Id id);
+    Optional<WorkLeaveSolicitation> findWorkLeaveSolicitationById(Id id);
 
-  Optional<WorkleaveSolicitation> findWorkleaveSolicitationById(Id id);
+    void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
+            Justification justification);
 
-  void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
-      Justification justification);
+    void addJustificationToSolicitation(WorkLeaveSolicitation solicitation,
+            Justification justification);
 
-  void addJustificationToSolicitation(WithdrawSolicitation solicitation,
-      Justification justification);
+    Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
 
-  Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
+    Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(
+            CollaborationSector sector,
+            PageNumber page);
 
-  Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    Pair<Array<DayOffSolicitation>, PlusIntegerNumber> findManyDayOffSolicitationsByCollaborationSector(
+            CollaborationSector sector,
+            PageNumber page);
 
-  Pair<Array<VacationSolicitation>, PlusIntegerNumber> findManyVacationSolicitationsByCollaboratorId(
-      CollaborationSector sector,
-      PageNumber page);
+    Pair<Array<ExcusedAbsenceSolicitation>, PlusIntegerNumber> findManyExcusedAbsenceSolicitationsByCollaborationSector(
+            CollaborationSector sector,
+            PageNumber page);
 
-  Pair<Array<DayOffSolicitation>, PlusIntegerNumber> findManyDayOffSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    Pair<Array<WorkLeaveSolicitation>, PlusIntegerNumber> findManyWorkLeaveSolicitationsByCollaborationSectorAndVacationStatus(
+            CollaborationSector sector,
+            Logical isVacation,
+            PageNumber page);
 
-  Pair<Array<ExcusedAbsenceSolicitation>, PlusIntegerNumber> findManyExcusedAbsenceSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    Pair<Array<WorkLeaveSolicitation>, PlusIntegerNumber> findManyApprovedWorkLeaveSolicitationsByCollaborationSectorAndMonth(
+            CollaborationSector sector,
+            Month month,
+            PageNumber page);
 
-  Pair<Array<WithdrawSolicitation>, PlusIntegerNumber> findManyWithdrawSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    Pair<Array<DayOffScheduleAdjustmentSolicitation>, PlusIntegerNumber> findManyDayOffScheduleAdjustmentSolicitationsByCollaborationSector(
+            CollaborationSector sector,
+            PageNumber page);
 
-  Pair<Array<WorkleaveSolicitation>, PlusIntegerNumber> findManyWorkLeaveSolicitationsByCollaborationSectorAndVacationStatus(
-      CollaborationSector sector,
-      Logical isVacation,
-      PageNumber page);
+    Pair<Array<TimePunchAdjustmentSolicitation>, PlusIntegerNumber> findManyTimePunchAdjustmentSolicitationsByCollaborationSector(
+            CollaborationSector sector,
+            PageNumber page);
 
-  Pair<Array<WorkleaveSolicitation>, PlusIntegerNumber> findManyApprovedWorkLeaveSolicitationsByCollaborationSectorAndMonth(
-      CollaborationSector sector,
-      Month month,
-      PageNumber page);
+    Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type);
 
-  Pair<Array<DayOffScheduleAdjustmentSolicitation>, PlusIntegerNumber> findManyDayOffScheduleAdjustmentSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    void add(PaidOvertimeSolicitation solicitation);
 
-  Pair<Array<TimePunchAdjustmentSolicitation>, PlusIntegerNumber> findManyTimePunchAdjustmentSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page);
+    void add(WorkLeaveSolicitation solicitation);
 
-  Optional<Solicitation> findSolicitationByIdAndSolicitationType(Id solicitationId, SolicitationType type);
+    void add(DayOffScheduleAdjustmentSolicitation solicitation);
 
-  void add(PaidOvertimeSolicitation solicitation);
+    void add(ExcusedAbsenceSolicitation solicitation);
 
-  void add(WithdrawSolicitation solicitation);
+    void add(DayOffSolicitation solicitation);
 
-  void add(WorkleaveSolicitation solicitation);
+    void add(TimePunchAdjustmentSolicitation solicitation);
 
-  void add(DayOffScheduleAdjustmentSolicitation solicitation);
+    void replace(Solicitation solicitation);
 
-  void add(ExcusedAbsenceSolicitation solicitation);
+    void replace(DayOffScheduleAdjustmentSolicitation solicitation);
 
-  void add(DayOffSolicitation solicitation);
+    void replace(PaidOvertimeSolicitation solicitation);
 
-  void add(TimePunchAdjustmentSolicitation solicitation);
+    void replace(DayOffSolicitation solicitation);
 
-  void add(VacationSolicitation vacationSolicitation);
+    void replace(ExcusedAbsenceSolicitation solicitation);
 
-  void replace(Solicitation solicitation);
-
-  void replace(DayOffScheduleAdjustmentSolicitation solicitation);
-
-  void replace(PaidOvertimeSolicitation solicitation);
-
-  void replace(DayOffSolicitation solicitation);
-
-  void replace(ExcusedAbsenceSolicitation solicitation);
-
-  void replace(VacationSolicitation vacationSolicitation);
-
-  void replace(WithdrawSolicitation solicitation);
 }
