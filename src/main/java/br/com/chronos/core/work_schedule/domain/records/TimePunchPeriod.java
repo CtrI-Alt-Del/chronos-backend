@@ -1,6 +1,8 @@
 package br.com.chronos.core.work_schedule.domain.records;
 
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
+import br.com.chronos.core.global.domain.records.Logical;
+import br.com.chronos.core.work_schedule.domain.records.ClockEvent.ClockEventType;
 
 public record TimePunchPeriod(PeriodName name) {
   public enum PeriodName {
@@ -21,5 +23,15 @@ public record TimePunchPeriod(PeriodName name) {
 
   public String toString() {
     return name.toString().toLowerCase();
+  }
+
+  public Logical isClockIn() {
+    return name == PeriodName.FIRST_CLOCK_IN || name == PeriodName.SECOND_CLOCK_IN ? Logical.createAsTrue()
+        : Logical.createAsFalse();
+  }
+
+  public Logical isClockOut() {
+    return name == PeriodName.FIRST_CLOCK_OUT || name == PeriodName.SECOND_CLOCK_OUT ? Logical.createAsTrue()
+        : Logical.createAsFalse();
   }
 }
