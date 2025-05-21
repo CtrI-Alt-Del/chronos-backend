@@ -83,6 +83,8 @@ public class JasperPdfProvider implements PdfProvider {
       workdayStatuses.put("DAY_OFF", "Dia de folga");
       workdayStatuses.put("HOLIDAY", "Feriado");
       workdayStatuses.put("WORK_LEAVE", "Afastamento");
+      workdayStatuses.put("VACATION", "Férias");
+
       return workdayStatuses.getOrDefault(status.toUpperCase(), status);
     }
 
