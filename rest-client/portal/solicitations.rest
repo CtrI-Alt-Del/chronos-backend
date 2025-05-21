@@ -1,9 +1,10 @@
-@RESOURCE = solicitation/solicitations
+@RESOURCE = portal/solicitations
 @URL = {{HOST}}/{{RESOURCE}}
-@DAY_OFF_SCHEDULE_ADJUSTMENT_SOLICITATION_ID =2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d
+@DAY_OFF_SCHEDULE_ADJUSTMENT_SOLICITATION_ID = 2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d
 @PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
 @DAY_OFF_SOLICITATION_ID = c0b7618f-38b3-40e8-b2f3-1f67d2e2a26c
 @EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
+@WORK_LEAVE_SOLICITATION_ID = 932443b1-27dd-4004-b8e6-00fb8bd31458
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 ### Create time punch adjustment solicitation
@@ -73,12 +74,51 @@ Authorization: Bearer {{JWT}}
   "feedbackMessage": "Você está perdoado!"
 }
 
+### Create vacation solicitation 
+POST {{URL}}/work-leave/vacation
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "startedAt": "2025-05-20",
+  "endedAt": "2025-05-25"
+}
+
+### List vacation solicitations
+GET {{URL}}/work-leave/vacation?page=1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Create withdraw solicitation
+POST {{URL}}/work-leave/withdraw
+Content-Type: application/json 
+Authorization: Bearer {{JWT}}
+
+{
+  "startedAt": "2025-05-20",
+  "endedAt": "2025-05-25"
+}
+
+### List withdraw solicitations 
+GET {{URL}}/work-leave/withdraw?page=1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+### Aprove work leave solicitation
+PUT {{URL}}/{{WORK_LEAVE_SOLICITATION_ID}}/approve/work-leave
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+  "feedbackMessage": "Descance bastante"
+}
+
 ### Get All day off schedule adjustment solicitations 
 GET {{URL}}/day-off-schedule-adjustment
 Content-Type: application/json 
 Authorization: Bearer {{JWT}}
 
-### Create Day Off Schedule Adjustment Solicitation
+### Create day off schedule adjustment solicitation
 POST {{URL}}/day-off-schedule-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -100,8 +140,7 @@ Authorization: Bearer {{JWT}}
   "feedbackMessage": "Aprovado!,merece descansar banana!"
 }
 
-
-### Create Time Punch Adjustment Solicitation
+### Create time punch adjustment solicitation
 POST {{URL}}/time-punch-adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -113,29 +152,6 @@ Authorization: Bearer {{JWT}}
   "reason": "FORGOTTEN"
 }
 
-##### Create withdraw solicitation
-POST {{URL}}/withdraw
-Content-Type: application/json 
-Authorization: Bearer {{JWT}}
-
-{
-  "withdrawalDays":["2025-04-05","2025-04-07"]
-}
-
-### List withdraw solicitations 
-GET {{URL}}/withdraw
-Content-Type: application/json
-Authorization: Bearer {{JWT}}
-
-### Approve withdraw solicitations
-PUT {{URL}}/26f97b45-3ad3-4233-8102-5b82cf54a77f/approve/withdraw
-Content-Type: application/json
-Authorization: Bearer {{JWT}}
-
-{
-  "feedbackMessage": "Aprovado!,merece descansar banana!"
-} 
-
 ### Deny solicitation 
 PATCH {{URL}}/{{DAY_OFF_SOLICITATION_ID}}/deny
 Content-Type: application/json
@@ -144,6 +160,7 @@ Authorization: Bearer {{JWT}}
 {
   "feedbackMessage": "Não fui com a sua cara!"
 }
+
 ### Cancel solicitation 
 PATCH {{URL}}/b221ab93-4f01-4333-a260-66db2344019f/cancel
 Content-Type: application/json

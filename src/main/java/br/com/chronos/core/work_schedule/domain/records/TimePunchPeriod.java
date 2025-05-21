@@ -2,7 +2,6 @@ package br.com.chronos.core.work_schedule.domain.records;
 
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
 import br.com.chronos.core.global.domain.records.Logical;
-import br.com.chronos.core.work_schedule.domain.records.ClockEvent.ClockEventType;
 
 public record TimePunchPeriod(PeriodName name) {
   public enum PeriodName {

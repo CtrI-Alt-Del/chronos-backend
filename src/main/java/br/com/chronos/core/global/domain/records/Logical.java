@@ -13,6 +13,14 @@ public record Logical(boolean value) {
     return new Logical(false);
   }
 
+  public Logical becomeTrue() {
+    return new Logical(true);
+  }
+
+  public Logical becomeFalse() {
+    return new Logical(false);
+  }
+
   public boolean isTrue() {
     return value == true;
   }

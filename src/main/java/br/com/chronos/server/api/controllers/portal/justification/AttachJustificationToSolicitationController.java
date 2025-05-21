@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.chronos.core.global.domain.dtos.AttachmentDto;
 import br.com.chronos.core.global.interfaces.providers.StorageProvider;
-import br.com.chronos.core.portal.domain.dtos.ExcusedAbsenceSolicitationDto;
 import br.com.chronos.core.portal.domain.dtos.JustificationDto;
 import br.com.chronos.core.portal.domain.dtos.JustificationTypeDto;
 import br.com.chronos.core.portal.domain.dtos.SolicitationDto;

@@ -8,12 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
-import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
 import br.com.chronos.core.portal.domain.events.DayOffScheduleSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.WorkLeaveSolicitationApprovedEvent;
 import br.com.chronos.server.queue.jobs.work_schedule.AdjustTimePunchJob;
+import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkLeaveJob;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ExcuseWorkdayAbsenceJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ScheduleDayOffJob;
@@ -32,6 +33,11 @@ public class WorkScheduleExchange {
   @Bean
   Queue createWorkdayLogsJobQueue() {
     return new Queue(CreateWorkdayLogsJob.KEY, true);
+  }
+
+  @Bean
+  Queue createWorkLeaveJobQueue() {
+    return new Queue(CreateWorkLeaveJob.KEY, true);
   }
 
   @Bean
@@ -67,11 +73,19 @@ public class WorkScheduleExchange {
   }
 
   @Bean
+  Binding createWorkLeaveJobBinding() {
+    return BindingBuilder
+        .bind(createWorkLeaveJobQueue())
+        .to(workScheduleDirectExchange())
+        .with(WorkLeaveSolicitationApprovedEvent.NAME);
+  }
+
+  @Bean
   Binding updateWorkdayHourBankJobBinding() {
     return BindingBuilder
         .bind(updateWorkdayHourBankJobQueue())
         .to(workScheduleDirectExchange())
-        .with(HourBankTransactionCreatedEvent.NAME);
+        .with(WorkLeaveSolicitationApprovedEvent.NAME);
   }
 
   @Bean

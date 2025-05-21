@@ -2,24 +2,37 @@
 package br.com.chronos.core.portal.use_cases;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
-import br.com.chronos.core.portal.domain.dtos.WithdrawSolicitationDto;
-import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
+import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
+import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
+import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
+import br.com.chronos.core.portal.domain.events.WorkLeaveSolicitationApprovedEvent;
+import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
+import br.com.chronos.core.work_schedule.use_cases.CreateSolicitationUseCase;
 
-public class CreateWithdrawSolicitationUseCase {
-  private final SolicitationsRepository solicitationRepository;
+public class CreateWithdrawSolicitationUseCase extends CreateSolicitationUseCase {
+  private final SolicitationsRepository repository;
 
-  public CreateWithdrawSolicitationUseCase(SolicitationsRepository solicitationRepository) {
-    this.solicitationRepository = solicitationRepository;
+  public CreateWithdrawSolicitationUseCase(SolicitationsRepository repository, PortalBroker broker) {
+    super(broker);
+    this.repository = repository;
   }
 
-  public WithdrawSolicitationDto execute(
-      WithdrawSolicitationDto dto,
-      String senderResponsibleId) {
-    var senderResponsibleDto = new ResponsibleAggregateDto().setId(senderResponsibleId);
+  public WorkLeaveSolicitationDto execute(
+      WorkLeaveSolicitationDto dto,
+      String senderResponsibleId,
+      String collaboratorionSector) {
+    var responsibleDto = new ResponsibleDto()
+        .setId(senderResponsibleId)
+        .setSector(collaboratorionSector);
+    var senderResponsibleDto = new ResponsibleAggregateDto(responsibleDto);
     dto.setSenderResponsible(senderResponsibleDto);
-    var solicitation = new WithdrawSolicitation(dto);
-    solicitationRepository.add(solicitation);
+
+    var solicitation = new WorkLeaveSolicitation(dto);
+    repository.add(solicitation);
+
+    var event = new WorkLeaveSolicitationApprovedEvent(solicitation);
+    broker.publish(event);
     return solicitation.getDto();
   }
 }

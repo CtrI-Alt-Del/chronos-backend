@@ -3,14 +3,9 @@ package br.com.chronos.core.work_schedule.domain.dtos;
 import java.time.LocalDate;
 
 public class WorkLeaveDto {
-  public String id;
   public LocalDate startedAt;
   public LocalDate endedAt;
-
-  public WorkLeaveDto setId(String id) {
-    this.id = id;
-    return this;
-  }
+  public boolean isVacation;
 
   public WorkLeaveDto setStartedAt(LocalDate startedAt) {
     this.startedAt = startedAt;
@@ -19,6 +14,11 @@ public class WorkLeaveDto {
 
   public WorkLeaveDto setEndedAt(LocalDate endedAt) {
     this.endedAt = endedAt;
+    return this;
+  }
+
+  public WorkLeaveDto setIsVacation(boolean isVacation) {
+    this.isVacation = isVacation;
     return this;
   }
 }
