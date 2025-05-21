@@ -24,7 +24,7 @@ public class GetCollaboratorHistoryUseCase {
 
     var response = repository.findManyByCollaboratorAndDateRange(
         Id.create(collaboratorId),
-        DateRange.create(startDate, endDate),
+        DateRange.create(startDate, endDate, 7),
         PageNumber.create(page));
     var workdayLogs = response.getFirst().map((workdayLog) -> workdayLog.getDto());
     var itemsCount = response.getSecond();

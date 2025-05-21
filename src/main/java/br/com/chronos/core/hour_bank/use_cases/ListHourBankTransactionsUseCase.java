@@ -30,7 +30,7 @@ public class ListHourBankTransactionsUseCase {
     if (operation.equals("all") || operation == null) {
       var response = repository.findManyByCollaboratorAndDateRage(
           Id.create(collaboratorId),
-          DateRange.create(startDate, endDate),
+          DateRange.create(startDate, endDate, 7),
           PageNumber.create(page));
 
       return getPaginationResponse(response);
@@ -38,7 +38,7 @@ public class ListHourBankTransactionsUseCase {
 
     var response = repository.findManyByCollaboratorDateRageAndOperation(
         Id.create(collaboratorId),
-        DateRange.create(startDate, endDate),
+        DateRange.create(startDate, endDate, 7),
         HourBankTransactionOperation.create(operation),
         PageNumber.create(page));
 

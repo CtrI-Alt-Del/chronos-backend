@@ -5,29 +5,17 @@ import java.time.YearMonth;
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
 
 public record DateRange(Date startDate, Date endDate) {
-  public static DateRange create(LocalDate startDate, LocalDate endDate) {
+  public static DateRange create(LocalDate startDate, LocalDate endDate, int defaultRange) {
     var dateRangeStart = Date.create(startDate);
     var dateRangeEnd = Date.create(endDate);
 
     if (startDate == null || endDate == null) {
       dateRangeEnd = Date.createFromNow();
-      dateRangeStart = dateRangeEnd.minusDays(7);
+      dateRangeStart = dateRangeEnd.minusDays(defaultRange);
     }
 
     if (dateRangeStart.isAfter(dateRangeEnd).isTrue()) {
       throw new ValidationException("data inicial", "não pode ser maior que a data final");
-    }
-
-    return new DateRange(dateRangeStart, dateRangeEnd);
-  }
-
-  public static DateRange createWithMonthRange(LocalDate startDate, LocalDate endDate) {
-    var dateRangeStart = Date.create(startDate);
-    var dateRangeEnd = Date.create(endDate);
-
-    if (startDate == null || endDate == null) {
-      dateRangeEnd = Date.createFromNow();
-      dateRangeStart = dateRangeEnd.minusDays(30);
     }
 
     return new DateRange(dateRangeStart, dateRangeEnd);

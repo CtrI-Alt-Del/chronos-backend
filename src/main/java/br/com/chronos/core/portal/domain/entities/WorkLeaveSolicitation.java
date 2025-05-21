@@ -15,7 +15,7 @@ public class WorkLeaveSolicitation extends Solicitation {
 
   public WorkLeaveSolicitation(WorkLeaveSolicitationDto dto) {
     super(dto);
-    var dateRange = DateRange.create(dto.startedAt, dto.endedAt);
+    var dateRange = DateRange.create(dto.startedAt, dto.endedAt, 30);
     this.startedAt = dateRange.startDate();
     this.endedAt = dateRange.endDate();
     this.isVacation = dto.isVacation != null ? Logical.create(dto.isVacation) : Logical.createAsFalse();

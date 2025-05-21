@@ -14,7 +14,7 @@ public record CollaboratorWorkLeave(
     Responsible collaborator) {
   public static CollaboratorWorkLeave create(CollaboratorWorkLeaveDto dto) {
     return new CollaboratorWorkLeave(
-        DateRange.create(dto.startedAt, dto.endedAt),
+        DateRange.create(dto.startedAt, dto.endedAt, 30),
         Logical.create(dto.isVacation),
         new Justification(dto.justification),
         new Responsible(dto.collaborator));
