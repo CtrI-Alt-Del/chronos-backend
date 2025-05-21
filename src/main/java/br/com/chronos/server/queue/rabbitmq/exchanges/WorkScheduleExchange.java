@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
-import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
 import br.com.chronos.core.portal.domain.events.DayOffScheduleSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
@@ -71,6 +70,14 @@ public class WorkScheduleExchange {
         .bind(createWorkdayLogsJobQueue())
         .to(workScheduleDirectExchange())
         .with(CollaboratorsPreparedForWorkEvent.NAME);
+  }
+
+  @Bean
+  Binding createWorkLeaveJobBinding() {
+    return BindingBuilder
+        .bind(createWorkLeaveJobQueue())
+        .to(workScheduleDirectExchange())
+        .with(WorkLeaveSolicitationApprovedEvent.NAME);
   }
 
   @Bean

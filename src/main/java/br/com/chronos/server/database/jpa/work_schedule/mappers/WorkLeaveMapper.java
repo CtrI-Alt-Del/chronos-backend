@@ -1,5 +1,6 @@
 package br.com.chronos.server.database.jpa.work_schedule.mappers;
 
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.work_schedule.domain.dtos.WorkLeaveDto;
@@ -11,6 +12,7 @@ public class WorkLeaveMapper {
   public WorkLeaveModel toModel(WorkLeave workLeave) {
     return WorkLeaveModel
         .builder()
+        .id(UUID.randomUUID())
         .startedAt(workLeave.dateRange().startDate().value())
         .endedAt(workLeave.dateRange().endDate().value())
         .build();

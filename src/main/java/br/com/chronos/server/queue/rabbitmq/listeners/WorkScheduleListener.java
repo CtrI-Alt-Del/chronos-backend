@@ -55,6 +55,7 @@ public class WorkScheduleListener {
 
   @RabbitListener(queues = CreateWorkLeaveJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload WorkLeaveSolicitationApprovedEvent.Payload payload) {
+    System.out.println("WorkScheduleListener");
     createWorkLeaveJob.handle(payload);
   }
 }

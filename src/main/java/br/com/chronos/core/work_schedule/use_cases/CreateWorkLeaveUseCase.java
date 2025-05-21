@@ -13,7 +13,11 @@ public class CreateWorkLeaveUseCase {
   }
 
   public void execute(WorkLeaveDto dto, String collaboratorId) {
-    var workLeave = WorkLeave.create(dto);
-    repository.add(workLeave, Id.create(collaboratorId));
+    try {
+      var workLeave = WorkLeave.create(dto);
+      repository.add(workLeave, Id.create(collaboratorId));
+    } catch (Exception e) {
+      System.out.println(e);
+    }
   }
 }

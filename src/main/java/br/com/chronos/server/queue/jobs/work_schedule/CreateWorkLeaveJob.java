@@ -10,7 +10,7 @@ import br.com.chronos.core.work_schedule.use_cases.CreateWorkLeaveUseCase;
 
 @Component
 public class CreateWorkLeaveJob {
-  public static final String KEY = "work.schedule/create.work.leaves.job";
+  public static final String KEY = "work.schedule/create.work.leave.job";
 
   @Autowired
   private WorkLeavesRepository WorkLeavesRepository;
