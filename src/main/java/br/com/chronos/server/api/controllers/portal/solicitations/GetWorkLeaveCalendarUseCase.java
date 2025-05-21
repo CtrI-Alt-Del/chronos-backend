@@ -4,8 +4,8 @@ import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Month;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.responses.PaginationResponse;
-import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
+import br.com.chronos.core.work_schedule.domain.dtos.CollaboratorWorkLeaveDto;
 
 public class GetWorkLeaveCalendarUseCase {
   private final SolicitationsRepository repository;
@@ -14,7 +14,7 @@ public class GetWorkLeaveCalendarUseCase {
     this.repository = repository;
   }
 
-  public PaginationResponse<WorkLeaveSolicitationDto> execute(
+  public PaginationResponse<CollaboratorWorkLeaveDto> execute(
       String collaborationSector,
       int year,
       int month,
@@ -24,8 +24,17 @@ public class GetWorkLeaveCalendarUseCase {
         Month.create(year, month),
         PageNumber.create(page));
 
-    var workLeaves = response.getFirst().map(solicitation -> solicitation.getDto());
+    var workLeaves = response.getFirst().map(solicitation -> {
+      var dto = new CollaboratorWorkLeaveDto()
+          .setStartedAt(solicitation.getStartedAt().value())
+          .setEndedAt(solicitation.getEndedAt().value())
+          .setIsVacation(solicitation.getIsVacation().value())
+          .setJustification(solicitation.getJustification().getDto())
+          .setCollaborator(solicitation.getSenderResponsible().getDto().entity);
+      return dto;
+    });
+
     var itemsCount = response.getSecond();
-    return new PaginationResponse<WorkLeaveSolicitationDto>(workLeaves.list(), itemsCount.value());
+    return new PaginationResponse<CollaboratorWorkLeaveDto>(workLeaves.list(), itemsCount.value());
   }
 }

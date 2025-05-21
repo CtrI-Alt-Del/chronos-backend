@@ -5,6 +5,7 @@ import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
+import br.com.chronos.core.portal.domain.events.WorkLeaveSolicitationApprovedEvent;
 import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.work_schedule.use_cases.CreateSolicitationUseCase;
@@ -29,6 +30,9 @@ public class CreateWithdrawSolicitationUseCase extends CreateSolicitationUseCase
 
     var solicitation = new WorkLeaveSolicitation(dto);
     repository.add(solicitation);
+
+    var event = new WorkLeaveSolicitationApprovedEvent(solicitation);
+    broker.publish(event);
     return solicitation.getDto();
   }
 }

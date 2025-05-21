@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.global.responses.PaginationResponse;
-import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
+import br.com.chronos.core.work_schedule.domain.dtos.CollaboratorWorkLeaveDto;
 import br.com.chronos.server.api.controllers.portal.solicitations.GetWorkLeaveCalendarUseCase;
 
 @WorkLeaveCalendarController
@@ -20,7 +20,7 @@ public class GetWorkLeaveCalendarcontroller {
   private AuthenticationProvider authenticationProvider;
 
   @GetMapping
-  public ResponseEntity<PaginationResponse<WorkLeaveSolicitationDto>> handle(
+  public ResponseEntity<PaginationResponse<CollaboratorWorkLeaveDto>> handle(
       @RequestParam int year,
       @RequestParam int month,
       @RequestParam(defaultValue = "1") int page) {

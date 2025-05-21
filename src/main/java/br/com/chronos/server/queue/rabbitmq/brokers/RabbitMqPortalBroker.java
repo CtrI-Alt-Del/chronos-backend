@@ -10,7 +10,7 @@ import br.com.chronos.core.portal.domain.events.SolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationCreatedEvent;
 import br.com.chronos.core.portal.domain.events.SolicitationDeniedEvent;
 import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
-import br.com.chronos.core.portal.domain.events.VacationSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.WorkLeaveSolicitationApprovedEvent;
 import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.server.queue.rabbitmq.exchanges.HourBankExchange;
 import br.com.chronos.server.queue.rabbitmq.exchanges.NotificationExchange;
@@ -83,7 +83,10 @@ public class RabbitMqPortalBroker extends RabbitMqBroker implements PortalBroker
   }
 
   @Override
-  public void publish(VacationSolicitationApprovedEvent event) {
-    throw new UnsupportedOperationException("Unimplemented method 'publish'");
+  public void publish(WorkLeaveSolicitationApprovedEvent event) {
+    rabbit.convertAndSend(
+        WorkScheduleExchange.NAME,
+        WorkLeaveSolicitationApprovedEvent.NAME,
+        event.getPayload());
   }
 }

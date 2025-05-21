@@ -10,7 +10,7 @@ import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
-import br.com.chronos.core.portal.use_cases.ListWithdrawSolicitationUseCase;
+import br.com.chronos.core.portal.use_cases.ListWithdrawSolicitationsUseCase;
 
 @SolicitationsController
 public class ListWithdrawSolicitationsController {
@@ -26,7 +26,7 @@ public class ListWithdrawSolicitationsController {
     var account = authenticationProvider.getAccount();
     var sector = account.getCollaborationSector().toString();
 
-    var useCase = new ListWithdrawSolicitationUseCase(solicitationsRepository);
+    var useCase = new ListWithdrawSolicitationsUseCase(solicitationsRepository);
     var response = useCase.execute(sector, page);
     return ResponseEntity.ok(response);
   }

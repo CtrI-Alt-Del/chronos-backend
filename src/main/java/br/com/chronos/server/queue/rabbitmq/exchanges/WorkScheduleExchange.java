@@ -13,7 +13,9 @@ import br.com.chronos.core.portal.domain.events.DayOffScheduleSolicitationApprov
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.TimePunchAdjusmentSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.WorkLeaveSolicitationApprovedEvent;
 import br.com.chronos.server.queue.jobs.work_schedule.AdjustTimePunchJob;
+import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkLeaveJob;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ExcuseWorkdayAbsenceJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ScheduleDayOffJob;
@@ -32,6 +34,11 @@ public class WorkScheduleExchange {
   @Bean
   Queue createWorkdayLogsJobQueue() {
     return new Queue(CreateWorkdayLogsJob.KEY, true);
+  }
+
+  @Bean
+  Queue createWorkLeaveJobQueue() {
+    return new Queue(CreateWorkLeaveJob.KEY, true);
   }
 
   @Bean
@@ -71,7 +78,7 @@ public class WorkScheduleExchange {
     return BindingBuilder
         .bind(updateWorkdayHourBankJobQueue())
         .to(workScheduleDirectExchange())
-        .with(HourBankTransactionCreatedEvent.NAME);
+        .with(WorkLeaveSolicitationApprovedEvent.NAME);
   }
 
   @Bean

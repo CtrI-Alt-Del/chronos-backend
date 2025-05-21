@@ -9,6 +9,8 @@ import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForW
 import br.com.chronos.core.hour_bank.domain.events.HourBankTransactionCreatedEvent;
 import br.com.chronos.core.portal.domain.events.DayOffSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.events.ExcusedAbsenceSolicitationApprovedEvent;
+import br.com.chronos.core.portal.domain.events.WorkLeaveSolicitationApprovedEvent;
+import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkLeaveJob;
 import br.com.chronos.server.queue.jobs.work_schedule.CreateWorkdayLogsJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ExcuseWorkdayAbsenceJob;
 import br.com.chronos.server.queue.jobs.work_schedule.ScheduleDayOffJob;
@@ -18,6 +20,9 @@ import br.com.chronos.server.queue.jobs.work_schedule.UpdateWorkdayHourBankJob;
 public class WorkScheduleListener {
   @Autowired
   private CreateWorkdayLogsJob createWorkdayLogsJob;
+
+  @Autowired
+  private CreateWorkLeaveJob createWorkLeaveJob;
 
   @Autowired
   private UpdateWorkdayHourBankJob updateWorkdayHourBankJob;
@@ -46,5 +51,10 @@ public class WorkScheduleListener {
   @RabbitListener(queues = ScheduleDayOffJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload DayOffSolicitationApprovedEvent.Payload payload) {
     scheduleDayOffJob.handle(payload);
+  }
+
+  @RabbitListener(queues = CreateWorkLeaveJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  public void listenTo(@Payload WorkLeaveSolicitationApprovedEvent.Payload payload) {
+    createWorkLeaveJob.handle(payload);
   }
 }

@@ -39,7 +39,7 @@ public class WorkLeaveSolicitation extends Solicitation {
     return justification;
   }
 
-  public Logical isVacation() {
+  public Logical getIsVacation() {
     return isVacation;
   }
 
@@ -56,7 +56,7 @@ public class WorkLeaveSolicitation extends Solicitation {
         .setReplierResponsible(solicitationDto.replierResponsible)
         .setStartedAt(getStartedAt().value())
         .setEndedAt(getEndedAt().value())
-        .setIsVacation(isVacation().value())
+        .setIsVacation(getIsVacation().value())
         .setJustification(getJustification() != null ? getJustification().getDto() : null)
         .setType(getType().toString());
     return dto;

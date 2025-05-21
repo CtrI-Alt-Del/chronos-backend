@@ -7,10 +7,10 @@ import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 
-public class ListWithdrawSolicitationUseCase {
+public class ListWithdrawSolicitationsUseCase {
   private final SolicitationsRepository repository;
 
-  public ListWithdrawSolicitationUseCase(SolicitationsRepository repository) {
+  public ListWithdrawSolicitationsUseCase(SolicitationsRepository repository) {
     this.repository = repository;
   }
 
