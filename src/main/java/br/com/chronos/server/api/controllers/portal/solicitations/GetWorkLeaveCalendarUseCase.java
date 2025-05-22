@@ -29,7 +29,9 @@ public class GetWorkLeaveCalendarUseCase {
           .setStartedAt(solicitation.getStartedAt().value())
           .setEndedAt(solicitation.getEndedAt().value())
           .setIsVacation(solicitation.getIsVacation().value())
-          .setJustification(solicitation.getJustification().getDto())
+          .setJustification(solicitation.getJustification() != null
+              ? solicitation.getJustification().getDto()
+              : null)
           .setCollaborator(solicitation.getSenderResponsible().getDto().entity);
       return dto;
     });

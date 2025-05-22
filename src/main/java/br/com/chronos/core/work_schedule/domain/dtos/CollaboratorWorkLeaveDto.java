@@ -2,7 +2,6 @@ package br.com.chronos.core.work_schedule.domain.dtos;
 
 import java.time.LocalDate;
 
-import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.portal.domain.dtos.JustificationDto;
 

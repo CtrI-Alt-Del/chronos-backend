@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @RestController
-@RequestMapping("/solicitation/work-leave-calendar")
+@RequestMapping("/portal/work-leave-calendar")
 public @interface WorkLeaveCalendarController {
 }
