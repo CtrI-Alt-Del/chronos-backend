@@ -3,12 +3,11 @@ package br.com.chronos.server.database.jpa.collaborator.models;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +19,7 @@ import jakarta.persistence.OneToOne;
 import br.com.chronos.server.database.jpa.auth.models.AccountModel;
 import br.com.chronos.server.database.jpa.portal.models.SolicitationModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.DayOffScheduleModel;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkLeaveModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
 @Data
@@ -52,6 +52,10 @@ public class CollaboratorModel {
   @Builder.Default
   private List<WorkdayLogModel> workdayLogs = new ArrayList();
 
+  @OneToMany(mappedBy = "collaborator", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<WorkLeaveModel> workLeaves = new ArrayList();
+
   @OneToMany(mappedBy = "senderResponsible", fetch = FetchType.LAZY)
   @Builder.Default
   private List<SolicitationModel> sentSolicitations = new ArrayList<>();
@@ -59,5 +63,4 @@ public class CollaboratorModel {
   @OneToMany(mappedBy = "replierResponsible", fetch = FetchType.LAZY)
   @Builder.Default
   private List<SolicitationModel> repliedSolicitations = new ArrayList<>();
-
 }

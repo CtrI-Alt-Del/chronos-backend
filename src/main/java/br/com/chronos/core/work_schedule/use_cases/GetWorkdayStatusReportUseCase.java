@@ -15,12 +15,12 @@ public class GetWorkdayStatusReportUseCase {
   }
 
   public WorkdayStatusReportDto execute(LocalDate startDate, LocalDate endDate) {
-    var workDayStatusChartValues= repository
-        .getCollaboratorsWorkdayStatusByDateRange(DateRange.createWithMonthRange(startDate, endDate));
+    var workDayStatusChartValues = repository
+        .getCollaboratorsWorkdayStatusByDateRange(DateRange.create(startDate, endDate, 30));
     var activeCollaboratos = workDayStatusChartValues.getFirst();
     var vacationCollaborators = workDayStatusChartValues.getSecond();
-    var withdrawCollaborators= workDayStatusChartValues.getThird();
-    return WorkdayStatusReportDto.createFromValues(activeCollaboratos,vacationCollaborators,withdrawCollaborators);
+    var withdrawCollaborators = workDayStatusChartValues.getThird();
+    return WorkdayStatusReportDto.createFromValues(activeCollaboratos, vacationCollaborators, withdrawCollaborators);
   }
 
 }

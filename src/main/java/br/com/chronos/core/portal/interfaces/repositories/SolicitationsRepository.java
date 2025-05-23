@@ -5,7 +5,9 @@ import java.util.Optional;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
+import br.com.chronos.core.global.domain.records.Month;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
@@ -14,8 +16,7 @@ import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
 import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
-import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
-import br.com.chronos.core.portal.domain.entities.WithdrawSolicitation;
+import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
 import kotlin.Pair;
 
@@ -26,21 +27,17 @@ public interface SolicitationsRepository {
 
     Optional<TimePunchAdjustmentSolicitation> findTimePunchAdjustmentSolicitationById(Id id);
 
-    Optional<WithdrawSolicitation> findWithdrawSolicitationById(Id id);
+    Optional<WorkLeaveSolicitation> findWorkLeaveSolicitationById(Id id);
 
     void addJustificationToSolicitation(ExcusedAbsenceSolicitation solicitation,
             Justification justification);
 
-    void addJustificationToSolicitation(WithdrawSolicitation solicitation,
+    void addJustificationToSolicitation(WorkLeaveSolicitation solicitation,
             Justification justification);
 
     Array<Solicitation> findAllByCollaboratorId(Id collaboratorId);
 
     Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(
-            CollaborationSector sector,
-            PageNumber page);
-
-    Pair<Array<VacationSolicitation>, PlusIntegerNumber> findManyVacationSolicitationsByCollaboratorId(
             CollaborationSector sector,
             PageNumber page);
 
@@ -52,8 +49,14 @@ public interface SolicitationsRepository {
             CollaborationSector sector,
             PageNumber page);
 
-    Pair<Array<WithdrawSolicitation>, PlusIntegerNumber> findManyWithdrawSolicitationsByCollaborationSector(
+    Pair<Array<WorkLeaveSolicitation>, PlusIntegerNumber> findManyWorkLeaveSolicitationsByCollaborationSectorAndVacationStatus(
             CollaborationSector sector,
+            Logical isVacation,
+            PageNumber page);
+
+    Pair<Array<WorkLeaveSolicitation>, PlusIntegerNumber> findManyApprovedWorkLeaveSolicitationsByCollaborationSectorAndMonth(
+            CollaborationSector sector,
+            Month month,
             PageNumber page);
 
     Pair<Array<DayOffScheduleAdjustmentSolicitation>, PlusIntegerNumber> findManyDayOffScheduleAdjustmentSolicitationsByCollaborationSector(
@@ -68,7 +71,7 @@ public interface SolicitationsRepository {
 
     void add(PaidOvertimeSolicitation solicitation);
 
-    void add(WithdrawSolicitation solicitation);
+    void add(WorkLeaveSolicitation solicitation);
 
     void add(DayOffScheduleAdjustmentSolicitation solicitation);
 
@@ -77,8 +80,6 @@ public interface SolicitationsRepository {
     void add(DayOffSolicitation solicitation);
 
     void add(TimePunchAdjustmentSolicitation solicitation);
-
-    void add(VacationSolicitation vacationSolicitation);
 
     void replace(Solicitation solicitation);
 
@@ -90,7 +91,4 @@ public interface SolicitationsRepository {
 
     void replace(ExcusedAbsenceSolicitation solicitation);
 
-    void replace(VacationSolicitation vacationSolicitation);
-
-    void replace(WithdrawSolicitation solicitation);
 }
