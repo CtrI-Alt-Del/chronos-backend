@@ -9,10 +9,10 @@ public record WorkdayStatus(WorkdayStatusName name) {
     ABSENCE,
     DAY_OFF,
     HOLIDAY,
-    WITHDRAW,
-    VACATION,
     WORK_LEAVE,
-    EXCUSED_ABSENCE
+    EXCUSED_ABSENCE,
+    VACATION,
+    WITHDRAW
   }
 
   public static WorkdayStatus create(String value) {
