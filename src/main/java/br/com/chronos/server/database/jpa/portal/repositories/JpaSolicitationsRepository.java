@@ -313,9 +313,11 @@ public class JpaSolicitationsRepository implements SolicitationsRepository {
       PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
     var models = WorkLeaveSolicitationDao
-        .findAllBySolicitationStatusAndSenderResponsibleAccountSectorOrderByDateDesc(
+        .findAllBySolicitationStatusAndCollaborationSectorAndDateRange(
             SolicitationStatus.Status.APPROVED,
             sector.value(),
+            month.firstDay().value(),
+            month.lastDay().value(),
             pageRequest);
 
     var items = models.stream().toList();
