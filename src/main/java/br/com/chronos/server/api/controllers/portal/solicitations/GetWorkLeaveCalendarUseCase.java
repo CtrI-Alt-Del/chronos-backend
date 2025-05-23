@@ -25,18 +25,24 @@ public class GetWorkLeaveCalendarUseCase {
         PageNumber.create(page));
 
     var workLeaves = response.getFirst().map(solicitation -> {
+      var dates = solicitation.getDates().map(date -> date.value()).list();
+      var responsible = solicitation.getSenderResponsible();
+      var collaboratorDto = responsible.getDto().entity;
+      collaboratorDto.setId(responsible.getId().toString());
+
       var dto = new CollaboratorWorkLeaveDto()
-          .setStartedAt(solicitation.getStartedAt().value())
-          .setEndedAt(solicitation.getEndedAt().value())
+          .setDates(dates)
           .setIsVacation(solicitation.getIsVacation().value())
           .setJustification(solicitation.getJustification() != null
               ? solicitation.getJustification().getDto()
               : null)
-          .setCollaborator(solicitation.getSenderResponsible().getDto().entity);
+          .setCollaborator(collaboratorDto);
       return dto;
     });
 
     var itemsCount = response.getSecond();
-    return new PaginationResponse<CollaboratorWorkLeaveDto>(workLeaves.list(), itemsCount.value());
+    return new PaginationResponse<CollaboratorWorkLeaveDto>(
+        workLeaves.list(),
+        itemsCount.value());
   }
 }

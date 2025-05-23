@@ -1,24 +1,19 @@
 package br.com.chronos.core.work_schedule.domain.dtos;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.portal.domain.dtos.JustificationDto;
 
 public class CollaboratorWorkLeaveDto {
-  public LocalDate startedAt;
-  public LocalDate endedAt;
+  public List<LocalDate> dates;
   public Boolean isVacation;
   public JustificationDto justification;
   public ResponsibleDto collaborator;
 
-  public CollaboratorWorkLeaveDto setStartedAt(LocalDate startedAt) {
-    this.startedAt = startedAt;
-    return this;
-  }
-
-  public CollaboratorWorkLeaveDto setEndedAt(LocalDate endedAt) {
-    this.endedAt = endedAt;
+  public CollaboratorWorkLeaveDto setDates(List<LocalDate> dates) {
+    this.dates = dates;
     return this;
   }
 
