@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.collaboration.domain.events.CollaboratorsPreparedForWorkEvent;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.work_schedule.interfaces.repositories.WorkLeavesRepository;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.use_cases.CreateWorkdayLogsUseCase;
 
@@ -18,8 +19,14 @@ public class CreateWorkdayLogsJob {
   @Autowired
   private DayOffSchedulesRepository dayOffSchedulesRepository;
 
+  @Autowired
+  private WorkLeavesRepository workLeavesRepository;
+
   public void handle(CollaboratorsPreparedForWorkEvent.Payload payload) {
-    var useCase = new CreateWorkdayLogsUseCase(workdayLogsRepository, dayOffSchedulesRepository);
+    var useCase = new CreateWorkdayLogsUseCase(
+        workdayLogsRepository,
+        dayOffSchedulesRepository,
+        workLeavesRepository);
     useCase.execute(payload.collaboratorIds, payload.collaboratorWorkloads, payload.date);
   }
 }

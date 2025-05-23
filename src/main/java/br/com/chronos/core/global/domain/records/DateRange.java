@@ -2,27 +2,20 @@ package br.com.chronos.core.global.domain.records;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import br.com.chronos.core.global.domain.exceptions.ValidationException;
 
 public record DateRange(Date startDate, Date endDate) {
-  public static DateRange create(LocalDate startDate, LocalDate endDate) {
+  public static DateRange create(LocalDate startDate, LocalDate endDate, int defaultRange) {
     var dateRangeStart = Date.create(startDate);
     var dateRangeEnd = Date.create(endDate);
 
     if (startDate == null || endDate == null) {
       dateRangeEnd = Date.createFromNow();
-      dateRangeStart = dateRangeEnd.minusDays(7);
+      dateRangeStart = dateRangeEnd.minusDays(defaultRange);
     }
 
-    return new DateRange(dateRangeStart, dateRangeEnd);
-  }
-
-  public static DateRange createWithMonthRange(LocalDate startDate, LocalDate endDate) {
-    var dateRangeStart = Date.create(startDate);
-    var dateRangeEnd = Date.create(endDate);
-
-    if (startDate == null || endDate == null) {
-      dateRangeEnd = Date.createFromNow();
-      dateRangeStart = dateRangeEnd.minusDays(30);
+    if (dateRangeStart.isAfter(dateRangeEnd).isTrue()) {
+      throw new ValidationException("data inicial", "não pode ser maior que a data final");
     }
 
     return new DateRange(dateRangeStart, dateRangeEnd);
@@ -47,4 +40,7 @@ public record DateRange(Date startDate, Date endDate) {
     return new DateRange(Date.create(firstDayOfMonth), Date.create(lastDayOfMonth));
   }
 
+  public Logical covers(Date date) {
+    return date.isEqualOrAfter(startDate).and(date.isEqualOrBefore(endDate));
+  }
 }
