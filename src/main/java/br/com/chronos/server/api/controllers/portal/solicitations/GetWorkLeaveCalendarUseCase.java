@@ -25,6 +25,10 @@ public class GetWorkLeaveCalendarUseCase {
         PageNumber.create(page));
 
     var workLeaves = response.getFirst().map(solicitation -> {
+      var responsible = solicitation.getReplierResponsible();
+      var collaboratorDto = responsible.getDto().entity;
+      collaboratorDto.setId(responsible.getId().toString());
+
       var dto = new CollaboratorWorkLeaveDto()
           .setStartedAt(solicitation.getStartedAt().value())
           .setEndedAt(solicitation.getEndedAt().value())
@@ -32,7 +36,7 @@ public class GetWorkLeaveCalendarUseCase {
           .setJustification(solicitation.getJustification() != null
               ? solicitation.getJustification().getDto()
               : null)
-          .setCollaborator(solicitation.getSenderResponsible().getDto().entity);
+          .setCollaborator(collaboratorDto);
       return dto;
     });
 
