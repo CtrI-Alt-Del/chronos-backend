@@ -2,6 +2,7 @@ package br.com.chronos.core.global.domain.records;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+
 import br.com.chronos.core.global.domain.exceptions.ValidationException;
 
 public record DateRange(Date startDate, Date endDate) {
@@ -42,5 +43,13 @@ public record DateRange(Date startDate, Date endDate) {
 
   public Logical covers(Date date) {
     return date.isEqualOrAfter(startDate).and(date.isEqualOrBefore(endDate));
+  }
+
+  public Array<Date> getDates() {
+    Array<Date> dates = Array.createAsEmpty();
+    for (var date = startDate; date.isBefore(endDate).isTrue(); date = date.plusDays(1)) {
+      dates.add(date);
+    }
+    return dates;
   }
 }
