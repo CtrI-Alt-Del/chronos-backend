@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.global.responses.PaginationResponse;
-import br.com.chronos.core.portal.domain.dtos.WithdrawSolicitationDto;
+import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
-import br.com.chronos.core.portal.use_cases.ListWithdrawSolicitationUseCase;
+import br.com.chronos.core.portal.use_cases.ListWithdrawSolicitationsUseCase;
 
 @SolicitationsController
 public class ListWithdrawSolicitationsController {
@@ -20,13 +20,13 @@ public class ListWithdrawSolicitationsController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @GetMapping("/withdraw")
-  public ResponseEntity<PaginationResponse<WithdrawSolicitationDto>> handle(
+  @GetMapping("work-leave/withdraw")
+  public ResponseEntity<PaginationResponse<WorkLeaveSolicitationDto>> handle(
       @RequestParam(defaultValue = "1") int page) {
     var account = authenticationProvider.getAccount();
     var sector = account.getCollaborationSector().toString();
 
-    var useCase = new ListWithdrawSolicitationUseCase(solicitationsRepository);
+    var useCase = new ListWithdrawSolicitationsUseCase(solicitationsRepository);
     var response = useCase.execute(sector, page);
     return ResponseEntity.ok(response);
   }

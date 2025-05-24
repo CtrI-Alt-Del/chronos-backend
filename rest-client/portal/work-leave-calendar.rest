@@ -1,0 +1,7 @@
+@RESOURCE = solicitations/work-leave-calendar
+@URL = {{HOST}}/{{RESOURCE}}
+
+### Get work leave calendar
+GET {{URL}}?year=2025&month=5&page=1
+Content-Type: application/json
+Authorization: Bearer {{JWT}}

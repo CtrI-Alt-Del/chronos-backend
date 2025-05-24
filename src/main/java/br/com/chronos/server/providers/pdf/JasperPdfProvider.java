@@ -83,6 +83,8 @@ public class JasperPdfProvider implements PdfProvider {
       workdayStatuses.put("DAY_OFF", "Dia de folga");
       workdayStatuses.put("HOLIDAY", "Feriado");
       workdayStatuses.put("WORK_LEAVE", "Afastamento");
+      workdayStatuses.put("VACATION", "Férias");
+
       return workdayStatuses.getOrDefault(status.toUpperCase(), status);
     }
 
@@ -147,14 +149,12 @@ public class JasperPdfProvider implements PdfProvider {
     var timeCardCollectionDataSource = new JRBeanCollectionDataSource(
         timeCard.rows().map(row -> new TimeCardRow(row.getDto())).list());
 
-    System.out.println(timeCard.rows());
-
     parameters.put("chronosLogo", chronosLogoBytes);
     parameters.put("collaboratorEmail", responsible.getEmail().value());
     parameters.put("collaboratorName", responsible.getName().value());
     parameters.put("collaboratorCpf", responsible.getCpf().value());
     parameters.put("collaboratorRole", formatRole(responsible.getRole()));
-    parameters.put("collaboratorSector", responsible.getSector().toString());
+    parameters.put("collaboratorationSector", responsible.getSector().toString());
     parameters.put("expeditionDate", getExpeditionDate());
     parameters.put("startDate", formatDate(dateRange.startDate()));
     parameters.put("endDate", formatDate(dateRange.endDate()));
@@ -167,7 +167,6 @@ public class JasperPdfProvider implements PdfProvider {
       var fillManager = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
       JasperExportManager.exportReportToPdfFile(fillManager, timeCardPdfPath);
     } catch (JRException e) {
-      System.out.println("Jasper error: " + e.getMessage());
       throw new AppException(
           "Jasper PdfProvider Exception",
           "Erro ao gerar pdf de espelho ponto utilizando o JasperReports");

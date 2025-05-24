@@ -1,6 +1,5 @@
 package br.com.chronos.server.api.controllers.portal.solicitations;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.portal.domain.dtos.ExcusedAbsenceSolicitationDto;
+import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 import br.com.chronos.core.portal.use_cases.CreateExcusedAbsenceSolicitationUseCase;
 
@@ -21,12 +21,20 @@ public class CreateExcusedAbsenceSolicitationController {
   @Autowired
   private AuthenticationProvider authenticationProvider;
 
+  @Autowired
+  private PortalBroker portalBroker;
+
   @PostMapping("/excused-absence")
   public ResponseEntity<ExcusedAbsenceSolicitationDto> handle(@RequestBody ExcusedAbsenceSolicitationDto body) {
-    var useCase = new CreateExcusedAbsenceSolicitationUseCase(solicitationsRepository);
+    var useCase = new CreateExcusedAbsenceSolicitationUseCase(
+        solicitationsRepository,
+        portalBroker);
     var account = authenticationProvider.getAccount();
     var senderResponsibleId = account.getCollaboratorId().toString();
-    var response = useCase.execute(body, senderResponsibleId);
+    var response = useCase.execute(
+        body,
+        senderResponsibleId,
+        account.getCollaborationSector().toString());
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 }

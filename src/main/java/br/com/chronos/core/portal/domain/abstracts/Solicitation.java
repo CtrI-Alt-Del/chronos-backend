@@ -43,6 +43,10 @@ public abstract class Solicitation extends Entity {
     this.status = status.deny();
   }
 
+  public void cancel() {
+    this.status = status.cancel();
+  }
+
   private void reply(ResponsibleAggregate replierResponsible, Text feedbackMessage) {
     if (replierResponsible.getEntity().getRole().isManager().isFalse()) {
       throw new NotManagerException();

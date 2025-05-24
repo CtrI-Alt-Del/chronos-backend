@@ -1,43 +1,52 @@
+
 package br.com.chronos.server.database.jpa.portal.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
-import br.com.chronos.core.portal.domain.dtos.VacationSolicitationDto;
-import br.com.chronos.core.portal.domain.entities.VacationSolicitation;
+import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
+import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.portal.models.VacationSolicitationModel;
+import br.com.chronos.server.database.jpa.portal.models.WorkLeaveSolicitationModel;
 
 @Component
-public class VacationSolicitationMapper {
-  public VacationSolicitationModel toModel(VacationSolicitation entity) {
+public class WorkLeaveSolicitationMapper {
+
+  @Autowired
+  private JustificationMapper justificationMapper;
+
+  public WorkLeaveSolicitationModel toModel(WorkLeaveSolicitation entity) {
     var senderResponse = CollaboratorModel
         .builder()
-        .id(entity.getSenderResponsible().getId().value()).build();
+        .id(entity.getSenderResponsible().getId().value())
+        .build();
     var replierResponse = (entity.getReplierResponsible() != null)
         ? CollaboratorModel.builder().id(entity.getReplierResponsible().getId().value()).build()
         : null;
-    var solicitationModel = VacationSolicitationModel.builder()
+    var justification = entity.getJustification() != null
+        ? justificationMapper.toModel(entity.getJustification())
+        : null;
+
+    var solicitationModel = WorkLeaveSolicitationModel
+        .builder()
         .id(entity.getId().value())
-        .description(
-            entity.getDescription() != null
-                ? entity.getDescription().value()
-                : null)
+        .description(entity.getDescription() != null ? entity.getDescription().value() : null)
         .date(entity.getDate().value())
-        .feedbackMessage(
-            entity.getFeedbackMessage() != null
-                ? entity.getFeedbackMessage().value()
-                : null)
+        .feedbackMessage(entity.getFeedbackMessage() != null ? entity.getFeedbackMessage().value() : null)
         .solicitationStatus(entity.getStatus().value())
         .senderResponsible(senderResponse)
         .replierResponsible(replierResponse)
-        .vacationDays(entity.getVacationDays().map(date -> date.value()).list())
+        .justification(justification)
+        .startedAt(entity.getStartedAt().value())
+        .endedAt(entity.getEndedAt().value())
+        .isVacation(entity.getIsVacation().value())
         .build();
     return solicitationModel;
   }
 
-  public VacationSolicitationDto toDto(VacationSolicitationModel model) {
+  public WorkLeaveSolicitationDto toDto(WorkLeaveSolicitationModel model) {
     var senderResponsibleDto = new ResponsibleDto()
         .setId(model.getSenderResponsible().getId().toString())
         .setName(model.getSenderResponsible().getName())
@@ -54,12 +63,16 @@ public class VacationSolicitationMapper {
           .setName(model.getReplierResponsible().getName())
           .setEmail(model.getReplierResponsible().getAccount().getEmail())
           .setCpf(model.getReplierResponsible().getCpf())
-          .setSector(model.getSenderResponsible().getAccount().getSector().toString())
+          .setSector(model.getReplierResponsible().getAccount().getSector().toString())
           .setRole(model.getReplierResponsible().getAccount().getRole().toString());
       replierResponsibleAggregateDto = new ResponsibleAggregateDto(replierResponsibleDto);
     }
 
-    return new VacationSolicitationDto()
+    var justificationDto = model.getJustification() != null
+        ? justificationMapper.toDto(model.getJustification())
+        : null;
+
+    return new WorkLeaveSolicitationDto()
         .setId(model.getId().toString())
         .setDescription(model.getDescription())
         .setDate(model.getDate())
@@ -67,10 +80,14 @@ public class VacationSolicitationMapper {
         .setStatus(model.getSolicitationStatus().toString())
         .setSenderResponsible(senderResponsibleAggregateDto)
         .setReplierResponsible(replierResponsibleAggregateDto)
-        .setVacationDays(model.getVacationDays());
+        .setStartedAt(model.getStartedAt())
+        .setEndedAt(model.getEndedAt())
+        .setIsVacation(model.getIsVacation())
+        .setJustification(justificationDto);
   }
 
-  public VacationSolicitation toEntity(VacationSolicitationModel model) {
-    return new VacationSolicitation(toDto(model));
+  public WorkLeaveSolicitation toEntity(WorkLeaveSolicitationModel model) {
+    return new WorkLeaveSolicitation(toDto(model));
   }
+
 }

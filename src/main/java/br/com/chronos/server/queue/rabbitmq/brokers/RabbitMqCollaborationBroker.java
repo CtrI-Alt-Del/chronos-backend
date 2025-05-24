@@ -10,11 +10,9 @@ import br.com.chronos.server.queue.rabbitmq.exchanges.AuthExchange;
 import br.com.chronos.server.queue.rabbitmq.exchanges.WorkScheduleExchange;
 
 @Component
-public class RabbitMqCollaborationBroker implements CollaborationBroker {
-  private final RabbitTemplate rabbit;
-
+public class RabbitMqCollaborationBroker extends RabbitMqBroker implements CollaborationBroker {
   public RabbitMqCollaborationBroker(RabbitTemplate rabbit) {
-    this.rabbit = rabbit;
+    super(rabbit);
   }
 
   @Override

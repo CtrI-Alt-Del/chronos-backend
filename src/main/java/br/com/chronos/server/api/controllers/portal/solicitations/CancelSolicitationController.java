@@ -3,40 +3,27 @@ package br.com.chronos.server.api.controllers.portal.solicitations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
-import br.com.chronos.core.portal.domain.dtos.SolicitationDto;
-import br.com.chronos.core.portal.interfaces.PortalBroker;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
-import br.com.chronos.core.portal.use_cases.ApproveWithdrawSolicitationUseCase;
-import lombok.Data;
+import br.com.chronos.core.portal.use_cases.CancelSolicitationUseCase;
 
 @SolicitationsController
-public class ApproveWithdrawSolicitationController {
+public class CancelSolicitationController {
   @Autowired
   private SolicitationsRepository solicitationsRepository;
 
   @Autowired
-  private PortalBroker portalBroker;
-
-  @Autowired
   private AuthenticationProvider authenticationProvider;
 
-  @Data
-  private static class Request {
-    private String feedbackMessage;
-  }
-
-  @PutMapping("/{solicitationId}/approve/withdraw")
-  public ResponseEntity<SolicitationDto> handle(
-      @PathVariable String solicitationId,
-      @RequestBody Request body) {
-    var useCase = new ApproveWithdrawSolicitationUseCase(solicitationsRepository, portalBroker);
+  @PatchMapping("/{solicitationId}/cancel")
+  public ResponseEntity<Void> handle(
+      @PathVariable String solicitationId) {
+    var useCase = new CancelSolicitationUseCase(solicitationsRepository);
     var account = authenticationProvider.getAccount();
     var responsible = new ResponsibleAggregateDto(
         new ResponsibleDto()
@@ -44,7 +31,7 @@ public class ApproveWithdrawSolicitationController {
             .setRole(account.getRole().toString())
             .setSector(account.getCollaborationSector().toString()));
 
-    useCase.execute(solicitationId, responsible, body.getFeedbackMessage());
+    useCase.execute(solicitationId, responsible);
     return ResponseEntity.noContent().build();
   }
 }

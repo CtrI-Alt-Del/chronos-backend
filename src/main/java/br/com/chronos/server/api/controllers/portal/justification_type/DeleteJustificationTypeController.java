@@ -16,7 +16,6 @@ public class DeleteJustificationTypeController {
 
   @DeleteMapping("/{justificationTypeId}")
   public ResponseEntity<Void> handle(@PathVariable("justificationTypeId") String justificationTypeId) {
-    System.out.println(justificationTypeId);
     var useCase = new DeleteJustificationTypeUseCase(justificationTypeRepository);
     useCase.execute(justificationTypeId);
     return ResponseEntity.noContent().build();

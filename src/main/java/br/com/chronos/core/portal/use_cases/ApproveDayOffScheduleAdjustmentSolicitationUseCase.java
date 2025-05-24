@@ -1,6 +1,5 @@
 package br.com.chronos.core.portal.use_cases;
 
-
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
@@ -13,8 +12,8 @@ import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepositor
 public class ApproveDayOffScheduleAdjustmentSolicitationUseCase extends ApproveSolicitationUseCase {
   public ApproveDayOffScheduleAdjustmentSolicitationUseCase(
       SolicitationsRepository repository,
-      PortalBroker portalBroker) {
-    super(repository, portalBroker);
+      PortalBroker broker) {
+    super(repository, broker);
   }
 
   public void execute(
@@ -27,7 +26,7 @@ public class ApproveDayOffScheduleAdjustmentSolicitationUseCase extends ApproveS
     repository.replace(solicitation);
 
     var event = new DayOffScheduleSolicitationApprovedEvent(solicitation);
-    portalBroker.publish(event);
+    broker.publish(event);
   }
 
   private DayOffScheduleAdjustmentSolicitation findSolicitation(Id solicitationId) {

@@ -1,9 +1,15 @@
 package br.com.chronos.server.database.jpa.work_schedule.repositories;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import kotlin.Pair;
-import org.springframework.data.domain.PageRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chronos.core.global.domain.records.Array;
@@ -18,10 +24,16 @@ import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.work_schedule.domain.entities.TimePunch;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.work_schedule.domain.records.ClockEvent;
+import br.com.chronos.core.work_schedule.domain.records.MonthlyAbsence;
+import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
-import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkdayLogMapper;
 import br.com.chronos.server.database.jpa.work_schedule.daos.WorkdayLogDao;
+import br.com.chronos.server.database.jpa.work_schedule.mappers.WorkdayLogMapper;
+import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
+import kotlin.Pair;
+import kotlin.Triple;
 
 public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Autowired
@@ -86,7 +98,6 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   @Transactional
   public void addMany(Array<WorkdayLog> workdayLogs) {
     var workdayLogModels = workdayLogs.map(mapper::toModel);
-    System.out.println("Workday logs saved: ");
     dao.saveAll(workdayLogModels.list());
   }
 
@@ -149,4 +160,102 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     dao.save(workdayLogModel);
   }
 
+  @Override
+  public Triple<Long, Long, Long> getCollaboratorsWorkdayStatusByDateRange(DateRange dateRange) {
+    var normalDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.NORMAL_DAY,
+        dateRange.startDate().value(),
+        dateRange.endDate().value());
+    var vacationDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.DAY_OFF,
+        dateRange.startDate().value(),
+        dateRange.endDate().value());
+    var withdrawDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.WORK_LEAVE,
+        dateRange.startDate().value(),
+        dateRange.endDate().value());
+    return new Triple<Long, Long, Long>(normalDays, vacationDays, withdrawDays);
+  }
+
+  @Override
+  public Array<MonthlyAbsence> getYearlyCollaboratorsAbsence() {
+    LocalDate end = LocalDate.now();
+    LocalDate start = end.minusMonths(11).withDayOfMonth(1);
+
+    List<Object[]> results = dao.countMonthlyAbsencesByRole(
+        WorkdayStatusName.ABSENCE.toString(), start, end);
+
+    Map<Integer, MonthlyAbsence> mapMonthToAbsence = new HashMap<>();
+
+    for (Object[] row : results) {
+      int month = ((Number) row[0]).intValue();
+      int collaboratorAbsence = ((Number) row[1]).intValue();
+      int managerAbsence = ((Number) row[2]).intValue();
+
+      mapMonthToAbsence.put(month, MonthlyAbsence.create(collaboratorAbsence, managerAbsence));
+    }
+
+    List<MonthlyAbsence> fullList = new ArrayList<>();
+    int currentMonth = start.getMonthValue();
+    int endMonth = end.getMonthValue();
+
+    while (true) {
+      fullList.add(mapMonthToAbsence.getOrDefault(currentMonth, MonthlyAbsence.create(0, 0)));
+      if (currentMonth == endMonth)
+        break;
+      currentMonth = currentMonth % 12 + 1;
+    }
+
+    return Array.create(fullList);
+  }
+
+  @Override
+  public Array<ClockEvent> getAllTimePunchsByDate(Date date) {
+    List<ClockEvent> hourlyClockEvents = new ArrayList<>(24);
+    for (int i = 0; i < 24; i++) {
+      hourlyClockEvents.add(ClockEvent.create());
+    }
+    List<WorkdayLogModel> logs = dao.findAllByDate(date.value());
+    for (WorkdayLogModel log : logs) {
+      LocalTime firstIn = log.getFirstClockIn();
+      if (firstIn != null) {
+        int hour = firstIn.getHour();
+        hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockIns(1));
+      }
+
+      LocalTime firstOut = log.getFirstClockOut();
+      if (firstOut != null) {
+        int hour = firstOut.getHour();
+        hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockOuts(1));
+      }
+
+      LocalTime secondIn = log.getSecondClockIn();
+      if (secondIn != null) {
+        int hour = secondIn.getHour();
+        hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockIns(1));
+      }
+
+      LocalTime secondOut = log.getSecondClockOut();
+      if (secondOut != null) {
+        int hour = secondOut.getHour();
+        hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockOuts(1));
+      }
+    }
+    return Array.create(hourlyClockEvents);
+
+  }
+
+  @Override
+  public Array<Integer> getCollaboratorsQuantityWithoutPunchsFromLastSevenDays() {
+    List<Object[]> rawResults = dao.countLowPunchesLast7Days();
+    Map<LocalDate, Integer> countsByDate = new HashMap<>();
+    for (Object[] row : rawResults) {
+      LocalDate date = ((Date) row[0]).value();
+      int count = ((Number) row[1]).intValue();
+      countsByDate.put(date, count);
+    }
+    Array<Integer> result = Array.createAsEmpty();
+    for (int i = 6; i >= 0; i--) {
+      LocalDate date = LocalDate.now().minusDays(i);
+      result.add(countsByDate.getOrDefault(date, 0));
+    }
+    return result;
+  }
 }

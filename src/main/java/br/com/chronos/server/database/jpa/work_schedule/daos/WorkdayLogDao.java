@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.work_schedule.domain.records.WorkdayStatus.WorkdayStatusName;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
 import br.com.chronos.server.database.jpa.work_schedule.models.WorkdayLogModel;
 
@@ -20,6 +21,23 @@ public interface WorkdayLogDao extends JpaRepository<WorkdayLogModel, UUID> {
   Optional<WorkdayLogModel> findByDate(LocalDate date);
 
   List<WorkdayLogModel> findAllByDate(LocalDate date);
+
+  @Query(value = """
+      SELECT
+        wl.date,
+        COUNT(DISTINCT wl.collaborator_id) AS qty
+      FROM workday_logs wl
+      WHERE wl.date >= CURRENT_DATE - INTERVAL '6 days'
+        AND (
+          (CASE WHEN wl.first_clock_in IS NOT NULL THEN 1 ELSE 0 END) +
+          (CASE WHEN wl.first_clock_out IS NOT NULL THEN 1 ELSE 0 END) +
+          (CASE WHEN wl.second_clock_in IS NOT NULL THEN 1 ELSE 0 END) +
+          (CASE WHEN wl.second_clock_out IS NOT NULL THEN 1 ELSE 0 END)
+        ) < 4
+      GROUP BY wl.date
+      ORDER BY wl.date
+      """, nativeQuery = true)
+  List<Object[]> countLowPunchesLast7Days();
 
   @Query("""
       SELECT wl FROM WorkdayLogModel wl
@@ -34,6 +52,29 @@ public interface WorkdayLogDao extends JpaRepository<WorkdayLogModel, UUID> {
       PageRequest pageRequest);
 
   Optional<WorkdayLogModel> findByCollaboratorAndDate(CollaboratorModel collaborator, LocalDate Date);
+
+  @Query(value = """
+          SELECT
+            EXTRACT(MONTH FROM wl.date) AS month,
+            SUM(CASE WHEN a.role <> 'MANAGER' THEN 1 ELSE 0 END) AS collaboratorAbsence,
+            SUM(CASE WHEN a.role = 'MANAGER' THEN 1 ELSE 0 END) AS managerAbsence
+          FROM workday_logs wl
+          JOIN collaborators c ON wl.collaborator_id = c.id
+          JOIN accounts a ON c.id = a.collaborator_id
+          WHERE wl.status = :status
+            AND wl.date BETWEEN :startDate AND :endDate
+          GROUP BY month
+          ORDER BY month
+      """, nativeQuery = true)
+  List<Object[]> countMonthlyAbsencesByRole(
+      @Param("status") String status,
+      @Param("startDate") LocalDate startDate,
+      @Param("endDate") LocalDate endDate);
+
+  long countByStatusAndDateBetweenOrderByDateDesc(
+      WorkdayStatusName status,
+      LocalDate startDate,
+      LocalDate endDate);
 
   List<WorkdayLogModel> findAllByCollaboratorAndDateBetweenOrderByDateDesc(
       CollaboratorModel collaborator,

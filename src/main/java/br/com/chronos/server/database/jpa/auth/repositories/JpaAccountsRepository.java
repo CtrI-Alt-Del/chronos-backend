@@ -46,7 +46,6 @@ public class JpaAccountsRepository implements AccountsRepository {
         .id(collaborationId.value())
         .build();
 
-    System.out.println(collaborationId.value());
     var account = repository.findByCollaborator(collaboratorModel);
     if (account.isEmpty()) {
       return Optional.empty();

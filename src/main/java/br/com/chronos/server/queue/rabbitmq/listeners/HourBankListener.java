@@ -18,10 +18,10 @@ public class HourBankListener {
   private CreateHourBankTransactionForWorkdayJob createHourBankTransactionForWorkdayJob;
 
   @Autowired
-  CreateHourBankTransactionForDayOffJob createHourBankTransactionForDayOffJob;
+  private CreateHourBankTransactionForDayOffJob createHourBankTransactionForDayOffJob;
 
   @Autowired
-  CreateHourBankTransactionForExcusedAbsenceJob createHourBankTransactionForExcusedAbsenceJob;
+  private CreateHourBankTransactionForExcusedAbsenceJob createHourBankTransactionForExcusedAbsenceJob;
 
   @RabbitListener(queues = CreateHourBankTransactionForWorkdayJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload WorkdayClosedEvent.Payload payload) {
@@ -33,7 +33,7 @@ public class HourBankListener {
     createHourBankTransactionForDayOffJob.handle(payload);
   }
 
-  @RabbitListener(queues = CreateHourBankTransactionForWorkdayJob.KEY, errorHandler = "rabbitMqErrorHandler")
+  @RabbitListener(queues = CreateHourBankTransactionForExcusedAbsenceJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload WorkdayAbsenceExcusedEvent.Payload payload) {
     createHourBankTransactionForExcusedAbsenceJob.handle(payload);
   }
