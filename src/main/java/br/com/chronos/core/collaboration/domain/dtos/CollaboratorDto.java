@@ -9,6 +9,7 @@ public class CollaboratorDto {
   public String role;
   public String sector;
   public byte workload;
+  public String timeZone;
 
   public CollaboratorDto setId(String id) {
     this.id = id;
@@ -47,6 +48,11 @@ public class CollaboratorDto {
 
   public CollaboratorDto setWorkload(byte workload) {
     this.workload = workload;
+    return this;
+  }
+
+  public CollaboratorDto setTimeZone(String timeZone) {
+    this.timeZone = timeZone;
     return this;
   }
 }
