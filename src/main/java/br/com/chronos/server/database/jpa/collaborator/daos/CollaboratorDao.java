@@ -23,10 +23,10 @@ public interface CollaboratorDao extends JpaRepository<CollaboratorModel, UUID> 
   Page<CollaboratorModel> findAllByAccountRoleNotAndAccountIsActive(RoleName role, Pageable pageable,
       Boolean isActive);
 
-  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSectorAndAccountIsActiveAndIdNot(
+  Page<CollaboratorModel> findAllByAccountRoleNotAndAccountSectorAndNameContainingIgnoreCaseAndAccountIsActive(
       RoleName role,
-      Sector sector,
-      Boolean isActive,
-      UUID id,
+      Sector collaborationSector,
+      String collaboratorName,
+      Boolean isCollaboratorActive,
       Pageable pageable);
 }
