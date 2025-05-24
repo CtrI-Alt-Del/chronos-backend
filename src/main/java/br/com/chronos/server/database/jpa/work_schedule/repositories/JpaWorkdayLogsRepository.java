@@ -168,7 +168,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     var vacationDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.DAY_OFF,
         dateRange.startDate().value(),
         dateRange.endDate().value());
-    var withdrawDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.WITHDRAW,
+    var withdrawDays = dao.countByStatusAndDateBetweenOrderByDateDesc(WorkdayStatusName.WORK_LEAVE,
         dateRange.startDate().value(),
         dateRange.endDate().value());
     return new Triple<Long, Long, Long>(normalDays, vacationDays, withdrawDays);
