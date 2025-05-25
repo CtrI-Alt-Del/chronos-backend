@@ -8,6 +8,7 @@ import br.com.chronos.core.global.domain.records.Email;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Role;
 import br.com.chronos.core.global.domain.records.Text;
+import br.com.chronos.core.global.domain.records.TimeZone;
 import br.com.chronos.core.work_schedule.domain.records.Workload;
 
 public final class Collaborator extends Entity {
@@ -18,6 +19,7 @@ public final class Collaborator extends Entity {
   private CollaborationSector sector;
   private Workload workload;
   private Logical isActive;
+  private TimeZone timeZone;
 
   public Collaborator(CollaboratorDto dto) {
     super(dto.id);
@@ -28,6 +30,7 @@ public final class Collaborator extends Entity {
     sector = CollaborationSector.create(dto.sector);
     workload = Workload.create(dto.workload);
     isActive = (dto.isActive != null) ? Logical.create(dto.isActive) : Logical.create(true);
+    timeZone = TimeZone.create(dto.timeZone);
   }
 
   public Logical hasSameSectorOf(Collaborator collaborator) {
@@ -66,6 +69,10 @@ public final class Collaborator extends Entity {
     return isActive;
   }
 
+  public TimeZone getTimeZone() {
+    return timeZone;
+  }
+
   public void update(CollaboratorDto dto) {
     if (dto.name != null && dto.name != this.getName().value()) {
       this.name = Text.create(dto.name, "Collaborator name");
@@ -87,7 +94,8 @@ public final class Collaborator extends Entity {
         .setRole(getRole().value().toString())
         .setWorkload(getWorkload().value())
         .setSector(getSector().value().toString())
-        .setActive(getIsActive().value());
+        .setActive(getIsActive().value())
+        .setTimeZone(getTimeZone().value().toString());
     return dto;
   }
 }

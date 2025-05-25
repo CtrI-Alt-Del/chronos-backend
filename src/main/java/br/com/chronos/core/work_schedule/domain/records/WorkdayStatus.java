@@ -9,9 +9,10 @@ public record WorkdayStatus(WorkdayStatusName name) {
     ABSENCE,
     DAY_OFF,
     HOLIDAY,
-    WITHDRAW,
+    WORK_LEAVE,
+    EXCUSED_ABSENCE,
     VACATION,
-    EXCUSED_ABSENCE
+    WITHDRAW
   }
 
   public static WorkdayStatus create(String value) {
@@ -54,6 +55,7 @@ public record WorkdayStatus(WorkdayStatusName name) {
   public static WorkdayStatus createAsVacation() {
     return new WorkdayStatus(WorkdayStatusName.VACATION);
   }
+
 
   public Logical isNormalDay() {
     return Logical.create(name == WorkdayStatusName.NORMAL_DAY);

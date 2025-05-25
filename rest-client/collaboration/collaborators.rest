@@ -57,7 +57,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Prepare collaborators for work
-POST {{URL}}/work?date=2025-05-06
+POST {{URL}}/work?date=2025-05-24
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
