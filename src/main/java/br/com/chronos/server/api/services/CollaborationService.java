@@ -29,8 +29,12 @@ public class CollaborationService extends RestService {
   }
 
   public PaginationResponse<CollaboratorDto> listCollaborators(String collaboratorName, int page) {
-    var response = get("collaborators?page=" + page + "&name=" + collaboratorName);
-    System.out.println("response: " + response);
+    if (collaboratorName != null) {
+      setQueryParam("name", collaboratorName);
+    }
+    setQueryParam("page", String.valueOf(page));
+
+    var response = get("collaborators");
 
     var item = (LinkedHashMap<String, Object>) response.get("items");
     List<LinkedHashMap<String, Object>> items = new ArrayList<>();
