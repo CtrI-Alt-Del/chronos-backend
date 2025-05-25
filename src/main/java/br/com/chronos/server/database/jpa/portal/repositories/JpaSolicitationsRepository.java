@@ -20,7 +20,6 @@ import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolici
 import br.com.chronos.core.portal.domain.entities.DayOffSolicitation;
 import br.com.chronos.core.portal.domain.entities.ExcusedAbsenceSolicitation;
 import br.com.chronos.core.portal.domain.entities.Justification;
-import br.com.chronos.core.portal.domain.entities.PaidOvertimeSolicitation;
 import br.com.chronos.core.portal.domain.entities.TimePunchAdjustmentSolicitation;
 import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
@@ -30,7 +29,6 @@ import br.com.chronos.server.database.jpa.global.JpaRepository;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffScheduleAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.DayOffSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.ExcusedAbsenceSolicitationDao;
-import br.com.chronos.server.database.jpa.portal.daos.PaidOvertimeSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.SolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.TimePunchAdjustmentSolicitationDao;
 import br.com.chronos.server.database.jpa.portal.daos.WorkLeaveSolicitationDao;
@@ -38,7 +36,6 @@ import br.com.chronos.server.database.jpa.portal.mappers.DayOffScheduleAdjustmen
 import br.com.chronos.server.database.jpa.portal.mappers.DayOffSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.ExcusedAbsenceSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.JustificationMapper;
-import br.com.chronos.server.database.jpa.portal.mappers.PaidOvertimeSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.SolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.TimePunchAdjustmentSolicitationMapper;
 import br.com.chronos.server.database.jpa.portal.mappers.WorkLeaveSolicitationMapper;
@@ -55,12 +52,6 @@ public class JpaSolicitationsRepository extends JpaRepository implements Solicit
 
   @Autowired
   private DayOffScheduleAdjustmentSolicitationMapper dayOffScheduleAdjustmentSolicitationMapper;
-
-  @Autowired
-  private PaidOvertimeSolicitationDao paidOvertimeSolicitationDao;
-
-  @Autowired
-  private PaidOvertimeSolicitationMapper paidOvertimeSolicitationMapper;
 
   @Autowired
   private ExcusedAbsenceSolicitationDao excusedAbsenceSolicitationDao;
@@ -124,27 +115,6 @@ public class JpaSolicitationsRepository extends JpaRepository implements Solicit
   }
 
   @Override
-  public Pair<Array<PaidOvertimeSolicitation>, PlusIntegerNumber> findManyPaidOvertimeSolicitationsByCollaborationSector(
-      CollaborationSector sector,
-      PageNumber page) {
-    var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);
-    var models = paidOvertimeSolicitationDao.findAllBySenderResponsibleAccountSectorOrderByDateDesc(
-        sector.value(), pageRequest);
-    var items = models.stream().toList();
-    var itemsCount = models.getTotalElements();
-
-    return new Pair<>(
-        Array.createFrom(items, paidOvertimeSolicitationMapper::toEntity),
-        PlusIntegerNumber.create((int) itemsCount));
-  }
-
-  @Override
-  public void add(PaidOvertimeSolicitation solicitation) {
-    var solicitationModel = paidOvertimeSolicitationMapper.toModel(solicitation);
-    paidOvertimeSolicitationDao.save(solicitationModel);
-  }
-
-  @Override
   public void add(ExcusedAbsenceSolicitation solicitation) {
     var solicitationModel = excusedAbsenceSolicitationMapper.toModel(solicitation);
     excusedAbsenceSolicitationDao.save(solicitationModel);
@@ -166,12 +136,6 @@ public class JpaSolicitationsRepository extends JpaRepository implements Solicit
   public void replace(Solicitation solicitation) {
     var model = solicitationMapper.toModel(solicitation);
     solicitationDao.save(model);
-  }
-
-  @Override
-  public void replace(PaidOvertimeSolicitation solicitation) {
-    var model = paidOvertimeSolicitationMapper.toModel(solicitation);
-    paidOvertimeSolicitationDao.save(model);
   }
 
   @Override

@@ -65,12 +65,7 @@ public record SolicitationType(Type value) {
     return Logical.create(value == Type.DAY_OFF);
   }
 
-  public Logical isPaidOvertime() {
-    return Logical.create(value == Type.PAID_OVERTIME);
-  }
-
   public String toString() {
     return value.toString().toLowerCase();
   }
-
 }
