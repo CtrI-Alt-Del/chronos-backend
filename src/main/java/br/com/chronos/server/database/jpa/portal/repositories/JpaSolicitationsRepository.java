@@ -338,4 +338,5 @@ public class JpaSolicitationsRepository extends JpaRepository implements Solicit
 
     return Array.createFrom(models, workLeaveSolicitationMapper::toEntity);
   }
+
 }

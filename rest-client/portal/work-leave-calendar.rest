@@ -1,4 +1,4 @@
-@RESOURCE = solicitations/work-leave-calendar
+@RESOURCE = portal/work-leave-calendar
 @URL = {{HOST}}/{{RESOURCE}}
 
 ### Get work leave calendar

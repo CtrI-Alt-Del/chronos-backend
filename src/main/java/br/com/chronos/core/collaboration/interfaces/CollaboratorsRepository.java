@@ -11,6 +11,7 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.domain.records.Text;
 import kotlin.Pair;
 
 public interface CollaboratorsRepository {
@@ -21,9 +22,9 @@ public interface CollaboratorsRepository {
   Pair<Array<Collaborator>, PlusIntegerNumber> findMany(Logical isCollaboratorActive, PageNumber page);
 
   Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(
-      Id id,
-      CollaborationSector sector,
-      Logical isActive,
+      CollaborationSector collaborationSector,
+      Text collaboratorName,
+      Logical isCollaboratorActive,
       PageNumber page);
 
   Optional<Collaborator> findById(Id id);

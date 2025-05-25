@@ -16,5 +16,5 @@ POST {{URL}}/login
 Content-Type: application/json
 
 {
-  "otpCode": "770789"
+  "otpCode": "366263"
 }

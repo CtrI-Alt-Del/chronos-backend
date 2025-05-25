@@ -1,8 +1,10 @@
 package br.com.chronos.core.portal.domain.entities;
 
+import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.DateRange;
 import br.com.chronos.core.global.domain.records.Logical;
+import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
 import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.domain.records.SolicitationType;
@@ -23,6 +25,14 @@ public class WorkLeaveSolicitation extends Solicitation {
     this.justification = dto.justification != null ? new Justification(dto.justification) : null;
   }
 
+  public Text getDescription() {
+    if (super.getDescription() == null) {
+      var description = this.isVacation.isTrue() ? "Férias" : "Afastamento";
+      return Text.create(description, "descrição");
+    }
+    return super.getDescription();
+  }
+
   public void becomeVacation() {
     isVacation = isVacation.becomeTrue();
   }
@@ -33,6 +43,13 @@ public class WorkLeaveSolicitation extends Solicitation {
 
   public Date getEndedAt() {
     return endedAt;
+  }
+
+  public Array<Date> getDates() {
+    return DateRange.create(
+        startedAt.value(),
+        endedAt.value(),
+        30).getDates();
   }
 
   public Justification getJustification() {

@@ -3,8 +3,10 @@ package br.com.chronos.server.infra.security;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -26,9 +28,24 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
   @Autowired
   AccountsRepository accountRepositor;
 
+  @Value("${service.encoded}")
+  private String serviceEncoded;
+
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      FilterChain filterChain)
       throws ServletException, IOException {
+
+    var passwordEncoder = new BCryptPasswordEncoder();
+    var serviceCode = request.getHeader("X-Service-Code");
+    if (serviceCode != null) {
+      passwordEncoder.matches(serviceCode, serviceEncoded);
+      filterChain.doFilter(request, response);
+      return;
+    }
+
     var token = recoverToken(request);
     if (token != null) {
       var subject = jwtProvider.validateToken(token);

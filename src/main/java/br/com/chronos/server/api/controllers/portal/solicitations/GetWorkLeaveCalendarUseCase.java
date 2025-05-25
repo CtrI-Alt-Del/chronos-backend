@@ -1,11 +1,14 @@
 package br.com.chronos.server.api.controllers.portal.solicitations;
 
-import br.com.chronos.core.global.domain.records.CollaborationSector;
+import java.util.List;
+
+import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
+import br.com.chronos.core.global.domain.records.Array;
+import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Month;
-import br.com.chronos.core.global.domain.records.PageNumber;
-import br.com.chronos.core.global.responses.PaginationResponse;
+import br.com.chronos.core.portal.domain.dtos.CollaboratorWorkLeavesDto;
+import br.com.chronos.core.portal.domain.dtos.WorkLeaveDto;
 import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
-import br.com.chronos.core.work_schedule.domain.dtos.CollaboratorWorkLeaveDto;
 
 public class GetWorkLeaveCalendarUseCase {
   private final SolicitationsRepository repository;
@@ -14,27 +17,37 @@ public class GetWorkLeaveCalendarUseCase {
     this.repository = repository;
   }
 
-  public PaginationResponse<CollaboratorWorkLeaveDto> execute(
-      String collaborationSector,
+  public List<CollaboratorWorkLeavesDto> execute(
+      List<ResponsibleDto> senders,
       int year,
-      int month,
-      int page) {
-    var response = repository.findManyApprovedWorkLeaveSolicitationsByCollaborationSectorAndMonth(
-        CollaborationSector.create(collaborationSector),
-        Month.create(year, month),
-        PageNumber.create(page));
+      int month) {
+    Array<CollaboratorWorkLeavesDto> collaboratorWorkLeaves = Array.createAsEmpty();
 
-    var workLeaves = response.getFirst().map(solicitation -> {
-      var dto = new CollaboratorWorkLeaveDto()
-          .setStartedAt(solicitation.getStartedAt().value())
-          .setEndedAt(solicitation.getEndedAt().value())
-          .setIsVacation(solicitation.getIsVacation().value())
-          .setJustification(solicitation.getJustification().getDto())
-          .setCollaborator(solicitation.getSenderResponsible().getDto().entity);
-      return dto;
-    });
+    for (var sender : senders) {
+      var solicitations = repository.findAllApprovedWorkLeaveSolicitationsBySenderAndMonth(
+          Id.create(sender.id),
+          Month.create(year, month));
 
-    var itemsCount = response.getSecond();
-    return new PaginationResponse<CollaboratorWorkLeaveDto>(workLeaves.list(), itemsCount.value());
+      var workLeaves = solicitations.map(solicitation -> {
+        var justification = solicitation.getJustification() != null
+            ? solicitation.getJustification().getDto()
+            : null;
+
+        return new WorkLeaveDto()
+            .setStartedAt(solicitation.getStartedAt().value())
+            .setEndedAt(solicitation.getEndedAt().value())
+            .setDescription(solicitation.getDescription().value())
+            .setIsVacation(solicitation.getIsVacation().value())
+            .setJustification(justification);
+      });
+
+      var collaboratorWorkLeavesDto = new CollaboratorWorkLeavesDto()
+          .setWorkLeaves(workLeaves.list())
+          .setCollaborator(sender);
+
+      collaboratorWorkLeaves.add(collaboratorWorkLeavesDto);
+    }
+
+    return collaboratorWorkLeaves.list();
   }
 }
