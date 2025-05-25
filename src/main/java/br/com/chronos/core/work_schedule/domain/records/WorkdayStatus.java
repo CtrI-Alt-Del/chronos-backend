@@ -11,7 +11,8 @@ public record WorkdayStatus(WorkdayStatusName name) {
     HOLIDAY,
     WORK_LEAVE,
     EXCUSED_ABSENCE,
-    VACATION
+    VACATION,
+    WITHDRAW
   }
 
   public static WorkdayStatus create(String value) {
@@ -55,9 +56,6 @@ public record WorkdayStatus(WorkdayStatusName name) {
     return new WorkdayStatus(WorkdayStatusName.VACATION);
   }
 
-  public static WorkdayStatus createAsVacation() {
-    return new WorkdayStatus(WorkdayStatusName.VACATION);
-  }
 
   public Logical isNormalDay() {
     return Logical.create(name == WorkdayStatusName.NORMAL_DAY);
@@ -81,10 +79,6 @@ public record WorkdayStatus(WorkdayStatusName name) {
 
   public Logical isWithdraw() {
     return Logical.create(name == WorkdayStatusName.WITHDRAW);
-  }
-
-  public Logical isVacation() {
-    return Logical.create(name == WorkdayStatusName.VACATION);
   }
 
   public Logical isVacation() {
