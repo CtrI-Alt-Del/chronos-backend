@@ -20,6 +20,6 @@ public class AdjustTimePunchJob {
 
   public void handle(TimePunchAdjusmentSolicitationApprovedEvent.Payload payload) {
     var useCase = new AdjustTimePunchUseCase(workdayLogsRepository, workScheduleBroker);
-    useCase.execute(payload.workdayLogDate(), payload.time(), payload.period());
+    useCase.execute(payload.senderId(), payload.date(), payload.time(), payload.period());
   }
 }

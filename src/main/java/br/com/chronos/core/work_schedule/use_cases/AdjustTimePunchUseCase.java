@@ -24,8 +24,8 @@ public class AdjustTimePunchUseCase {
     this.broker = broker;
   }
 
-  public void execute(String workdayLogId, LocalTime time, String period) {
-    var workdayLog = findWorkdayLog(Id.create(workdayLogId));
+  public void execute(String collaboratorId, LocalDate date, LocalTime time, String period) {
+    var workdayLog = findWorkdayLog(Id.create(collaboratorId), Date.create(date));
     workdayLog.getTimePunch().adjust(Time.create(time), TimePunchPeriod.create(period));
     repository.replace(workdayLog);
 
@@ -33,8 +33,8 @@ public class AdjustTimePunchUseCase {
     broker.publish(event);
   }
 
-  private WorkdayLog findWorkdayLog(Id workdayLogId) {
-    var workdayLog = repository.findById(workdayLogId);
+  private WorkdayLog findWorkdayLog(Id collaboratorId, Date date) {
+    var workdayLog = repository.findByCollaboratorAndDate(collaboratorId, date);
     if (workdayLog.isEmpty()) {
       throw new WorkdayLogNotFoundException();
     }

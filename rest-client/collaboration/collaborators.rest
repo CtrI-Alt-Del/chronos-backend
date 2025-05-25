@@ -27,7 +27,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### List collaborators
-GET {{URL}}?page=1&name=Therese
+GET {{URL}}?page=1
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

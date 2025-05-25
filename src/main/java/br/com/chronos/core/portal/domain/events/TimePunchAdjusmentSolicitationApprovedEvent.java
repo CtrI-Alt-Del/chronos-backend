@@ -11,15 +11,17 @@ public class TimePunchAdjusmentSolicitationApprovedEvent
   public static final String NAME = "portal/time.punch.solicitation.approved";
 
   public static record Payload(
+      String senderId,
+      LocalDate date,
       LocalTime time,
-      String period,
-      LocalDate workdayLogDate) {
+      String period) {
   }
 
   public TimePunchAdjusmentSolicitationApprovedEvent(TimePunchAdjustmentSolicitation solicitation) {
     super(new Payload(
+        solicitation.getSenderResponsible().getId().toString(),
+        solicitation.getDate().value(),
         solicitation.getTime().value(),
-        solicitation.getPeriod().toString(),
-        solicitation.getWorkdayLogDate().value()));
+        solicitation.getPeriod().toString()));
   }
 }
