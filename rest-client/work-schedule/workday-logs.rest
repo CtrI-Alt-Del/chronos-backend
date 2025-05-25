@@ -15,7 +15,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Get collaboration sector history
-GET {{URL}}/history?date=2025-05-17&page=1
+GET {{URL}}/history?date=2025-05-24&page=1
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

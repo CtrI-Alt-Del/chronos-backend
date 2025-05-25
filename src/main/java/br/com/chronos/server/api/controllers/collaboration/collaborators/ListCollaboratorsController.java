@@ -22,16 +22,17 @@ public class ListCollaboratorsController {
 
   @GetMapping
   public ResponseEntity<PaginationResponse<CollaboratorDto>> handle(
-      @RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "true", name = "active") boolean isActive) {
+      @RequestParam(defaultValue = "", name = "name") String collaboratorName,
+      @RequestParam(defaultValue = "true", name = "active") boolean isCollaboratorActive,
+      @RequestParam(defaultValue = "1") int page) {
     var useCase = new ListCollaboratorsUseCase(repository);
     var account = authenticationProvider.getAccount();
     var response = useCase.execute(
-        page,
         account.getRole().toString(),
         account.getCollaborationSector().toString(),
-        isActive,
-        account.getCollaboratorId().value().toString());
+        collaboratorName,
+        isCollaboratorActive,
+        page);
     return ResponseEntity.ok(response);
   }
 

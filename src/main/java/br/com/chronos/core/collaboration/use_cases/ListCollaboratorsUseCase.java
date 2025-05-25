@@ -10,6 +10,7 @@ import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Role;
+import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.responses.PaginationResponse;
 import kotlin.Pair;
 
@@ -21,11 +22,12 @@ public class ListCollaboratorsUseCase {
   }
 
   public PaginationResponse<CollaboratorDto> execute(
-      int page,
       String accountRole,
-      String requesterSector,
+      String collaborationSector,
+      String collaboratorName,
       boolean isCollaboratorActive,
-      String requesterId) {
+      int page) {
+
     var role = Role.create(accountRole);
     Pair<Array<Collaborator>, PlusIntegerNumber> response;
 
@@ -33,8 +35,8 @@ public class ListCollaboratorsUseCase {
       response = repository.findMany(Logical.create(isCollaboratorActive), PageNumber.create(page));
     } else {
       response = repository.findManyByCollaborationSector(
-          Id.create(requesterId),
-          CollaborationSector.create(requesterSector),
+          CollaborationSector.create(collaborationSector),
+          Text.create(collaboratorName, "nome do colaborador"),
           Logical.create(isCollaboratorActive),
           PageNumber.create(page));
     }

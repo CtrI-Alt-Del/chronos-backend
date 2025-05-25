@@ -1,6 +1,7 @@
 package br.com.chronos.server.queue.jobs.notification;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.com.chronos.core.notification.interfaces.EmailProvider;
@@ -18,7 +19,11 @@ public class SendSolicitationCreationEmailJob {
   @Autowired
   private EmailProvider emailProvider;
 
+  @Value("${service.code}")
+  private String serviceCode;
+
   public void handle(SolicitationCreatedEvent.Payload payload) {
+    collaborationService.setServiceCode(serviceCode);
     var managersEmails = collaborationService.getManagersEmails(payload.collaboratorationSector());
     var collaborator = collaborationService.getCollaborator(payload.employeeId());
     var useCase = new SendSolicitationCreationEmailUseCase(emailProvider);

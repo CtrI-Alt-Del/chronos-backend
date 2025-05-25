@@ -16,12 +16,14 @@ import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
+import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.domain.records.Role.RoleName;
 import br.com.chronos.server.database.jpa.collaborator.daos.CollaboratorDao;
 import br.com.chronos.server.database.jpa.collaborator.mappers.CollaboratorMapper;
 import br.com.chronos.server.database.jpa.collaborator.models.CollaboratorModel;
+import br.com.chronos.server.database.jpa.global.JpaRepository;
 
-public class JpaCollaboratorsRepository implements CollaboratorsRepository {
+public class JpaCollaboratorsRepository extends JpaRepository implements CollaboratorsRepository {
   @Autowired
   CollaboratorDao dao;
 
@@ -114,16 +116,18 @@ public class JpaCollaboratorsRepository implements CollaboratorsRepository {
   }
 
   @Override
-  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(Id id, CollaborationSector sector,
-      Logical isActive, PageNumber page) {
-    var pageRequest = PageRequest.of(page.number().value() - 1, 10);
-    Page<CollaboratorModel> collaboratorModels;
-    collaboratorModels = dao.findAllByAccountRoleNotAndAccountSectorAndAccountIsActiveAndIdNot(
+  public Pair<Array<Collaborator>, PlusIntegerNumber> findManyByCollaborationSector(
+      CollaborationSector collaborationSector,
+      Text collaboratorName,
+      Logical isCollaboratorActive,
+      PageNumber page) {
+    var collaboratorModels = dao.findAllByAccountRoleNotAndAccountSectorAndNameContainingIgnoreCaseAndAccountIsActive(
         RoleName.ADMIN,
-        sector.value(),
-        isActive.value(),
-        id.value(),
-        pageRequest);
+        collaborationSector.value(),
+        collaboratorName.value(),
+        isCollaboratorActive.value(),
+        getPageRequest(page));
+
     var items = collaboratorModels.getContent().stream().toList();
     var itemsCount = collaboratorModels.getTotalElements();
 
