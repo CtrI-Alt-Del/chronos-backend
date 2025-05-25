@@ -10,7 +10,6 @@ public record SolicitationType(Type value) {
     TIME_PUNCH_ADJUSMENT,
     DAY_OFF_SCHEDULE,
     DAY_OFF,
-    PAID_OVERTIME,
     WORK_LEAVE,
   }
 
@@ -40,10 +39,6 @@ public record SolicitationType(Type value) {
 
   public static SolicitationType createAsDayOff() {
     return new SolicitationType(Type.DAY_OFF);
-  }
-
-  public static SolicitationType createPaidOvertime() {
-    return new SolicitationType(Type.PAID_OVERTIME);
   }
 
   public static SolicitationType createAsWorkLeave() {
