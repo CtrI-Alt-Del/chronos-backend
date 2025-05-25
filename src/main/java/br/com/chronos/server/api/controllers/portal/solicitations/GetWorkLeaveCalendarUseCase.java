@@ -40,6 +40,7 @@ public class GetWorkLeaveCalendarUseCase {
             .setIsVacation(solicitation.getIsVacation().value())
             .setJustification(justification);
       });
+      workLeaves.sort((workLeave) -> workLeave.startedAt);
 
       var collaboratorWorkLeavesDto = new CollaboratorWorkLeavesDto()
           .setWorkLeaves(workLeaves.list())

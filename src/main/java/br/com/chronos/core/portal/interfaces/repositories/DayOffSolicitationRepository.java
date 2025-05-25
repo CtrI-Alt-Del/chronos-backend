@@ -11,5 +11,4 @@ public interface DayOffSolicitationRepository {
   void resolveSolicitation(DayOffSolicitation solicitation);
 
   Optional<DayOffSolicitation> findSolicitationById(Id solicitationId);
-
 }

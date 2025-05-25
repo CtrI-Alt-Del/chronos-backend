@@ -22,8 +22,8 @@ public class PunchTimeUseCase {
 
   public TimePunchDto execute(String workdayLogId, LocalTime time) {
     var workdayLog = findWorkdayLog(Id.create(workdayLogId));
-    // workdayLog.getTimePunch().punch(Time.create(time, "tempo do ponto"));
-    // repository.replace(workdayLog);
+    workdayLog.getTimePunch().punch(Time.create(time, "tempo do ponto"));
+    repository.replace(workdayLog);
 
     if (workdayLog.getTimePunch().isClosed().isTrue()) {
       var event = new WorkdayClosedEvent(workdayLog);

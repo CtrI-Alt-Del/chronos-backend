@@ -27,7 +27,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### List collaborators
-GET {{URL}}
+GET {{URL}}?page=1&name=Therese
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
@@ -57,7 +57,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Prepare collaborators for work
-POST {{URL}}/work?date=2025-05-24
+POST {{URL}}/work?date=2025-05-25
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

@@ -1,6 +1,7 @@
 package br.com.chronos.core.global.domain.records;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -67,6 +68,11 @@ public record Array<Item>(List<Item> list) {
       return null;
     }
     return item.get();
+  }
+
+  public <U extends Comparable<? super U>> Array<Item> sort(Function<? super Item, U> keyExtractor) {
+    list.sort(Comparator.comparing(keyExtractor));
+    return new Array<>(list);
   }
 
   public Logical includes(Item item) {

@@ -8,12 +8,12 @@ import kotlin.Pair;
 
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.global.domain.records.DateRange;
 import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.domain.records.Month;
 import br.com.chronos.core.global.domain.records.PageNumber;
 import br.com.chronos.core.global.domain.records.PlusIntegerNumber;
-import br.com.chronos.core.global.domain.records.Text;
 import br.com.chronos.core.global.responses.PaginationResponse;
 import br.com.chronos.core.portal.domain.abstracts.Solicitation;
 import br.com.chronos.core.portal.domain.entities.DayOffScheduleAdjustmentSolicitation;
@@ -273,25 +273,6 @@ public class JpaSolicitationsRepository extends JpaRepository implements Solicit
   }
 
   @Override
-  public Pair<Array<WorkLeaveSolicitation>, PlusIntegerNumber> findManyWorkLeaveSolicitationSendersByCollaborationSectorAndSenderName(
-      CollaborationSector sector,
-      Text senderName,
-      PageNumber page) {
-    var models = workLeaveSolicitationDao
-        .findAllBySenderResponsibleAccountSectorAndSenderResponsibleNameContainingIgnoreCase(
-            sector.value(),
-            senderName.value(),
-            getPageRequest(page));
-
-    var items = models.stream().toList();
-    var itemsCount = models.getTotalElements();
-
-    return new Pair<>(
-        Array.createFrom(items, workLeaveSolicitationMapper::toEntity),
-        PlusIntegerNumber.create((int) itemsCount));
-  }
-
-  @Override
   public Array<WorkLeaveSolicitation> findAllApprovedWorkLeaveSolicitationsBySenderAndMonth(Id senderId, Month month) {
     var models = workLeaveSolicitationDao
         .findAllBySolicitationStatusAndSenderAndDateRange(
@@ -301,6 +282,19 @@ public class JpaSolicitationsRepository extends JpaRepository implements Solicit
             month.lastDay().value());
 
     return Array.createFrom(models, workLeaveSolicitationMapper::toEntity);
+  }
+
+  @Override
+  public Optional<WorkLeaveSolicitation> findWorkLeaveSolicitationByDateRange(DateRange dateRange) {
+    var model = workLeaveSolicitationDao.findByDateRange(
+        dateRange.startDate().value(),
+        dateRange.endDate().value());
+
+    if (model.isEmpty()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(workLeaveSolicitationMapper.toEntity(model.get()));
   }
 
 }

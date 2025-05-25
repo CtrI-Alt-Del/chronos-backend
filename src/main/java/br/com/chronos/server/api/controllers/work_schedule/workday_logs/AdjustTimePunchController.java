@@ -27,13 +27,14 @@ public class AdjustTimePunchController {
   private static class Request {
     private LocalTime time;
     private String period;
-    private LocalDate workdayLogDate;
   }
 
-  @PatchMapping("/time-punch/adjustment")
-  public ResponseEntity<TimePunchDto> handle(@PathVariable LocalDate workdayLogDate, @RequestBody Request body) {
+  @PatchMapping("{workdayLogId}/time-punch/adjustment")
+  public ResponseEntity<TimePunchDto> handle(
+      @PathVariable String workdayLogId,
+      @RequestBody Request body) {
     var useCase = new AdjustTimePunchUseCase(workdayLogsRepository, workScheduleBroker);
-    useCase.execute(workdayLogDate, body.getTime(), body.getPeriod());
+    useCase.execute(workdayLogId, body.getTime(), body.getPeriod());
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 }

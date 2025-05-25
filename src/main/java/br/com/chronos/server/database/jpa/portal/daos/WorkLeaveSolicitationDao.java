@@ -2,6 +2,7 @@ package br.com.chronos.server.database.jpa.portal.daos;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,14 @@ public interface WorkLeaveSolicitationDao extends JpaRepository<WorkLeaveSolicit
       CollaborationSector.Sector sector,
       String senderName,
       PageRequest pageRequest);
+
+  @Query(value = """
+      SELECT wls FROM WorkLeaveSolicitationModel wls
+      WHERE wls.startedAt <= :endedAt AND wls.endedAt >= :startedAt
+      """)
+  Optional<WorkLeaveSolicitationModel> findByDateRange(
+      @Param("startedAt") LocalDate startedAt,
+      @Param("endedAt") LocalDate endedAt);
 
   @Query(value = """
       SELECT wls FROM WorkLeaveSolicitationModel wls

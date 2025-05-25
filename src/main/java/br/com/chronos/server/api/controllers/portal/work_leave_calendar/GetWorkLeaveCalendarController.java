@@ -28,12 +28,12 @@ public class GetWorkLeaveCalendarController {
   @GetMapping
   public ResponseEntity<PaginationResponse<CollaboratorWorkLeavesDto>> handle(
       @RequestHeader("Authorization") String authorizationHeader,
-      @RequestParam(defaultValue = "") String senderName,
+      @RequestParam(defaultValue = "") String collaboratorName,
       @RequestParam int year,
       @RequestParam int month,
       @RequestParam(defaultValue = "1") int page) {
     collaborationService.setJwt(authorizationHeader);
-    var response = collaborationService.listCollaborators(senderName, page);
+    var response = collaborationService.listCollaborators(collaboratorName, page);
     List<ResponsibleDto> senders = new ArrayList<>();
 
     for (var collaborator : response.getItems()) {

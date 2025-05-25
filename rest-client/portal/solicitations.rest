@@ -4,7 +4,7 @@
 @PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
 @DAY_OFF_SOLICITATION_ID = c0b7618f-38b3-40e8-b2f3-1f67d2e2a26c
 @EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
-@WORK_LEAVE_SOLICITATION_ID = 932443b1-27dd-4004-b8e6-00fb8bd31458
+@WORK_LEAVE_SOLICITATION_ID = 162b4f46-3955-422e-9a68-1eaeef900856
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 ### Create time punch adjustment solicitation
@@ -80,8 +80,8 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "startedAt": "2025-05-20",
-  "endedAt": "2025-05-25"
+  "startedAt": "2025-05-10",
+  "endedAt": "2025-05-15"
 }
 
 ### List vacation solicitations
@@ -95,8 +95,8 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "startedAt": "2025-05-20",
-  "endedAt": "2025-05-25"
+  "startedAt": "2025-05-05",
+  "endedAt": "2025-05-09"
 }
 
 ### List withdraw solicitations 

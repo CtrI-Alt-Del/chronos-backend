@@ -17,7 +17,9 @@ public record SolicitationType(Type value) {
     if (value == null) {
       throw new ValidationException("Tipo de solicitacao", "Nao pode ser nulo");
     }
+
     var text = Text.create(value.toUpperCase(), "tipo");
+
     try {
       return new SolicitationType(Type.valueOf(text.value()));
     } catch (Exception e) {

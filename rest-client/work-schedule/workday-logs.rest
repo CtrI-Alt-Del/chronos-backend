@@ -1,7 +1,7 @@
 @URL = {{HOST}}/work-schedule/workday-logs
 @WORKDAY_LOG_ID = 5e7b3d7c-bf22-48ef-9383-fca04a7c2d58
 @COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
-@WORKDAY_LOG_ID = addc23ad-0caf-445d-8289-8d611fcae73d
+@WORKDAY_LOG_ID = fc5fba8b-af6e-4a2c-877f-cfaebc2ca3fb
 @COLLABORATOR_Id = 9b1febb2-60e2-4369-8143-b69429bf4fb3
 
 ### Get today workday log
@@ -39,15 +39,11 @@ Authorization: Bearer {{JWT}}
 }
 
 ### Adjust time punch
-PATCH {{URL}}/{{COLLABORATOR_Id}}/time-punch/adjustment
+PATCH {{URL}}/{{WORKDAY_LOG_ID}}/time-punch/adjustment
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "time": "12:00",
-  "period": "first_clock_in",
-  "workdayLogDate": "2024-04-27",
+  "time": "13:00",
+  "period": "first_clock_in"
 }
-
-
-

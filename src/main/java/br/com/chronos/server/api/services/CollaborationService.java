@@ -30,9 +30,17 @@ public class CollaborationService extends RestService {
 
   public PaginationResponse<CollaboratorDto> listCollaborators(String collaboratorName, int page) {
     var response = get("collaborators?page=" + page + "&name=" + collaboratorName);
+    System.out.println("response: " + response);
 
     var item = (LinkedHashMap<String, Object>) response.get("items");
-    var items = (List<LinkedHashMap<String, Object>>) item.get("items");
+    List<LinkedHashMap<String, Object>> items = new ArrayList<>();
+
+    if (item.get("items") instanceof List) {
+      items = (List<LinkedHashMap<String, Object>>) item.get("items");
+    } else {
+      items.add((LinkedHashMap<String, Object>) item.get("items"));
+    }
+
     var collaborators = Array.createFrom(items, this::getCollaborator);
     var itemsCount = (String) response.get("itemsCount");
 
