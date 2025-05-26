@@ -27,9 +27,11 @@ public interface WorkLeaveSolicitationDao extends JpaRepository<WorkLeaveSolicit
 
   @Query(value = """
       SELECT wls FROM WorkLeaveSolicitationModel wls
-      WHERE wls.startedAt <= :endedAt AND wls.endedAt >= :startedAt
+      WHERE wls.senderResponsible.id = :senderId
+      AND wls.startedAt <= :endedAt AND wls.endedAt >= :startedAt
       """)
-  Optional<WorkLeaveSolicitationModel> findByDateRange(
+  List<WorkLeaveSolicitationModel> findAllBySenderAndDateRange(
+      @Param("senderId") UUID senderId,
       @Param("startedAt") LocalDate startedAt,
       @Param("endedAt") LocalDate endedAt);
 

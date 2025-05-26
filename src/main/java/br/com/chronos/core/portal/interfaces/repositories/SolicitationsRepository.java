@@ -50,7 +50,9 @@ public interface SolicitationsRepository {
       Logical isVacation,
       PageNumber page);
 
-  Optional<WorkLeaveSolicitation> findWorkLeaveSolicitationByDateRange(DateRange dateRange);
+  Array<WorkLeaveSolicitation> findAllWorkLeaveSolicitationByCollaboratorAndDateRange(
+      Id collaboratorId,
+      DateRange dateRange);
 
   Array<WorkLeaveSolicitation> findAllApprovedWorkLeaveSolicitationsBySenderAndMonth(
       Id senderId,

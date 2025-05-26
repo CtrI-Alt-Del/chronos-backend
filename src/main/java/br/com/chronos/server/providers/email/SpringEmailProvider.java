@@ -32,13 +32,12 @@ public class SpringEmailProvider implements EmailProvider {
 
   private static final HashMap<String, String> SOLICITATION_TYPES = new HashMap<>() {
     {
-      put("vacation", "Férias");
       put("excused_absence", "Faltas");
       put("time_punch_adjusment", "Ajuste de Ponto");
       put("day_off_schedule", "Ajuste de Folga");
       put("day_off", "Folga");
       put("paid_overtime", "Hora Extra Paga");
-      put("withdraw", "Saque");
+      put("work_leave", "Ausência de trabalho");
     }
   };
 
@@ -121,11 +120,13 @@ public class SpringEmailProvider implements EmailProvider {
       var message = mailSender.createMimeMessage();
       var helper = new MimeMessageHelper(message);
       helper.setFrom(senderEmail);
-      helper.setTo(recipientEmail);
+      helper.setTo("69f83229d8-0aa5d8@inbox.mailtrap.io");
       helper.setSubject(subject);
       helper.setText(template, true);
       mailSender.send(message);
+      System.out.println("Email sent successfully");
     } catch (MessagingException e) {
+      System.out.println("Error sending email: " + e.getMessage());
       throw new AppException("Email provider exception", e.getMessage());
     }
   }

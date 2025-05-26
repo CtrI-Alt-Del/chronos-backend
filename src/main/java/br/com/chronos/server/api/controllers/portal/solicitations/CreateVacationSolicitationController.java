@@ -16,28 +16,27 @@ import br.com.chronos.core.portal.use_cases.CreateVacationSolicitationUseCase;
 
 @SolicitationsController
 public class CreateVacationSolicitationController {
+  @Autowired
+  private SolicitationsRepository solicitationsRepository;
 
-    @Autowired
-    private SolicitationsRepository solicitationsRepository;
+  @Autowired
+  private AuthenticationProvider authenticationProvider;
 
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
+  @Autowired
+  private PortalBroker broker;
 
-    @Autowired
-    private PortalBroker broker;
+  @Data
+  @EqualsAndHashCode(callSuper = false)
+  public static class Request extends WorkLeaveSolicitationDto {
+  }
 
-    @Data
-    @EqualsAndHashCode(callSuper = false)
-    public static class Request extends WorkLeaveSolicitationDto {
-    }
-
-    @PostMapping("work-leave/vacation")
-    public ResponseEntity<WorkLeaveSolicitationDto> handle(@RequestBody Request body) {
-        var useCase = new CreateVacationSolicitationUseCase(solicitationsRepository, broker);
-        var account = authenticationProvider.getAccount();
-        var senderResponsibleId = account.getCollaboratorId().toString();
-        var response = useCase.execute(body, senderResponsibleId, account.getCollaborationSector().toString());
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+  @PostMapping("work-leave/vacation")
+  public ResponseEntity<WorkLeaveSolicitationDto> handle(@RequestBody Request body) {
+    var useCase = new CreateVacationSolicitationUseCase(solicitationsRepository, broker);
+    var account = authenticationProvider.getAccount();
+    var senderResponsibleId = account.getCollaboratorId().toString();
+    var response = useCase.execute(body, senderResponsibleId, account.getCollaborationSector().toString());
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+  }
 
 }

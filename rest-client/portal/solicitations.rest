@@ -1,10 +1,9 @@
 @RESOURCE = portal/solicitations
 @URL = {{HOST}}/{{RESOURCE}}
 @DAY_OFF_SCHEDULE_ADJUSTMENT_SOLICITATION_ID = 2b0f3c4d-5a1e-4b8f-9a7c-6d1e0f3b2c5d
-@PAID_OVERTIME_SOLICITATION_ID = dc8e05b7-50c1-429c-8e2f-1bf9bf7925f2
 @DAY_OFF_SOLICITATION_ID = c0b7618f-38b3-40e8-b2f3-1f67d2e2a26c
 @EXCEUSED_ABSENCE_SOLICITATION_ID = 77c46bfc-7cce-42fc-b1f6-3a752d77aede
-@WORK_LEAVE_SOLICITATION_ID = 162b4f46-3955-422e-9a68-1eaeef900856
+@WORK_LEAVE_SOLICITATION_ID = 4fc315d5-6c19-473c-8cd7-b2bcc097a5d7
 @COLLABORATOR_ID = 56ab2a6d-39f7-4fba-a001-f33ccbe39dfe
 
 ### Create time punch adjustment solicitation
@@ -19,14 +18,6 @@ GET {{URL}}/time-punch-adjustment?page=1
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-### Aprove time punch adjustment solicitation
-PUT {{URL}}/{{PAID_OVERTIME_SOLICITATION_ID}}/approve/time-punch-adjustment
-Content-Type: application/json
-Authorization: Bearer {{JWT}}
-
-{
-  "feedbackMessage": "Seu ponto foi ajustado!"
-}
 
 ### Create day off solicitation
 POST {{URL}}/day-off
@@ -153,7 +144,7 @@ Authorization: Bearer {{JWT}}
 }
 
 ### Deny solicitation 
-PATCH {{URL}}/{{DAY_OFF_SOLICITATION_ID}}/deny
+PATCH {{URL}}/{{WORK_LEAVE_SOLICITATION_ID}}/deny
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 

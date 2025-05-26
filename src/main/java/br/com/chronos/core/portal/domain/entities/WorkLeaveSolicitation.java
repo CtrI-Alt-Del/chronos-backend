@@ -26,11 +26,8 @@ public class WorkLeaveSolicitation extends Solicitation {
   }
 
   public Text getDescription() {
-    if (super.getDescription() == null) {
-      var description = this.isVacation.isTrue() ? "Férias" : "Afastamento";
-      return Text.create(description, "descrição");
-    }
-    return super.getDescription();
+    var description = this.isVacation.isTrue() ? "Férias" : "Afastamento";
+    return Text.create(description, "descrição");
   }
 
   public void becomeVacation() {

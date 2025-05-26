@@ -285,16 +285,15 @@ public class JpaSolicitationsRepository extends JpaRepository implements Solicit
   }
 
   @Override
-  public Optional<WorkLeaveSolicitation> findWorkLeaveSolicitationByDateRange(DateRange dateRange) {
-    var model = workLeaveSolicitationDao.findByDateRange(
+  public Array<WorkLeaveSolicitation> findAllWorkLeaveSolicitationByCollaboratorAndDateRange(
+      Id collaboratorId,
+      DateRange dateRange) {
+    var models = workLeaveSolicitationDao.findAllBySenderAndDateRange(
+        collaboratorId.value(),
         dateRange.startDate().value(),
         dateRange.endDate().value());
 
-    if (model.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return Optional.of(workLeaveSolicitationMapper.toEntity(model.get()));
+    return Array.createFrom(models, workLeaveSolicitationMapper::toEntity);
   }
 
 }

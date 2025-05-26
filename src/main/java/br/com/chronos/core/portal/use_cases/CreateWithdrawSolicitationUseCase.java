@@ -4,6 +4,7 @@ package br.com.chronos.core.portal.use_cases;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.dtos.ResponsibleDto;
 import br.com.chronos.core.global.domain.records.DateRange;
+import br.com.chronos.core.global.domain.records.Id;
 import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.core.portal.domain.events.WorkLeaveSolicitationApprovedEvent;
@@ -24,7 +25,9 @@ public class CreateWithdrawSolicitationUseCase extends CreateSolicitationUseCase
       WorkLeaveSolicitationDto dto,
       String senderResponsibleId,
       String collaboratorionSector) {
-    findByDateRange(DateRange.create(dto.startedAt, dto.endedAt, 1));
+    findByDateRange(
+        Id.create(senderResponsibleId),
+        DateRange.create(dto.startedAt, dto.endedAt, 1));
 
     var responsibleDto = new ResponsibleDto()
         .setId(senderResponsibleId)
@@ -40,9 +43,9 @@ public class CreateWithdrawSolicitationUseCase extends CreateSolicitationUseCase
     return solicitation.getDto();
   }
 
-  private void findByDateRange(DateRange dateRange) {
-    var solicitation = repository.findWorkLeaveSolicitationByDateRange(dateRange);
-    if (solicitation.isPresent()) {
+  private void findByDateRange(Id collaboratorId, DateRange dateRange) {
+    var solicitations = repository.findAllWorkLeaveSolicitationByCollaboratorAndDateRange(collaboratorId, dateRange);
+    if (solicitations.isEmpty().isFalse()) {
       throw new WorkLeaveSolicitationDateRangeException(false);
     }
   }

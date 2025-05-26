@@ -79,6 +79,10 @@ public record Array<Item>(List<Item> list) {
     return Logical.create(list.contains(item));
   }
 
+  public Logical isEmpty() {
+    return Logical.create(list.isEmpty());
+  }
+
   public Logical some(Predicate<? super Item> predicate) {
     return Logical.create(list.stream().anyMatch(predicate));
   }

@@ -12,9 +12,14 @@ public class SendSolicitationApprovalEmailUseCase {
   }
 
   public void execute(String employeeName, String employeeEmail, String solicitationType) {
-    emailProvider.sendSolicitationApprovalEmail(
-        Email.create(employeeEmail),
-        Text.create(employeeName, "nome do colaborador"),
-        Text.create(solicitationType, "tipo de solicitação"));
+    System.out.println("Sending email to " + employeeEmail);
+    try {
+      emailProvider.sendSolicitationApprovalEmail(
+          Email.create(employeeEmail),
+          Text.create(employeeName, "nome do colaborador"),
+          Text.create(solicitationType, "tipo de solicitação"));
+    } catch (Exception e) {
+      System.out.println("Error sending email: " + e.getMessage());
+    }
   }
 }
