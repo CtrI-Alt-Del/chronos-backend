@@ -247,7 +247,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     List<Object[]> rawResults = dao.countLowPunchesLast7Days();
     Map<LocalDate, Integer> countsByDate = new HashMap<>();
     for (Object[] row : rawResults) {
-      LocalDate date = ((Date) row[0]).value();
+      LocalDate date = ((java.sql.Date) row[0]).toLocalDate();
       int count = ((Number) row[1]).intValue();
       countsByDate.put(date, count);
     }
