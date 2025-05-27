@@ -37,7 +37,8 @@ public class SpringEmailProvider implements EmailProvider {
       put("day_off_schedule", "Ajuste de Folga");
       put("day_off", "Folga");
       put("paid_overtime", "Hora Extra Paga");
-      put("work_leave", "Ausência de trabalho");
+      put("vacation", "Férias");
+      put("withdraw", "Afastamento");
     }
   };
 
