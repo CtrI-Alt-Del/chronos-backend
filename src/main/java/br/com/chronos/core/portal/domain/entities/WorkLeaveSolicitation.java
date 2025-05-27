@@ -25,6 +25,13 @@ public class WorkLeaveSolicitation extends Solicitation {
     this.justification = dto.justification != null ? new Justification(dto.justification) : null;
   }
 
+  public SolicitationType getType() {
+    if (this.isVacation.isTrue()) {
+      return SolicitationType.createAsVacation();
+    }
+    return SolicitationType.createAsWithdraw();
+  }
+
   public Text getDescription() {
     var description = this.isVacation.isTrue() ? "Férias" : "Afastamento";
     return Text.create(description, "descrição");

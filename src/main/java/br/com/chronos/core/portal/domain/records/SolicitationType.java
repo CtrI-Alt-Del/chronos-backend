@@ -11,6 +11,8 @@ public record SolicitationType(Type value) {
     DAY_OFF_SCHEDULE,
     DAY_OFF,
     WORK_LEAVE,
+    VACATION,
+    WITHDRAW,
   }
 
   public static SolicitationType create(String value) {
@@ -47,6 +49,14 @@ public record SolicitationType(Type value) {
     return new SolicitationType(Type.WORK_LEAVE);
   }
 
+  public static SolicitationType createAsVacation() {
+    return new SolicitationType(Type.VACATION);
+  }
+
+  public static SolicitationType createAsWithdraw() {
+    return new SolicitationType(Type.WITHDRAW);
+  }
+
   public Logical isWorkLeave() {
     return Logical.create(value == Type.WORK_LEAVE);
   }
@@ -65,6 +75,14 @@ public record SolicitationType(Type value) {
 
   public Logical isDayOff() {
     return Logical.create(value == Type.DAY_OFF);
+  }
+
+  public Logical isVacation() {
+    return Logical.create(value == Type.VACATION);
+  }
+
+  public Logical isWithdraw() {
+    return Logical.create(value == Type.WITHDRAW);
   }
 
   public String toString() {
