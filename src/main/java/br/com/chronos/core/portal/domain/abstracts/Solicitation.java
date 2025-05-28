@@ -102,6 +102,7 @@ public abstract class Solicitation extends Entity {
   }
 
   public SolicitationType getType() {
+    System.out.println("type: " + type);
     return type;
   }
 

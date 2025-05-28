@@ -40,8 +40,7 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
 
     var passwordEncoder = new BCryptPasswordEncoder();
     var serviceCode = request.getHeader("X-Service-Code");
-    if (serviceCode != null) {
-      passwordEncoder.matches(serviceCode, serviceEncoded);
+    if (serviceCode != null && passwordEncoder.matches(serviceCode, serviceEncoded)) {
       filterChain.doFilter(request, response);
       return;
     }

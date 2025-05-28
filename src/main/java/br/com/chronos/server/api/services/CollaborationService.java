@@ -16,7 +16,8 @@ public class CollaborationService extends RestService {
   }
 
   public List<String> getManagersEmails(String collaboratorationSector) {
-    var response = get("collaborators/managers/emails?sector=" + collaboratorationSector);
+    setQueryParam("sector", collaboratorationSector);
+    var response = get("collaborators/managers/emails");
     if (response.get("item") instanceof List) {
       return (List<String>) response.get("item");
     }
@@ -35,14 +36,21 @@ public class CollaborationService extends RestService {
     setQueryParam("page", String.valueOf(page));
 
     var response = get("collaborators");
+    System.out.println(response);
 
-    var item = (LinkedHashMap<String, Object>) response.get("items");
+    LinkedHashMap<String, Object> body;
     List<LinkedHashMap<String, Object>> items = new ArrayList<>();
 
-    if (item.get("items") instanceof List) {
-      items = (List<LinkedHashMap<String, Object>>) item.get("items");
+    if (response.get("items") instanceof String) {
+      body = new LinkedHashMap<>();
     } else {
-      items.add((LinkedHashMap<String, Object>) item.get("items"));
+      body = (LinkedHashMap<String, Object>) response.get("items");
+    }
+
+    if (body.containsKey("items") && body.get("items") instanceof List) {
+      items = (List<LinkedHashMap<String, Object>>) body.get("items");
+    } else if (body.containsKey("items")) {
+      items.add((LinkedHashMap<String, Object>) body.get("items"));
     }
 
     var collaborators = Array.createFrom(items, this::getCollaborator);

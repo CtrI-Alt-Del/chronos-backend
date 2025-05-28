@@ -62,7 +62,7 @@ public class SolicitationMapper {
       return dayOffSolicitationMapper.toModel((DayOffSolicitation) entity);
     } else if (entity.getType().isExcusedAbsence().isTrue()) {
       return excusedAbsenceSolicitationMapper.toModel((ExcusedAbsenceSolicitation) entity);
-    } else if (entity.getType().isWorkLeave().isTrue()) {
+    } else if (entity.getType().isVacation().or(entity.getType().isWithdraw()).isTrue()) {
       return workLeaveSolicitationMapper.toModel((WorkLeaveSolicitation) entity);
     }
     throw new IllegalArgumentException("Unknown solicitation type: " + entity.getClass());

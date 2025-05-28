@@ -41,7 +41,7 @@ public interface WorkLeaveSolicitationDao extends JpaRepository<WorkLeaveSolicit
       AND wls.senderResponsible.id = :senderId
       AND wls.startedAt <= :endedAt
       AND wls.endedAt >= :startedAt
-      ORDER BY wls.startedAt DESC
+      ORDER BY wls.startedAt DESC, wls.senderResponsible.name ASC
       """)
   List<WorkLeaveSolicitationModel> findAllBySolicitationStatusAndSenderAndDateRange(
       @Param("status") SolicitationStatus.Status status,

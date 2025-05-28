@@ -9,7 +9,6 @@ import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepositor
 import br.com.chronos.core.work_schedule.use_cases.CreateSolicitationUseCase;
 import br.com.chronos.core.portal.domain.dtos.WorkLeaveSolicitationDto;
 import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
-import br.com.chronos.core.portal.domain.events.WorkLeaveSolicitationApprovedEvent;
 import br.com.chronos.core.portal.domain.exceptions.WorkLeaveSolicitationDateRangeException;
 
 public class CreateVacationSolicitationUseCase extends CreateSolicitationUseCase {
@@ -40,8 +39,6 @@ public class CreateVacationSolicitationUseCase extends CreateSolicitationUseCase
     repository.add(solicitation);
     sendSolicitationCreatedEvent(solicitation);
 
-    var event = new WorkLeaveSolicitationApprovedEvent(solicitation);
-    broker.publish(event);
     return solicitation.getDto();
   }
 

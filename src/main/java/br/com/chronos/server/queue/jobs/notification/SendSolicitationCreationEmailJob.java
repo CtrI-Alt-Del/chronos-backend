@@ -23,10 +23,18 @@ public class SendSolicitationCreationEmailJob {
   private String serviceCode;
 
   public void handle(SolicitationCreatedEvent.Payload payload) {
-    collaborationService.setServiceCode(serviceCode);
-    var managersEmails = collaborationService.getManagersEmails(payload.collaboratorationSector());
-    var collaborator = collaborationService.getCollaborator(payload.employeeId());
-    var useCase = new SendSolicitationCreationEmailUseCase(emailProvider);
-    useCase.execute(managersEmails, collaborator.name, payload.solicitationType());
+    try {
+      collaborationService.setJwt(
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaHJvbm9zLXNlcnZlciIsInN1YiI6IntcImlkXCI6XCJmYzIxYzg1MC02NjhlLTQ4ZTEtOTU4OS1kZDY3MWNlNDg3MDVcIixcImVtYWlsXCI6XCJjaHJvbm9zLm1hbmFnZXJAZ21haWwuY29tXCIsXCJwYXNzd29yZFwiOlwiJDJhJDEwJHAwNEdEWGgxWVR5b0tuREx6OVRjZWV1YnZaWEZTc3NNLjZPY1dUd1Rrdlc2bnNCaGI4Q2ZhXCIsXCJpc0FjdGl2ZVwiOnRydWUsXCJyb2xlXCI6XCJtYW5hZ2VyXCIsXCJjb2xsYWJvcmF0aW9uU2VjdG9yXCI6XCJjb21lcmNpYWxcIixcImNvbGxhYm9yYXRvcklkXCI6XCI5YjFmZWJiMi02MGUyLTQzNjktODE0My1iNjk0MjliZjRmYjNcIn0iLCJleHAiOjE3NDg3MDUxMTl9.RubAIkUxvgCNmZRpUlnO8A_kyd8ucSeZsmiYoxHjNBA");
+      var managersEmails = collaborationService.getManagersEmails(payload.collaboratorationSector());
+      var collaborator = collaborationService.getCollaborator(payload.employeeId());
+      var useCase = new SendSolicitationCreationEmailUseCase(emailProvider);
+      // useCase.execute(
+      // managersEmails,
+      // collaborator.name,
+      // payload.solicitationType());
+    } catch (Exception e) {
+      System.out.println(e);
+    }
   }
 }
