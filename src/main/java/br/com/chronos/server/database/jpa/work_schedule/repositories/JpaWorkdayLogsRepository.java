@@ -175,10 +175,7 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
   }
 
   @Override
-  public Array<MonthlyAbsence> getYearlyCollaboratorsAbsence() {
-    LocalDate end = LocalDate.now();
-    LocalDate start = end.minusMonths(11).withDayOfMonth(1);
-
+  public Array<MonthlyAbsence> getYearlyCollaboratorsAbsence(LocalDate start, LocalDate end) {
     List<Object[]> results = dao.countMonthlyAbsencesByRole(
         WorkdayStatusName.ABSENCE.toString(), start, end);
 
@@ -195,12 +192,25 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
     List<MonthlyAbsence> fullList = new ArrayList<>();
     int currentMonth = start.getMonthValue();
     int endMonth = end.getMonthValue();
+    int startYear = start.getYear();
+    int endYear = end.getYear();
 
-    while (true) {
-      fullList.add(mapMonthToAbsence.getOrDefault(currentMonth, MonthlyAbsence.create(0, 0)));
-      if (currentMonth == endMonth)
-        break;
-      currentMonth = currentMonth % 12 + 1;
+    if (startYear == endYear) {
+      for (int i = currentMonth; i <= endMonth; i++) {
+        fullList.add(mapMonthToAbsence.getOrDefault(i, MonthlyAbsence.create(0, 0)));
+      }
+    } else {
+      while (true) {
+        fullList.add(mapMonthToAbsence.getOrDefault(currentMonth, MonthlyAbsence.create(0, 0)));
+        if (currentMonth == 12 && startYear < endYear) {
+          currentMonth = 1;
+          startYear++;
+        } else if (currentMonth == endMonth && startYear == endYear) {
+          break;
+        } else {
+          currentMonth++;
+        }
+      }
     }
 
     return Array.create(fullList);
@@ -208,38 +218,38 @@ public class JpaWorkdayLogsRepository implements WorkdayLogsRepository {
 
   @Override
   public Array<ClockEvent> getAllTimePunchsByDate(Date date) {
+    System.out.println("[DEBUG] Buscando registros para a data: " + date.value());
     List<ClockEvent> hourlyClockEvents = new ArrayList<>(24);
     for (int i = 0; i < 24; i++) {
       hourlyClockEvents.add(ClockEvent.create());
     }
     List<WorkdayLogModel> logs = dao.findAllByDate(date.value());
+    System.out.println("[DEBUG] Quantidade de registros encontrados: " + logs.size());
     for (WorkdayLogModel log : logs) {
       LocalTime firstIn = log.getFirstClockIn();
+      LocalTime firstOut = log.getFirstClockOut();
+      LocalTime secondIn = log.getSecondClockIn();
+      LocalTime secondOut = log.getSecondClockOut();
+      System.out.println("[DEBUG] Registro: firstIn=" + firstIn + ", firstOut=" + firstOut + ", secondIn=" + secondIn
+          + ", secondOut=" + secondOut);
       if (firstIn != null) {
         int hour = firstIn.getHour();
         hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockIns(1));
       }
-
-      LocalTime firstOut = log.getFirstClockOut();
       if (firstOut != null) {
         int hour = firstOut.getHour();
         hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockOuts(1));
       }
-
-      LocalTime secondIn = log.getSecondClockIn();
       if (secondIn != null) {
         int hour = secondIn.getHour();
         hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockIns(1));
       }
-
-      LocalTime secondOut = log.getSecondClockOut();
       if (secondOut != null) {
         int hour = secondOut.getHour();
         hourlyClockEvents.set(hour, hourlyClockEvents.get(hour).incrementClockOuts(1));
       }
     }
     return Array.create(hourlyClockEvents);
-
   }
 
   @Override

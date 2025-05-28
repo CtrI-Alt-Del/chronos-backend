@@ -1,6 +1,7 @@
 package br.com.chronos.core.work_schedule.interfaces.repositories;
 
 import java.util.Optional;
+import java.time.LocalDate;
 
 import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.DateRange;
@@ -27,7 +28,7 @@ public interface WorkdayLogsRepository {
 
   Triple<Long, Long, Long> getCollaboratorsWorkdayStatusByDateRange(DateRange dateRange);
 
-  Array<MonthlyAbsence> getYearlyCollaboratorsAbsence();
+  Array<MonthlyAbsence> getYearlyCollaboratorsAbsence(LocalDate startDate, LocalDate endDate);
 
   Optional<WorkdayLog> findByDate(Date date);
 
