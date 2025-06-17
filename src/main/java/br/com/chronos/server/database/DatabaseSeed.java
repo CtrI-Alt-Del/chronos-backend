@@ -86,7 +86,9 @@ public class DatabaseSeed implements CommandLineRunner {
     var employeeAccountTest = fakeEmployeeAccountTest(employeeTest.getId());
     var accounts = fakeAccounts(collaborators.removeLastItem());
     accounts
-        .add(adminAccountTest);
+        .add(adminAccountTest)
+        .add(employeeAccountTest)
+        .add(managerAccountTest);
     accountsRepository.addMany(accounts);
 
     addJustificationTypes();
