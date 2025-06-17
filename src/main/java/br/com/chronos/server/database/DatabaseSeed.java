@@ -1,5 +1,6 @@
 package br.com.chronos.server.database;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,6 +16,7 @@ import br.com.chronos.core.auth.interfaces.repositories.AccountsRepository;
 import br.com.chronos.core.collaboration.domain.entities.Collaborator;
 import br.com.chronos.core.collaboration.domain.entities.fakers.CollaboratorFaker;
 import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
+import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
 import br.com.chronos.core.global.domain.records.Id;
@@ -23,12 +25,16 @@ import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.fakers.HourBankTransactionFaker;
 import br.com.chronos.core.hour_bank.interfaces.HourBankTransactionsRepository;
 import br.com.chronos.core.work_schedule.domain.entities.WorkdayLog;
+import br.com.chronos.core.work_schedule.domain.entities.fakers.TimePunchFaker;
 import br.com.chronos.core.work_schedule.domain.entities.fakers.WorkdayLogFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.core.portal.domain.entities.fakers.JustificationTypeFaker;
+import br.com.chronos.core.portal.domain.entities.fakers.WorkLeaveSolicitationFaker;
 import br.com.chronos.core.portal.interfaces.repositories.JustificationTypeRepository;
+import br.com.chronos.core.portal.interfaces.repositories.SolicitationsRepository;
 
 @Component
 public class DatabaseSeed implements CommandLineRunner {
@@ -48,13 +54,16 @@ public class DatabaseSeed implements CommandLineRunner {
   private AccountsRepository accountsRepository;
 
   @Autowired
-  private AuthenticationProvider authenticationProvider;
-
-  @Autowired
   private WorkdayLogsRepository workdayLogsRepository;
 
   @Autowired
   private JustificationTypeRepository justificationTypeRepository;
+
+  @Autowired
+  private SolicitationsRepository solicitationsRepository;
+
+  @Autowired
+  private AuthenticationProvider authenticationProvider;
 
   public void run(String... args) throws Exception {
     if (!isEnable)
@@ -73,9 +82,10 @@ public class DatabaseSeed implements CommandLineRunner {
         .add(employeeTest);
     collaboratorsRepository.addMany(collaborators);
 
+    addManyWorkLeaveSolicitations(collaborators);
     addManyDayOffSchedules(collaborators);
-    addManyWorkdayLogs(collaborators.removeLastItem().list(), "normal_day");
-    addManyWorkdayLogs(List.of(employeeTest), "absence");
+    addWorkdayLog(collaborators.removeLastItem().lastItem(), "normal_day");
+    addWorkdayLog(employeeTest, "absence");
 
     var hourBankTransactions = fakeHourBankTransactions();
     hourBankTransactionsRepository.removeAll(employeeTest.getId());
@@ -101,14 +111,89 @@ public class DatabaseSeed implements CommandLineRunner {
     justificationTypeRepository.add(withoutAttachment);
   }
 
-  private void addManyWorkdayLogs(List<Collaborator> collaborators, String workdayStatus) {
-    for (var collaborator : collaborators) {
-      var dto = WorkdayLogFaker
-          .fakeDto(collaborator.getId().toString())
-          .setWorkloadSchedule(collaborator.getWorkload().value())
-          .setStatus(workdayStatus);
-      workdayLogsRepository.add(new WorkdayLog(dto));
+  private Array<WorkLeaveSolicitation> addManyWorkLeaveSolicitations(Array<Collaborator> collaborators) {
+    Array<WorkLeaveSolicitation> workLeaveSolicitations = Array.createAsEmpty();
+
+    workLeaveSolicitations.add(new WorkLeaveSolicitation(
+        WorkLeaveSolicitationFaker.fakeDto()
+            .setIsVacation(true)
+            .setStatus("APPROVED")
+            .setStartedAt(LocalDate.of(2025, 6, 1))
+            .setEndedAt(LocalDate.of(2025, 6, 10))
+            .setSenderResponsible(new ResponsibleAggregateDto()
+                .setId(collaborators.item(0).getId().toString()))));
+
+    workLeaveSolicitations.add(new WorkLeaveSolicitation(
+        WorkLeaveSolicitationFaker.fakeDto()
+            .setIsVacation(false)
+            .setStatus("APPROVED")
+            .setStartedAt(LocalDate.of(2025, 6, 20))
+            .setEndedAt(LocalDate.of(2025, 6, 22))
+            .setSenderResponsible(new ResponsibleAggregateDto()
+                .setId(collaborators.item(1).getId().toString()))));
+
+    workLeaveSolicitations.add(new WorkLeaveSolicitation(
+        WorkLeaveSolicitationFaker.fakeDto()
+            .setIsVacation(true)
+            .setStatus("APPROVED")
+            .setStartedAt(LocalDate.of(2025, 6, 15))
+            .setEndedAt(LocalDate.of(2025, 6, 20))
+            .setSenderResponsible(new ResponsibleAggregateDto()
+                .setId(collaborators.item(2).getId().toString()))));
+
+    workLeaveSolicitations.add(new WorkLeaveSolicitation(
+        WorkLeaveSolicitationFaker.fakeDto()
+            .setIsVacation(true)
+            .setStatus("APPROVED")
+            .setStartedAt(LocalDate.of(2025, 6, 29))
+            .setEndedAt(LocalDate.of(2025, 7, 3))
+            .setSenderResponsible(new ResponsibleAggregateDto()
+                .setId(collaborators.item(3).getId().toString()))));
+
+    workLeaveSolicitations.add(new WorkLeaveSolicitation(
+        WorkLeaveSolicitationFaker.fakeDto()
+            .setIsVacation(false)
+            .setStatus("APPROVED")
+            .setStartedAt(LocalDate.of(2025, 6, 1))
+            .setEndedAt(LocalDate.of(2025, 6, 18))
+            .setSenderResponsible(new ResponsibleAggregateDto()
+                .setId(collaborators.item(4).getId().toString()))));
+
+    workLeaveSolicitations.add(new WorkLeaveSolicitation(
+        WorkLeaveSolicitationFaker.fakeDto()
+            .setIsVacation(true)
+            .setStatus("APPROVED")
+            .setStartedAt(LocalDate.of(2025, 6, 1))
+            .setEndedAt(LocalDate.of(2025, 6, 18))
+            .setSenderResponsible(new ResponsibleAggregateDto()
+                .setId(collaborators.item(5).getId().toString()))));
+
+    workLeaveSolicitations.add(new WorkLeaveSolicitation(
+        WorkLeaveSolicitationFaker.fakeDto()
+            .setIsVacation(true)
+            .setStatus("APPROVED")
+            .setStartedAt(LocalDate.of(2025, 6, 20))
+            .setEndedAt(LocalDate.of(2025, 6, 29))
+            .setSenderResponsible(new ResponsibleAggregateDto()
+                .setId(collaborators.item(6).getId().toString()))));
+
+    for (var workLeaveSolicitation : workLeaveSolicitations.list()) {
+      solicitationsRepository.add(workLeaveSolicitation);
     }
+    return workLeaveSolicitations;
+  }
+
+  private void addWorkdayLog(Collaborator collaborator, String workdayStatus) {
+    var dto = WorkdayLogFaker.fakeDto(collaborator.getId().toString())
+        .setWorkloadSchedule(collaborator.getWorkload().value())
+        .setResponsible(new ResponsibleAggregateDto().setId(collaborator.getId().toString()))
+        .setTimePunch(TimePunchFaker.fakeDto()
+            .setFirstClockIn(null)
+            .setFirstClockOut(null)
+            .setSecondClockIn(null)
+            .setSecondClockOut(null))
+        .setStatus(workdayStatus);
+    workdayLogsRepository.add(new WorkdayLog(dto));
   }
 
   private Account fakeAdminAccountTest() {
@@ -126,6 +211,7 @@ public class DatabaseSeed implements CommandLineRunner {
     var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
       fakeDto.setRole("manager");
+      fakeDto.setSector(CollaborationSector.Sector.COMERCIAL.toString());
       return new Collaborator(fakeDto);
     });
   }
@@ -134,6 +220,7 @@ public class DatabaseSeed implements CommandLineRunner {
     var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
       fakeDto.setRole("employee");
+      fakeDto.setSector(CollaborationSector.Sector.COMERCIAL.toString());
       return new Collaborator(fakeDto);
     });
   }
