@@ -29,10 +29,10 @@ public class SendSolicitationCreationEmailJob {
       var managersEmails = collaborationService.getManagersEmails(payload.collaboratorationSector());
       var collaborator = collaborationService.getCollaborator(payload.employeeId());
       var useCase = new SendSolicitationCreationEmailUseCase(emailProvider);
-      // useCase.execute(
-      // managersEmails,
-      // collaborator.name,
-      // payload.solicitationType());
+      useCase.execute(
+      managersEmails,
+      collaborator.name,
+      payload.solicitationType());
     } catch (Exception e) {
       System.out.println(e);
     }

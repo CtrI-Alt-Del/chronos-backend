@@ -36,7 +36,7 @@ public class CreateWithdrawSolicitationUseCase extends CreateSolicitationUseCase
     dto.setSenderResponsible(senderResponsibleDto);
 
     var solicitation = new WorkLeaveSolicitation(dto);
-    // repository.add(solicitation);
+    repository.add(solicitation);
 
     sendSolicitationCreatedEvent(solicitation);
     return solicitation.getDto();

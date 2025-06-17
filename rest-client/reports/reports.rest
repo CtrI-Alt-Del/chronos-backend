@@ -7,7 +7,7 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 ### Get yearly absence chart
-GET {{URL}}/yearly-absence?startDate=2500-01-01&endDate=2505-01-01
+GET {{URL}}/yearly-absence
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
