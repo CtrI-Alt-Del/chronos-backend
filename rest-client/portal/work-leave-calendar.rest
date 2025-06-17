@@ -2,6 +2,6 @@
 @URL = {{HOST}}/{{RESOURCE}}
 
 ### Get work leave calendar
-GET {{URL}}?year=2025&month=5&page=1
+GET {{URL}}?year=2025&month=5&page=2&collaboratorName
 Content-Type: application/json
 Authorization: Bearer {{JWT}}

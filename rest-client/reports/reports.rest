@@ -6,7 +6,7 @@ GET {{URL}}/workday-status
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
-### Get yearly absence chart 
+### Get yearly absence chart
 GET {{URL}}/yearly-absence
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
@@ -15,7 +15,6 @@ Authorization: Bearer {{JWT}}
 GET {{URL}}/daily-punchs?date=2024-05-19
 Content-Type: application/json
 Authorization: Bearer {{JWT}}
-
 
 ### Get missing punchs report dto 
 GET {{URL}}/collaborators-missing-time

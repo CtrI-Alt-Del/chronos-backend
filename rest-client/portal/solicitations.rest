@@ -86,8 +86,8 @@ Content-Type: application/json
 Authorization: Bearer {{JWT}}
 
 {
-  "startedAt": "2025-05-05",
-  "endedAt": "2025-05-09"
+  "startedAt": "2025-05-31",
+  "endedAt": "2025-06-01"
 }
 
 ### List withdraw solicitations 

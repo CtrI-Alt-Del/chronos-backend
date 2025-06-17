@@ -19,7 +19,9 @@ import br.com.chronos.core.collaboration.interfaces.CollaboratorsRepository;
 import br.com.chronos.core.global.domain.dtos.ResponsibleAggregateDto;
 import br.com.chronos.core.global.domain.records.Array;
 import br.com.chronos.core.global.domain.records.CollaborationSector;
+import br.com.chronos.core.global.domain.records.Date;
 import br.com.chronos.core.global.domain.records.Id;
+import br.com.chronos.core.global.domain.records.Logical;
 import br.com.chronos.core.global.interfaces.providers.AuthenticationProvider;
 import br.com.chronos.core.hour_bank.domain.records.HourBankTransaction;
 import br.com.chronos.core.hour_bank.domain.records.fakers.HourBankTransactionFaker;
@@ -30,6 +32,7 @@ import br.com.chronos.core.work_schedule.domain.entities.fakers.WorkdayLogFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.WorkdayLogsRepository;
 import br.com.chronos.core.work_schedule.domain.records.fakers.DayOffScheduleFaker;
 import br.com.chronos.core.work_schedule.interfaces.repositories.DayOffSchedulesRepository;
+import br.com.chronos.core.portal.domain.abstracts.Solicitation;
 import br.com.chronos.core.portal.domain.entities.WorkLeaveSolicitation;
 import br.com.chronos.core.portal.domain.entities.fakers.JustificationTypeFaker;
 import br.com.chronos.core.portal.domain.entities.fakers.WorkLeaveSolicitationFaker;
@@ -71,7 +74,10 @@ public class DatabaseSeed implements CommandLineRunner {
 
     Array<Collaborator> collaborators = Array.createAsEmpty();
     var managers = fakeManagers(6);
-    var employees = fakeEmployees(12);
+    var employees = fakeEmployees(6);
+    var inactiveEmployees = fakeInactiveEmployees(2);
+    employees = employees.addArray(inactiveEmployees);
+
     var managerTest = fakeManagerTest();
     var employeeTest = fakeEmployeeTest();
 
@@ -210,8 +216,7 @@ public class DatabaseSeed implements CommandLineRunner {
   private Array<Collaborator> fakeManagers(int count) {
     var fakeDtos = CollaboratorFaker.fakeManyDto(count);
     return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
-      fakeDto.setRole("manager");
-      fakeDto.setSector(CollaborationSector.Sector.COMERCIAL.toString());
+      fakeDto.setRole("manager").setSector("comercial");
       return new Collaborator(fakeDto);
     });
   }
@@ -223,6 +228,193 @@ public class DatabaseSeed implements CommandLineRunner {
       fakeDto.setSector(CollaborationSector.Sector.COMERCIAL.toString());
       return new Collaborator(fakeDto);
     });
+  }
+
+  private Array<Collaborator> fakeInactiveEmployees(int count) {
+    var fakeDtos = CollaboratorFaker.fakeManyDto(count);
+    return Array.createFrom(fakeDtos.list(), (fakeDto) -> {
+      fakeDto.setRole("employee").setActive(false);
+      return new Collaborator(fakeDto);
+    });
+  }
+
+  private Array<WorkdayLog> fakeWorkdayAbsencesForEmployees(Array<Collaborator> employees) {
+    Array<WorkdayLog> workdayAbsences = Array.createAsEmpty();
+    for (var index = 0; index < employees.size().value(); index++) {
+      var collaborator = employees.item(index);
+      switch (index) {
+        case 0:
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 1))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 2))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 3))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 4))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 5))
+              .setStatus("absence")));
+          break;
+        case 1:
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 1))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 2))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 3))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 4, 4))
+              .setStatus("absence")));
+          break;
+        case 2:
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 2, 1))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 2, 2))
+              .setStatus("absence")));
+          break;
+        case 3:
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 1, 1))
+              .setStatus("absence")));
+          break;
+        default:
+          break;
+      }
+    }
+    return workdayAbsences;
+  }
+
+  private Array<WorkdayLog> fakeWorkdayAbsencesForManagers(Array<Collaborator> managers) {
+    Array<WorkdayLog> workdayAbsences = Array.createAsEmpty();
+    for (var index = 0; index < managers.size().value(); index++) {
+      var collaborator = managers.item(index);
+      switch (index) {
+        case 1:
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 1))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 3, 2))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 4, 4))
+              .setStatus("absence")));
+          break;
+        case 2:
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 2, 1))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 2, 2))
+              .setStatus("absence")));
+          break;
+        case 3:
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 1, 1))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 1, 2))
+              .setStatus("absence")));
+          workdayAbsences.add(new WorkdayLog(WorkdayLogFaker
+              .fakeDto(collaborator.getId().toString())
+              .setDate(LocalDate.of(2025, 1, 3))
+              .setStatus("absence")));
+          break;
+        default:
+          break;
+      }
+    }
+    return workdayAbsences;
+  }
+
+  private Array<WorkLeaveSolicitation> fakeWorkLeaveSolicitations(Array<Collaborator> collaborators) {
+    Array<WorkLeaveSolicitation> solicitations = Array.createAsEmpty();
+
+    for (var index = 0; index < collaborators.size().value(); index++) {
+      var collaborator = collaborators.item(index);
+      switch (index) {
+        case 0:
+          solicitations.add(fakeWorkLeaveSolicitation(
+              collaborator.getId(),
+              Date.create(2025, 5, 2),
+              Date.create(2025, 5, 7),
+              Logical.createAsTrue()));
+          break;
+        case 1:
+          solicitations.add(fakeWorkLeaveSolicitation(
+              collaborator.getId(),
+              Date.create(2025, 5, 9),
+              Date.create(2025, 5, 15),
+              Logical.createAsTrue()));
+          break;
+        case 2:
+          solicitations.add(fakeWorkLeaveSolicitation(
+              collaborator.getId(),
+              Date.create(2025, 5, 20),
+              Date.create(2025, 5, 30),
+              Logical.createAsTrue()));
+          break;
+        case 3:
+          solicitations.add(fakeWorkLeaveSolicitation(
+              collaborator.getId(),
+              Date.create(2025, 5, 1),
+              Date.create(2025, 5, 5),
+              Logical.createAsFalse()));
+          solicitations.add(fakeWorkLeaveSolicitation(
+              collaborator.getId(),
+              Date.create(2025, 5, 10),
+              Date.create(2025, 5, 15),
+              Logical.createAsFalse()));
+          break;
+        default:
+          break;
+      }
+    }
+    return solicitations;
+  }
+
+  private WorkLeaveSolicitation fakeWorkLeaveSolicitation(
+      Id senderId,
+      Date startedAt,
+      Date endedAt,
+      Logical isVacation) {
+    var sender = new ResponsibleAggregateDto().setId(senderId.toString());
+    var dto = WorkLeaveSolicitationFaker
+        .fakeDto()
+        .setSenderResponsible(sender)
+        .setStartedAt(startedAt.value())
+        .setEndedAt(endedAt.value())
+        .setIsVacation(isVacation.value());
+    return new WorkLeaveSolicitation(dto);
   }
 
   private Array<Account> fakeAccounts(Array<Collaborator> collaborators) {

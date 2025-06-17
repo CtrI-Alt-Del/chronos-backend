@@ -38,8 +38,7 @@ public class CreateWithdrawSolicitationUseCase extends CreateSolicitationUseCase
     var solicitation = new WorkLeaveSolicitation(dto);
     repository.add(solicitation);
 
-    var event = new WorkLeaveSolicitationApprovedEvent(solicitation);
-    broker.publish(event);
+    sendSolicitationCreatedEvent(solicitation);
     return solicitation.getDto();
   }
 

@@ -231,6 +231,12 @@ public class JpaSolicitationsRepository extends JpaRepository implements Solicit
   }
 
   @Override
+  public void addMany(Array<WorkLeaveSolicitation> solicitations) {
+    var models = solicitations.map(workLeaveSolicitationMapper::toModel).list();
+    workLeaveSolicitationDao.saveAll(models);
+  }
+
+  @Override
   public Pair<Array<TimePunchAdjustmentSolicitation>, PlusIntegerNumber> findManyTimePunchAdjustmentSolicitationsByCollaborationSector(
       CollaborationSector sector, PageNumber page) {
     var pageRequest = PageRequest.of(page.number().value() - 1, PaginationResponse.ITEMS_PER_PAGE);

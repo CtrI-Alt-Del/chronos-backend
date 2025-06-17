@@ -13,13 +13,15 @@ public class WorkLeaveSolicitationFaker {
   }
 
   public static WorkLeaveSolicitationDto fakeDto() {
-    var random = new Random();
+    var startedAt = DateFaker.fake();
+    var endedAt = startedAt.plusDays(7);
     return new WorkLeaveSolicitationDto()
         .setId(UUID.randomUUID().toString())
-        .setStartedAt(Date.createFromNow().value())
-        .setEndedAt(Date.createFromNow().plusDays(10).value())
-        .setDescription("Férias")
-        .setJustification(null)
-        .setIsVacation(random.nextBoolean());
+        .setDate(DateFaker.fakeDto())
+        .setStatus("approved")
+        .setIsVacation(false)
+        .setStartedAt(startedAt.value())
+        .setDescription("Minha descrição")
+        .setEndedAt(endedAt.value());
   }
 }

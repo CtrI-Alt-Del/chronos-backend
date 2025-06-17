@@ -14,6 +14,10 @@ public record Date(LocalDate value) {
     return new Date(value);
   }
 
+  public static Date create(int year, int month, int day) {
+    return new Date(LocalDate.of(year, month, day));
+  }
+
   public static Date createFromNow() {
     return new Date(LocalDate.now());
   }

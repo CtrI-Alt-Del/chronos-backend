@@ -25,6 +25,7 @@ public class WorkLeaveSolicitation extends Solicitation {
     this.justification = dto.justification != null ? new Justification(dto.justification) : null;
   }
 
+  @Override
   public SolicitationType getType() {
     if (this.isVacation.isTrue()) {
       return SolicitationType.createAsVacation();

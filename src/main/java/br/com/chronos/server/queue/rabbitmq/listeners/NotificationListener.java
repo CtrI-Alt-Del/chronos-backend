@@ -40,6 +40,7 @@ public class NotificationListener {
 
   @RabbitListener(queues = SendSolicitationCreationEmailJob.KEY, errorHandler = "rabbitMqErrorHandler")
   public void listenTo(@Payload SolicitationCreatedEvent.Payload payload) {
+    System.out.println("Listener: ");
     sendSolicitationCreationEmailJob.handle(payload);
   }
 
